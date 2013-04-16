@@ -56,5 +56,5 @@ move_to_proses(){
 	curl http://localhost/smsgawe/sms_proses/inbox_proses/$id
 	}
 	
-
+#get inbox
 get_inbox
