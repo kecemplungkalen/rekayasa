@@ -1,0 +1,112 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html,
+body {
+    height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    /* Negative indent footer by it's height */
+    margin: 0 auto -30px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+    height: 30px;
+}
+
+#footer {
+    background-color: #f5f5f5;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+    #footer {
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+.smaller {
+  font-size: 65%;
+}
+
+.badge-e7e7e7 {
+  background-color: #e7e7e7;
+}
+.badge-b6cff5 {
+  background-color: #b6cff5;
+}
+.badge-98d7e4 {
+  background-color: #98d7e4;
+}
+.badge-e3d7ff {
+  background-color: #e3d7ff;
+}
+.badge-fbd3e0 {
+  background-color: #fbd3e0;
+}
+.badge-f2b2a8 {
+  background-color: #f2b2a8;
+}
+.badge-c2c2c1 {
+  background-color: #c2c2c1;
+}
+.badge-4986e7 {
+  background-color: #4986e7;
+}
+.badge-2da2bb {
+  background-color: #2da2bb;
+}
+.badge-b99aff {
+  background-color: #b99aff;
+}
+.badge-f691b2 {
+  background-color: #f691b2;
+}
+.badge-fb4c2f {
+  background-color: #fb4c2f;
+}
+.badge-ffc8af {
+  background-color: #ffc8af;
+}
+.badge-ffdeb5 {
+  background-color: #ffdeb5;
+}
+.badge-fbe983 {
+  background-color: #fbe983;
+}
+.badge-fdedc1 {
+  background-color: #fdedc1;
+}
+.badge-b3efd3 {
+  background-color: #b3efd3;
+}
+.badge-a2dcc1 {
+  background-color: #a2dcc1;
+}
+.badge-ff7537 {
+  background-color: #ff7537;
+}
+.badge-ffad46 {
+  background-color: #ffad46;
+}
+.badge-ebdbde {
+  background-color: #ebdbde;
+}
+.badge-cca6ac {
+  background-color: #cca6ac;
+}
+.badge-42d692 {
+  background-color: #42d692;
+}
+.badge-16a765 {
+  background-color: #16a765;
+}
