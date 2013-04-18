@@ -4,19 +4,19 @@
 <a class="btn btn-large btn-success btn-block" href="#">COMPOSE</a>
 <ul class="nav  nav-pills nav-stacked">
     <li class="active">
-      <a href="#">INBOX <span class="badge badge-warning">42</span></a> 
+      <a href="<?php echo base_url();?>message/inbox">INBOX <span class="badge badge-warning">42</span></a> 
     </li>
     <li>
-      <a href="#">Sent</a> 
+      <a href="<?php echo base_url();?>message/sent">Sent</a> 
     </li>
     <li>
-      <a href="#">Outbox <span class="badge badge-important">2</span></a> 
+      <a href="<?php echo base_url();?>message/outbox">Outbox <span class="badge badge-important">2</span></a> 
     </li>
 	<li>
-      <a href="#">Trash</a>
+      <a href="<?php echo base_url();?>message/trash">Trash</a>
     </li>
 	<li>
-      <a href="#">Spam <i class="icon-trash"></i></a>
+      <a href="<?php echo base_url();?>message/spam">Spam <i class="icon-trash"></i></a>
     </li>
     <li><hr></li>
     <li class="nav-header">Label</li>

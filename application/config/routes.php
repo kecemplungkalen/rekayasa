@@ -37,7 +37,7 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-
+$route['message/(:any)'] = "message/index/$1";
 $route['default_controller'] = "dashboard";
 $route['404_override'] = '';
 
