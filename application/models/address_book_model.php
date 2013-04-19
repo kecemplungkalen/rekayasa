@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-Class address_book_model extends CI_model{
+Class Address_Book_Model extends CI_model{
 
 	public function get($id_address_book=false)
 	{
@@ -18,6 +18,16 @@ Class address_book_model extends CI_model{
 			}
 		}
 		return false;
+	}
+	
+	public function gets()
+	{
+		$data = $this->db->get('address_book');
+		if($data->num_rows() > 0)
+		{
+			return $data->result();
+		}
+	
 	}
 	
 	public function get_where($kolom=false,$data=false)

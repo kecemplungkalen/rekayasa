@@ -13,18 +13,18 @@ Class message_model extends CI_model{
 //join address_book ab on ab.id_address_book=ib.id_address_book 
 //join labelname lbn on lbn.id_labelname=l.id_labelname 
 //where lbn.name='inbox' group by ab.id_address_book;
-
+/*
 	
 	public function getlabel($label=false)
 	{
 		if($label)
 		{
-			$this->db->select('inbox.id_inbox,count(inbox.id_inbox) as total ,inbox.id_user,recive_date,content,read_status,id_label,address_book.id_address_book,first_name,last_name,number,email, create_date ,address_book.last_update , labelname.id_labelname ,name ,color ,additional');
+			$this->db->select('inbox.id_inbox,count(inbox.id_inbox) as total ,inbox.id_user,recive_date,content,read_status,id_label,address_book.id_address_book,first_name,last_name,number,email, create_date ,address_book.last_update');
 			
-			$this->db->join('label','label.id_inbox=inbox.id_inbox');
-			$this->db->join('labelname','labelname.id_labelname=label.id_labelname');
+			//$this->db->join('label','label.id_inbox=inbox.id_inbox');
+			//$this->db->join('labelname','labelname.id_labelname=label.id_labelname');
 			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book');
-			$this->db->where('labelname.name',$label);
+			//$this->db->where('labelname.name',$label);
 			$this->db->group_by('address_book.id_address_book');
 			$data = $this->db->get('inbox');
 			if($data->num_rows() > 0)
@@ -34,5 +34,27 @@ Class message_model extends CI_model{
 		}
 		return false;
 	}
+	*/
+	
+	
+	public function get_inbox($data=false)
+	{
+		if(is_array($data))
+		{
+			$this->db->select('id_inbox,number,recive_date,count(id_inbox) as total,content,address_book.id_address_book,read_status,first_name,last_name');
+			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book');
+			$this->db->where_in('id_inbox',$data);
+			$this->db->group_by('address_book.id_address_book');
+			$content = $this->db->get('inbox');
+			if($content->num_rows() > 0)
+			{
+				return $content->result();
+			}
+		}
+		return false;
+		
+	}
+	
+	//inbox cuma join sama addrss
 	
 }

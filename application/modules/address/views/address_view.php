@@ -8,44 +8,42 @@
 			<th>Name</th>
 			<th>Number</th>
 			<th>Group</th>
+			<th>Operator</th>
 			<th>Last Message</th>
 		</tr>
 	</thead>
     <tbody>
-		<tr>
-			<td>
-				<input type="checkbox"> 
-			</td>
-			<td>
-				<a href="#editaddress" data-toggle="modal"><strong>08112540606</strong></a>
-			</td>
-			<td>
-				<a href="#editaddress" data-toggle="modal"><strong>08112540606</strong></a>
-			<td>
-				No Group, Telkomsel
-			</td>
-        	<td>
-				19 Mei 1979<br>
-				<small>02.00PM</small>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="checkbox"> 
-			</td>
-			<td>
-				<a href="#editaddress" data-toggle="modal"><strong>Yusuf Nurrachman</strong></a>
-			</td>
-			<td>
-				<a href="#editaddress" data-toggle="modal"><strong>081802611110</strong></a>
-			<td>
-				Pelanggan, Telkomsel
-			</td>
-        	<td>
-				19 Mei 1979<br>
-				<small>02.00PM</small>
-			</td>
-		</tr>
+	<?php if(isset($data)) {?>
+	
+		<?php for($i=0;$i < count($data);$i++){ ?> 
+			<tr>
+				<td>
+					<input type="checkbox" id="<?php echo $data[$i]['id_address_book'] ?>"> 
+				</td>
+				<td>
+					<a href="#editaddress" data-toggle="modal"><strong><?php echo $data[$i]['first_name'];?> <?php if($data[$i]['last_name']){echo $data[$i]['last_name']; }?></strong></a>
+				</td>
+				<td>
+					<a href="#editaddress" data-toggle="modal"><strong><?php echo $data[$i]['number'];?></strong></a>
+				<td>
+					<?php $group = $data[$i]['group']; if($group){ ?>
+					<?php for($j=0;$j< count($group);$j++){?>
+						<?php echo $group[$j];?><br>
+					<?php } ?>
+					<?php } ?>
+					
+				</td>
+				<td>
+					<?php echo $data[$i]['operator'];?>
+				</td>
+				<td>
+					<?php echo date('j F Y',$data[$i]['last_message']);?><br>
+					<small><?php echo date('g:i a',$data[$i]['last_message']);?><br></small>
+				</td>
+			</tr>
+			<tr>
+		<?php } ?>
+	<?php } ?>
 	</tbody>
 </table>
 <div align="center">

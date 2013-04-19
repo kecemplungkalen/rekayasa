@@ -46,5 +46,20 @@ Class inbox_model extends CI_model{
 		}
 		return false;
 	}
+	
+	public function gets_where($kolom=false,$data=false)
+	{
+		if($kolom && $data)
+		{
+			$this->db->where($kolom,$data);
+			$data = $this->db->get('inbox');
+			if($data->num_rows() > 0)
+			{
+				return $data->result();
+			}
+		}
+		return false;
+	}
+	
 
 }
