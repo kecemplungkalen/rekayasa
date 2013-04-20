@@ -48,7 +48,11 @@
 <!-- 					<input type="text" class="input-large" placeholder="Phone number" id="phone" name="phone" > -->
 				</div>
 			</div>
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 631bc4cadcc61f7b28788960558afcc2701ae44c
 			<div class="control-group">
 				<label class="control-label">First Name</label>
 				<div class="controls">

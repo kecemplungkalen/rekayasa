@@ -120,7 +120,11 @@ Class Address extends MX_Controller{
 		echo json_encode($data);
 
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 631bc4cadcc61f7b28788960558afcc2701ae44c
 	public function get_address_book_detail_php($id_address_book=false)
 	{
 		$detail = $this->Address_Book_Model->get($id_address_book);
@@ -139,7 +143,11 @@ Class Address extends MX_Controller{
 				}
 				$res[] = $temp;
 			}
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 631bc4cadcc61f7b28788960558afcc2701ae44c
 			$data = array('id_address_book'=> $id_address_book,
 			'first_name' => $detail->first_name,
 			'last_name' => $detail->last_name,
@@ -149,10 +157,17 @@ Class Address extends MX_Controller{
 			return $data;
 		}
 		return false;
+<<<<<<< HEAD
 
 	}
 
 
+=======
+		
+	}
+	
+	
+>>>>>>> 631bc4cadcc61f7b28788960558afcc2701ae44c
 	public function add_address()
 	{
 		$this->load->view('modal/address_modal_add');
