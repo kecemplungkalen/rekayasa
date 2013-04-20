@@ -5,7 +5,24 @@ if (!defined('BASEPATH'))
 
 Class Group_Model extends CI_model{
 
-	
+	public function add($id_address_book=false,$id_groupname=false,$id_user=false)
+	{
+		if($id_address_book && $id_groupname)
+		{
+			$data = array(
+			'id_address_book' => $id_address_book,
+			'id_user' => $id_user,
+			'id_groupname' => $id_groupname
+			);
+			$this->db->insert('group',$data);
+			$id = $this->db->insert_id();
+			if($id)
+			{
+				return $id;
+			}
+		}
+		return false;
+	}
 	public function gets_by($kolom=false,$value=false)
 	{
 		if($kolom && $value)

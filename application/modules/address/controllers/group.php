@@ -37,24 +37,10 @@ Class Group extends MX_Controller{
 		
 	}
 	
-	
-	public function get_count()
+	public function hapus_group()
 	{
-		$html = false;
-		$data = $this->Group_Model->get_count();
-		if($data)
-		{
-			foreach($data as $d)
-			{
-				$html .='<tr>';	
-				$html .='<td><input type="checkbox" value="'.$d->id_group.'"></td>';	
-				$html .='<td>'.$d->nama_group.'</td>';
-				$html .='<td>'.$d->jml.'</td>';
-				$html .='</tr>';
-
-			}
-			
-		}
-		echo $html;
+		$id = $this->input->post('id');
+		var_dump($id);
 	}
+
 }

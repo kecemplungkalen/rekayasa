@@ -1,30 +1,6 @@
 <script>
 
 	$(document).ready(function(){
-		$.post('<?php echo base_url();?>address/group/get_group',function(data){
-
-			$('#data_group').html(data);
-
-		});
-
-		$.post('<?php echo base_url();?>address/get_address_book_detail/<?php if(isset($id_address_book)){echo $id_address_book;} ?>',function(data){
-
-		//console.log(data);
-		$('#top_first').html(data.first_name);
-		$('#top_last').html(data.last_name);
-		$('#phone').val(data.number);
-		$('#firstname').val(data.first_name);
-		$('#lastname').val(data.last_name);
-		$('#email').val(data.email);
-		for(var i=0;i< data.group.length;i++ )
-		{
-			$('#group_'+data.group[i].id_groupname).attr('checked');
-			console.log(data.group[i].id_groupname);
-		}
-
-		//$().val();
-
-		},'json');
 
 
 
@@ -32,11 +8,10 @@
 	});
 
 </script>
-
 <div id="editaddress" class="modal hide fade">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3><span id="top_first"></span>  <span id="top_last"> </span></h3>
+		<h3><span id="top_first"> <?php echo $address['first_name'];?> </span>  <span id="top_last"> <?php echo $address['last_name'];?></span></h3>
 	</div>
 	<div class="modal-body">
 		<form class="form-horizontal">
@@ -45,14 +20,10 @@
 			<div class="control-group">
 				<label class="control-label">Phone Number</label>
 				<div class="controls">
-<!-- 					<input type="text" class="input-large" placeholder="Phone number" id="phone" name="phone" > -->
+ 					<input type="text" class="input-large" placeholder="Phone number" id="phone" name="phone" value="<?php echo $address['number'];?>">
 				</div>
 			</div>
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> 631bc4cadcc61f7b28788960558afcc2701ae44c
 			<div class="control-group">
 				<label class="control-label">First Name</label>
 				<div class="controls">
@@ -62,13 +33,13 @@
 			<div class="control-group">
 				<label class="control-label">Last Name</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="Last Name" id="lastname" name="lastname">
+					<input type="text" class="input-large" placeholder="Last Name" id="lastname" name="lastname" value="<?php echo $address['last_name'];?>">
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Email</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="Email Address" id="email" name="email">
+					<input type="text" class="input-large" placeholder="Email Address" id="email" name="email" value="<?php echo $address['email'];?>">
 				</div>
 			</div>
 			<div class="control-group">
@@ -78,7 +49,13 @@
 					<?php foreach($group as $row){?>
 					<div class="controls">
 						<label class="checkbox">
-							<input value="<?php echo $row->id_groupname;?>" type="checkbox" checked disabled="yes"><?php echo $row->nama_group;?>
+							<?php $statusgroup = false; ?>
+							<?php for($i=0;$i< count($address['group']);$i++){ ?>
+								<?php if($address['group'][$i]['id_groupname'] == $row->id_groupname) { ?> 
+									<?php $statusgroup = true; ?>
+								<?php } ?>
+							<?php }?>
+							<input value="<?php echo $row->id_groupname; ?>" name="group[]" type="checkbox" <?php if($statusgroup){ echo 'checked="checked"'; } ?> ><?php echo $row->nama_group; ?>
 						</label>
 					</div>
 					<?php }?>

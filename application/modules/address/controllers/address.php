@@ -91,63 +91,27 @@ Class Address extends MX_Controller{
 	}
 
 
-	public function get_address_book_detail($id_address_book)
-	{
-		$detail = $this->Address_Book_Model->get($id_address_book);
-		if($detail)
-		{
-			$group = $this->Group_Model->gets_by('id_address_book',$id_address_book);
-			if($group)
-			{
-				$res = false;
-				$temp = false;
-				foreach($group as $g)
-				{
-					$grouname = $this->Groupname_Model->get($g->id_groupname);
-					$temp['id_groupname'] = $g->id_groupname;
-					$temp['nama_group'] = $grouname->nama_group;
-				}
-				$res[] = $temp;
-			}
 
-			$data = array('id_address_book'=> $id_address_book,
-			'first_name' => $detail->first_name,
-			'last_name' => $detail->last_name,
-			'number' => $detail->number,
-			'email' => $detail->email,
-			'group' => $res); 
-		}
-		echo json_encode($data);
-
-	}
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> 631bc4cadcc61f7b28788960558afcc2701ae44c
 	public function get_address_book_detail_php($id_address_book=false)
 	{
 		$detail = $this->Address_Book_Model->get($id_address_book);
 		if($detail)
 		{
+			$res = false;
+			$temp = false;	
 			$group = $this->Group_Model->gets_by('id_address_book',$id_address_book);
 			if($group)
 			{
-				$res = false;
-				$temp = false;
 				foreach($group as $g)
 				{
 					$grouname = $this->Groupname_Model->get($g->id_groupname);
 					$temp['id_groupname'] = $g->id_groupname;
 					$temp['nama_group'] = $grouname->nama_group;
-				}
-				$res[] = $temp;
+					$res[] = $temp;
+				}				
+				//$res[] = $rem;
 			}
-<<<<<<< HEAD
 
-=======
-			
->>>>>>> 631bc4cadcc61f7b28788960558afcc2701ae44c
 			$data = array('id_address_book'=> $id_address_book,
 			'first_name' => $detail->first_name,
 			'last_name' => $detail->last_name,
@@ -157,25 +121,43 @@ Class Address extends MX_Controller{
 			return $data;
 		}
 		return false;
-<<<<<<< HEAD
 
 	}
 
-
-=======
+	public function tambah_address()
+	{
+		$id_user = 1;
+		$number = $this->input->post('number');
+		$first_name = $this->input->post('first_name');
+		$last_name = $this->input->post('last_name');
+		$email = $this->input->post('email');
+		$group = $this->input->post('group');
+		$last_id = $this->Address_Book_Model->add($number,$first_name,$last_name,$email,$id_user);
+		if($last_id)
+		{
+			for($i=0;$i < count($group);$i++)
+			{
+				$this->Group_Model->add($last_id,$group[$i],$id_user);
+			}
+			return true;
+		}
+		else 
+		return false;
+		
 		
 	}
 	
 	
->>>>>>> 631bc4cadcc61f7b28788960558afcc2701ae44c
 	public function add_address()
 	{
-		$this->load->view('modal/address_modal_add');
+		$data['group'] = $this->Groupname_Model->gets();
+		$this->load->view('modal/address_modal_add',$data);
 	}
 
 	public function group_manage()
 	{
-		$this->load->view('modal/address_modal_group');
+		$data['group'] = $this->Group_Model->get_count();
+		$this->load->view('modal/address_modal_group',$data);
 
 	}
 	public function edit_address($id_address_book=false)

@@ -30,6 +30,31 @@ Class Address_Book_Model extends CI_model{
 	
 	}
 	
+	public function add($number=false,$first_name=false,$last_name=false,$email=false,$id_user=false)
+	{
+		if($number && $first_name && $email)
+		{
+			//$cerate_date=;
+			
+			$data = array(
+			'first_name' => $first_name,
+			'last_name' => $last_name,
+			'number' => $number,
+			'email' => $email,
+			'create_date' => time(),
+			'last_update' => time(),
+			'id_user' => $id_user
+			);
+			$this->db->insert('address_book',$data);
+			$last_id = $this->db->insert_id();
+			if($last_id)
+			{
+				return $last_id;
+			}
+		}
+		return false;
+	}
+	
 	public function get_where($kolom=false,$data=false)
 	{
 		if($kolom && $data)
@@ -59,6 +84,8 @@ Class Address_Book_Model extends CI_model{
 		}
 		return false;
 	}
+	
+
 	
 
 }
