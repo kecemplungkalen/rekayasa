@@ -121,6 +121,37 @@ Class Address extends MX_Controller{
 
 	}
 	
+	public function get_address_book_detail_php($id_address_book=false)
+	{
+		$detail = $this->Address_Book_Model->get($id_address_book);
+		if($detail)
+		{
+			$group = $this->Group_Model->gets_by('id_address_book',$id_address_book);
+			if($group)
+			{
+				$res = false;
+				$temp = false;
+				foreach($group as $g)
+				{
+					$grouname = $this->Groupname_Model->get($g->id_groupname);
+					$temp['id_groupname'] = $g->id_groupname;
+					$temp['nama_group'] = $grouname->nama_group;
+				}
+				$res[] = $temp;
+			}
+			
+			$data = array('id_address_book'=> $id_address_book,
+			'first_name' => $detail->first_name,
+			'last_name' => $detail->last_name,
+			'number' => $detail->number,
+			'email' => $detail->email,
+			'group' => $res); 
+			return $data;
+		}
+		return false;
+		
+	}
+	
 	
 	public function add_address()
 	{
@@ -136,7 +167,8 @@ Class Address extends MX_Controller{
 	{
 		if($id_address_book)
 		{
-			$data['id_address_book'] = $id_address_book;
+			$data['group'] = $this->Groupname_Model->gets();
+			$data['address'] = $this->get_address_book_detail_php($id_address_book);
 			$this->load->view('modal/address_modal_edit',$data);
 		}
 	}
