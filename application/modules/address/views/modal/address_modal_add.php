@@ -1,75 +1,58 @@
 <script>
-	
 	$(document).ready(function(){
+		
 		$.post('<?php echo base_url();?>address/group/get_group',function(data){
 			
 			$('#data_group').html(data);
 			
+			});
+		
+		
 		});
-		
-		$.post('<?php echo base_url();?>address/get_address_book_detail/<?php if(isset($id_address_book)){echo $id_address_book;} ?>',function(data){
-		
-		//console.log(data);
-		$('#top_first').html(data.first_name);
-		$('#top_last').html(data.last_name);
-		$('#phone').val(data.number);
-		$('#firstname').val(data.first_name);
-		$('#lastname').val(data.last_name);
-		$('#email').val(data.email);
-		for(var i=0;i< data.group.length;i++ )
-		{
-			$('#group_'+data.group[i].id_groupname).attr('checked');
-			console.log(data.group[i].id_groupname);
-		}
-		
-		//$().val();
-		
-		},'json');
-		
-
-		
-		
-	});
 
 </script>
-
-<div id="editaddress" class="modal hide fade">
+<div id="addaddress" class="modal hide fade">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3><span id="top_first"></span>  <span id="top_last"> </span></h3>
+		<h3>Add Address Book</h3>
 	</div>
 	<div class="modal-body">
 		<form class="form-horizontal">
-		<input type="hidden" id="id_address_book" name="id_address_book">
-
 			<div class="control-group">
 				<label class="control-label">Phone Number</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="Phone number" id="phone" name="phone">
+					<input type="text" class="input-large" placeholder="Phone number" >
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">First Name</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="First Name" id="firstname" name="firstname" >
+					<input type="text" class="input-large" placeholder="First Name" >
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Last Name</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="Last Name" id="lastname" name="lastname">
+					<input type="text" class="input-large" placeholder="Last Name" >
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Email</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="Email Address" id="email" name="email">
+					<input type="text" class="input-large" placeholder="Email Address">
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Groups</label>
-				<div id="data_group"> </div>
-				<!--
+				<div id="data_group">
+				
+				</div>
+			
+			</div>
+			
+			<!--
+			<div class="control-group">
+				<label class="control-label">Groups</label>
 				<div class="controls">
 					<label class="checkbox">
 						<input type="checkbox" checked disabled="yes"> Telkomsel
@@ -90,8 +73,8 @@
 						<input type="checkbox"> Smurf
 					</label>
 			   	</div>
-			   	-->
 			</div>
+			-->
 		</form>
 	</div>
 	<div class="modal-footer">

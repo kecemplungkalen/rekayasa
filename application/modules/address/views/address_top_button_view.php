@@ -1,18 +1,50 @@
+<script>
+	
+	function add_user()
+	{
+		$.post('<?php echo base_url();?>address/add_address',function(data){
+			
+			$('#show_modal').html(data);
+			$('#addaddress').modal('show');
+			});
+	}
+	
+	function group_manage()
+	{
+		$.post('<?php echo base_url();?>address/group_manage',function(data){
+			
+			$('#show_modal').html(data);
+			$('#groupmgmt').modal('show');
+			});
+	}
+	
+	
+	function edit_address(id_address_book)
+	{
+		$.post('<?php echo base_url();?>address/edit_address/'+id_address_book,function(data){
+			
+			$('#show_modal').html(data);
+			$('#editaddress').modal('show');
+		});
+	}
+	
+</script>
+
 <div class="btn-group">
 	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> <span class="caret"></span></a>
 	<ul class="dropdown-menu">
 		<li>
-			<a href=""><input type="checkbox" checked>&nbsp;&nbsp;<span class="label badge-b6cff5">&nbsp;&nbsp;&nbsp;&nbsp;</span> User Ngawur</a>
+			<a href=""><input type="checkbox" >&nbsp;&nbsp;<span class="label badge-b6cff5">&nbsp;&nbsp;&nbsp;&nbsp;</span> User Ngawur</a>
 		</li>
 		<li>
 			<a href=""><input type="checkbox">&nbsp;&nbsp;<span class="label badge-e3d7ff">&nbsp;&nbsp;&nbsp;&nbsp;</span> User Ra Genah</a>
 		</li>
 		<li class="divider"></li>
 		<li>
-			<a href="#editaddress" data-toggle="modal">Add User</a>
+			<a href="#" onclick="add_user()">Add User</a>
 		</li>
 		<li>
-			<a href="#groupmgmt" data-toggle="modal">Manage Groups</a>
+			<a href="#" onclick="group_manage()">Manage Groups</a>
 		</li>
 	</ul>
 	<a class="btn"><i class="icon-trash"></i></a>

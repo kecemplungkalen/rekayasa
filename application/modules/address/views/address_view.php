@@ -18,13 +18,13 @@
 		<?php for($i=0;$i < count($data);$i++){ ?> 
 			<tr>
 				<td>
-					<input type="checkbox" id="<?php echo $data[$i]['id_address_book'] ?>"> 
+					<input type="checkbox" id="<?php echo $data[$i]['id_address_book'] ?>" value="<?php echo $data[$i]['id_address_book'] ?>"> 
 				</td>
 				<td>
-					<a href="#editaddress" data-toggle="modal"><strong><?php echo $data[$i]['first_name'];?> <?php if($data[$i]['last_name']){echo $data[$i]['last_name']; }?></strong></a>
+					<a href="#" onclick="edit_address('<?php echo $data[$i]['id_address_book'] ?>')"><strong><?php echo $data[$i]['first_name'];?> <?php if($data[$i]['last_name']){echo $data[$i]['last_name']; }?></strong></a>
 				</td>
 				<td>
-					<a href="#editaddress" data-toggle="modal"><strong><?php echo $data[$i]['number'];?></strong></a>
+					<a href="#" onclick="edit_address('<?php echo $data[$i]['id_address_book'] ?>')"><strong><?php echo $data[$i]['number'];?></strong></a>
 				<td>
 					<?php $group = $data[$i]['group']; if($group){ ?>
 					<?php for($j=0;$j< count($group);$j++){?>
@@ -64,3 +64,4 @@
         </div>
       </div>
     </div>
+<div id="show_modal"> </div>

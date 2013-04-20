@@ -1,3 +1,17 @@
+<script>
+
+	$(document).ready(function(){
+		
+		$.post('<?php echo base_url();?>address/group/get_count',function(data){
+			
+			$('#data').html(data);
+			
+			});
+		
+		});
+
+</script>
+
 <div id="groupmgmt" class="modal hide fade">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -16,22 +30,8 @@
 					<th>Members</th>
 				<tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td><input type="checkbox" disabled="yes"></td>
-					<td>Telkomsel</td>
-					<td>11204</td>
-				</tr>
-				<tr>
-					<td><input type="checkbox" disabled="yes"></td>
-					<td>Excelin</td>
-					<td>809</td>
-				</tr>
-				<tr>
-					<td><input type="checkbox"></td>
-					<td>Pelanggan</td>
-					<td>24034</td>
-				</tr>
+			<tbody id="data">
+
 			</tbody>
 		</table>
 		<legend>Add / Edit Group</legend>

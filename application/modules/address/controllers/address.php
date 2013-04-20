@@ -27,8 +27,6 @@ Class Address extends MX_Controller{
 		$data['data'] = $this->ambil_list();
 		
 		$this->load->view('address_view',$data);
-		$this->load->view('modal/address_modal_edit');
-		$this->load->view('modal/address_modal_group');
 		$this->load->view('footer_view');
 		
 		
@@ -91,6 +89,58 @@ Class Address extends MX_Controller{
 			return $rec;
 		}
 	}
+	
+	
+	public function get_address_book_detail($id_address_book)
+	{
+		$detail = $this->Address_Book_Model->get($id_address_book);
+		if($detail)
+		{
+			$group = $this->Group_Model->gets_by('id_address_book',$id_address_book);
+			if($group)
+			{
+				$res = false;
+				$temp = false;
+				foreach($group as $g)
+				{
+					$grouname = $this->Groupname_Model->get($g->id_groupname);
+					$temp['id_groupname'] = $g->id_groupname;
+					$temp['nama_group'] = $grouname->nama_group;
+				}
+				$res[] = $temp;
+			}
+			
+			$data = array('id_address_book'=> $id_address_book,
+			'first_name' => $detail->first_name,
+			'last_name' => $detail->last_name,
+			'number' => $detail->number,
+			'email' => $detail->email,
+			'group' => $res); 
+		}
+		echo json_encode($data);
+
+	}
+	
+	
+	public function add_address()
+	{
+		$this->load->view('modal/address_modal_add');
+	}
+	
+	public function group_manage()
+	{
+		$this->load->view('modal/address_modal_group');
+
+	}
+	public function edit_address($id_address_book=false)
+	{
+		if($id_address_book)
+		{
+			$data['id_address_book'] = $id_address_book;
+			$this->load->view('modal/address_modal_edit',$data);
+		}
+	}
+	
 	
 }
 

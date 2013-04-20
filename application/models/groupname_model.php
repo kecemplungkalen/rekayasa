@@ -18,5 +18,18 @@ Class Groupname_Model extends CI_model{
 		}
 		return false;
 	}
-
+	
+	public function gets()
+	{
+		$get = $this->db->get('groupname');
+		if($get->num_rows() > 0 )
+		{
+			return $get->result();
+		}
+		else
+		return false;	
+	}
+	
+	
+	
 }
