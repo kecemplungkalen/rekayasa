@@ -1,14 +1,14 @@
 <script>
-	
+
 	$(document).ready(function(){
 		$.post('<?php echo base_url();?>address/group/get_group',function(data){
-			
+
 			$('#data_group').html(data);
-			
+
 		});
-		
+
 		$.post('<?php echo base_url();?>address/get_address_book_detail/<?php if(isset($id_address_book)){echo $id_address_book;} ?>',function(data){
-		
+
 		//console.log(data);
 		$('#top_first').html(data.first_name);
 		$('#top_last').html(data.last_name);
@@ -21,14 +21,14 @@
 			$('#group_'+data.group[i].id_groupname).attr('checked');
 			console.log(data.group[i].id_groupname);
 		}
-		
-		//$().val();
-		
-		},'json');
-		
 
-		
-		
+		//$().val();
+
+		},'json');
+
+
+
+
 	});
 
 </script>
@@ -45,13 +45,14 @@
 			<div class="control-group">
 				<label class="control-label">Phone Number</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="Phone number" id="phone" name="phone">
+<!-- 					<input type="text" class="input-large" placeholder="Phone number" id="phone" name="phone" > -->
 				</div>
 			</div>
+
 			<div class="control-group">
 				<label class="control-label">First Name</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="First Name" id="firstname" name="firstname" >
+					<input type="text" class="input-large" placeholder="First Name" id="firstname" name="firstname" value="<?php echo $address['first_name'];?>">
 				</div>
 			</div>
 			<div class="control-group">
@@ -68,29 +69,20 @@
 			</div>
 			<div class="control-group">
 				<label class="control-label">Groups</label>
-				<div id="data_group"> </div>
-				<!--
-				<div class="controls">
-					<label class="checkbox">
-						<input type="checkbox" checked disabled="yes"> Telkomsel
-					</label>
-				</div>
-				<div class="controls">
-					<label class="checkbox">
-						<input type="checkbox"> Pelanggan
-					</label>
-			   	</div>
-				<div class="controls">
-					<label class="checkbox">
-						<input type="checkbox"> Teroris
-					</label>
-				</div>
-				<div class="controls">
-					<label class="checkbox">
-						<input type="checkbox"> Smurf
-					</label>
-			   	</div>
-			   	-->
+<!-- 				<div id="data_group"> </div> -->
+				<?php if($group){?>
+					<?php foreach($group as $row){?>
+					<div class="controls">
+						<label class="checkbox">
+							<input value="<?php echo $row->id_groupname;?>" type="checkbox" checked disabled="yes"><?php echo $row->nama_group;?>
+						</label>
+					</div>
+					<?php }?>
+				<?php }?>
+				
+				
+				</label>
+			   	
 			</div>
 		</form>
 	</div>

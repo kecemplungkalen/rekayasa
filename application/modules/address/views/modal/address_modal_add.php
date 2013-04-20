@@ -17,29 +17,29 @@
 		<h3>Add Address Book</h3>
 	</div>
 	<div class="modal-body">
-		<form class="form-horizontal">
+		<form class="form-horizontal" id="" >
 			<div class="control-group">
 				<label class="control-label">Phone Number</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="Phone number" >
+					<input type="text" name="number" class="input-large" placeholder="Phone number" >
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">First Name</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="First Name" >
+					<input type="text" name="first_name"  class="input-large" placeholder="First Name" >
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Last Name</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="Last Name" >
+					<input type="text"  name="last_name" class="input-large" placeholder="Last Name" >
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Email</label>
 				<div class="controls">
-					<input type="text" class="input-large" placeholder="Email Address">
+					<input type="text" name="email" class="input-large" placeholder="Email Address">
 				</div>
 			</div>
 			<div class="control-group">

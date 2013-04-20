@@ -25,7 +25,7 @@ Class Group extends MX_Controller{
 			{
 				$html .= '<div class="controls">';
 				$html .='<label class="checkbox">';	
-				$html .='<input type="checkbox" id="group_'.$g->id_groupname .'" value="'.$g->id_groupname .'">' . $g->nama_group;
+				$html .='<input type="checkbox" id="group_'.$g->id_groupname .'" value="'.$g->id_groupname .'" name="group">' . $g->nama_group;
 				$html .='</label>';	
 				$html .='</div>';
 
