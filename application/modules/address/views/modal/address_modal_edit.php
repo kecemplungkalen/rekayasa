@@ -2,7 +2,13 @@
 
 	$(document).ready(function(){
 
-
+		$('#edit').click(function(){
+			$.post('<?php echo base_url();?>address/update_address',$('#editaddr').serialize(),function(data){
+				
+				console.log(data);
+			});
+			
+		});
 
 
 	});
@@ -14,8 +20,8 @@
 		<h3><span id="top_first"> <?php echo $address['first_name'];?> </span>  <span id="top_last"> <?php echo $address['last_name'];?></span></h3>
 	</div>
 	<div class="modal-body">
-		<form class="form-horizontal">
-		<input type="hidden" id="id_address_book" name="id_address_book">
+		<form class="form-horizontal" id="editaddr">
+		<input type="hidden" id="id_address_book" name="id_address_book" value="<?php echo $address['id_address_book']?>">
 
 			<div class="control-group">
 				<label class="control-label">Phone Number</label>
@@ -70,6 +76,6 @@
 	<div class="modal-footer">
 		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
 		<a href="#" class="btn btn-info">WHMCS Sync</a>
-		<a href="#" class="btn btn-primary">Save changes</a>
+		<a href="#" id="edit" class="btn btn-primary">Save changes</a>
 	</div>
 </div>

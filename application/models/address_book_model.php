@@ -85,7 +85,27 @@ Class Address_Book_Model extends CI_model{
 		return false;
 	}
 	
-
+	public function delete($id_address_book=false)
+	{
+		if($id_address_book)
+		{
+			$this->db->where('id_address_book',$id_address_book);
+			$del = $this->db->delete('address_book');
+			if($del)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public function search($keyword=false)
+	{
+		if($keyword)
+		{
+			
+		}
+	}
 	
 
 }

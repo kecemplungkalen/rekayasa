@@ -28,6 +28,37 @@
 		});
 	}
 	
+	
+	$(document).ready(function(){
+		
+		$('#hapus_address').click(function(){
+			var id =  $('.address_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+		
+		$.post('<?php echo base_url();?>address/hapus_address',{id:id},function(){
+			
+					location.reload();
+			
+		});
+			
+		});
+		
+		$('form#search_address').submit(function(){
+			//$('#search_address').serialize();
+			$.post('<?php echo base_url();?>address/address_search',$('#search_address').serialize(),function(data) {
+				
+				console.log($('#search_address').serialize());
+			}); 
+							return false;
+
+		});
+		
+	});
+
+	
 </script>
 
 <div class="btn-group">
@@ -47,16 +78,16 @@
 			<a href="#" onclick="group_manage()">Manage Groups</a>
 		</li>
 	</ul>
-	<a class="btn"><i class="icon-trash"></i></a>
+	<a class="btn" id="hapus_address"><i class="icon-trash"></i></a>
 </div>
-<form class="form-search pull-right">
-  <input type="text" class="input-medium search-query" placeholder="Search keyword ...	">
+<form class="form-search pull-right" id="search_address">
+  <input name="keyword" type="text" class="input-medium search-query" placeholder="Search keyword ...	">
   <button type="submit" class="btn">Search</button>
 </form>
 <hr>
 <ul class="breadcrumb">
 	<li>
-		<a href="#">Dashboard</a>
+		<a href="<?php echo base_url();?>">Dashboard</a>
 		<span class="divider">/</span> 
 	</li>
 	<li class="active">Address Book</li>

@@ -16,19 +16,39 @@ Class Address extends MX_Controller{
 
 	public function index()
 	{
-		$side['baku'] = $this->message->sidebar_baku();
-		$side['add'] =  $this->message->sidebar_adt();
-		$this->load->view('header_view');
-		$this->load->view('navbar_view');
-		$this->load->view('sidebar_view',$side);
-		$this->load->view('address_top_button_view');
+		$keyword = $this->input->get('keyword');
+		if($keyword)
+		{
+			$side['baku'] = $this->message->sidebar_baku();
+			$side['add'] =  $this->message->sidebar_adt();
+			$this->load->view('header_view');
+			$this->load->view('navbar_view');
+			$this->load->view('sidebar_view',$side);
+			$this->load->view('address_top_button_view');
 
 
-		$data['data'] = $this->ambil_list();
+			$data['data'] = $this->ambil_list();
 
-		$this->load->view('address_view',$data);
-		$this->load->view('footer_view');
+			$this->load->view('address_view',$data);
+			$this->load->view('footer_view');
+			
+		}else
+		{
+			$side['baku'] = $this->message->sidebar_baku();
+			$side['add'] =  $this->message->sidebar_adt();
+			$this->load->view('header_view');
+			$this->load->view('navbar_view');
+			$this->load->view('sidebar_view',$side);
+			$this->load->view('address_top_button_view');
 
+
+			$data['data'] = $this->ambil_list();
+
+			$this->load->view('address_view',$data);
+			$this->load->view('footer_view');
+
+		}
+		
 
 	}	
 
@@ -79,11 +99,17 @@ Class Address extends MX_Controller{
 				$last_mess = $this->inbox_model->gets_where('id_address_book',$li->id_address_book);
 				if($last_mess)
 				{
+					$date=false;
 					foreach($last_mess as $lm)
 					{
-						$temp['last_message'] = $lm->recive_date;
+						$date = $lm->recive_date;
 					}
+					$temp['last_message'] = $date; 
+				}else
+				{
+					$temp['last_message'] = false; 
 				}
+				
 				$rec[] = $temp;
 			}
 			return $rec;
@@ -109,7 +135,6 @@ Class Address extends MX_Controller{
 					$temp['nama_group'] = $grouname->nama_group;
 					$res[] = $temp;
 				}				
-				//$res[] = $rem;
 			}
 
 			$data = array('id_address_book'=> $id_address_book,
@@ -147,6 +172,62 @@ Class Address extends MX_Controller{
 		
 	}
 	
+	public function update_address()
+	{
+		
+		$id_user = 1;
+		$id_address_book = $this->input->post('id_address_book');
+		$number = $this->input->post('number');
+		$first_name = $this->input->post('first_name');
+		$last_name = $this->input->post('last_name');
+		$email = $this->input->post('email');
+		$group = $this->input->post('group');
+		/*
+		$update = $this->Address_Book_Model->update($number,$first_name,$last_name,$email,$id_user);
+		if($update)
+		{
+			$group = $this->Group_Model->gets_by('id_address_book',$id_address_book)
+			if($group)
+			{
+				foreach($group as $g)
+				{
+					
+				}	
+			}
+			
+		}
+		
+		
+		for($i=0;$i < count($group);$i++)
+			{
+				$this->Group_Model->add($last_id,$group[$i],$id_user);
+			}
+			return true;
+		else 
+		return false;
+		*/
+		
+
+		var_dump($_POST);
+	}
+	
+	public function address_search($keyword=false)
+	{
+		//$this->Address_Book_Model->
+		
+	}
+	
+	public function hapus_address()
+	{
+		$id_address_book = $this->input->post('id');
+		if($id_address_book)
+		{
+			for($i=0;$i < count($id_address_book);$i++)
+			{
+				$this->Address_Book_Model->delete($id_address_book[$i]);
+			}
+		}
+	}
 	
 	public function add_address()
 	{
@@ -169,6 +250,7 @@ Class Address extends MX_Controller{
 			$this->load->view('modal/address_modal_edit',$data);
 		}
 	}
-
+	
+	
 
 }

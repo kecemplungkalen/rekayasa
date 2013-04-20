@@ -25,5 +25,5 @@
 		<a href="#">Dashboard</a>
 		<span class="divider">/</span> 
 	</li>
-	<li class="active">INBOX</li>
+	<li class="active"><?php if($label){ echo $label; } ?></li>
 </ul> 

@@ -45,6 +45,7 @@ Class message_model extends CI_model{
 			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book');
 			$this->db->where_in('id_inbox',$data);
 			$this->db->group_by('address_book.id_address_book');
+			$this->db->order_by('recive_date','desc');
 			$content = $this->db->get('inbox');
 			if($content->num_rows() > 0)
 			{

@@ -11,7 +11,7 @@ Class Message extends MX_Controller{
 		$this->load->model('Labelname_Model');
 	}
 	
-	public function index($label)
+	public function index($label=false)
 	{
 		$view=false;
 		$sub=false;
@@ -30,6 +30,8 @@ Class Message extends MX_Controller{
 					$data = $this->message_model->get_inbox($id_inbox);
 					if($data)
 					{
+						$isi=false;
+						$remap=false;
 						foreach($data as $da)
 						{
 							$isi['read_status'] = $da->read_status;
@@ -61,24 +63,21 @@ Class Message extends MX_Controller{
 							}
 							$isi['label'] = $sub_data;
 							$remap[] = $isi;
-
 						}
-
 						$view['data'] = $remap;
-
 					}
 					
 				}
 				
 			}
 			
-
+			$top['label'] = $label;
 			$side['baku'] = $this->sidebar_baku();
 			$side['add'] =  $this->sidebar_adt();
 			$this->load->view('header_view');
 			$this->load->view('navbar_view');
 			$this->load->view('sidebar_view',$side);
-			$this->load->view('inbox/top_button_view');
+			$this->load->view('inbox/top_button_view',$top);
 			$this->load->view('dashboard/dashboard_view',$view);
 			//$this->load->view('modal/address_modal_edit');
 			//$this->load->view('modal/address_modal_group');

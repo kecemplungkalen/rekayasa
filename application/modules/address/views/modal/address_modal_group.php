@@ -2,10 +2,6 @@
 
 	$(document).ready(function(){
 		
-
-		
-		
-
 		$('#hapus').click(function(){
 			var id =  $('.checkbox:checkbox').map(function() {
 			if(this.checked){
@@ -16,7 +12,7 @@
 				
 				console.log(data);
 				
-				});
+			});
 			
 		});
 		
@@ -69,7 +65,7 @@
 				<?php foreach($group as $g) {?>
 				
 				<tr>
-				<td><input class="checkbox" id="groupedan<?php echo $g->id_group; ?>" type="checkbox" name="id_group[]" value="<?php echo $g->id_group; ?>" ></td>
+				<td><input class="checkbox" id="id_group_<?php echo $g->id_group; ?>" type="checkbox" name="id_group[]" value="<?php echo $g->id_group; ?>" ></td>
 				<td> <?php echo $g->nama_group; ?></td>
 				<td><?php echo $g->jml; ?></td>
 				</tr>
