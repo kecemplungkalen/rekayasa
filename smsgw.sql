@@ -3,18 +3,12 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 19, 2013 at 10:12 AM
+-- Generation Time: Apr 23, 2013 at 04:48 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `smsgw`
@@ -37,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `address_book` (
   `create_date` int(11) NOT NULL,
   `last_update` int(11) NOT NULL,
   PRIMARY KEY (`id_address_book`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `address_book`
@@ -45,7 +39,11 @@ CREATE TABLE IF NOT EXISTS `address_book` (
 
 INSERT INTO `address_book` (`id_address_book`, `id_user`, `first_name`, `last_name`, `number`, `id_smsc`, `email`, `create_date`, `last_update`) VALUES
 (1, 1, 'bob ', 'marley', '+62819678420', 5, 'bob@mail.com', 1366263728, 1366263728),
-(2, 1, 'jah', 'rastafara', '+62819678421', 5, 'jah@kingofking.mail', 1366263728, 1366263728);
+(2, 1, 'jah', 'rastafara', '+62819678421', 5, 'jah@kingofking.mail', 1366263728, 1366263728),
+(5, 1, 'mbah', 'joyo', '+872638723', 0, 'mbahjoyo@rumahweb.com', 1366440225, 1366440225),
+(8, 1, 'mbah ', 'mangun', '+6281927198', 0, 'mbah.mbagen@gmail.com', 1366633298, 1366633298),
+(9, 1, 'mbah ', 'joyo', '+62789789123', 0, 'mbah_joyo_imut@ymail.com', 1366677403, 1366677403),
+(10, 1, 'mbah', 'spam', '+6200992873', 0, 'simbah_spamer@gmail.com', 1366692196, 1366692196);
 
 -- --------------------------------------------------------
 
@@ -72,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `group` (
   `id_user` int(11) NOT NULL,
   `id_groupname` int(11) NOT NULL,
   PRIMARY KEY (`id_group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `group`
@@ -80,8 +78,17 @@ CREATE TABLE IF NOT EXISTS `group` (
 
 INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) VALUES
 (1, 2, 1, 1),
-(2, 1, 1, 2),
-(3, 1, 1, 3);
+(2, 1, 1, 3),
+(3, 1, 1, 3),
+(4, 5, 1, 1),
+(5, 6, 1, 1),
+(6, 6, 1, 2),
+(7, 6, 1, 3),
+(8, 7, 1, 2),
+(9, 8, 1, 1),
+(10, 9, 1, 1),
+(11, 9, 1, 4),
+(12, 10, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -92,17 +99,19 @@ INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) V
 CREATE TABLE IF NOT EXISTS `groupname` (
   `id_groupname` int(11) NOT NULL AUTO_INCREMENT,
   `nama_group` text NOT NULL,
+  `color` varchar(32) NOT NULL,
   PRIMARY KEY (`id_groupname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `groupname`
 --
 
-INSERT INTO `groupname` (`id_groupname`, `nama_group`) VALUES
-(1, 'reseller'),
-(2, 'client'),
-(3, 'pegawai');
+INSERT INTO `groupname` (`id_groupname`, `nama_group`, `color`) VALUES
+(1, 'reseller', 'ffc8af'),
+(2, 'client', 'ff7537'),
+(3, 'pegawai', 'b6cff5'),
+(4, 'simbah', '16a765');
 
 -- --------------------------------------------------------
 
@@ -119,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `inbox` (
   `read_status` tinyint(1) NOT NULL,
   `last_update` int(11) NOT NULL,
   PRIMARY KEY (`id_inbox`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `inbox`
@@ -127,8 +136,11 @@ CREATE TABLE IF NOT EXISTS `inbox` (
 
 INSERT INTO `inbox` (`id_inbox`, `id_user`, `id_address_book`, `recive_date`, `content`, `read_status`, `last_update`) VALUES
 (1, 1, 1, 1366263728, 'reg primbon jum''at legi 1366263728', 0, 1366263728),
-(2, 1, 1, 1366263729, 'reg status jum''at legi 1366263728', 0, 1366263728),
-(3, 1, 2, 1366263731, 'reg rasta sabtu legi 1366263728', 0, 1366263728);
+(2, 1, 1, 1366293759, 'reg status jum''at legi 1366263728', 0, 1366263724),
+(3, 1, 2, 1366363799, 'reg rasta sabtu legi 1366263728', 0, 1366263928),
+(4, 1, 2, 1366691039, 'rumah web ya?', 0, 1366691039),
+(5, 1, 8, 1366691039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366691039),
+(6, 1, 10, 1366991039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366991039);
 
 -- --------------------------------------------------------
 
@@ -141,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `label` (
   `id_inbox` int(11) NOT NULL,
   `id_labelname` int(11) NOT NULL,
   PRIMARY KEY (`id_label`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `label`
@@ -152,7 +164,11 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (2, 2, 1),
 (3, 3, 1),
 (4, 1, 6),
-(5, 3, 7);
+(5, 3, 7),
+(6, 2, 7),
+(7, 4, 1),
+(8, 5, 1),
+(9, 6, 5);
 
 -- --------------------------------------------------------
 
@@ -166,20 +182,21 @@ CREATE TABLE IF NOT EXISTS `labelname` (
   `color` varchar(20) NOT NULL,
   `additional` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `labelname`
 --
 
 INSERT INTO `labelname` (`id_labelname`, `name`, `color`, `additional`) VALUES
-(1, 'inbox', 'ffffff', 0),
-(2, 'sent', 'ffffff', 0),
-(3, 'outbox', 'ffffff', 0),
-(4, 'trash', 'ffffff', 0),
-(5, 'spam', 'ffffff', 0),
-(6, 'registrasi', 'b6cff5', 1),
-(7, 'konfirmasi', 'b6cff5', 1);
+(1, 'inbox', 'b99aff', 0),
+(2, 'sent', 'ffc8af', 0),
+(3, 'outbox', 'ff7537', 0),
+(4, 'trash', 'fc4c2f', 0),
+(5, 'spam', '4986e7', 0),
+(6, 'registrasi', 'fbe983', 1),
+(7, 'konfirmasi', '16a765', 1),
+(8, 'Pertanyaan', '4986e7', 1);
 
 -- --------------------------------------------------------
 
@@ -239,7 +256,3 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `first_name`, `last_name`, `status`, `create_date`, `last_update`) VALUES
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'sms', 1, 1366262306, 1366262306);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
