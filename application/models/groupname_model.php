@@ -62,4 +62,36 @@ Class Groupname_Model extends CI_model{
 		return false;
 	}
 	
+	public function cek_edit($id_groupname=false,$group_name=false)
+	{
+		if($id_groupname && $group_name)
+		{
+			$this->db->where('id_groupname !=',$id_groupname);
+			$this->db->where('nama_group',$group_name);
+			$cek = $this->db->get('groupname');
+			if($cek->num_rows() > 0)
+			{
+				return $cek->row();
+			}
+			
+		}
+		return false;
+		
+	}
+	
+	public function update($id_groupname=false,$nama_group=false,$color=false)
+	{
+		if($id_groupname && $nama_group && $color)
+		{
+			$data = array('nama_group' => $nama_group, 'color' => $color);
+			$this->db->where('id_groupname',$id_groupname);
+			$update = $this->db->update('groupname',$data);
+			if($update)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

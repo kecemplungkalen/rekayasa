@@ -110,6 +110,45 @@ Class Group extends MX_Controller{
 			echo $html;
 		}
 	}
+	
+	public function edit_cekgroup()
+	{
+		$nama_group = $this->input->post('input_nama_group');
+		$id_groupname = $this->input->post('id_groupname');
+		$cek = $this->Groupname_Model->cek_edit($id_groupname,$nama_group);
+		if($cek)
+		{
+			echo 'false';
+		}else
+		echo 'true';
+	}
+	
+	public function update_group()
+	{
+		$id_groupname = $this->input->post('input_id_groupname');
+		$nama_group = $this->input->post('input_nama_group');
+		$color = $this->input->post('radio1');
+		
+		$update = $this->Groupname_Model->update($id_groupname,$nama_group,$color);
+		if($update)
+		{
+			$getdata = $this->Group_Model->get_count();
+			if($getdata)
+			{
+				$html = false;
+				foreach($getdata as $g)
+				{
+					$html .='<tr onclick="editgroup('.$g->id_groupname .')">';
+					$html .='<td><input class="checkbox" id="id_group_'.$g->id_groupname.'" type="checkbox" name="id_group[]" value="'.$g->id_groupname.'" ></td>' ;
+					$html .='<td> '.$g->nama_group.'</td>'; 
+					$html .='<td>'.$g->jml.'</td>'; 
+					$html .='<td><span class="label badge-'.$g->color.'">&nbsp;&nbsp;</span></td>';
+					$html .='</tr>';
+				}
+				echo $html;
+			}
+		}	
+	}
 }
 
 

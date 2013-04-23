@@ -2,6 +2,8 @@
 
 	$(document).ready(function(){
 		
+
+		
 		$('#hapus').click(function(){
 			var id =  $('.checkbox:checkbox').map(function() {
 			if(this.checked){
@@ -30,7 +32,9 @@
 			console.log(action);
 			$('.checkbox:checkbox').map(function() {
 				if(action == 'cek'){
-					$("#"+this.id).attr("checked","checked");
+					//$("#"+this.id).removeAttr("checked");
+					//$("#"+this.id).attr("checked","checked");
+					$('.checkbox input[type="checkbox"]').prop('checked', true);
 				}else{
 					$("#"+this.id).removeAttr("checked");
 				}
@@ -69,27 +73,95 @@
 					.closest('.control-group').removeClass('error').addClass('success');
 			}
 		});
+		
 
 		
-	});
-
-	function add_group()
-	{
-		var valid = $('#add_group_form').valid();
-		if(valid == true)
-		{
-			$.post('<?php echo base_url()?>address/group/add_group_name',$('#add_group_form').serialize(),function(data){
-				if(data)
-				{
-					$('#tabel_group').append(data);
+		$('#add_group').click(function(){
+			
+			var valid = $('#add_group_form').valid();
+			if(valid == true)
+			{
+				$.post('<?php echo base_url()?>address/group/add_group_name',$('#add_group_form').serialize(),function(data){
+					if(data)
+					{
+						$('#tabel_group').append(data);
+					}
+				});
+			}
+			else
+			{
+				return false;
+			}			
+		});
+		
+		
+		
+		
+		
+		$('#form_edit_group').validate({
+			rules: {
+			  input_id_groupname : {
+				required: true
+			  },
+			  input_nama_group : {
+				//var id_groupname = $('#input_id_groupname').val();
+				required: true,
+				remote:{
+					type:'post',	
+					url:'<?php echo base_url();?>address/group/edit_cekgroup/',
+					data :{
+							id_groupname : function(){
+							return $('#input_id_groupname').val();
+						}
+					}
+				},
+			  },
+			  radio1 : {
+				required: true
+			  },
+			},
+			
+			messages: {
+				input_nama_group :{
+					remote:'Nama Group Telah dipakai..!!'
 				}
-			});
-		}
-		else
-		{
-			return false;
-		}
-	}
+			},
+			
+			highlight: function(element) {
+					$(element).closest('.control-group').removeClass('success').addClass('error');
+			},
+			
+			success: function(element) {
+					element
+					.text('OK!').addClass('valid')
+					.closest('.control-group').removeClass('error').addClass('success');
+			}
+		});
+		
+		
+		
+		
+		
+		$('#update_group').click(function(){
+			
+			var valid = $('#form_edit_group').valid();
+			if(valid == true)
+			{
+				$.post('<?php echo base_url();?>address/group/update_group',$('#form_edit_group').serialize(),function(data){
+					
+					if(data)
+					{
+						location.reload();
+						//$('#tabel_group').html(data);
+						//hideedit();
+					}
+				});
+			}
+			
+		});
+		
+		
+	});
 
 	function showadd()
 	{
@@ -111,7 +183,7 @@
 	
 	function editgroup(id_groupname)
 	{
-		
+		$('#tambah_group').hide();
 		$.post('<?php echo base_url();?>address/group/show_group',{id_groupname:id_groupname},function(data){
 			$('#show_edit_group').show();
 			//console.log(data);
@@ -150,7 +222,7 @@
 				<?php if($group){?>
 				<?php foreach($group as $g) {?>
 				
-				<tr onclick="editgroup('<?php echo $g->id_groupname; ?>');">
+				<tr onclick="editgroup('<?php echo $g->id_groupname; ?>')">
 				<td><input class="checkbox" id="id_group_<?php echo $g->id_groupname; ?>" type="checkbox" name="id_group[]" value="<?php echo $g->id_groupname; ?>" ></td>
 				<td> <?php echo $g->nama_group; ?></td>
 				<td><?php echo $g->jml; ?></td>
@@ -266,7 +338,7 @@
 		</form>		
 			<div class="pull-right controls">
 			<button class="btn" onclick="hideadd();" type="button">Batal</button>
-			<button class="btn btn-primary" onclick="add_group()" type="button">Save</button>
+			<button class="btn btn-primary" id="add_group" type="button">Save</button>
 			</div>
 
 		</div>
@@ -275,7 +347,7 @@
 
 		<div class="hide" id="show_edit_group">
 		<legend>Edit Group</legend>
-		<form class="form-horizontal">
+		<form class="form-horizontal" id="form_edit_group">
 			<div class="control-group">
 				<label class="control-label">Group Name</label>
 				<div class="controls">
@@ -372,11 +444,11 @@
 				</div>
 			</div>
 			<!-- Colour Option -->
+		</form>		
 			<div class="pull-right controls">
 			<button class="btn" onclick="hideedit();" type="button">Batal</button>
-			<button class="btn btn-primary" type="button">Save</button>
+			<button class="btn btn-primary" id="update_group" type="button">Save</button>
 			</div>
-		</form>		
 		</div>
 
 
