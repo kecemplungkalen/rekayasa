@@ -1,3 +1,20 @@
+<script>
+
+	function show_edit(id_labelname)
+	{
+		$.get('<?php echo base_url(); ?>label/edit_additional_label/'+id_labelname,function(data){
+			
+			$('#modal_show').html(data);
+			$('#editlabel').modal('show');
+		});
+	}
+	
+</script>
+
+<div id="modal_show">
+
+</div>
+
           <div class="row-fluid">
             <div class="span12">
 				
@@ -14,6 +31,28 @@
 		</tr>
 	</thead>
     <tbody>
+	<?php if(isset($data)){ ?>
+	<?php foreach($data as $dt) {?>
+		<tr>
+			<td>
+				<input type="checkbox" value="<?php echo $dt->id_labelname; ?>" > 
+			</td>
+			<td>
+				<a href="#" onclick="show_edit('<?php echo $dt->id_labelname; ?>')"><?php echo $dt->name; ?></a>
+			</td>
+			<td>
+				<a href="#" onclick="show_edit('<?php echo $dt->id_labelname; ?>')"><span class="label badge-<?php echo $dt->color; ?>">&nbsp;&nbsp;</span></a>
+			<td>
+				Nama Filter
+			</td>
+        	<td>
+				19 Mei 1979<br>
+				<small>02.00PM</small>
+			</td>			
+		</tr>
+	<?php } ?>
+	<?php } ?>
+	<!--
 		<tr>
 			<td>
 				<input type="checkbox"> 
@@ -48,6 +87,7 @@
 				<small>02.00PM</small>
 			</td>			
 		</tr>
+		-->
 	</tbody>
 </table>
 <div align="center">

@@ -2,12 +2,14 @@
 	<a class="btn"><i class="icon-hdd" ></i></a>
 	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-tags"></i> <span class="caret"></span></a>
 	<ul class="dropdown-menu">
-		<li>
-			<a href=""><input type="checkbox" checked>&nbsp;&nbsp;<span class="label badge-b6cff5">&nbsp;&nbsp;&nbsp;&nbsp;</span> Konfirmasi</a>
-		</li>
-		<li>
-			<a href=""><input type="checkbox">&nbsp;&nbsp;<span class="label badge-e3d7ff">&nbsp;&nbsp;&nbsp;&nbsp;</span> TekonTekon</a>
-		</li>
+		<?php if(isset($list_label)){?>
+		<?php foreach($list_label as $ll){?>
+			<li>
+				<a href="#"><input type="checkbox" value="<?php echo $ll->id_labelname;?>" >&nbsp;&nbsp;<span class="label badge-<?php echo $ll->color;?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $ll->name;?></a>
+			</li>
+		
+		<?php }?>
+		<?php }?>
 		<li class="divider"></li>
 		<li>
 			<a href="">Manage Labels</a>

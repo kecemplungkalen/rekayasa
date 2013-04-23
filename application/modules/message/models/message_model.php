@@ -42,7 +42,7 @@ Class message_model extends CI_model{
 		if(is_array($data))
 		{
 			$this->db->select('id_inbox,number,recive_date,count(id_inbox) as total,content,address_book.id_address_book,read_status,first_name,last_name');
-			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book');
+			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book','right');
 			$this->db->where_in('id_inbox',$data);
 			$this->db->group_by('address_book.id_address_book');
 			$this->db->order_by('recive_date','desc');

@@ -1,20 +1,73 @@
+
 <script>
 	$(document).ready(function(){
 		
+		$('#add_addr').validate({
+			rules: {
+			  number: {
+				required: true,
+				remote:{
+					type:'post',	
+					url:'<?php echo base_url();?>address/group/ceknumber'
+				}
+			  },
+			  first_name: {
+				required: true
+			  },
+			  last_name: {
+				required: true
+			  },
+			  email: {
+				required: true,
+				email: true
+			  },
+			  group: {
+				required: true
+			  }
+			},
+	    
+			messages: {
+				number:{
+					remote:'Nomer Telah dipakai..!!'
+				}
+			},
+			highlight: function(element) {
+					$(element).closest('.control-group').removeClass('success').addClass('error');
+			},
+			success: function(element) {
+					element
+					.text('OK!').addClass('valid')
+					.closest('.control-group').removeClass('error').addClass('success');
+			}
+		});
+
+		
+		
+		
 		$('#add').click(function(){
 			
-			$.post('<?php echo base_url(); ?>address/tambah_address',$('#add_addr').serialize(),function(data){
-				
-				//console.log(data);
-				if(data)
-				{
-					location.reload();
-				}
-				
+			var valid = $('#add_addr').valid();
+			
+			if(valid == true)
+			{
+				$.post('<?php echo base_url(); ?>address/tambah_address',$('#add_addr').serialize(),function(data){
+					
+					//console.log(data);
+					if(data)
+					{
+						location.reload();
+					}
+					
 				});
 			
+			}else{
+				
+				return false;
 			
-			});
+			}
+		});
+		
+
 		
 	});
 

@@ -22,7 +22,7 @@
 	<?php if(isset($add)){?>
 		<?php for($i=0;$i<count($add);$i++) { ?>
 	<li>
-		<a href="<?php echo base_url('message/'.$add[$i]['name']); ?>"><?php echo $add[$i]['name']; ?> <?php if($add[$i]['count']){?>(<?php echo $add[$i]['count'];}?>)  <span class="label badge-<?php echo $add[$i]['color']; ?>">&nbsp;&nbsp;</span></a>
+		<a href="<?php echo base_url('message/'.$add[$i]['name']); ?>"><?php echo $add[$i]['name']; ?> <?php if($add[$i]['count']){?> (<?php echo $add[$i]['count'];?>) <?php } ?>  <span class="label badge-<?php echo $add[$i]['color']; ?>">&nbsp;&nbsp;</span></a>
 	</li>
 		<?php }?>
 	<?php }?>

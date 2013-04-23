@@ -43,4 +43,73 @@ Class Group extends MX_Controller{
 		var_dump($id);
 	}
 
+	public function ceknumber()
+	{
+		$number = $this->input->post('number');
+		$cek = $this->Address_Book_Model->get_where('number',$number);
+		if($cek)
+		{
+			echo 'false';
+		}
+		else
+		echo 'true'; 
+	}
+	
+	
+	public function show_group()
+	{
+		$id_groupname = $this->input->post('id_groupname');
+		if($id_groupname)
+		{
+			$groupname = $this->Groupname_Model->get($id_groupname);
+			if($groupname)
+			{
+				$data = array(
+				'id_groupname' => $groupname->id_groupname,
+				'nama_group' => $groupname->nama_group,
+				'color'=> $groupname->color
+				);
+				echo json_encode($data);
+			}
+		}else
+		return false;
+	}
+	
+	public function cekgroup()
+	{
+		$nama_group = $this->input->post('group_name');
+		if($nama_group)
+		{
+			$cek = $this->Groupname_Model->get_col('nama_group',$nama_group);
+			if($cek)
+			{
+				echo 'false';
+			}
+			else
+			{
+				echo 'true';
+			}
+		}
+	}
+	
+	public function add_group_name()
+	{
+		$html = false;
+		$group_name = $this->input->post('group_name');
+		$color = $this->input->post('radio1');
+		$add = $this->Groupname_Model->add($group_name,$color);
+		if($add)
+		{
+			$html .='<tr onclick="editgroup('.$add.');">';
+			$html .='<td><input class="checkbox" id="id_group_'.$add.'" type="checkbox" name="id_group[]" value="'.$add.'" ></td>';	
+			$html .= '<td>'.$group_name.'</td>' ;	
+			$html .= '<td> 0 </td>' ;
+			$html .= '<td><span class="label badge-'.$color.'">&nbsp;&nbsp;</span></td>' ;	
+			$html .= '</tr>' ;	
+			
+			echo $html;
+		}
+	}
 }
+
+

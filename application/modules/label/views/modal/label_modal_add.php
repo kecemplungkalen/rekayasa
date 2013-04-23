@@ -1,44 +1,76 @@
-<div id="editsystemlabel" class="modal hide fade">
+<div id="addlabel" class="modal hide fade">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<?php if(isset($label)){?>
-		<script>
-		
-			$(document).ready(function(){
-				
-				$('[name=radio1]').filter('[value=<?php echo $label->color;?>]').attr('checked','checked');
-				
-				$('#label_system_edit').click(function(){
-					
-					$.post('<?php echo base_url();?>label/edit_label',$('#form_system_label_edit').serialize(),function(data){
-						if(data)
-						{
-							//console.log(data);
-							location.reload();
+					<!-- javascripnya -->
+			<script>
+				$(document).ready(function(){
+										
+					$('#form_label_add').validate({
+						rules: {
+							add_label_name: {
+								required: true,
+								remote:{
+									type:'post',	
+									url:'<?php echo base_url();?>label/add_ceklabel'
+								}
+							},
+							
+							radio1 : {
+								required: true
+							},
+						},
+						
+						messages: {
+							add_label_name :{
+								remote:'Label Telah Dipakai..!!'
+							}
+						},
+						
+						highlight: function(element) {
+								$(element).closest('.control-group').removeClass('success').addClass('error');
+						},
+						
+						success: function(element) {
+								element
+								.text('OK!').addClass('valid')
+								.closest('.control-group').removeClass('error').addClass('success');
 						}
-						else{
+					});
+					
+					$('#add_label').click(function(){
+						
+						var valid = $('#form_label_add').valid();
+						if(valid == true)
+						{
+							$.post('<?php echo base_url();?>label/add_label',$('#form_label_add').serialize(),function(data){
+								if(data)
+								{
+									//console.log(data);
+									location.reload();
+								}
+							});
+						}
+						else
+						{
 							return false;
 						}
-					});					
+					});
 				});
 				
-			});
-		</script>
-		<?php //foreach($label as $lb){?>
-		<h3>Edit Label : <?php echo $label->name;?></h3>
+				
+			</script>
+			
+
+		<h3>Add Label</h3>
 	</div>
 	<div class="modal-body">
-		<form class="form-horizontal" id="form_system_label_edit">
+		<form class="form-horizontal"  id="form_label_add">
 			<div class="control-group">
 				<label class="control-label">Label Name</label>
 				<div class="controls">
-					<input type="hidden" name="id_labelname" value="<?php echo $label->id_labelname;?>">
-					<input type="text" name="edit_label_name"class="input-small" disabled="yes" value="<?php echo $label->name;?>">
+					<input type="text" name="add_label_name" class="input-small" placeholder="Label name" >
 				</div>
 			</div>
-		<?php //}?>
-
-		<?php }?>
 			<!-- Colour Option -->
 			<div class="control-group">
 				<label class="control-label">Colour</label>
@@ -131,7 +163,7 @@
 		</form>
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn btn-primary" id="label_system_edit">Save changes</a>		
+		<a href="#" class="btn btn-primary" id="add_label" >Save</a>		
 		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
 	</div>
 </div>

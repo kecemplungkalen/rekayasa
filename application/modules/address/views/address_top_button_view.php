@@ -47,14 +47,14 @@
 		});
 		
 		$('form#search_address').submit(function(){
-			//$('#search_address').serialize();
-			$.post('<?php echo base_url();?>address/address_search',$('#search_address').serialize(),function(data) {
-				
-				console.log($('#search_address').serialize());
+			$.get('<?php echo base_url();?>address',$('#search_address').serialize(),function(data) {
+				return data;
 			}); 
-							return false;
 
 		});
+		
+		
+		
 		
 	});
 
@@ -64,12 +64,13 @@
 <div class="btn-group">
 	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> <span class="caret"></span></a>
 	<ul class="dropdown-menu">
+		<?php if(isset($data)) {?>
+		<?php foreach($data as $dt) {?>
 		<li>
-			<a href=""><input type="checkbox" >&nbsp;&nbsp;<span class="label badge-b6cff5">&nbsp;&nbsp;&nbsp;&nbsp;</span> User Ngawur</a>
+			<a href=""><input type="checkbox"  value="<?php echo $dt->id_groupname; ?>" >&nbsp;&nbsp;<span class="label badge-<?php echo $dt->color ;?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $dt->nama_group; ?></a>
 		</li>
-		<li>
-			<a href=""><input type="checkbox">&nbsp;&nbsp;<span class="label badge-e3d7ff">&nbsp;&nbsp;&nbsp;&nbsp;</span> User Ra Genah</a>
-		</li>
+		<?php } ?>
+		<?php } ?>
 		<li class="divider"></li>
 		<li>
 			<a href="#" onclick="add_user()">Add User</a>

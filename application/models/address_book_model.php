@@ -103,7 +103,18 @@ Class Address_Book_Model extends CI_model{
 	{
 		if($keyword)
 		{
-			
+			$data = array(
+			'first_name' => $keyword,
+			'last_name' => $keyword,
+			'number' => $keyword
+			);
+			$this->db->or_like($data);
+			$res = $this->db->get('address_book');
+			if($res->num_rows() > 0)
+			{
+				return $res->result();
+			}
+			return false;
 		}
 	}
 	

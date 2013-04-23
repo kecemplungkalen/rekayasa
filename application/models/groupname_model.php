@@ -30,6 +30,36 @@ Class Groupname_Model extends CI_model{
 		return false;	
 	}
 	
+	public function get_col($kolom=false,$value=false)
+	{
+		if($kolom && $value)
+		{
+			$this->db->where($kolom,$value);
+			$data = $this->db->get('groupname');
+			if($data->num_rows() > 0)
+			{
+				return $data->row();
+			}
+		}
+		return false;
+	}
 	
+	public function add($nama_group=false,$color=false)
+	{
+		if($nama_group && $color)
+		{
+			$data = array(
+			'nama_group' => $nama_group ,
+			'color'=> $color
+			);
+			$this->db->insert('groupname',$data);
+			$insert_id = $this->db->insert_id();
+			if($insert_id)
+			{
+				return $insert_id;
+			}
+		}
+		return false;
+	}
 	
 }

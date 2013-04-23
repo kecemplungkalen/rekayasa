@@ -1,3 +1,4 @@
+<div id="show_modal"> </div>
           <div class="row-fluid">
             <div class="span12">
 				
@@ -13,7 +14,7 @@
 		</tr>
 	</thead>
     <tbody>
-	<?php if(isset($data)) {?>
+	<?php if(is_array($data)) {?>
 	
 		<?php for($i=0;$i < count($data);$i++){ ?> 
 			<tr>
@@ -49,6 +50,8 @@
 			</tr>
 			<tr>
 		<?php } ?>
+	<?php }else { ?>
+	<?php echo $data; ?>
 	<?php } ?>
 	</tbody>
 </table>
@@ -69,5 +72,4 @@
           </div>
         </div>
       </div>
-    </div>
-<div id="show_modal"> </div>
+

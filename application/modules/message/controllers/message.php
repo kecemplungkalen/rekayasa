@@ -38,7 +38,7 @@ Class Message extends MX_Controller{
 							$isi['id_inbox'] = $da->id_inbox;
 							$isi['number'] = $da->number;
 							$isi['total'] = $da->total;
-							$isi['content'] = $da->content;
+							$isi['content'] = substr($da->content,0,50);
 							$isi['recive_date'] = $da->recive_date;
 							$isi['id_address_book'] = $da->id_address_book;
 							$isi['first_name'] = $da->first_name;
@@ -71,6 +71,7 @@ Class Message extends MX_Controller{
 				
 			}
 			
+			$top['list_label'] = $this->Labelname_Model->get_add();
 			$top['label'] = $label;
 			$side['baku'] = $this->sidebar_baku();
 			$side['add'] =  $this->sidebar_adt();

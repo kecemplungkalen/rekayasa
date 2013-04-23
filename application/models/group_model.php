@@ -39,9 +39,10 @@ Class Group_Model extends CI_model{
 	
 	public function get_count()
 	{
-		$this->db->select('id_group,nama_group,count(id_address_book) as jml');
-		$this->db->join('groupname','groupname.id_groupname=group.id_groupname');
+		$this->db->select('groupname.id_groupname,nama_group,count(id_address_book) as jml,groupname.color');
+		$this->db->join('groupname','groupname.id_groupname=group.id_groupname','right');
 		$this->db->group_by('group.id_groupname');
+		$this->db->order_by('group.id_address_book');
 		$data = $this->db->get('group');
 		if($data->num_rows() > 0)
 		{
@@ -52,5 +53,6 @@ Class Group_Model extends CI_model{
 		
 	}
 	
+
 	
 }

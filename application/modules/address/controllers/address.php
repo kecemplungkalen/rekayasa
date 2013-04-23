@@ -19,15 +19,25 @@ Class Address extends MX_Controller{
 		$keyword = $this->input->get('keyword');
 		if($keyword)
 		{
+			
 			$side['baku'] = $this->message->sidebar_baku();
 			$side['add'] =  $this->message->sidebar_adt();
 			$this->load->view('header_view');
 			$this->load->view('navbar_view');
 			$this->load->view('sidebar_view',$side);
-			$this->load->view('address_top_button_view');
+			
+			$top['data'] = $this->Groupname_Model->gets();
+			$this->load->view('address_top_button_view',$top);
 
-
-			$data['data'] = $this->ambil_list();
+			$result = $this->address_search($keyword);
+			if($result)
+			{
+				$data['data'] = $result;  
+			//$this->ambil_list();
+			}else
+			{
+				$data['data'] = 'Data Tidak Ditemukan';
+			}
 
 			$this->load->view('address_view',$data);
 			$this->load->view('footer_view');
@@ -39,7 +49,8 @@ Class Address extends MX_Controller{
 			$this->load->view('header_view');
 			$this->load->view('navbar_view');
 			$this->load->view('sidebar_view',$side);
-			$this->load->view('address_top_button_view');
+			$top['data'] = $this->Groupname_Model->gets();
+			$this->load->view('address_top_button_view',$top);
 
 
 			$data['data'] = $this->ambil_list();
@@ -213,8 +224,65 @@ Class Address extends MX_Controller{
 	
 	public function address_search($keyword=false)
 	{
-		//$this->Address_Book_Model->
-		
+		$search = $this->Address_Book_Model->search($keyword);
+		if($search)
+		{
+			$temp = false;
+			$smscname = false;
+			$rec = false;
+			foreach($search as $li)
+			{
+				$temp['id_address_book'] = $li->id_address_book;
+				$temp['first_name'] = $li->first_name;
+				$temp['last_name'] = $li->last_name;
+				$temp['number'] = $li->number;
+				$smscname = $this->Smsc_Model->get($li->id_smsc);
+				if($smscname)
+				{
+					$temp['operator'] = $smscname->smsc_name;
+				}
+				else
+				{
+					$temp['operator'] = false;
+				}
+
+				$group = $this->Group_Model->gets_by('id_address_book',$li->id_address_book);
+				if($group)
+				{
+					$rem = false;
+					foreach($group as $g)
+					{
+						$detail = $this->Groupname_Model->get($g->id_groupname);
+						$rem[] = $detail->nama_group;
+					}
+
+					$temp['group'] = $rem;
+				}
+				else
+				{
+					$temp['group'] = false;
+				}
+
+				$last_mess = $this->inbox_model->gets_where('id_address_book',$li->id_address_book);
+				if($last_mess)
+				{
+					$date=false;
+					foreach($last_mess as $lm)
+					{
+						$date = $lm->recive_date;
+					}
+					$temp['last_message'] = $date; 
+				}else
+				{
+					$temp['last_message'] = false; 
+				}
+				
+				$rec[] = $temp;
+			}
+			return $rec;
+			
+		}
+		return false;
 	}
 	
 	public function hapus_address()
