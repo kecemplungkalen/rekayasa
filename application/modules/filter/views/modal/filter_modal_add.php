@@ -1,8 +1,9 @@
-<div id="editfilter" class="container modal hide fade">
+<div id="addfilter" class="container modal hide fade">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3>Edit Filter</h3>
+		<h3>Create Filter</h3>
 	</div>
+
 	<div class="modal-body">
 		<form>
 			<div class="control-group">
@@ -12,33 +13,96 @@
 				</div>
 			</div>
 			<legend>Rule</legend>
-			<div class="control-group">
-				<div class="controls">
-					<select class="input-medium">
+			<!-- test jquery -->
+			<script>
+				$(document).ready(function(){
+					
+					$('#rule_type').change(function(){
+
+						var rule_type = $('#rule_type :selected').text();
+						if(rule_type == 'Type')
+						{
+							$('#cumatype').show();
+						}else
+						{
+							$('#cumatype').hide();
+						}
+						
+
+					});
+					
+					$('#rule').change(function(){
+						var rule = $('#rule :selected').text();
+						if(rule == 'Messages')
+						{
+							$('#word').show();
+						}else
+						{
+							$('#word').hide();
+						}
+						
+						
+					});
+					
+					$('input[name=radio2]').on('click',function() {
+						var ins = $('input[name=radio2]:checked').val();
+						var app = $('#param').html();
+						if(ins != 'none')
+						{
+							$('#rule_param').append(app);
+						}
+						
+						//console.log($('input[name=radio2]:checked').val());
+						//console.log(app);
+					});
+			
+					$('#remove').click(function(){
+						//$(this).remove();
+						console.log($(this));
+						
+					});
+			
+			
+				});
+			
+			
+			
+			
+			</script>
+			
+
+			
+			<div class="control-group" id="rule_param">
+				<div class="controls" id="param">
+					<div id="filter_rule">
+					<select class="input-medium" id="rule">
 						<option>Number</option>
 						<option>Messages</option>
+					</select>
+					<select class="input-medium" id="rule_type">
+						<option>Regex</option>
+						<option>=</option>
+						<option>Start with</option>
+						<option>Type</option>
+					</select>
+					<select class="input-medium hide" id="cumatype">
+						<option>numeric only</option>
+						<option>alphabet only</option>
+						<option>alphanumeric</option>
+					</select>
+					<select class="input-medium hide" id="word">
 						<option>1st word</option>
 						<option>2nd word</option>
 						<option>3rd word</option>
 						<option>4th word</option>
 						<option>5th word</option>
 					</select>
-					<select class="input-small">
-						<option>Regex</option>
-						<option>=</option>
-						<option>Start with</option>
-						<option>Type</option>
-					</select>
-					<select class="input-medium">
-						<option>Cuma kalau type</option>
-						<option>numeric only</option>
-						<option>alphabet only</option>
-						<option>alphanumeric</option>
-					</select>
 					<input type="text" class="input-large">
-					Additional rule: <input type="radio" name="radio2"checked> AND <input type="radio" name="radio2"> OR <input type="radio" name="radio2"> none
+					Additional rule: <input type="radio" name="radio2" value="and" > AND <input type="radio" name="radio2" value="or" > OR <input type="radio" name="radio2" checked="checked" value="none"> none <a class="btn btn-danger" id="remove"><i class="icon-minus-sign"></i></a>					
+					</div>
 				</div>
 			</div>
+			<div id="tambah"></div>
 			<!--
 			<div class="control-group">
 				<div class="controls">
@@ -68,6 +132,7 @@
 				</div>
 			</div>
 			-->
+			
 			<legend>Action</legend>
 			<div class="control-group">
 				<div class="controls">

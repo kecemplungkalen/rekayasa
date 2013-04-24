@@ -1,3 +1,10 @@
+<script>
+	$(document).ready(function(){
+
+		//$('li#inbox').addClass('active');
+	});
+
+</script>
           <div class="row-fluid">
             <div class="span12">
 				

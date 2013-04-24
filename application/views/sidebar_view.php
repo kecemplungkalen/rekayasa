@@ -1,3 +1,13 @@
+<script>
+	$(document).ready(function(){
+		//$(function() {
+		//	$('#'+location.pathname.split("/")[3]).addClass('active');
+		//});
+		var activeurl = window.location;
+		$('a[href="'+activeurl+'"]').parent('li').addClass('active');
+	});
+
+</script>
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span3">
@@ -6,7 +16,7 @@
 	<?php if(isset($baku)){ ?>
 	<?php for($i=0;$i<count($baku);$i++) {?>
 		
-    <li class="active">
+    <li id="<?php echo $baku[$i]['name'];?>">
       <a href="<?php echo base_url();?>message/<?php echo $baku[$i]['name'];?>"> <?php echo $baku[$i]['name'];?>
       <?php if($baku[$i]['count'] != false) { ?>
       <span class="badge badge-important"><?php echo $baku[$i]['count'];?></span>

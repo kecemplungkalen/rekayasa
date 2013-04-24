@@ -1,6 +1,6 @@
 <?php 
 
-Class filter extends MX_Controller{
+Class Filter extends MX_Controller{
 	
 	function __construct()
 	{
@@ -18,11 +18,20 @@ Class filter extends MX_Controller{
 		$this->load->view('sidebar_view',$side);
 		$this->load->view('filter_top_button_view');
 		$this->load->view('filter_view');
-		$this->load->view('modal/filter_modal_edit');
+		//$this->load->view('modal/filter_modal_edit');
 		$this->load->view('footer_view');
 		
 		
+	}
+	
+	public function add_filter_modal()
+	{
+		$this->load->view('modal/filter_modal_add');
 	}	
-
+	
+	public function edit_filter_modal()
+	{
+		
+	}
 	
 }
