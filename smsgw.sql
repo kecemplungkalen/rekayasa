@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 23, 2013 at 04:48 AM
+-- Generation Time: Apr 25, 2013 at 10:29 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -40,7 +40,6 @@ CREATE TABLE IF NOT EXISTS `address_book` (
 INSERT INTO `address_book` (`id_address_book`, `id_user`, `first_name`, `last_name`, `number`, `id_smsc`, `email`, `create_date`, `last_update`) VALUES
 (1, 1, 'bob ', 'marley', '+62819678420', 5, 'bob@mail.com', 1366263728, 1366263728),
 (2, 1, 'jah', 'rastafara', '+62819678421', 5, 'jah@kingofking.mail', 1366263728, 1366263728),
-(5, 1, 'mbah', 'joyo', '+872638723', 0, 'mbahjoyo@rumahweb.com', 1366440225, 1366440225),
 (8, 1, 'mbah ', 'mangun', '+6281927198', 0, 'mbah.mbagen@gmail.com', 1366633298, 1366633298),
 (9, 1, 'mbah ', 'joyo', '+62789789123', 0, 'mbah_joyo_imut@ymail.com', 1366677403, 1366677403),
 (10, 1, 'mbah', 'spam', '+6200992873', 0, 'simbah_spamer@gmail.com', 1366692196, 1366692196);
@@ -56,6 +55,49 @@ CREATE TABLE IF NOT EXISTS `config` (
   `config` varchar(30) NOT NULL,
   `value` varchar(30) NOT NULL,
   PRIMARY KEY (`id_config`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `filter`
+--
+
+CREATE TABLE IF NOT EXISTS `filter` (
+  `id_filter` int(11) NOT NULL AUTO_INCREMENT,
+  `id_action` int(11) NOT NULL,
+  `filter_name` varchar(32) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id_filter`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `filter_action`
+--
+
+CREATE TABLE IF NOT EXISTS `filter_action` (
+  `id_action` int(11) NOT NULL,
+  `type` enum('addlabel','api','markread','archive') NOT NULL,
+  `id_label` int(11) NOT NULL,
+  `api_post` text NOT NULL,
+  `api_error_email` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_action`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `filter_detail`
+--
+
+CREATE TABLE IF NOT EXISTS `filter_detail` (
+  `id_filter_detail` int(11) NOT NULL AUTO_INCREMENT,
+  `id_filter` int(11) NOT NULL,
+  `rule` enum('number','messages') NOT NULL,
+  `regex` enum('start_with','=') NOT NULL,
+  PRIMARY KEY (`id_filter_detail`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -109,9 +151,9 @@ CREATE TABLE IF NOT EXISTS `groupname` (
 
 INSERT INTO `groupname` (`id_groupname`, `nama_group`, `color`) VALUES
 (1, 'reseller', 'ffc8af'),
-(2, 'client', 'ff7537'),
-(3, 'pegawai', 'b6cff5'),
-(4, 'simbah', '16a765');
+(2, 'client', '16a765'),
+(3, 'pegawai', 'ebdbde'),
+(4, 'simbah-simbah', 'cca6ac');
 
 -- --------------------------------------------------------
 
@@ -182,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `labelname` (
   `color` varchar(20) NOT NULL,
   `additional` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `labelname`
@@ -192,11 +234,12 @@ INSERT INTO `labelname` (`id_labelname`, `name`, `color`, `additional`) VALUES
 (1, 'inbox', 'b99aff', 0),
 (2, 'sent', 'ffc8af', 0),
 (3, 'outbox', 'ff7537', 0),
-(4, 'trash', 'fc4c2f', 0),
+(4, 'trash', '16a765', 0),
 (5, 'spam', '4986e7', 0),
-(6, 'registrasi', 'fbe983', 1),
+(6, 'registrasi', 'ff7537', 1),
 (7, 'konfirmasi', '16a765', 1),
-(8, 'Pertanyaan', '4986e7', 1);
+(8, 'Pertanyaan', '4986e7', 1),
+(9, 'informasi', '42d692', 1);
 
 -- --------------------------------------------------------
 

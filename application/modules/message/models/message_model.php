@@ -37,16 +37,35 @@ Class message_model extends CI_model{
 	*/
 	
 	
-	public function get_inbox($data=false)
+	public function get_inbox($data=false,$perpage=0,$start=0,$keyword=false)
 	{
 		if(is_array($data))
 		{
 			$this->db->select('id_inbox,number,recive_date,count(id_inbox) as total,content,address_book.id_address_book,read_status,first_name,last_name');
 			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book','right');
+			if($keyword)
+			{
+				$key = array(
+				'inbox.content' => $keyword,
+				'address_book.first_name' => $keyword,
+				'address_book.last_name' => $keyword,
+				'address_book.number' => $keyword,
+				'address_book.email' => $keyword
+				);
+				$this->db->like($key);
+			}
 			$this->db->where_in('id_inbox',$data);
 			$this->db->group_by('address_book.id_address_book');
 			$this->db->order_by('recive_date','desc');
-			$content = $this->db->get('inbox');
+			if($perpage)
+			{
+
+				$content = $this->db->get('inbox',$perpage,$start);
+			}
+			else
+			{
+				$content = $this->db->get('inbox');
+			}
 			if($content->num_rows() > 0)
 			{
 				return $content->result();

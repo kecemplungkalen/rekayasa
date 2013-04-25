@@ -6,6 +6,7 @@ Class Filter extends MX_Controller{
 	{
 		parent::__construct();
 		$this->load->module('message');
+		$this->load->model('Labelname_Model');
 
 	}
 	
@@ -26,7 +27,8 @@ Class Filter extends MX_Controller{
 	
 	public function add_filter_modal()
 	{
-		$this->load->view('modal/filter_modal_add');
+		$data['label'] = $this->Labelname_Model->gets();
+		$this->load->view('modal/filter_modal_coba',$data);
 	}	
 	
 	public function edit_filter_modal()
@@ -34,4 +36,8 @@ Class Filter extends MX_Controller{
 		
 	}
 	
+	public function add_filter()
+	{
+		var_dump($_POST);
+	} 
 }

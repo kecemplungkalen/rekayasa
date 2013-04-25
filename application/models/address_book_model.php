@@ -20,13 +20,32 @@ Class Address_Book_Model extends CI_model{
 		return false;
 	}
 	
-	public function gets()
+	public function gets($perpage=0,$start=0,$keyword=false)
 	{
-		$data = $this->db->get('address_book');
+		if($keyword)
+		{
+			$data = array(
+				'first_name' => $keyword,
+				'last_name' => $keyword,
+				'number' => $keyword
+				);
+			$this->db->or_like($data);
+		}
+		if($perpage)
+		{
+			$data = $this->db->get('address_book',$perpage,$start);
+
+		}
+		else
+		{
+			$data = $this->db->get('address_book');
+		}
 		if($data->num_rows() > 0)
 		{
-			return $data->result();
-		}
+			$result = $data->result();
+			return $result;
+		}else
+		return false;
 	
 	}
 	
@@ -99,23 +118,31 @@ Class Address_Book_Model extends CI_model{
 		return false;
 	}
 	
-	public function search($keyword=false)
+	public function search($keyword=false,$perpage=false,$start=false)
 	{
 		if($keyword)
 		{
 			$data = array(
-			'first_name' => $keyword,
-			'last_name' => $keyword,
-			'number' => $keyword
-			);
+				'first_name' => $keyword,
+				'last_name' => $keyword,
+				'number' => $keyword
+				);
 			$this->db->or_like($data);
-			$res = $this->db->get('address_book');
-			if($res->num_rows() > 0)
+			if($keyword && $perpage)
 			{
-				return $res->result();
+				$res = $this->db->get('address_book',$perpage,$start);			
 			}
-			return false;
+			else
+			{
+				$res = $this->db->get('address_book');
+			}
+				
+				if($res->num_rows() > 0)
+				{
+					return $res->result();
+				}
 		}
+		return false;
 	}
 	
 

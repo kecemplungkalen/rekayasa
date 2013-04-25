@@ -46,11 +46,12 @@
 			
 		});
 		
-		$('form#search_address').submit(function(){
-			$.get('<?php echo base_url();?>address',$('#search_address').serialize(),function(data) {
-				return data;
-			}); 
-
+		$('form#search_address').submit(function(event){
+			event.preventDefault();
+			$.post('<?php echo base_url();?>address',$('#search_address').serialize()+"&reload=1",function(data) {
+				$("#address_data").html(data);
+				applyPagination();
+			});
 		});
 		
 		
@@ -81,8 +82,8 @@
 	</ul>
 	<a class="btn" id="hapus_address"><i class="icon-trash"></i></a>
 </div>
-<form class="form-search pull-right" id="search_address">
-  <input name="keyword" type="text" class="input-medium search-query" placeholder="Search keyword ...	">
+<form class="form-search pull-right" id="search_address" method="post">
+  <input name="keyword" id="keyword" type="text" class="input-medium search-query" placeholder="Search keyword ...	">
   <button type="submit" class="btn">Search</button>
 </form>
 <hr>

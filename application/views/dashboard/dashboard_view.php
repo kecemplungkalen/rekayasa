@@ -1,14 +1,35 @@
-<script>
-	$(document).ready(function(){
-
-		//$('li#inbox').addClass('active');
+<script type="text/javascript">
+	$(function() {
+		applyPagination();
 	});
-
+	
+	function applyPagination() {
+		$(".pagination a").click(function() {
+			var search = $('#keyword').val();
+			var url = $(this).attr("href");
+				$.ajax({
+					type: "POST",
+					data: "ajax=1&reload=1&keyword="+search,
+					url: url,
+					beforeSend: function() {
+							$("#tampil_data").html('');
+					},
+					success: function(msg) {
+						$("#tampil_data").html(msg);
+						//console.log(msg);
+					}
+				});
+			return false;
+		});
+	}
 </script>
+<?php if(!$reload){ ?>
+
           <div class="row-fluid">
             <div class="span12">
-				
-				
+	<div id="tampil_data"> 
+<?php } ?>
+			
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
@@ -58,21 +79,17 @@
 	</tbody>
 </table>
 <div align="center">
-	<div class="pagination">
-		<ul>
-		    <li class="disabled"><a href="#">&laquo;</a></li>
-		    <li class="active"><a href="#">1</a></li>
-		    <li><a href="#">2</a></li>
-		    <li><a href="#">3</a></li>
-		    <li><a href="#">4</a></li>
-		    <li><a href="#">5</a></li>
-		    <li><a href="#">&raquo;</a></li>
-		</ul>	  
-	</div>
+<?php if(isset($paging)){?>
+<?php echo $paging;?>
+<?php }?>
 </div>
 
+<?php if(!$reload){ ?>
+</div>
             </div>
           </div>
         </div>
       </div>
     </div>
+<?php } ?>
+
