@@ -19,6 +19,48 @@
 			
 		});
 		
+		$('#hapus_label').click(function(){
+			var id =  $('.label_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+		
+			$.post('<?php echo base_url();?>label/hapus_label',{id:id},function(){
+				
+					//	location.reload();
+					console.log(id);
+				
+			});
+			
+		});
+		
+		
+		$('#checkall_label').click(function(){
+			
+			var action = 'cek';
+			if($('#checkall_label').attr('checked'))
+			{
+				action = 'uncek';
+				$('#checkall_label').removeAttr('checked');
+
+			}else{
+				$('#checkall_label').attr('checked','checked');
+			}
+			
+			$('.label_list:checkbox').map(function() {
+				if(action == 'cek'){
+					//$("#"+this.id).removeAttr("checked");
+					//$("#"+this.id).attr("checked","checked");
+					//$('.checkbox input[type="checkbox"]').prop('checked', true);
+					$("#"+this.id).prop('checked', true);
+				}else{
+					$("#"+this.id).removeAttr("checked");
+				}
+			});
+		});
+
+		
 	});
 	
 
@@ -26,7 +68,7 @@
 
 <div class="btn-group">
 	<a class="btn" id="label_add">+ <i class="icon-tags"></i></a>
-	<a class="btn"><i class="icon-trash"></i></a>
+	<a class="btn" id="hapus_label"><i class="icon-trash"></i></a>
 </div>
 <form class="form-search pull-right" id="search_label">
   <input type="text" class="input-medium search-query" name="keyword" placeholder="Search keyword ...	">

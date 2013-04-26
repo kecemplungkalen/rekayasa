@@ -5,7 +5,7 @@
 
 		
 		$('#hapus').click(function(){
-			var id =  $('.checkbox:checkbox').map(function() {
+			var id =  $('.groupdata:checkbox').map(function() {
 			if(this.checked){
 			   return this.value;
 			  }
@@ -29,12 +29,12 @@
 			}else{
 				$('#cekall').attr('checked','checked');
 			}
-			console.log(action);
-			$('.checkbox:checkbox').map(function() {
+			$('.groupdata:checkbox').map(function() {
 				if(action == 'cek'){
 					//$("#"+this.id).removeAttr("checked");
 					//$("#"+this.id).attr("checked","checked");
-					$('.checkbox input[type="checkbox"]').prop('checked', true);
+					//$('.checkbox input[type="checkbox"]').prop('checked', true);
+					$("#"+this.id).prop('checked', true);
 				}else{
 					$("#"+this.id).removeAttr("checked");
 				}
@@ -215,6 +215,7 @@
 					<th>Group Name</th>
 					<th>Members</th>
 					<th>Color</th>
+					<th>Action</th>
 				<tr>
 			</thead>
 			<tbody id="tabel_group">
@@ -222,11 +223,12 @@
 				<?php if($group){?>
 				<?php foreach($group as $g) {?>
 				
-				<tr onclick="editgroup('<?php echo $g->id_groupname; ?>')">
-				<td><input class="checkbox" id="id_group_<?php echo $g->id_groupname; ?>" type="checkbox" name="id_group[]" value="<?php echo $g->id_groupname; ?>" ></td>
+				<tr>
+				<td><input class="groupdata" id="id_group_<?php echo $g->id_groupname; ?>" type="checkbox" name="id_group[]" value="<?php echo $g->id_groupname; ?>" ></td>
 				<td> <?php echo $g->nama_group; ?></td>
 				<td><?php echo $g->jml; ?></td>
 				<td><span class="label badge-<?php echo $g->color; ?>">&nbsp;&nbsp;</span></td>
+				<td><a class="btn" onclick="editgroup('<?php echo $g->id_groupname; ?>')"> edit </a></td>
 				</tr>
 				<?php }?>
 				<?php }?>
@@ -347,6 +349,10 @@
 
 		<div class="hide" id="show_edit_group">
 		<legend>Edit Group</legend>
+			<div class="pull-right controls">
+			<button class="btn" onclick="hideedit();" type="button">Batal</button>
+			<button class="btn btn-primary" id="update_group" type="button">Save</button>
+			</div>
 		<form class="form-horizontal" id="form_edit_group">
 			<div class="control-group">
 				<label class="control-label">Group Name</label>
@@ -445,10 +451,6 @@
 			</div>
 			<!-- Colour Option -->
 		</form>		
-			<div class="pull-right controls">
-			<button class="btn" onclick="hideedit();" type="button">Batal</button>
-			<button class="btn btn-primary" id="update_group" type="button">Save</button>
-			</div>
 		</div>
 
 

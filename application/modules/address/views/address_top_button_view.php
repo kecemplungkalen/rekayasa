@@ -28,6 +28,7 @@
 		});
 	}
 	
+
 	
 	$(document).ready(function(){
 		
@@ -38,11 +39,12 @@
 				  }
 			}).get();
 		
-		$.post('<?php echo base_url();?>address/hapus_address',{id:id},function(){
-			
-					location.reload();
-			
-		});
+			$.post('<?php echo base_url();?>address/hapus_address',{id:id},function(){
+				
+						location.reload();
+					//console.log(id);
+				
+			});
 			
 		});
 		
@@ -55,7 +57,42 @@
 		});
 		
 		
+		$('#nama_group').click(function() {
+			var $this = $(this);   
+			if ($this.is(':checked')) {
+				alert('ceked');
+			} else {
+				alert('uncek');
+			}
+		});
 		
+		$('.dropdown-menu a#nama_group').click(function(e) {
+		  e.stopPropagation();
+		});
+		
+		$('#checkall_address').click(function(){
+			
+			var action = 'cek';
+			if($('#checkall_address').attr('checked'))
+			{
+				action = 'uncek';
+				$('#checkall_address').removeAttr('checked');
+
+			}else{
+				$('#checkall_address').attr('checked','checked');
+			}
+			
+			$('.address_list:checkbox').map(function() {
+				if(action == 'cek'){
+					//$("#"+this.id).removeAttr("checked");
+					//$("#"+this.id).attr("checked","checked");
+					//$('.checkbox input[type="checkbox"]').prop('checked', true);
+					$("#"+this.id).prop('checked', true);
+				}else{
+					$("#"+this.id).removeAttr("checked");
+				}
+			});
+		});
 		
 	});
 
@@ -67,8 +104,8 @@
 	<ul class="dropdown-menu">
 		<?php if(isset($data)) {?>
 		<?php foreach($data as $dt) {?>
-		<li>
-			<a href=""><input type="checkbox"  value="<?php echo $dt->id_groupname; ?>" >&nbsp;&nbsp;<span class="label badge-<?php echo $dt->color ;?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $dt->nama_group; ?></a>
+		<li >
+			<a ><input id="nama_group" type="checkbox" id="<?php echo $dt->id_groupname; ?>" value="<?php echo $dt->id_groupname; ?>" >&nbsp;&nbsp;<span class="label badge-<?php echo $dt->color ;?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $dt->nama_group; ?></a>
 		</li>
 		<?php } ?>
 		<?php } ?>

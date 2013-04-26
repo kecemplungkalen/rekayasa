@@ -29,53 +29,25 @@
 	</thead>
     <tbody>
 	<?php if(isset($data)){ ?>
-	<?php foreach($data as $dt){?>
+	<?php for($i=0;$i < count($data);$i++) {?>
 		<tr>
 			<td>
-				<a href="#" onclick="edit_label('<?php echo $dt->id_labelname; ?>');"><?php echo $dt->name;?></a>
+				<input type="checkbox" value="<?php echo $data[$i]['id_labelname']; ?>" > 
 			</td>
 			<td>
-				<a href="#" onclick="edit_label('<?php echo $dt->id_labelname; ?>');"><span class="label badge-<?php echo $dt->color;?>">&nbsp;&nbsp;</span></a>
-			<td>
-				No filter
-			</td>
-        	<td>
-				19 Mei 1979<br>
-				<small>02.00PM</small>
-			</td>			
-		</tr>
-	<?php }?>
-	<?php }?>
-	<!--	
-		<tr>
-			<td>
-				<a href="#editsystemlabel" data-toggle="modal">INBOX</a>
+				<a href="#" onclick="edit_label('<?php echo $data[$i]['id_labelname']; ?>')"><?php echo $data[$i]['name']; ?></a>
 			</td>
 			<td>
-				<a href="#editsystemlabel" data-toggle="modal"><span class="label badge-b6cff5">&nbsp;&nbsp;</span></a>
-			<td>
-				No filter
-			</td>
-        	<td>
-				19 Mei 1979<br>
-				<small>02.00PM</small>
-			</td>			
-		</tr>
-		<tr>
-			<td>
-				<a href="#editsystemlabel" data-toggle="modal">Sent</a>
-			</td>
-			<td>
-				<a href="#editsystemlabel" data-toggle="modal"><span class="label badge-b6cff5">&nbsp;&nbsp;</span></a>
+				<a href="#" onclick="edit_label('<?php echo $data[$i]['id_labelname']; ?>')"><span class="label badge-<?php echo $data[$i]['color']; ?>">&nbsp;&nbsp;</span></a>
 			<td>
 				Nama Filter
 			</td>
         	<td>
-				19 Mei 1979<br>
-				<small>02.00PM</small>
+				<?php if($data[$i]['last_recive']){ echo date('d F Y h:i a',$data[$i]['last_recive']->recive_date); } else{ echo 'No Data'; } ?>
 			</td>			
 		</tr>
-		-->
+	<?php } ?>
+	<?php } ?>
 	</tbody>
 </table>
 <?php //include("label-system-modal-edit.php"); ?>

@@ -13,6 +13,7 @@
 					url: url,
 					beforeSend: function() {
 							$("#tampil_data").html('');
+
 					},
 					success: function(msg) {
 						$("#tampil_data").html(msg);
@@ -21,19 +22,26 @@
 				});
 			return false;
 		});
+
 	}
+	
+
+	
+
+
 </script>
+
 <?php if(!$reload){ ?>
 
           <div class="row-fluid">
             <div class="span12">
 	<div id="tampil_data"> 
 <?php } ?>
-			
+
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th><input type="checkbox"></th>
+			<th><input id="checkall_pesan" type="checkbox"></th>
 			<th>From</th>
 			<th>Date</th>
 			<th>Content</th>
@@ -45,7 +53,7 @@
 		<?php for($i=0;$i< count($data);$i++) { ?>
 		<tr>
 			<td>
-				<input type="checkbox"> 
+				<input class="pesan_list" type="checkbox" id="<?php echo $data[$i]['id_inbox']; ?>" value="<?php echo $data[$i]['id_inbox']; ?>"> 
 			</td>
 			<td>
 				<a href="#">
@@ -68,7 +76,7 @@
 				<?php $label = $data[$i]['label']; ?>
 				<?php if($label){ ?>
 				<?php for($j=0;$j< count($label);$j++){ ?>
-				<a href="<?php echo base_url();?>message/<?php echo $label[$j]['name']; ?>"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small><?php echo $label[$j]['name']; ?></small></span></a><a href="removetag"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small>x</small></span></a><br>
+				<a href="<?php echo base_url();?>message/<?php echo $label[$j]['name']; ?>"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small><?php echo $label[$j]['name']; ?></small></span></a><a href="#remove_label" class="remove_label" data-value="<?php echo $label[$j]['id_label']; ?>"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small>x</small></span></a><br>
 				<?php } ?>
 				<?php } ?>
 			</td>

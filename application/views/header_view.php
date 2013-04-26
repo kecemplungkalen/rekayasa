@@ -13,5 +13,34 @@
     <script src="<?php echo base_url(); ?>include/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>include/js/jquery.validate.min.js"></script>
   </head>
-  
+
 <body>
+
+  <script type="text/javascript">
+	$(document).ajaxStart(function() {
+		$('#prog').modal('show');
+	});
+
+	$(document).ajaxStop( function() {
+		$('#prog').modal('hide');
+
+	});
+	
+	$(window).load(function() {
+		$('#prog').modal('hide');
+	});
+
+	</script>
+  <style type="text/css">
+	  #prog {
+		outline: none;
+		position: absolute;
+		margin-top: 0;
+		top: 50%;
+		overflow: visible;
+		#z-index : 99999;
+		}
+  </style>
+<div id="prog" class="modal hide fade progress progress-striped active" >
+<div class="bar" style="width: 100%;"></div>
+</div>

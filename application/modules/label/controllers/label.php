@@ -7,6 +7,7 @@ Class Label extends MX_Controller{
 		parent::__construct();
 		$this->load->module('message');
 		$this->load->model('Labelname_Model');
+		$this->load->model('Label_List_Model');
 	}
 	
 	public function index()
@@ -43,7 +44,25 @@ Class Label extends MX_Controller{
 			$this->load->view('label_top_button_view');
 			//$this->load->view('modal/label_modal_edit');
 
-			$data['data'] = $this->Labelname_Model->get_add();
+			
+			$label_list = $this->Labelname_Model->get_add();
+			
+			if($label_list)
+			{
+				$tmp = false;
+				$temp =false;
+
+				foreach($label_list as $llist)
+				{
+					$temp['id_labelname'] = $llist->id_labelname;
+					$temp['color'] = $llist->color;
+					$temp['last_recive'] = $this->Label_List_Model->get_last_message($llist->id_labelname,1);
+					$temp['name'] = $llist->name;
+					$tmp[] = $temp;
+				}
+				$data['data'] = $tmp;
+
+			}
 			$this->load->view('additional_label_view',$data);
 			$this->load->view('footer_view');
 
@@ -60,8 +79,23 @@ Class Label extends MX_Controller{
 		$this->load->view('sidebar_view',$side);
 		$this->load->view('label_system_top_button_view');
 		//$this->load->view('modal/label_system_modal_edit');
-		
-		$data['data'] = $this->Labelname_Model->gets_system_label();
+		$label_list = $this->Labelname_Model->gets_system_label();
+		if($label_list)
+		{
+			$tmp = false;
+			$temp =false;
+
+			foreach($label_list as $llist)
+			{
+				$temp['id_labelname'] = $llist->id_labelname;
+				$temp['color'] = $llist->color;
+				$temp['last_recive'] = $this->Label_List_Model->get_last_message($llist->id_labelname);
+				$temp['name'] = $llist->name;
+				$tmp[] = $temp;
+			}
+			$data['data'] = $tmp;
+
+		}
 		$this->load->view('system_label_view',$data);
 		$this->load->view('footer_view');
 		
@@ -185,7 +219,17 @@ Class Label extends MX_Controller{
 		return false;
 	}
 	
-	
+	public function hapus_label()
+	{
+		$id_labelname = $this->input->post('id');
+		if($id_labelname)
+		{
+			for($i=0;$i < count($id_labelname);$i++)
+			{
+				$this->Labelname_Model->delete($id_labelname[$i]);
+			}
+		}
+	}
 	
 }
 

@@ -61,5 +61,18 @@ Class inbox_model extends CI_model{
 		return false;
 	}
 	
+	public function delete($id_inbox=false)
+	{
+		if($id_inbox)
+		{
+			$this->db->where('id_inbox',$id_inbox);
+			$delete = $this->db->delete('inbox');
+			if($delete)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

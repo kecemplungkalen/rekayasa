@@ -114,7 +114,10 @@ Class Address extends MX_Controller{
 						foreach($group as $g)
 						{
 							$detail = $this->Groupname_Model->get($g->id_groupname);
-							$rem[] = $detail->nama_group;
+							if($detail)
+							{
+								$rem[] = $detail->nama_group;
+							}
 						}
 
 						$temp['group'] = $rem;

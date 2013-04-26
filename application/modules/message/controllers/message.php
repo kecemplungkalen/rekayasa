@@ -9,6 +9,7 @@ Class Message extends MX_Controller{
 		$this->load->model('message_model');
 		$this->load->model('label_model');
 		$this->load->model('Labelname_Model');
+		$this->load->model('inbox_model');
 	}
 	
 	public function index($label=false,$start=0)
@@ -144,7 +145,7 @@ Class Message extends MX_Controller{
 					}
 					
 				}
-			$data_total = $this->message_model->get_inbox($id_inbox);
+				$data_total = $this->message_model->get_inbox($id_inbox);
 				if($data_total)
 				{
 					$total = count($data_total);
@@ -222,8 +223,12 @@ Class Message extends MX_Controller{
 		}
 		return $b;
 	}
+	
+	
 
 	
+	
+
 	
 }
 

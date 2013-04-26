@@ -23,7 +23,7 @@
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th><input type="checkbox"></th>
+			<th><input type="checkbox" id="checkall_label"></th>
 			<th>Label</th>
 			<th>Colour</th>
 			<th>Filter</th>
@@ -32,62 +32,26 @@
 	</thead>
     <tbody>
 	<?php if(isset($data)){ ?>
-	<?php foreach($data as $dt) {?>
+	<?php for($i=0;$i < count($data);$i++) {?>
 		<tr>
 			<td>
-				<input type="checkbox" value="<?php echo $dt->id_labelname; ?>" > 
+				<input class="label_list" type="checkbox" value="<?php echo $data[$i]['id_labelname']; ?>" id="<?php echo $data[$i]['id_labelname']; ?>" > 
 			</td>
 			<td>
-				<a href="#" onclick="show_edit('<?php echo $dt->id_labelname; ?>')"><?php echo $dt->name; ?></a>
+				<a href="#" onclick="show_edit('<?php echo $data[$i]['id_labelname']; ?>')"><?php echo $data[$i]['name']; ?></a>
 			</td>
 			<td>
-				<a href="#" onclick="show_edit('<?php echo $dt->id_labelname; ?>')"><span class="label badge-<?php echo $dt->color; ?>">&nbsp;&nbsp;</span></a>
+				<a href="#" onclick="show_edit('<?php echo $data[$i]['id_labelname']; ?>')"><span class="label badge-<?php echo $data[$i]['color']; ?>">&nbsp;&nbsp;</span></a>
 			<td>
 				Nama Filter
 			</td>
         	<td>
-				19 Mei 1979<br>
-				<small>02.00PM</small>
+				<?php if($data[$i]['last_recive']){ echo date('d F Y h:i a',$data[$i]['last_recive']->recive_date); } else{ echo 'No Data'; } ?>
 			</td>			
 		</tr>
 	<?php } ?>
 	<?php } ?>
-	<!--
-		<tr>
-			<td>
-				<input type="checkbox"> 
-			</td>
-			<td>
-				<a href="#editlabel" data-toggle="modal">Konfirmasi</a>
-			</td>
-			<td>
-				<a href="#editlabel" data-toggle="modal"><span class="label badge-b6cff5">&nbsp;&nbsp;</span></a>
-			<td>
-				Nama Filter
-			</td>
-        	<td>
-				19 Mei 1979<br>
-				<small>02.00PM</small>
-			</td>			
-		</tr>
-		<tr>
-			<td>
-				<input type="checkbox"> 
-			</td>
-			<td>
-				<a href="#editlabel" data-toggle="modal">TekonTekon</a>
-			</td>
-			<td>
-				<a href="#editlabel" data-toggle="modal"><span class="label badge-e3d7ff">&nbsp;&nbsp;</span></a>
-			<td>
-				No related filter
-			</td>
-        	<td>
-				19 Mei 1979<br>
-				<small>02.00PM</small>
-			</td>			
-		</tr>
-		-->
+
 	</tbody>
 </table>
 <div align="center">

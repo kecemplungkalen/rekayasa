@@ -64,11 +64,40 @@ Class label_model extends CI_model{
 		{
 			$this->db->where('label.id_labelname',$id_labelname);
 			$this->db->where('inbox.read_status','0');
-			$this->db->join('label','label.id_inbox=inbox.id_inbox','left');
+			$this->db->join('label','label.id_inbox=inbox.id_inbox','right');
 			$count = $this->db->count_all_results('inbox');
 			if($count)
 			{
 				return $count;
+			}
+		}
+		return false;
+	}
+	
+	public function add($id_inbox=false,$id_labelname=false)
+	{
+		if($id_inbox && $id_labelname)
+		{
+			$data = array('id_inbox' => $id_inbox,'id_labelname' => $id_labelname);
+			$this->db->insert('label',$data);
+			$insert_id = $this->db->insert_id();
+			if($insert_id)
+			{
+				return $insert_id;
+			}
+		}
+		return false;
+	}
+	
+	public function delete($id_label=false)
+	{
+		if($id_label)
+		{
+			$this->db->where('id_label',$id_label);
+			$delete = $this->db->delete('label');
+			if($delete)
+			{
+				return $id_label;
 			}
 		}
 		return false;

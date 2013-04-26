@@ -182,4 +182,17 @@ Class Labelname_Model extends CI_model{
 		return false;
 	}
 	
+	public function delete($id_labelname=false)
+	{
+		if($id_labelname)
+		{
+			$this->db->where('id_labelname',$id_labelname);
+			$delete = $this->db->delete('labelname');
+			if($delete)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }

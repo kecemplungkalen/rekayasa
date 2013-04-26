@@ -11,7 +11,7 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span3">
-<a class="btn btn-large btn-success btn-block" href="#">COMPOSE</a>
+<a class="btn btn-large btn-success btn-block" >COMPOSE</a>
 <ul class="nav  nav-pills nav-stacked">
 	<?php if(isset($baku)){ ?>
 	<?php for($i=0;$i<count($baku);$i++) {?>

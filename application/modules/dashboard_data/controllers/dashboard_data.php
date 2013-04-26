@@ -8,37 +8,53 @@ Class Dashboard_data extends MX_Controller{
 		
 		$this->load->model('inbox_model');
 		$this->load->model('address_book_model');
+		$this->load->model('label_model');
 	}
 	
 	
 	
-	public function get_data_inbox()
+	public function hapus_message()
 	{
-		$data_number = false;
-		$c = 1;
-		$number = false;
-		$number1 = false;
-		
-		$data_inbox = $this->inbox_model->gets();
-		if($data_inbox)
+		$id_inbox = $this->input->post('id');
+		if($id_inbox)
 		{
-			//var_dump($data_inbox);
-			
-			foreach($data_inbox as $di)
+			for($i=0;$i < count($id_inbox); $i++)
 			{
-
-				$data_book = $this->address_book_model->get_where('id_address_book',$di->id_address_book);
-				if($data_book)
-				{
-					$number1[] = $data_book->number;
-				}
+				$this->inbox_model->delete($id_inbox[$i]);
 			}
-			$jumlah_num = array_count_values($number1);
-
-			var_dump($jumlah_num);
-
 		}
-
+	}
+	
+	public function apply_label()
+	{
+		$id_labelname = $this->input->post('id_label');
+		$id_pesan = $this->input->post('id_pesan');
+		//var_dump($_POST);
+		for($i=0;$i < count($id_pesan);$i++)
+		{
+			for($j=0;$j < count($id_labelname);$j++)
+			{
+				$data[] = $this->label_model->add($id_pesan[$i],$id_labelname[$j]);
+			}
+		}
+		echo $data;
+		//var_dump($id_pesan);
+		
+	}
+	
+	public function hapus_label()
+	{
+		$id_label = $this->input->post('id_label');
+		if($id_label)
+		{
+			$delete = $this->label_model->delete($id_label);
+			if($delete)
+			{
+				echo $delete;
+			}
+			else
+			return false;
+		}
 	}
 
 }
