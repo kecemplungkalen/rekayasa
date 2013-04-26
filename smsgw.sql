@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 25, 2013 at 10:29 AM
+-- Generation Time: Apr 26, 2013 at 01:44 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -170,19 +170,17 @@ CREATE TABLE IF NOT EXISTS `inbox` (
   `read_status` tinyint(1) NOT NULL,
   `last_update` int(11) NOT NULL,
   PRIMARY KEY (`id_inbox`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `inbox`
 --
 
 INSERT INTO `inbox` (`id_inbox`, `id_user`, `id_address_book`, `recive_date`, `content`, `read_status`, `last_update`) VALUES
-(1, 1, 1, 1366263728, 'reg primbon jum''at legi 1366263728', 0, 1366263728),
-(2, 1, 1, 1366293759, 'reg status jum''at legi 1366263728', 0, 1366263724),
 (3, 1, 2, 1366363799, 'reg rasta sabtu legi 1366263728', 0, 1366263928),
-(4, 1, 2, 1366691039, 'rumah web ya?', 0, 1366691039),
 (5, 1, 8, 1366691039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366691039),
-(6, 1, 10, 1366991039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366991039);
+(7, 1, 1, 1366691039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366691039),
+(9, 1, 1, 1366691039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366691039);
 
 -- --------------------------------------------------------
 
@@ -194,23 +192,21 @@ CREATE TABLE IF NOT EXISTS `label` (
   `id_label` int(11) NOT NULL AUTO_INCREMENT,
   `id_inbox` int(11) NOT NULL,
   `id_labelname` int(11) NOT NULL,
-  PRIMARY KEY (`id_label`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+  PRIMARY KEY (`id_label`),
+  KEY `id_inbox` (`id_inbox`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `label`
 --
 
 INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
-(1, 1, 1),
-(2, 2, 1),
 (3, 3, 1),
-(4, 1, 6),
 (5, 3, 7),
-(6, 2, 7),
-(7, 4, 1),
 (8, 5, 1),
-(9, 6, 5);
+(10, 7, 1),
+(13, 9, 1),
+(14, 9, 1);
 
 -- --------------------------------------------------------
 
@@ -299,3 +295,13 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `first_name`, `last_name`, `status`, `create_date`, `last_update`) VALUES
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'sms', 1, 1366262306, 1366262306);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `label`
+--
+ALTER TABLE `label`
+  ADD CONSTRAINT `label_ibfk_1` FOREIGN KEY (`id_inbox`) REFERENCES `inbox` (`id_inbox`) ON DELETE CASCADE ON UPDATE CASCADE;

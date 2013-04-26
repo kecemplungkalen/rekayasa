@@ -41,7 +41,7 @@ Class message_model extends CI_model{
 	{
 		if(is_array($data))
 		{
-			$this->db->select('id_inbox,number,recive_date,count(id_inbox) as total,content,address_book.id_address_book,read_status,first_name,last_name');
+			$this->db->select('inbox.id_inbox,number,recive_date,count(inbox.id_inbox) as total,content,address_book.id_address_book,read_status,first_name,last_name');
 			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book','right');
 			if($keyword)
 			{

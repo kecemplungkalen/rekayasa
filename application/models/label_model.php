@@ -62,11 +62,10 @@ Class label_model extends CI_model{
 	{
 		if($id_labelname)
 		{
-			$this->db->join('inbox','inbox.id_inbox=label.id_inbox');
 			$this->db->where('label.id_labelname',$id_labelname);
 			$this->db->where('inbox.read_status','0');
-			//$count = $this->db->get('label');
-			$count = $this->db->count_all_results('label');
+			$this->db->join('label','label.id_inbox=inbox.id_inbox','left');
+			$count = $this->db->count_all_results('inbox');
 			if($count)
 			{
 				return $count;
