@@ -16,7 +16,7 @@
 
 <body>
 
-  <script type="text/javascript">
+<script type="text/javascript">
 	$(document).ajaxStart(function() {
 		$('#prog').modal('show');
 	});
@@ -30,7 +30,32 @@
 		$('#prog').modal('hide');
 	});
 
-	</script>
+	$(function() {
+		applyPagination();
+	});
+	
+	function applyPagination() {
+		$(".pagination a").click(function() {
+			var search = $('#keyword').val();
+			var url = $(this).attr("href");
+				$.ajax({
+					type: "POST",
+					data: "ajax=1&reload=1&keyword="+search,
+					url: url,
+					beforeSend: function() {
+							$("#tampil_data").html('');
+
+					},
+					success: function(msg) {
+							$("#tampil_data").html(msg);
+					}
+				});
+			return false;
+		});
+
+	}
+		
+</script>
   <style type="text/css">
 	  #prog {
 		outline: none;

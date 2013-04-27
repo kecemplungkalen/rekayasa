@@ -1,36 +1,3 @@
-<script type="text/javascript">
-	$(function() {
-		applyPagination();
-	});
-	
-	function applyPagination() {
-		$(".pagination a").click(function() {
-			var search = $('#keyword').val();
-			var url = $(this).attr("href");
-				$.ajax({
-					type: "POST",
-					data: "ajax=1&reload=1&keyword="+search,
-					url: url,
-					beforeSend: function() {
-							$("#tampil_data").html('');
-
-					},
-					success: function(msg) {
-						$("#tampil_data").html(msg);
-						//console.log(msg);
-					}
-				});
-			return false;
-		});
-
-	}
-	
-
-	
-
-
-</script>
-
 <?php if(!$reload){ ?>
 
           <div class="row-fluid">

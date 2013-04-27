@@ -10,65 +10,75 @@ Class Label extends MX_Controller{
 		$this->load->model('Label_List_Model');
 	}
 	
-	public function index()
+	public function index($start=0)
 	{
-		$keyword = $this->input->get('keyword');
+		$reload =false;
+		if($this->input->post('reload')){
+			$reload=true;
+		}
+		$data['reload'] = $reload;
+		
+
+		if(!$data['reload']){
+		$side['baku'] = $this->message->sidebar_baku();
+		$side['add'] =  $this->message->sidebar_adt();
+		$this->load->view('header_view');
+		$this->load->view('navbar_view');
+		$this->load->view('sidebar_view',$side);
+		$this->load->view('label_top_button_view');
+		}
+
+		# define search key value
+		$keyword = false;
+		if($this->input->post('keyword')){
+			if($this->input->post('keyword') != ''){
+				$keyword = $this->input->post('keyword');
+			}
+		}
+		$perpage = 5 ;
+				
+		$data['data'] = $this->data_label($perpage,$start,$keyword);
+		//reload
+		
+		//total row 
 		if($keyword)
 		{
-			$side['baku'] = $this->message->sidebar_baku();
-			$side['add'] =  $this->message->sidebar_adt();
-			$this->load->view('header_view');
-			$this->load->view('navbar_view');
-			$this->load->view('sidebar_view',$side);
-			$this->load->view('label_top_button_view');
-			//$this->load->view('modal/label_modal_edit');
-
-			//$data['data'] = $this->Labelname_Model->get_add();
-			$result = $this->search_label($keyword);
-			if($result)
-			{
-				$data['data'] = $result;
-			}else
-			{
-				$data['data']  = 'data tidak ditemukan';
-			}
-			$this->load->view('additional_label_view',$data);
-			$this->load->view('footer_view');
-		}else
-		{
-			$side['baku'] = $this->message->sidebar_baku();
-			$side['add'] =  $this->message->sidebar_adt();
-			$this->load->view('header_view');
-			$this->load->view('navbar_view');
-			$this->load->view('sidebar_view',$side);
-			$this->load->view('label_top_button_view');
-			//$this->load->view('modal/label_modal_edit');
-
-			
-			$label_list = $this->Labelname_Model->get_add();
-			
-			if($label_list)
-			{
-				$tmp = false;
-				$temp =false;
-
-				foreach($label_list as $llist)
-				{
-					$temp['id_labelname'] = $llist->id_labelname;
-					$temp['color'] = $llist->color;
-					$temp['last_recive'] = $this->Label_List_Model->get_last_message($llist->id_labelname,1);
-					$temp['name'] = $llist->name;
-					$tmp[] = $temp;
-				}
-				$data['data'] = $tmp;
-
-			}
-			$this->load->view('additional_label_view',$data);
-			$this->load->view('footer_view');
-
+			$total = $this->Labelname_Model->get_add($perpage=false,$start=false,$keyword);
 		}
+		else
+		{
+			$total = $this->Labelname_Model->get_add();
+		}
+		$data['paging'] = $this->paging(count($total),$perpage);
+		$this->load->view('additional_label_view',$data);
 		
+		if(!$data['reload']){
+			$this->load->view('footer_view');
+		}
 	}	
+
+	function data_label($perpage=false,$start=false,$keyword=false)
+	{
+		$tmp = false;
+		$temp =false;
+
+		$label_list = $this->Labelname_Model->get_add($perpage,$start,$keyword);
+		if($label_list)
+		{
+	
+			foreach($label_list as $llist)
+			{
+				$temp['id_labelname'] = $llist->id_labelname;
+				$temp['color'] = $llist->color;
+				$temp['last_recive'] = $this->Label_List_Model->get_last_message($llist->id_labelname,1);
+				$temp['name'] = $llist->name;
+				$tmp[] = $temp;
+			}
+			$data['data'] = $tmp;
+		}
+		return $tmp;
+	}
+
 	public function system()
 	{
 		$side['baku'] = $this->message->sidebar_baku();
@@ -101,6 +111,20 @@ Class Label extends MX_Controller{
 		
 		
 	}	
+	
+	
+	function paging($total_rows=false,$perpage=false)
+	{
+		$this->load->library('pagination');
+		$config['base_url'] = base_url().'label/index/';
+		$config['per_page'] = $perpage;
+		$config['total_rows'] = $total_rows;
+		$config['uri_segment'] = $this->uri->total_segments();
+		$this->pagination->initialize($config); 
+		return $this->pagination->create_links();
+
+	}
+	
 	
 	public function edit_system_label($id_labelname=false)
 	{
@@ -206,18 +230,6 @@ Class Label extends MX_Controller{
 		}
 	}
 	
-	function search_label($keyword=false)
-	{
-		if($keyword)
-		{
-			$res = $this->Labelname_Model->cari($keyword);
-			if($res)
-			{
-				return $res;
-			}
-		}
-		return false;
-	}
 	
 	public function hapus_label()
 	{

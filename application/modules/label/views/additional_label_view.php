@@ -1,3 +1,5 @@
+<?php if(!$reload){ ?>
+
 <script>
 
 	function show_edit(id_labelname)
@@ -20,6 +22,11 @@
 				
 
 <legend>Additional Labels</legend>
+<div id="tampil_data">
+
+<?php } ?>
+
+
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
@@ -55,22 +62,15 @@
 	</tbody>
 </table>
 <div align="center">
-	<div class="pagination">
-	  <ul>
-	    <li class="disabled"><a href="#">&laquo;</a></li>
-	    <li class="active"><a href="#">1</a></li>
-	    <li><a href="#">2</a></li>
-	    <li><a href="#">3</a></li>
-	    <li><a href="#">4</a></li>
-	    <li><a href="#">5</a></li>
-	    <li><a href="#">&raquo;</a></li>
-	  </ul>
-	</div>
+<?php if(isset($paging)){ echo $paging;}?>
 </div>
-<?php //include("label-modal-edit.php"); ?>
 
+
+<?php if(!$reload){ ?>
+</div>
             </div>
           </div>
         </div>
       </div>
     </div>
+<?php } ?>

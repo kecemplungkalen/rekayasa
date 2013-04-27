@@ -35,11 +35,23 @@ Class Labelname_Model extends CI_model{
 		return false;
 	}
 	
-	public function get_add()
+	public function get_add($perpage=0,$start=0,$keyword=false)
 	{
 		//$this->db->join('label');
 		$this->db->where('additional','1');
-		$label = $this->db->get('labelname');
+		if($keyword)
+		{
+			$key = array('name' => $keyword);
+			$this->db->like($key);
+		}
+		if($perpage)
+		{
+			$label = $this->db->get('labelname',$perpage,$start);
+		}
+		else
+		{
+			$label = $this->db->get('labelname');
+		}
 		if($label->num_rows() > 0 )
 		{
 			return $label->result();

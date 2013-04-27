@@ -22,17 +22,7 @@ Class Message extends MX_Controller{
 			$reload=true;
 		}
 		
-		$view['reload'] = $reload;
-		
-		# define search key value
-		$keyword = false;
-		if($this->input->post('keyword'))
-		{
-			if($this->input->post('keyword') != ''){
-				$keyword = $this->input->post('keyword');
-			}
-		}
-		
+		$view['reload'] = $reload;	
 		if(!$view['reload'])
 		{
 			$top['list_label'] = $this->Labelname_Model->get_add();
@@ -45,11 +35,20 @@ Class Message extends MX_Controller{
 			$this->load->view('inbox/top_button_view',$top);
 		}
 		
+		
+		# define search key value
+		$keyword = false;
+		if($this->input->post('keyword'))
+		{
+			if($this->input->post('keyword') != ''){
+				$keyword = $this->input->post('keyword');
+			}
+		}
 		//seting coba data perpage pagina
+		
 		$perpage = 10;
-		$keyword = $this->input->post('keyword');
-
 		$isi = $this->tampil_data($label,$perpage,$start,$keyword);
+		
 		if($isi['remap'])
 		{
 			$view['data'] = $isi['remap'];
@@ -105,7 +104,6 @@ Class Message extends MX_Controller{
 				{
 					$id_inbox[] = $di->id_inbox;
 				}
-				
 				$data = $this->message_model->get_inbox($id_inbox,$jumlah,$mulai,$keyword);
 				if($data)
 				{
@@ -145,11 +143,25 @@ Class Message extends MX_Controller{
 					}
 					
 				}
-				$data_total = $this->message_model->get_inbox($id_inbox);
+				
+				
+				
+				
+				
+				
+				if($keyword)
+				{
+					$data_total = $this->message_model->get_inbox($id_inbox,0,0,$keyword);
+				}
+				else
+				{
+					$data_total = $this->message_model->get_inbox($id_inbox);
+				}
 				if($data_total)
 				{
 					$total = count($data_total);
 				}
+
 			}
 			$has = array('remap' => $remap,'total' => $total);
 			return $has;
@@ -161,27 +173,14 @@ Class Message extends MX_Controller{
 	
 	
 	
-	public function search()
-	{
-		$keyword = $this->input->post('keyword');
-		$label = $this->input->post('label');
-		$data = $this->message_model->get_inbox();
-		
-	}
-	
-	
-	
-	
-	
-	
-	
 	
 	public function sidebar_adt()
 	{
+		$tem=false;
 		$addt = $this->Labelname_Model->get_add();
 		if($addt)
 		{
-			$tem=false;
+
 			foreach($addt as $adt)
 			{
 				$count = $this->label_model->count_unread($adt->id_labelname);

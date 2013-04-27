@@ -156,7 +156,7 @@
 </div>
 <form class="form-search pull-right" id="search">
   <input type="hidden" name="label" value="<?php if($label){ echo $label; } ?>">
-  <input type="text" name="keyword" class="input-medium search-query" placeholder="Search keyword ...	">
+  <input type="text" name="keyword" id="keyword" class="input-medium search-query" placeholder="Search keyword ...	">
   <button type="submit" class="btn">Search</button>
 </form>
 <hr>

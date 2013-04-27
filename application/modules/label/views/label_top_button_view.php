@@ -2,12 +2,14 @@
 	
 	$(document).ready(function(){
 		
-		$('form#search_label').submit(function(){
-			$.get('<?php echo base_url();?>label',$('#search_label').serialize(),function(data) {
-				return data;
-			}); 
-
+		$('#search').submit(function(event){
+			event.preventDefault();
+			$.post('<?php echo base_url();?>label',$('#search').serialize()+"&reload=1",function(data) {
+				$("#tampil_data").html(data);
+				applyPagination();
+			});
 		});
+		
 		
 		$('#label_add').click(function(){
 			
@@ -28,8 +30,8 @@
 		
 			$.post('<?php echo base_url();?>label/hapus_label',{id:id},function(){
 				
-					//	location.reload();
-					console.log(id);
+						location.reload();
+					//console.log(id);
 				
 			});
 			
@@ -50,9 +52,6 @@
 			
 			$('.label_list:checkbox').map(function() {
 				if(action == 'cek'){
-					//$("#"+this.id).removeAttr("checked");
-					//$("#"+this.id).attr("checked","checked");
-					//$('.checkbox input[type="checkbox"]').prop('checked', true);
 					$("#"+this.id).prop('checked', true);
 				}else{
 					$("#"+this.id).removeAttr("checked");
@@ -70,8 +69,8 @@
 	<a class="btn" id="label_add">+ <i class="icon-tags"></i></a>
 	<a class="btn" id="hapus_label"><i class="icon-trash"></i></a>
 </div>
-<form class="form-search pull-right" id="search_label">
-  <input type="text" class="input-medium search-query" name="keyword" placeholder="Search keyword ...	">
+<form class="form-search pull-right" id="search">
+  <input type="text" class="input-medium search-query" name="keyword" id="keyword" placeholder="Search keyword ...	">
   <button type="submit" class="btn">Search</button>
 </form>
 <hr>
