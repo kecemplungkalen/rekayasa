@@ -66,7 +66,7 @@
 			}
 		});
 		
-		$('.dropdown-menu a#nama_group').click(function(e) {
+		$('.dropdown-menu a#cebox').click(function(e) {
 		  e.stopPropagation();
 		});
 		
@@ -105,7 +105,7 @@
 		<?php if(isset($data)) {?>
 		<?php foreach($data as $dt) {?>
 		<li >
-			<a ><input id="nama_group" type="checkbox" id="<?php echo $dt->id_groupname; ?>" value="<?php echo $dt->id_groupname; ?>" >&nbsp;&nbsp;<span class="label badge-<?php echo $dt->color ;?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $dt->nama_group; ?></a>
+			<a id="cebox"><input id="nama_group" type="checkbox" id="<?php echo $dt->id_groupname; ?>" value="<?php echo $dt->id_groupname; ?>" >&nbsp;&nbsp;<span class="label badge-<?php echo $dt->color ;?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $dt->nama_group; ?></a>
 		</li>
 		<?php } ?>
 		<?php } ?>
