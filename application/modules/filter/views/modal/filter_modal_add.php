@@ -103,35 +103,7 @@
 				</div>
 			</div>
 			<div id="tambah"></div>
-			<!--
-			<div class="control-group">
-				<div class="controls">
-					<select class="input-medium">
-						<option>Number</option>
-						<option>Messages</option>
-						<option>1st word</option>
-						<option>2nd word</option>
-						<option>3rd word</option>
-						<option>4th word</option>
-						<option>5th word</option>
-					</select>
-					<select class="input-small">
-						<option>Regex</option>
-						<option>=</option>
-						<option>Start with</option>
-						<option>Type</option>
-					</select>
-					<select class="input-medium">
-						<option>Cuma kalau type</option>
-						<option>numeric only</option>
-						<option>alphabet only</option>
-						<option>alphanumeric</option>
-					</select>
-					<input type="text" class="input-large">
-					Additional rule: <input type="radio" name="radio3"> AND <input type="radio" name="radio3"> OR <input type="radio" name="radio3" checked> none
-				</div>
-			</div>
-			-->
+
 			
 			<legend>Action</legend>
 			<div class="control-group">
