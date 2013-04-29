@@ -2,6 +2,26 @@
 	
 	$(document).ready(function(){
 		
+		$('#set_archive').click(function(){
+			var id =  $('.pesan_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+			
+			$.post('<?php echo base_url();?>dashboard_data/set_archive',{id:id},function(){
+				
+				location.reload();
+				
+				
+			});
+
+			
+			
+			
+		});
+		
+		
 		$('form#search').submit(function(event){
 			event.preventDefault();
 			$.post('<?php echo base_url();?>message/<?php if($label){ echo $label; } ?>/',$('#search').serialize()+"&reload=1",function(data) {
@@ -23,8 +43,8 @@
 				   return this.value;
 				  }
 			}).get();
-		
-			$.post('<?php echo base_url();?>dashboard_data/hapus_message',{id:id},function(data){
+			//maek this make labeled trash
+			$.post('<?php echo base_url();?>dashboard_data/hapus_message',{id:id},function(){
 				
 				location.reload();
 				//	console.log(data);
@@ -103,37 +123,41 @@
 			}
 		});
 		
-		$('#checkall_pesan').click(function(){
-			
+
+
+
+	});
+	
+	//$('#checkall_pesan').click(function(){
+	function checkall()
+	{		
 			var action = 'cek';
 			if($('#checkall_pesan').attr('checked'))
 			{
 				action = 'uncek';
 				$('#checkall_pesan').removeAttr('checked');
-				$('#hapus_pesan').hide();
 			}else{
 				$('#checkall_pesan').attr('checked','checked');
-				$('#hapus_pesan').show();
 			}
 			
 			$('.pesan_list:checkbox').map(function() {
 				if(action == 'cek'){
 					$("#"+this.id).prop('checked', true);
+					$('#top_btn').show();
+
 				}else{
 					$("#"+this.id).removeAttr("checked");
+					$('#top_btn').hide();
 				}
 			});
-		});
-
-
-	});
-	
+	}
+	//});
 	
 
 </script>
 
 <div id="top_btn" class="btn-group animated hide">
-	<a class="btn"><i class="icon-hdd" ></i></a>
+	<a class="btn" id="set_archive"><i class="icon-hdd" ></i></a>
 	<a id="menu_label" class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-tags"></i> <span class="caret"></span></a>
 	<ul  class="dropdown-menu">
 		<?php if(isset($list_label)){?>

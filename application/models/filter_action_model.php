@@ -21,4 +21,20 @@ Class Filter_Action_Model extends CI_model{
 		return false;
 	}
 	
+	public function gets_by_col($kolom=false,$value=false)
+	{
+		if($kolom && $value)
+		{
+			$this->db->where($kolom,$value);
+			$this->db->order_by('order','asc');
+			$gets = $this->db->get('filter_action');
+			if($gets->num_rows() > 0)
+			{
+				return $gets->result();
+			}
+		}
+		return false;	
+		
+	}
+	
 }

@@ -15,12 +15,21 @@ Class Dashboard_data extends MX_Controller{
 	
 	public function hapus_message()
 	{
+		//id label yg di remove  
+		
+		//id inbox
 		$id_inbox = $this->input->post('id');
 		if($id_inbox)
 		{
 			for($i=0;$i < count($id_inbox); $i++)
 			{
-				$this->inbox_model->delete($id_inbox[$i]);
+				//$this->inbox_model->delete($id_inbox[$i]);
+				$delete = $this->label_model->delete_by('id_inbox',$id_inbox[$i]);
+				if($delete)
+				{
+					$this->label_model->add($id_inbox[$i],'4');
+				}
+				
 			}
 		}
 	}
@@ -55,6 +64,25 @@ Class Dashboard_data extends MX_Controller{
 			else
 			return false;
 		}
+	}
+	
+	public function set_archive()
+	{
+		$id_inbox = $this->input->post('id');
+		if($id_inbox)
+		{
+			for($i=0;$i < count($id_inbox); $i++)
+			{
+				//$this->inbox_model->delete($id_inbox[$i]);
+				$get = $this->label_model->set_archive($id_inbox[$i]);
+				if($get)
+				{
+					$this->label_model->delete($get->id_label);
+				}
+				
+			}
+		}
+		
 	}
 
 }

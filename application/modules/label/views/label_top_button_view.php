@@ -38,29 +38,34 @@
 		});
 		
 		
-		$('#checkall_label').click(function(){
-			
-			var action = 'cek';
-			if($('#checkall_label').attr('checked'))
-			{
-				action = 'uncek';
-				$('#checkall_label').removeAttr('checked');
 
-			}else{
-				$('#checkall_label').attr('checked','checked');
-			}
-			
-			$('.label_list:checkbox').map(function() {
-				if(action == 'cek'){
-					$("#"+this.id).prop('checked', true);
-				}else{
-					$("#"+this.id).removeAttr("checked");
-				}
-			});
-		});
 
 		
 	});
+	
+	//		$('#checkall_label').click(function(){
+	function checkall()
+	{		
+		var action = 'cek';
+		if($('#checkall_label').attr('checked'))
+		{
+			action = 'uncek';
+			$('#checkall_label').removeAttr('checked');
+
+		}else{
+			$('#checkall_label').attr('checked','checked');
+		}
+		
+		$('.label_list:checkbox').map(function() {
+			if(action == 'cek'){
+				$("#"+this.id).prop('checked', true);
+			}else{
+				$("#"+this.id).removeAttr("checked");
+			}
+		});
+	}
+		//});
+	
 	
 	function show_edit(id_labelname)
 	{

@@ -64,6 +64,24 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
+//-----------------------------------//
+
+$db['gammu']['hostname'] = 'localhost';
+$db['gammu']['username'] = 'root';
+$db['gammu']['password'] = '';
+$db['gammu']['database'] = 'smsgw_gammu';
+$db['gammu']['dbdriver'] = 'mysql';
+$db['gammu']['dbprefix'] = '';
+$db['gammu']['pconnect'] = TRUE;
+$db['gammu']['db_debug'] = TRUE;
+$db['gammu']['cache_on'] = FALSE;
+$db['gammu']['cachedir'] = '';
+$db['gammu']['char_set'] = 'utf8';
+$db['gammu']['dbcollat'] = 'utf8_general_ci';
+$db['gammu']['swap_pre'] = '';
+$db['gammu']['autoinit'] = TRUE;
+$db['gammu']['stricton'] = FALSE;
+
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

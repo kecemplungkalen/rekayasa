@@ -15,21 +15,57 @@ Class Filter extends MX_Controller{
 
 	}
 	
-	public function index()
+	public function index($start=0)
 	{
-		$this->load->view('header_view');
 		$side['baku'] = $this->message->sidebar_baku();
 		$side['add'] =  $this->message->sidebar_adt();
 		$data['navbar'] = $this->load->view('navbar_view','',true);
 		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
 		$data['top_button'] = $this->load->view('filter_top_button_view','',true);
-		$view['data'] = $this->Filter_Model->gets();
+				
+		$keyword = false;
+		if($this->input->post('keyword')){
+			if($this->input->post('keyword') != ''){
+				$keyword = $this->input->post('keyword');
+			}
+		}
+		$perpage=5;
+		//total row 
+		if($keyword)
+		{
+			$total = $this->Filter_Model->gets_by($keyword);
+		}
+		else
+		{
+			$total = $this->Filter_Model->gets_by();
+		}
 		
-		$data['content'] = $this->load->view('filter_view',$view,true);
-		$this->load->view('body_view',$data);
-		$this->load->view('footer_view');
+		$view['data'] = $this->Filter_Model->gets_by($perpage,$start,$keyword);
+		$view['paging'] = $this->paging(count($total),$perpage);
+		if($this->input->post('reload'))
+		{
+			$this->load->view('filter_view',$view);
+		}else
+		{
+			$data['content'] = $this->load->view('filter_view',$view,true);
+			$this->load->view('header_view');		
+			$this->load->view('body_view',$data);
+			$this->load->view('footer_view');
+		}
 		
 		
+	}
+	
+	function paging($total_rows=false,$perpage=false)
+	{
+		$this->load->library('pagination');
+		$config['base_url'] = base_url().'filter/index/';
+		$config['per_page'] = $perpage;
+		$config['total_rows'] = $total_rows;
+		$config['uri_segment'] = $this->uri->total_segments();
+		$this->pagination->initialize($config); 
+		return $this->pagination->create_links();
+
 	}
 	
 	public function add_filter_modal()
@@ -51,7 +87,7 @@ Class Filter extends MX_Controller{
 	{
 		$nama_filter = $this->input->post('nama_filter');
 		$id_delimiter = $this->input->post('delimiter');
-		$id_filter = $this->Filter_Model->add($nama_filter);
+		$id_filter = $this->Filter_Model->add($nama_filter,$id_delimiter);
 		if($id_filter)
 		{
 			//insert per row pada filter_detail
@@ -141,6 +177,43 @@ Class Filter extends MX_Controller{
 		}
 		$balik = array('satu' => $insert_id_filter,'dua' => $insert_add );
 		var_dump($balik);
+	}
+	
+	public function switch_status()
+	{
+		$status = $this->input->post('status');
+		$id_filter = $this->input->post('id_filter');
+		if($status == 'enable')
+		{
+			$data = array('status' => '1');
+			$update = $this->Filter_Model->update($id_filter,$data);
+			if($update)
+			{
+				return $update;
+			}
+		}
+		else
+		{
+			$data = array('status' => '0');
+			$update = $this->Filter_Model->update($id_filter,$data);
+			if($update)
+			{
+				return $update;
+			}
+		}
+	}
+	
+	public function hapus_filter()
+	{
+		$id_filter = $this->input->post('id');
+		if($id_filter)
+		{
+			$delete = $this->Filter_Model->delete($id_filter);
+			if($delete)
+			{
+				return $delete;
+			}
+		}
 	} 
 
 }

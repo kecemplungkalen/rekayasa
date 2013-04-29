@@ -12,19 +12,76 @@ Class Add_process extends MX_Controller{
 		$this->load->model('Add_Process_Model');
 		$this->load->model('Filter_Delimiter_Model');
 		$this->load->model('Filter_Regex_Model');
+		$this->load->model('inbox_model');
+		$this->load->model('label_model');
+		$this->load->model('Smsc_Model');
+		$this->load->model('Address_Book_Model');
 
 	}
 	
-	public function index()
+	public function index($data)
 	{
 		/// data dari sms gateway 	
-		//$data = $_POST;
-		//if(is_array($data))
-		//{
+		//$data = $_POST;		
+		if(is_array($data))
+		{
+			
 			//$number = $data['number'];
 			//$isisms = $data['isi_sms'];
-			$number = '+62819678420';
-			$isi_sms = 'REG 123 coba Saja xxxXXX';
+			
+			
+			
+			$number = $data->SenderNumber;
+			$isi_sms = $data->TextDecoded;
+			$smsc = $data->SMSCNumber;
+			$recive_date = strtotime($data->ReceivingDateTime);  
+			$id_user = '1';
+
+			//cek di address 
+			$id_address_book = false;
+			$address_book = $this->Address_Book_Model->get_where('number',$number);
+			
+			if($address_book)
+			{
+				$id_address_book = $address_book->id_address_book;
+			}
+			else
+			{
+				//tambah ke phone book tambah ke group no group 
+				$tambah_address_book = $this->Address_Book_Model->add($number,$number,'','',$id_user);
+				if($tambah_address_book)
+				{
+					$id_address_book = $tambah_address_book;
+				
+					$id_smsc = $this->Smsc_Model->get_by_col('smsc_number',$smsc);
+					if($id_smsc)
+					{
+						$data = array('id_smsc' => $id_smsc->id_smsc);
+						$this->Address_Book_Model->update($id_address_book,$data);
+					}
+					
+				}
+			}
+			//insert ke tabel inbox mark unread 
+			$id_inbox = false;
+			$input_inbox = array(
+			'id_user' => $id_user,
+			'id_address_book' => $id_address_book,
+			'recive_date' => $recive_date,
+			'content'=> $isi_sms,
+			'last_update' => time(),
+			'read_status' => 0 );
+			
+			$data_id_inbox = $this->inbox_model->add($input_inbox); // kita dapat id_inbox
+			if($data_id_inbox)
+			{
+				$id_inbox = $data_id_inbox;
+			}
+			// tambah ke label inbox 
+			$this->label_model->add($id_inbox,'1');
+			
+			
+			
 			
 			
 			//ambil filter aktif
@@ -47,10 +104,13 @@ Class Add_process extends MX_Controller{
 					if($tmp)
 					{
 						$temp = false;
-						$valid = false;
 						$valid_array = false;
+						$add_rule = false;
+						$v = false;
+						//olah validasi 
 						foreach($tmp as $t)
 						{
+							$valid = false;
 							//jika messages
 							if($t->type_filter == 'messages')
 							{
@@ -63,29 +123,20 @@ Class Add_process extends MX_Controller{
 										case '=' :
 											if($t->regex_data == $value_filter)
 											{
-												$valid = 'true';
-											}else
-												{
-													$valid = 'false';
-												}
+												$valid = true;
+											}
 										break;
 										case 'start_with' :
 											if(preg_match('/^'.$t->regex_data.'/',$value_filter))
 											{
-												$valid = 'true';
-											}else
-												{
-													$valid = 'false';
-												}
+												$valid = true;
+											}
 										break;
 										case 'regex' : 
 											if(preg_match($t->regex_data,$value_filter))
 											{
-												$valid = 'true';
-											}else
-												{
-													$valid = 'false';
-												}
+												$valid = true;
+											}
 										break;
 									}
 									
@@ -94,11 +145,8 @@ Class Add_process extends MX_Controller{
 									$fr = $this->Filter_Regex_Model->get($t->id_filter_regex);
 									if(preg_match($fr->regex_value,$value_filter))
 									{
-										$valid = 'true';
-									}else
-										{
-											$valid = 'false';
-										}
+										$valid = true;
+									}
 								}
 								
 								
@@ -111,29 +159,20 @@ Class Add_process extends MX_Controller{
 											case '=' :
 												if($t->regex_data == $number)
 												{
-													$valid = 'true';
-												}else
-													{
-														$valid = 'false';
-													}
+													$valid = true;
+												}
 											break;
 											case 'start_with' :
 												if(preg_match('/^'.$t->regex_data.'/',$number))
 												{
-													$valid = 'true';
-												}else
-													{
-														$valid = 'false';
-													}
+													$valid = true;
+												}
 											break;
 											case 'regex' : 
 												if(preg_match($t->regex_data,$number))
 												{
-													$valid = 'true';
-												}else
-													{
-														$valid = 'false';
-													}
+													$valid = true;
+												}
 											break;
 										}
 										
@@ -142,23 +181,92 @@ Class Add_process extends MX_Controller{
 										//sementara sama dengan regex
 										if(preg_match($t->regex_data,$value_filter))
 										{
-											$valid = 'true';
-										}else
-											{
-												$valid = 'false';
-											}
+											$valid = true;
+										}
 									}
 								}
-							$temp[] =$valid;
+							$temp['status'] = $valid;
+							$temp['addons'] = $t->add_rule;
+							$v[] = $temp; 
 						}
-						$valid_array = $temp;
-						//var_dump($valid_array);
-					}
+						
+						$valid_array = $v;
+						$logika=null;
+						for($i=0; $i < count($valid_array); $i++)
+						{
+							if($valid_array[$i]['addons'] == 'and')
+							{
+								if(isset($logika))
+								{
+									$logika = $logika && $valid_array[$i+1]['status'];
+								}
+								else
+								{
+									$logika = $valid_array[$i]['status'] && $valid_array[$i+1]['status'];
+								}
+							}
+							elseif($valid_array[$i]['addons'] == 'or')
+							{
+								if(isset($logika))
+								{
+									$logika = $logika || $valid_array[$i+1]['status'];
+								}
+								else
+								{   
+									$logika = $valid_array[$i]['status'] || $valid_array[$i+1]['status'];
+								}
+							}
+							else{
+								break;
+							}
+						}
+						var_dump($logika);
+						//proses
+						if($logika)
+						{
+							//$df->id_filter
+							$action = $this->Filter_Action_model->gets_by_col('id_filter',$df->id_filter);
+							if($action)
+							{
+								foreach($action as $act)
+								{
+									switch ($act->id_filter_action_type)
+									{
+										case '1' :
+										//action tambah  label 
+										$this->label_model->add($id_inbox,$act->id_label);
+										break;
+										
+										case '2' :
+										//action post api
+										$this->post_data_api($act->api_post,$act->api_error_email,$isi_sms);
+										break;
+										
+										case '3' :
+										//action read status
+										$mark_read = array('read_status' => '1');
+										$this->inbox_model->update($id_inbox,$mark_read);
+										break;
+										
+										case '4' :
+										//action
+										#set archive 
+										$this->set_archive();
+										break;
+									}
+								}
+								
+							}
+
+						}
+						
+						
+						
+					} // end ambil filter by id and proses 
 					
 					$coba_data[] = $valid_array;
-				}
-				var_dump($coba_data);
-				//$id_filter = $temp;
+				} // end ambil data filter
+
 			}
 			
 			//filter pesan 
@@ -166,24 +274,10 @@ Class Add_process extends MX_Controller{
 			//$filter_detail = $this->Filter_Detail_Model->gets_by_col();
 			
 			
-			/*$address_book = $this->address_book_model->cari('number',$number);
-			if($address_book)
-			{
-				
-				
-				
-				
-			}
-			else
-			{
-				//tambah ke phone book tambah ke group no group 
-				//$tambah_address_book = array('first_name' => $number,'number' => $number); 
-				//$this->
-			}
-			*/
+
 			
-			
-		//}
+		}
+		
 		
 		
 		//di return langsung  
@@ -191,8 +285,12 @@ Class Add_process extends MX_Controller{
 	}	
 	
 	
-	public function post_data_api()
+	public function post_data_api($url_api=false,$report_email=false,$data_sms=false)
 	{
+		//if()
+		//{
+			
+		//}
 		/*
 		 * test saja 
 		$data = array('number' => '+62819678420' , 'isi_sms' => 'test saja Loh.. :-)'); 
@@ -200,6 +298,12 @@ Class Add_process extends MX_Controller{
 		
 		echo $return;
 		*/
+	}
+	
+	
+	public function set_archive()
+	{
+		
 	}
 	
 }

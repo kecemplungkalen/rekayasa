@@ -21,40 +21,42 @@ mysql_cmd="$MYSQL \
 get_inbox(){
 	
 	local log=`mktemp log-sms-XXX`
-	$mysql_cmd -e "select ID,SenderNumber,TextDecoded from inbox order by ID desc limit 1;" | awk 'NR==2' > $log
+	$mysql_cmd -e "select ID from inbox order by ID desc limit 1;" | awk 'NR==2' > $log
 	id_inbox="`cat $log | cut -f1`"
-	number="`cat $log | cut -f2`"
-	isi="`cat $log | cut -f3`"
-	if [[ -z $isi ]]
-	then
-	move_to_failed $number $id_inbox
-	else
-	move_to_proses $id_inbox
-	fi	
+	curl http://localhost/rekayasa/gammu/$id_inbox
+	
+#	number="`cat $log | cut -f2`"
+#	isi="`cat $log | cut -f3`"
+#	if [[ -z $isi ]]
+#	then
+#	move_to_failed $number $id_inbox
+#	else
+#	move_to_proses $id_inbox
+#	fi	
 	rm -r $log
 	
 
 }
 
-move_to_failed(){
+#move_to_failed(){
 	
 
-	id=$1
-	$mysql_cmd -ss -e "insert into inbox_failed select * from inbox where ID=$id;"
-	$mysql_cmd -e "delete from inbox where ID='$id';"
+#	id=$1
+#	$mysql_cmd -ss -e "insert into inbox_failed select * from inbox where ID=$id;"
+#	$mysql_cmd -e "delete from inbox where ID='$id';"
 	#ganti ini
-	curl http://localhost/smsgawe/sms_proses/inbox_failed/$id
-	}
+#	curl http://localhost/smsgawe/sms_proses/inbox_failed/$id
+#	}
 
 
-move_to_proses(){
+#move_to_proses(){
 	
-	id=$1
-	$mysql_cmd -ss -e "insert into inbox_proses select * from inbox where ID=$id;"
-	$mysql_cmd -e "delete from inbox where ID='$id';"
-	#ganti ini
-	curl http://localhost/smsgawe/sms_proses/inbox_proses/$id
-	}
+#	id=$1
+#	$mysql_cmd -ss -e "insert into inbox_proses select * from inbox where ID=$id;"
+#	$mysql_cmd -e "delete from inbox where ID='$id';"
+#	#ganti ini
+#	curl http://localhost/smsgawe/sms_proses/inbox_proses/$id
+#	}
 	
 #get inbox
 get_inbox

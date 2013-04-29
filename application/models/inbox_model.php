@@ -74,5 +74,19 @@ Class inbox_model extends CI_model{
 		}
 		return false;
 	}
+	
+	public function update($id_inbox=false,$data=false)
+	{
+		if($id_inbox && $data)
+		{
+			$this->db->where('id_inbox',$id_inbox);
+			$update = $this->db->update('inbox',$data);
+			if($update)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

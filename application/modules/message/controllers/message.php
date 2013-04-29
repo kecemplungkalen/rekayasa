@@ -79,19 +79,86 @@ Class Message extends MX_Controller{
 	{
 		$remap = false;
 		$sub=false;
-
-		//ambil id label  
-		$get_label_id = $this->Labelname_Model->get_label_id($label);
-		if($get_label_id)
+		if(!$keyword)
 		{
-			$total = false;
-			//ambil data label
-			$data_id = $this->label_model->get_id_inbox($get_label_id->id_labelname);
+			//ambil id label  
+			$get_label_id = $this->Labelname_Model->get_label_id($label);
+			if($get_label_id)
+			{
+				$total = false;
+				//ambil data label
+				$data_id = $this->label_model->get_id_inbox($get_label_id->id_labelname);
+				if($data_id)
+				{
+					foreach($data_id as $di)
+					{
+						$id_inbox[] = $di->id_inbox;
+					}
+					$data = $this->message_model->get_inbox($id_inbox,$jumlah,$mulai,$keyword=false);
+					if($data)
+					{
+						$isi=false;
+						$remap=false;
+						foreach($data as $da)
+						{
+							$isi['read_status'] = $da->read_status;
+							$isi['id_inbox'] = $da->id_inbox;
+							$isi['number'] = $da->number;
+							$isi['total'] = $da->total;
+							$isi['content'] = substr($da->content,0,50);
+							$isi['recive_date'] = $da->recive_date;
+							$isi['id_address_book'] = $da->id_address_book;
+							$isi['first_name'] = $da->first_name;
+							$isi['last_name'] = $da->last_name;
+							$data_label = $this->label_model->get_by_id_inbox($da->id_inbox);
+							$sub_data=false;
+							if($data_label)
+							{
+								
+								foreach($data_label as $dl)
+								{
+									
+									if($dl->additional != 0)
+									{
+										$sub['id_label'] = $dl->id_label;
+										$sub['name'] = $dl->name;
+										$sub['color'] = $dl->color;
+										$sub_data[] = $sub; 
+
+									}
+								}
+							}
+							$isi['label'] = $sub_data;
+							$remap[] = $isi;
+						}
+						
+					}
+					if($keyword)
+					{
+						$data_total = $this->message_model->get_inbox($id_inbox,0,0,$keyword);
+					}
+					else
+					{
+						$data_total = $this->message_model->get_inbox($id_inbox);
+					}
+					if($data_total)
+					{
+						$total = count($data_total);
+					}
+
+				}
+				$has = array('remap' => $remap,'total' => $total);
+				return $has;
+			}
+		}
+		else
+		{
+			$data_id = $this->inbox_model->gets();
 			if($data_id)
 			{
 				foreach($data_id as $di)
 				{
-					$id_inbox[] = $di->id_inbox;
+					$id_inbox[] = $di->id_inbox;					
 				}
 				$data = $this->message_model->get_inbox($id_inbox,$jumlah,$mulai,$keyword);
 				if($data)
@@ -144,12 +211,10 @@ Class Message extends MX_Controller{
 				{
 					$total = count($data_total);
 				}
-
 			}
 			$has = array('remap' => $remap,'total' => $total);
 			return $has;
 		}
-		return false;		
 	}
 	
 	

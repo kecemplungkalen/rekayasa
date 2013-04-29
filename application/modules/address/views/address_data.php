@@ -30,7 +30,7 @@
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th><input type="checkbox" id="checkall_address" ></th>
+			<th><input type="checkbox" onclick="checkall()" id="checkall_address" ></th>
 			<th>Name</th>
 			<th>Number</th>
 			<th>Group</th>

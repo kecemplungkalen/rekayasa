@@ -31,7 +31,7 @@
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th><input type="checkbox" id="checkall_label"></th>
+			<th><input type="checkbox" onclick="checkall()" id="checkall_label"></th>
 			<th>Label</th>
 			<th>Colour</th>
 			<th>Filter</th>

@@ -29,7 +29,7 @@
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th><input id="checkall_pesan" type="checkbox"></th>
+			<th><input id="checkall_pesan" onclick="checkall()" type="checkbox"></th>
 			<th>From</th>
 			<th>Date</th>
 			<th>Content</th>

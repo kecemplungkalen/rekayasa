@@ -28,7 +28,29 @@
 		});
 	}
 	
+	//		$('#checkall_address').click(function(){
+	function checkall()
+		{
+			var action = 'cek';
+			if($('#checkall_address').attr('checked'))
+			{
+				action = 'uncek';
+				$('#checkall_address').removeAttr('checked');
 
+			}else{
+				$('#checkall_address').attr('checked','checked');
+			}
+			
+			$('.address_list:checkbox').map(function() {
+				if(action == 'cek'){
+					$("#"+this.id).prop('checked', true);
+				}else{
+					$("#"+this.id).removeAttr("checked");
+				}
+			});
+		}
+		//});
+	
 	
 	$(document).ready(function(){
 		
@@ -70,26 +92,7 @@
 		  e.stopPropagation();
 		});
 		
-		$('#checkall_address').click(function(){
-			
-			var action = 'cek';
-			if($('#checkall_address').attr('checked'))
-			{
-				action = 'uncek';
-				$('#checkall_address').removeAttr('checked');
 
-			}else{
-				$('#checkall_address').attr('checked','checked');
-			}
-			
-			$('.address_list:checkbox').map(function() {
-				if(action == 'cek'){
-					$("#"+this.id).prop('checked', true);
-				}else{
-					$("#"+this.id).removeAttr("checked");
-				}
-			});
-		});
 		
 	});
 

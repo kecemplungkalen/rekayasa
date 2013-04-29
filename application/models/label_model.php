@@ -102,5 +102,35 @@ Class label_model extends CI_model{
 		}
 		return false;
 	}
+	
+	public function delete_by($kolom=false,$value=false)
+	{
+		if($kolom && $value)
+		{
+			$this->db->where($kolom,$value);
+			$delete = $this->db->delete('label');
+			if($delete)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	public function set_archive($id_inbox=false)
+	{
+		if($id_inbox)
+		{
+			$this->db->where('id_inbox',$id_inbox);
+			$this->db->where('id_labelname','1');
+			$data = $this->db->get('label');
+			if($data->num_rows() > 0)
+			{
+				return $data->row();
+			}
+		}
+		return false;
+	}
 
 }

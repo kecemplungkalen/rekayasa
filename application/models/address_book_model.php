@@ -145,5 +145,20 @@ Class Address_Book_Model extends CI_model{
 		return false;
 	}
 	
+	public function update($id_address_book=false,$data=false)
+	{
+		// $data = array 
+		if($id_address_book && $data)
+		{
+			$this->db->where('id_address_book',$id_address_book);
+			$update = $this->db->update('address_book',$data);
+			if($update)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
 }
