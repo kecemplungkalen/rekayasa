@@ -12,11 +12,6 @@
 		
 	}
 </script>
-<div id="show_modal"> </div>
-          <div class="row-fluid">
-            <div class="span12">
-
-				
 <legend>System Labels</legend>
 <table class="table table-striped table-hover">
 	<thead>
@@ -50,11 +45,5 @@
 	<?php } ?>
 	</tbody>
 </table>
-<?php //include("label-system-modal-edit.php"); ?>
-<div id="label_system_modal"> </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
 

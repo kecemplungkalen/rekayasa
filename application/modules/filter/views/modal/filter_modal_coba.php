@@ -15,17 +15,12 @@
 					$("#label option[value='3']").remove();
 					$("#label option[value='4']").remove();
 					
-			
-					$('#remove').click(function(){
-						//$(this).remove();
-						console.log($(this));
-						
-					});
 
 					$('#save').click(function(){
 						
 						$.post('<?php echo base_url()?>filter/add_filter',$('#form_rule').serialize(),function(data){
-							console.log(data);
+							//console.log(data);
+							location.reload();
 						});
 					});					
 				});
@@ -207,6 +202,16 @@
 				<label class="control-label">Filter Name</label>
 				<div class="controls">
 					<input name="nama_filter" type="text" class="input-large" placeholder="Filter Name">
+				</div>
+				<label class="control-label">Delimiter</label>
+				<div class="controls">
+					<select name="delimiter" class="input-medium" id="delimiter">
+						<?php if(isset($delimiter)){?>
+						<?php foreach($delimiter as $delim){?>
+						<option value="<?php echo $delim->id_delimiter; ?>"> <?php echo $delim->name_delimiter ;?> </option>
+						<?php } ?>
+						<?php } ?>
+					</select>
 				</div>
 			</div>
 			

@@ -15,27 +15,13 @@ Class Message extends MX_Controller{
 	public function index($label=false,$start=0)
 	{
 		$view=false;
-
-		$reload =false;
-		if($this->input->post('reload'))
-		{
-			$reload=true;
-		}
-		
-		$view['reload'] = $reload;	
-		if(!$view['reload'])
-		{
-			$top['list_label'] = $this->Labelname_Model->get_add();
-			$top['label'] = $label;
-			$side['baku'] = $this->sidebar_baku();
-			$side['add'] =  $this->sidebar_adt();
-			$this->load->view('header_view');
-			$this->load->view('navbar_view');
-			$this->load->view('sidebar_view',$side);
-			$this->load->view('inbox/top_button_view',$top);
-		}
-		
-		
+		$top['list_label'] = $this->Labelname_Model->get_add();
+		$top['label'] = $label;
+		$side['baku'] = $this->sidebar_baku();
+		$side['add'] =  $this->sidebar_adt();
+		$data['navbar'] = $this->load->view('navbar_view','',true);
+		$data['top_button'] = $this->load->view('top_button_view',$top,true);
+		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
 		# define search key value
 		$keyword = false;
 		if($this->input->post('keyword'))
@@ -45,7 +31,6 @@ Class Message extends MX_Controller{
 			}
 		}
 		//seting coba data perpage pagina
-		
 		$perpage = 10;
 		$isi = $this->tampil_data($label,$perpage,$start,$keyword);
 		
@@ -53,21 +38,25 @@ Class Message extends MX_Controller{
 		{
 			$view['data'] = $isi['remap'];
 		}
-		//testt jumlah yang ditampilkan
 		$total_rows = false;
 		if($isi['total'])
 		{
 			$total_rows = $isi['total'];
 		}
 		$view['paging'] = $this->paging($label,$total_rows,$perpage);
-		$this->load->view('dashboard/dashboard_view',$view);
-		
-			
-		if(!$view['reload'])
+		if($this->input->post('reload'))
 		{
+			$this->load->view('dashboard/dashboard_view',$view);
+		}
+		else
+		{
+			$this->load->view('header_view');
+			$data['content'] = $this->load->view('dashboard/dashboard_view',$view,true);
+			$this->load->view('body_view',$data);			
 			$this->load->view('footer_view');
 		}
 		
+	
 	}
 	
 	
@@ -143,12 +132,6 @@ Class Message extends MX_Controller{
 					}
 					
 				}
-				
-				
-				
-				
-				
-				
 				if($keyword)
 				{
 					$data_total = $this->message_model->get_inbox($id_inbox,0,0,$keyword);

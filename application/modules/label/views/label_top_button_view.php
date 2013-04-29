@@ -15,7 +15,7 @@
 			
 			$.get('<?php echo base_url();?>label/add_additional_label',function(data){
 				
-				$('#modal_show').html(data);
+				$('#show_modal').html(data);
 				$('#addlabel').modal('show');
 			});
 			
@@ -62,7 +62,15 @@
 		
 	});
 	
-
+	function show_edit(id_labelname)
+	{
+		$.get('<?php echo base_url(); ?>label/edit_additional_label/'+id_labelname,function(data){
+			
+			$('#show_modal').html(data);
+			$('#editlabel').modal('show');
+		});
+	}
+	
 </script>
 
 <div class="btn-group">

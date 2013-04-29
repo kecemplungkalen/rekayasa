@@ -1,10 +1,3 @@
- <div id="show_modal">
- 
- </div>
-          <div class="row-fluid">
-            <div class="span12">
-				
-
 <legend>Filter List</legend>
 <table class="table table-striped table-hover">
 	<thead>
@@ -16,17 +9,30 @@
 		</tr>
 	</thead>
 	<tbody>
+	<?php if(isset($data)){?>
+		<?php foreach($data as $d){?>
 		<tr>
-			<td><input type="checkbox"></td>
-			<td>Filter Akuarium</td>
-			<td>Enabled</td>
+			<td><input type="checkbox" value="<?php echo $d->id_filter;?>"></td>
+			<td><?php echo $d->filter_name;?></td>
+			
+			<td><?php if($d->status == '0'){ echo 'Disabled'; }else{ echo 'Enabled'; }?></td>
 			<td>
-				<div class="btn-group">
-					<a href="apply" class="btn btn-small">Apply</a>
-					<a href="apply" class="btn btn-small btn-warning">Disable</a>
+				<?php if($d->status == '1'){?>
+					<div class="btn-group" >
+					<a href="" class="btn btn-small">Apply</a>
+					<a href="" class="btn btn-small btn-warning">Disable</a>
 				</div>
+				<?php } else { ?>
+					<div class="btn-group">
+					<a href="" class="btn btn-small disabled">Apply</a>
+					<a href="" class="btn btn-small btn-success">Enable</a>
+					</div>				
+				<?php } ?>
 			</td>
 		</tr>
+		<?php }?>
+		<?php }?>
+		<!---
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>Filter Udara</td>
@@ -38,6 +44,7 @@
 				</div>
 			</td>
 		</tr>
+		-->
 	</tbody>
 </table>
 <div align="center">
@@ -53,10 +60,3 @@
 		</ul>	  
 	</div>
 </div>
-<?php //include("filter-modal-edit.php"); ?>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>

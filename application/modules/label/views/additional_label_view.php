@@ -1,32 +1,33 @@
-<?php if(!$reload){ ?>
+	<script type="text/javascript">
 
-<script>
 
-	function show_edit(id_labelname)
-	{
-		$.get('<?php echo base_url(); ?>label/edit_additional_label/'+id_labelname,function(data){
-			
-			$('#modal_show').html(data);
-			$('#editlabel').modal('show');
+		$(function() {
+			applyPagination();
 		});
-	}
-	
-</script>
+		
+		function applyPagination() {
+			$(".pagination a").click(function() {
+				var search = $('#keyword').val();
+				var url = $(this).attr("href");
+					$.ajax({
+						type: "POST",
+						data: "ajax=1&reload=1&keyword="+search,
+						url: url,
+						beforeSend: function() {
+								$("#tampil_data").html('');
 
-<div id="modal_show">
+						},
+						success: function(msg) {
+								$("#tampil_data").html(msg);
+						}
+					});
+				return false;
+			});
 
-</div>
-
-          <div class="row-fluid">
-            <div class="span12">
-				
-
+		}
+			
+	</script>
 <legend>Additional Labels</legend>
-<div id="tampil_data">
-
-<?php } ?>
-
-
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
@@ -64,13 +65,3 @@
 <div align="center">
 <?php if(isset($paging)){ echo $paging;}?>
 </div>
-
-
-<?php if(!$reload){ ?>
-</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-<?php } ?>

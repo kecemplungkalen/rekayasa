@@ -20,4 +20,19 @@ Class Filter_Detail_Model extends CI_model{
 		return false;
 	}
 	
+	public function gets_by_col($kolom=false,$data=false)
+	{
+		if($kolom && $data)
+		{
+			$this->db->where($kolom,$data);
+			$this->db->order_by('order','asc');
+			$result = $this->db->get('filter_detail');
+			if($result->num_rows() > 0)
+			{
+				return $result->result();
+			}
+		}
+		return false;
+	}
+	
 }

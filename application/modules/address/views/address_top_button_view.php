@@ -51,7 +51,7 @@
 		$('form#search_address').submit(function(event){
 			event.preventDefault();
 			$.post('<?php echo base_url();?>address',$('#search_address').serialize()+"&reload=1",function(data) {
-				$("#address_data").html(data);
+				$("#tampil_data").html(data);
 				applyPagination();
 			});
 		});
@@ -84,9 +84,6 @@
 			
 			$('.address_list:checkbox').map(function() {
 				if(action == 'cek'){
-					//$("#"+this.id).removeAttr("checked");
-					//$("#"+this.id).attr("checked","checked");
-					//$('.checkbox input[type="checkbox"]').prop('checked', true);
 					$("#"+this.id).prop('checked', true);
 				}else{
 					$("#"+this.id).removeAttr("checked");

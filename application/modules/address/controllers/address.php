@@ -17,13 +17,7 @@ Class Address extends MX_Controller{
 
 	public function index($start=0)
 	{
-		# define reload value
-		$reload =false;
-		if($this->input->post('reload')){
-			$reload=true;
-		}
-		$data['reload'] = $reload;
-		
+
 		# define search key value
 		$keyword = false;
 		if($this->input->post('keyword')){
@@ -32,27 +26,29 @@ Class Address extends MX_Controller{
 			}
 		}
 		$perpage = 10 ; // data perpage
-		
-		if(!$data['reload']){
-			$side['baku'] = $this->message->sidebar_baku();
-			$side['add'] =  $this->message->sidebar_adt();
-			$this->load->view('header_view');
-			$this->load->view('navbar_view');
-			$this->load->view('sidebar_view',$side);
-			$top['data'] = $this->Groupname_Model->gets();
-			$this->load->view('address_top_button_view',$top);
+		if(!$this->input->post('reload'))
+		{
 		}
-		
+		$side['baku'] = $this->message->sidebar_baku();
+		$side['add'] =  $this->message->sidebar_adt();
+		$data['navbar'] = $this->load->view('navbar_view','',true);
+		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
+		$top['data'] = $this->Groupname_Model->gets();
+		$data['top_button'] = $this->load->view('address_top_button_view',$top,true);
+		$isi['data'] = $this->ambil_list($perpage,$start,$keyword);
+		$isi['paging'] = $this->paging($perpage,$keyword);
+		if($this->input->post('reload'))
+		{
+			$this->load->view('address_data',$isi,false);
 
-			$isi['data'] = $this->ambil_list($perpage,$start,$keyword);
-			$isi['coba'] = $this->paging($perpage,$keyword);
-			$data['address_data'] = $this->load->view('address_data',$isi,true);
-		
-			$this->load->view('address_view',$data);
-		
-		if(!$data['reload']){
+		}else
+		{	
+			$this->load->view('header_view');
+			$data['content'] = $this->load->view('address_data',$isi,true);
+			$this->load->view('body_view',$data);
 			$this->load->view('footer_view');
 		}
+		
 	}	
 	
 

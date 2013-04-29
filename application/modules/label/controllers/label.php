@@ -12,22 +12,12 @@ Class Label extends MX_Controller{
 	
 	public function index($start=0)
 	{
-		$reload =false;
-		if($this->input->post('reload')){
-			$reload=true;
-		}
-		$data['reload'] = $reload;
-		
-
-		if(!$data['reload']){
 		$side['baku'] = $this->message->sidebar_baku();
 		$side['add'] =  $this->message->sidebar_adt();
-		$this->load->view('header_view');
-		$this->load->view('navbar_view');
-		$this->load->view('sidebar_view',$side);
-		$this->load->view('label_top_button_view');
-		}
-
+		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
+		$data['navbar'] = $this->load->view('navbar_view','',true);
+		$data['top_button'] = $this->load->view('label_top_button_view','',true);
+	
 		# define search key value
 		$keyword = false;
 		if($this->input->post('keyword')){
@@ -36,10 +26,7 @@ Class Label extends MX_Controller{
 			}
 		}
 		$perpage = 5 ;
-				
-		$data['data'] = $this->data_label($perpage,$start,$keyword);
-		//reload
-		
+		$view['data'] = $this->data_label($perpage,$start,$keyword);
 		//total row 
 		if($keyword)
 		{
@@ -49,10 +36,18 @@ Class Label extends MX_Controller{
 		{
 			$total = $this->Labelname_Model->get_add();
 		}
-		$data['paging'] = $this->paging(count($total),$perpage);
-		$this->load->view('additional_label_view',$data);
 		
-		if(!$data['reload']){
+		$view['paging'] = $this->paging(count($total),$perpage);
+		
+		if($this->input->post('reload'))
+		{
+			$this->load->view('additional_label_view',$view);
+		}
+		else
+		{
+			$this->load->view('header_view');
+			$data['content'] = $this->load->view('additional_label_view',$view,true);
+			$this->load->view('body_view',$data);
 			$this->load->view('footer_view');
 		}
 	}	
@@ -61,7 +56,7 @@ Class Label extends MX_Controller{
 	{
 		$tmp = false;
 		$temp =false;
-
+		$ret = false;
 		$label_list = $this->Labelname_Model->get_add($perpage,$start,$keyword);
 		if($label_list)
 		{
@@ -74,7 +69,7 @@ Class Label extends MX_Controller{
 				$temp['name'] = $llist->name;
 				$tmp[] = $temp;
 			}
-			$data['data'] = $tmp;
+			$ret['data'] = $tmp;
 		}
 		return $tmp;
 	}
@@ -85,10 +80,9 @@ Class Label extends MX_Controller{
 		$side['add'] =  $this->message->sidebar_adt();
 		
 		$this->load->view('header_view');
-		$this->load->view('navbar_view');
-		$this->load->view('sidebar_view',$side);
-		$this->load->view('label_system_top_button_view');
-		//$this->load->view('modal/label_system_modal_edit');
+		$data['navbar'] = $this->load->view('navbar_view','',true);
+		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
+		$data['top_button'] = $this->load->view('label_system_top_button_view','',true);
 		$label_list = $this->Labelname_Model->gets_system_label();
 		if($label_list)
 		{
@@ -103,10 +97,12 @@ Class Label extends MX_Controller{
 				$temp['name'] = $llist->name;
 				$tmp[] = $temp;
 			}
-			$data['data'] = $tmp;
+			$view['data'] = $tmp;
 
 		}
-		$this->load->view('system_label_view',$data);
+		
+		$data['content'] = $this->load->view('system_label_view',$view,true);
+		$this->load->view('body_view',$data);
 		$this->load->view('footer_view');
 		
 		

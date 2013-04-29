@@ -14,14 +14,17 @@ Class Config extends MX_Controller{
 		$side['baku'] = $this->message->sidebar_baku();
 		$side['add'] =  $this->message->sidebar_adt();
 		$this->load->view('header_view');
-		$this->load->view('navbar_view');
-		$this->load->view('sidebar_view',$side);
-		$this->load->view('config_top_view');
-		$this->load->view('config_content_tab_view');
-		$this->load->view('config_modem_view');
-		$this->load->view('config_rule_view');
-		$this->load->view('config_user_view');
-		$this->load->view('config_content_end_tab_view');
+		$data['navbar'] = $this->load->view('navbar_view','',true);
+		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
+		$data['top_button'] = $this->load->view('config_top_view','',true);
+
+		$tab['config_modem'] = $this->load->view('config_modem_view','',true);
+		$tab['config_rule'] = $this->load->view('config_rule_view','',true);
+		$tab['config_user'] = $this->load->view('config_user_view','',true);
+
+		$data['content'] = $this->load->view('config_content_tab_view',$tab,true);
+		//$this->load->view('config_content_end_tab_view');
+		$this->load->view('body_view',$data);
 		$this->load->view('footer_view');
 	}
 	
