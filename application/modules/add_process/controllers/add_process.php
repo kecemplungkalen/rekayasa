@@ -18,20 +18,21 @@ Class Add_process extends MX_Controller{
 	public function index()
 	{
 		/// data dari sms gateway 	
-		$data = $_POST;
-		if(is_array($data))
-		{
+		//$data = $_POST;
+		//if(is_array($data))
+		//{
 			//$number = $data['number'];
 			//$isisms = $data['isi_sms'];
-			$number = $data['number'];
-			$isisms = $data['isi_sms'];
+			$number = '+62819678420';
+			$isi_sms = 'REG 123 coba Saja xxxXXX';
 			
 			
 			//ambil filter aktif
-			$data_filter = $this->Filter_Model->gets('1');
+			$data_filter = $this->Filter_Model->gets(1);
 			if($data_filter)
 			{
 				$id_filter = false;
+				$coba_data = false;
 				
 				$tmp = false;
 				foreach($data_filter as $df)
@@ -53,7 +54,8 @@ Class Add_process extends MX_Controller{
 							//jika messages
 							if($t->type_filter == 'messages')
 							{
-								$value_filter = $data_isisms[$t->word+1];
+								$value_filter = $data_isisms[$t->word-1];
+								var_dump($value_filter);
 								if($t->type_regex != 'type')
 								{
 									switch($t->type_regex)
@@ -150,18 +152,13 @@ Class Add_process extends MX_Controller{
 							$temp[] =$valid;
 						}
 						$valid_array = $temp;
+						//var_dump($valid_array);
 					}
 					
-					
-					
-					
-					
-					
-					
-					
-					//$temp[] = $tmp;
+					$coba_data[] = $valid_array;
 				}
-				$id_filter = $temp;
+				var_dump($coba_data);
+				//$id_filter = $temp;
 			}
 			
 			//filter pesan 
@@ -169,7 +166,7 @@ Class Add_process extends MX_Controller{
 			//$filter_detail = $this->Filter_Detail_Model->gets_by_col();
 			
 			
-			$address_book = $this->address_book_model->cari('number',$number);
+			/*$address_book = $this->address_book_model->cari('number',$number);
 			if($address_book)
 			{
 				
@@ -183,9 +180,10 @@ Class Add_process extends MX_Controller{
 				//$tambah_address_book = array('first_name' => $number,'number' => $number); 
 				//$this->
 			}
+			*/
 			
 			
-		}
+		//}
 		
 		
 		//di return langsung  

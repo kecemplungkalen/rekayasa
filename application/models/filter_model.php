@@ -25,7 +25,7 @@ Class Filter_Model extends CI_model{
 	{
 		if($status)
 		{
-			$this->db->where($status,1);
+			$this->db->where('status',$status);
 		}
 		$data = $this->db->get('filter');
 		if($data->num_rows() > 0)
