@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 29, 2013 at 01:29 AM
+-- Generation Time: Apr 29, 2013 at 10:27 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -24,10 +24,10 @@ CREATE TABLE IF NOT EXISTS `address_book` (
   `id_address_book` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `first_name` text NOT NULL,
-  `last_name` text NOT NULL,
+  `last_name` text,
   `number` varchar(20) NOT NULL,
   `id_smsc` int(11) NOT NULL,
-  `email` varchar(25) NOT NULL,
+  `email` varchar(25) DEFAULT NULL,
   `create_date` int(11) NOT NULL,
   `last_update` int(11) NOT NULL,
   PRIMARY KEY (`id_address_book`)
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `filter` (
   `filter_name` varchar(32) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_filter`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `filter`
@@ -76,7 +76,8 @@ CREATE TABLE IF NOT EXISTS `filter` (
 
 INSERT INTO `filter` (`id_filter`, `id_delimiter`, `filter_name`, `status`) VALUES
 (6, 1, 'registrasi', 1),
-(7, 1, 'Filter spam', 1);
+(7, 1, 'Filter spam', 1),
+(8, 4, 'Konfirmasi', 0);
 
 -- --------------------------------------------------------
 
@@ -93,8 +94,9 @@ CREATE TABLE IF NOT EXISTS `filter_action` (
   `api_error_email` varchar(50) DEFAULT NULL,
   `order` int(11) NOT NULL,
   PRIMARY KEY (`id_action`),
-  KEY `id_filter` (`id_filter`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  KEY `id_filter` (`id_filter`),
+  KEY `id_label` (`id_label`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `filter_action`
@@ -104,7 +106,11 @@ INSERT INTO `filter_action` (`id_action`, `id_filter`, `id_filter_action_type`, 
 (1, 6, 1, 6, '', '', 1),
 (2, 6, 2, 5, 'http://www.google.com/', 'coba@gmail.com', 2),
 (3, 6, 3, 5, '', '', 3),
-(4, 7, 1, 5, '', '', 1);
+(4, 7, 1, 5, '', '', 1),
+(5, 8, 1, 7, '', '', 1),
+(6, 8, 2, 5, 'http://www.websiteapi.com/stor_data/', 'xpl@gmail.com', 2),
+(7, 8, 3, 5, '', '', 3),
+(8, 8, 4, 5, '', '', 4);
 
 -- --------------------------------------------------------
 
@@ -181,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `filter_detail` (
   `order` int(11) NOT NULL,
   PRIMARY KEY (`id_filter_detail`),
   KEY `id_filter` (`id_filter`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `filter_detail`
@@ -189,10 +195,13 @@ CREATE TABLE IF NOT EXISTS `filter_detail` (
 
 INSERT INTO `filter_detail` (`id_filter_detail`, `id_filter`, `type_filter`, `word`, `type_regex`, `id_filter_regex`, `regex_data`, `add_rule`, `order`) VALUES
 (16, 6, 'messages', '1', '=', 0, 'REG', 'and', 1),
-(17, 6, 'messages', '2', 'type', 1, '', 'and', 2),
+(17, 6, 'messages', '2', 'type', 1, '', 'or', 2),
 (18, 6, 'messages', '3', '=', 0, 'RASTA', 'none', 3),
 (19, 7, 'number', '', '=', 0, '+62819678420', 'and', 1),
-(20, 7, 'messages', '1', '=', 0, 'SPAM', 'none', 2);
+(20, 7, 'messages', '1', '=', 0, 'SPAM', 'none', 2),
+(21, 8, 'messages', '1', 'type', 1, '', 'and', 1),
+(22, 8, 'messages', '2', 'start_with', 0, 'KONF', 'and', 2),
+(23, 8, 'messages', '3', 'type', 3, '', 'none', 3);
 
 -- --------------------------------------------------------
 
@@ -203,7 +212,7 @@ INSERT INTO `filter_detail` (`id_filter_detail`, `id_filter`, `type_filter`, `wo
 CREATE TABLE IF NOT EXISTS `filter_regex` (
   `id_filter_regex` int(11) NOT NULL AUTO_INCREMENT,
   `regex` text NOT NULL,
-  `regex_value` varchar(20) NOT NULL,
+  `regex_value` varchar(50) NOT NULL,
   PRIMARY KEY (`id_filter_regex`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
@@ -212,10 +221,10 @@ CREATE TABLE IF NOT EXISTS `filter_regex` (
 --
 
 INSERT INTO `filter_regex` (`id_filter_regex`, `regex`, `regex_value`) VALUES
-(1, 'numeric', '/[^0-9]/'),
-(2, 'alphabet', ''),
-(3, 'alphanumeric', ''),
-(4, 'character', '');
+(1, 'numeric', '/^[0-9]/'),
+(2, 'alphabet', '/^[a-zA-Z]*$/'),
+(3, 'alphanumeric', '/^[A-Za-z][A-Za-z0-9]*$/'),
+(4, 'character', '/[$-/:-?{-~!"^_`\\[\\]]/');
 
 -- --------------------------------------------------------
 
@@ -228,7 +237,9 @@ CREATE TABLE IF NOT EXISTS `group` (
   `id_address_book` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_groupname` int(11) NOT NULL,
-  PRIMARY KEY (`id_group`)
+  PRIMARY KEY (`id_group`),
+  KEY `id_address_book` (`id_address_book`),
+  KEY `id_groupname` (`id_groupname`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
@@ -239,15 +250,9 @@ INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) V
 (1, 2, 1, 1),
 (2, 1, 1, 3),
 (3, 1, 1, 3),
-(4, 5, 1, 1),
-(5, 6, 1, 1),
-(6, 6, 1, 2),
-(7, 6, 1, 3),
-(8, 7, 1, 2),
 (9, 8, 1, 1),
 (10, 9, 1, 1),
-(11, 9, 1, 4),
-(12, 10, 1, 4);
+(11, 9, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -314,21 +319,19 @@ CREATE TABLE IF NOT EXISTS `label` (
   PRIMARY KEY (`id_label`),
   KEY `id_inbox` (`id_inbox`),
   KEY `id_labelname` (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data for table `label`
 --
 
 INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
-(3, 3, 1),
-(5, 3, 7),
-(10, 7, 1),
-(17, 7, 9),
-(19, 8, 1),
 (20, 9, 1),
-(21, 10, 1),
-(22, 11, 1);
+(22, 11, 1),
+(23, 10, 8),
+(26, 3, 4),
+(27, 7, 4),
+(29, 8, 6);
 
 -- --------------------------------------------------------
 
@@ -426,6 +429,7 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `first_name`, `last_name`
 -- Constraints for table `filter_action`
 --
 ALTER TABLE `filter_action`
+  ADD CONSTRAINT `filter_action_ibfk_3` FOREIGN KEY (`id_label`) REFERENCES `labelname` (`id_labelname`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `filter_action_ibfk_1` FOREIGN KEY (`id_filter`) REFERENCES `filter` (`id_filter`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -433,6 +437,13 @@ ALTER TABLE `filter_action`
 --
 ALTER TABLE `filter_detail`
   ADD CONSTRAINT `filter_detail_ibfk_1` FOREIGN KEY (`id_filter`) REFERENCES `filter` (`id_filter`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `group`
+--
+ALTER TABLE `group`
+  ADD CONSTRAINT `group_ibfk_2` FOREIGN KEY (`id_groupname`) REFERENCES `groupname` (`id_groupname`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `group_ibfk_1` FOREIGN KEY (`id_address_book`) REFERENCES `address_book` (`id_address_book`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `label`
