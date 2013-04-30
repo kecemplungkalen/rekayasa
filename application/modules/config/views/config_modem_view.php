@@ -12,19 +12,30 @@
 			<tr>
 				<th><input type="checkbox"></th>
 				<th>Name</th>
-				<th>Port</th>
+				<th>Phone ID</th>
 				<th>Number</th>
+				<th>SMS Terkirim</th>
+				<th>SMS Diterima</th>
 				<th>Status</th>
 			</tr>
 		</thead>
 		<tbody>
+		<?php if(isset($data)){?>
+			<?php foreach($data as $d){?>
 			<tr>
 				<td><input type="checkbox"></td>
-				<td><a href="#editmodem" data-toggle="modal">Telkomsel</a></td>
+				<td><a href="#">Telkomsel</a></td>
 				<td>USB01</td>
 				<td>08112540606</td>
+				<td>0</td>
+				<td>0</td>
 				<td><i class="icon-ok"></i></td>
 			</tr>
+			<?php }?>
+		<?php }?>
+		</tbody>
+<!--
+		
 			<tr>
 				<td><input type="checkbox"></td>
 				<td><a href="#editmodem" data-toggle="modal">Excel</a></td>
@@ -40,5 +51,6 @@
 				<td><i class="icon-remove"></i></td>
 			</tr>
 		</tbody>
+		-->
 	</table>
 </div>

@@ -51,7 +51,7 @@ Class Address_Book_Model extends CI_model{
 	
 	public function add($number=false,$first_name=false,$last_name=false,$email=false,$id_user=false)
 	{
-		if($number && $first_name && $email)
+		if($number && $first_name)
 		{
 			//$cerate_date=;
 			

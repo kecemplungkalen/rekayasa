@@ -90,4 +90,19 @@ Class Filter_Model extends CI_model{
 		return false;
 	}
 	
+	public function get($id_filter=false)
+	{
+		if($id_filter)
+		{
+			$this->db->where('id_filter',$id_filter);
+			$get= $this->db->get('filter');
+			if($get->num_rows() > 0)
+			{
+				return $get->row();
+			}
+			
+		}
+		return false;
+	}
+
 }

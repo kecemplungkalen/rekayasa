@@ -51,7 +51,7 @@
 			<td>
 				<a href="#" onclick="show_edit('<?php echo $data[$i]['id_labelname']; ?>')"><span class="label badge-<?php echo $data[$i]['color']; ?>">&nbsp;&nbsp;</span></a>
 			<td>
-				Nama Filter
+				<?php if($data[$i]['filter']){ echo $data[$i]['filter']; }else { echo 'No Filter'; } ?>
 			</td>
         	<td>
 				<?php if($data[$i]['last_recive']){ echo date('d F Y h:i a',$data[$i]['last_recive']->recive_date); } else{ echo 'No Data'; } ?>

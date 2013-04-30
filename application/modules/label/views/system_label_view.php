@@ -16,9 +16,9 @@
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
+			<th></th>
 			<th>Label</th>
 			<th>Colour</th>
-			<th>Filter</th>
 			<th>Last Message</th>
 		</tr>
 	</thead>
@@ -34,8 +34,6 @@
 			</td>
 			<td>
 				<a href="#" onclick="edit_label('<?php echo $data[$i]['id_labelname']; ?>')"><span class="label badge-<?php echo $data[$i]['color']; ?>">&nbsp;&nbsp;</span></a>
-			<td>
-				Nama Filter
 			</td>
         	<td>
 				<?php if($data[$i]['last_recive']){ echo date('d F Y h:i a',$data[$i]['last_recive']->recive_date); } else{ echo 'No Data'; } ?>

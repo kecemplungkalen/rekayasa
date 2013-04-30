@@ -8,6 +8,8 @@ Class Label extends MX_Controller{
 		$this->load->module('message');
 		$this->load->model('Labelname_Model');
 		$this->load->model('Label_List_Model');
+		$this->load->model('Filter_Model');
+		$this->load->model('Filter_Action_Model');
 	}
 	
 	public function index($start=0)
@@ -54,16 +56,28 @@ Class Label extends MX_Controller{
 
 	function data_label($perpage=false,$start=false,$keyword=false)
 	{
-		$tmp = false;
-		$temp =false;
-		$ret = false;
+
 		$label_list = $this->Labelname_Model->get_add($perpage,$start,$keyword);
 		if($label_list)
 		{
-	
+			$tmp = false;
+			$temp =false;
+			$ret = false;
 			foreach($label_list as $llist)
 			{
+				$filter = false;
+				$nama_filter = false;
+				$temp['filter'] = false;
 				$temp['id_labelname'] = $llist->id_labelname;
+				$filter = $this->Filter_Action_Model->get_advance($llist->id_labelname);
+				if($filter)
+				{
+					$nama_filter = $this->Filter_Model->get($filter->id_filter);
+					if($nama_filter)
+					{
+						$temp['filter'] = $nama_filter->filter_name;
+					}
+				}
 				$temp['color'] = $llist->color;
 				$temp['last_recive'] = $this->Label_List_Model->get_last_message($llist->id_labelname,1);
 				$temp['name'] = $llist->name;

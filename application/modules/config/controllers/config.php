@@ -6,6 +6,8 @@ Class Config extends MX_Controller{
 	{
 		parent::__construct();
 		$this->load->module('message');
+		$this->load->module('gammu');
+		
 
 	}
 
@@ -17,7 +19,8 @@ Class Config extends MX_Controller{
 		$data['navbar'] = $this->load->view('navbar_view','',true);
 		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
 		$data['top_button'] = $this->load->view('config_top_view','',true);
-
+		
+		//var_dump($modem['data']);
 		$tab['config_modem'] = $this->load->view('config_modem_view','',true);
 		$tab['config_rule'] = $this->load->view('config_rule_view','',true);
 		$tab['config_user'] = $this->load->view('config_user_view','',true);
@@ -30,7 +33,19 @@ Class Config extends MX_Controller{
 	
 	public function config_modem_modal()
 	{
-		$this->load->view('modal/config_modem_modal_view');
+		$modem = $this->gammu->get_phone();
+		if($modem)
+		{
+			foreach($modem as $mod)
+			{
+				$temp['modem'] = $mod->ID;
+				$temp['imei'] = $mod->IMEI;
+				$data[] = $temp;
+			}
+			$view['id_phone'] = $data;
+		}
+		
+		$this->load->view('modal/config_modem_modal_view',$view);
 	}
 	
 	public function edit_config_modem_modal()
@@ -47,4 +62,5 @@ Class Config extends MX_Controller{
 	{
 		$this->load->view('modal/edit_config_rule_modal_view');
 	}
+
 }

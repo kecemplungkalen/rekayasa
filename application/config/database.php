@@ -54,7 +54,8 @@ $db['default']['password'] = '';
 $db['default']['database'] = 'smsgw';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
+//$db['default']['pconnect'] = TRUE;
+$db['default']['pconnect'] = FALSE;
 $db['default']['db_debug'] = TRUE;
 $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = '';
@@ -66,13 +67,15 @@ $db['default']['stricton'] = FALSE;
 
 //-----------------------------------//
 
+
 $db['gammu']['hostname'] = 'localhost';
 $db['gammu']['username'] = 'root';
 $db['gammu']['password'] = '';
 $db['gammu']['database'] = 'smsgw_gammu';
 $db['gammu']['dbdriver'] = 'mysql';
 $db['gammu']['dbprefix'] = '';
-$db['gammu']['pconnect'] = TRUE;
+//$db['gammu']['pconnect'] = TRUE;
+$db['gammu']['pconnect'] = FALSE;
 $db['gammu']['db_debug'] = TRUE;
 $db['gammu']['cache_on'] = FALSE;
 $db['gammu']['cachedir'] = '';

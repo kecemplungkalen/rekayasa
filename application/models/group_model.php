@@ -53,6 +53,17 @@ Class Group_Model extends CI_model{
 		
 	}
 	
-
-	
+	public function delete($kolom=false,$value=false)
+	{
+		if($kolom && $value)
+		{
+			$this->db->where($kolom,$value);
+			$del = $this->db->delete('group');
+			if($del)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }

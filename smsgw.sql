@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 29, 2013 at 10:27 AM
+-- Generation Time: Apr 30, 2013 at 10:27 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -31,17 +31,18 @@ CREATE TABLE IF NOT EXISTS `address_book` (
   `create_date` int(11) NOT NULL,
   `last_update` int(11) NOT NULL,
   PRIMARY KEY (`id_address_book`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `address_book`
 --
 
 INSERT INTO `address_book` (`id_address_book`, `id_user`, `first_name`, `last_name`, `number`, `id_smsc`, `email`, `create_date`, `last_update`) VALUES
-(1, 1, 'bob ', 'marley', '+62819678420', 5, 'bob@mail.com', 1366263728, 1366263728),
+(1, 1, 'bob', 'marley', '+62819678420', 5, 'bob@mail.com', 1366263728, 1366263728),
 (2, 1, 'jah', 'rastafara', '+62819678421', 5, 'jah@kingofking.mail', 1366263728, 1366263728),
 (8, 1, 'mbah ', 'mangun', '+6281927198', 0, 'mbah.mbagen@gmail.com', 1366633298, 1366633298),
-(9, 1, 'mbah ', 'joyo', '+62789789123', 0, 'mbah_joyo_imut@ymail.com', 1366677403, 1366677403);
+(9, 1, 'mbah ', 'joyo', '+62789789123', 0, 'mbah_joyo_imut@ymail.com', 1366677403, 1366677403),
+(10, 1, '+6287869122852', '', '+6287869122852', 5, '', 1367287159, 1367287159);
 
 -- --------------------------------------------------------
 
@@ -54,6 +55,23 @@ CREATE TABLE IF NOT EXISTS `config` (
   `config` varchar(30) NOT NULL,
   `value` varchar(30) NOT NULL,
   PRIMARY KEY (`id_config`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `config_modem`
+--
+
+CREATE TABLE IF NOT EXISTS `config_modem` (
+  `id_config_modem` int(10) NOT NULL AUTO_INCREMENT,
+  `nama_modem` varchar(50) NOT NULL,
+  `phoneID` varchar(50) NOT NULL,
+  `imei` int(100) NOT NULL,
+  `number` varchar(50) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `default` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id_config_modem`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -76,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `filter` (
 
 INSERT INTO `filter` (`id_filter`, `id_delimiter`, `filter_name`, `status`) VALUES
 (6, 1, 'registrasi', 1),
-(7, 1, 'Filter spam', 1),
+(7, 1, 'Filter spam', 0),
 (8, 4, 'Konfirmasi', 0);
 
 -- --------------------------------------------------------
@@ -195,13 +213,13 @@ CREATE TABLE IF NOT EXISTS `filter_detail` (
 
 INSERT INTO `filter_detail` (`id_filter_detail`, `id_filter`, `type_filter`, `word`, `type_regex`, `id_filter_regex`, `regex_data`, `add_rule`, `order`) VALUES
 (16, 6, 'messages', '1', '=', 0, 'REG', 'and', 1),
-(17, 6, 'messages', '2', 'type', 1, '', 'or', 2),
+(17, 6, 'messages', '3', 'type', 1, '', 'or', 2),
 (18, 6, 'messages', '3', '=', 0, 'RASTA', 'none', 3),
 (19, 7, 'number', '', '=', 0, '+62819678420', 'and', 1),
 (20, 7, 'messages', '1', '=', 0, 'SPAM', 'none', 2),
-(21, 8, 'messages', '1', 'type', 1, '', 'and', 1),
+(21, 8, 'messages', '1', '=', 1, 'REG', 'and', 1),
 (22, 8, 'messages', '2', 'start_with', 0, 'KONF', 'and', 2),
-(23, 8, 'messages', '3', 'type', 3, '', 'none', 3);
+(23, 8, 'messages', '3', 'type', 1, '', 'none', 3);
 
 -- --------------------------------------------------------
 
@@ -240,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `group` (
   PRIMARY KEY (`id_group`),
   KEY `id_address_book` (`id_address_book`),
   KEY `id_groupname` (`id_groupname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
 
 --
 -- Dumping data for table `group`
@@ -248,11 +266,13 @@ CREATE TABLE IF NOT EXISTS `group` (
 
 INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) VALUES
 (1, 2, 1, 1),
-(2, 1, 1, 3),
-(3, 1, 1, 3),
-(9, 8, 1, 1),
 (10, 9, 1, 1),
-(11, 9, 1, 4);
+(11, 9, 1, 4),
+(20, 1, 1, 4),
+(21, 8, 1, 1),
+(22, 8, 1, 2),
+(23, 8, 1, 3),
+(24, 8, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -292,7 +312,7 @@ CREATE TABLE IF NOT EXISTS `inbox` (
   `read_status` tinyint(1) NOT NULL,
   `last_update` int(11) NOT NULL,
   PRIMARY KEY (`id_inbox`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=68 ;
 
 --
 -- Dumping data for table `inbox`
@@ -304,7 +324,8 @@ INSERT INTO `inbox` (`id_inbox`, `id_user`, `id_address_book`, `recive_date`, `c
 (8, 1, 2, 1366791039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366691039),
 (9, 1, 2, 1366891039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366691039),
 (10, 1, 8, 1366991039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366691039),
-(11, 1, 9, 1366699039, 'keyword cari', 0, 1366691039);
+(11, 1, 9, 1366699039, 'keyword cari', 0, 1366691039),
+(67, 1, 10, 1364200074, 'REG KONF 123', 1, 1367296284);
 
 -- --------------------------------------------------------
 
@@ -319,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `label` (
   PRIMARY KEY (`id_label`),
   KEY `id_inbox` (`id_inbox`),
   KEY `id_labelname` (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=96 ;
 
 --
 -- Dumping data for table `label`
@@ -331,7 +352,10 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (23, 10, 8),
 (26, 3, 4),
 (27, 7, 4),
-(29, 8, 6);
+(29, 8, 6),
+(93, 67, 1),
+(94, 67, 6),
+(95, 9, 9);
 
 -- --------------------------------------------------------
 
@@ -429,8 +453,8 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `first_name`, `last_name`
 -- Constraints for table `filter_action`
 --
 ALTER TABLE `filter_action`
-  ADD CONSTRAINT `filter_action_ibfk_3` FOREIGN KEY (`id_label`) REFERENCES `labelname` (`id_labelname`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `filter_action_ibfk_1` FOREIGN KEY (`id_filter`) REFERENCES `filter` (`id_filter`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `filter_action_ibfk_1` FOREIGN KEY (`id_filter`) REFERENCES `filter` (`id_filter`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `filter_action_ibfk_3` FOREIGN KEY (`id_label`) REFERENCES `labelname` (`id_labelname`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `filter_detail`
@@ -442,8 +466,8 @@ ALTER TABLE `filter_detail`
 -- Constraints for table `group`
 --
 ALTER TABLE `group`
-  ADD CONSTRAINT `group_ibfk_2` FOREIGN KEY (`id_groupname`) REFERENCES `groupname` (`id_groupname`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `group_ibfk_1` FOREIGN KEY (`id_address_book`) REFERENCES `address_book` (`id_address_book`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `group_ibfk_1` FOREIGN KEY (`id_address_book`) REFERENCES `address_book` (`id_address_book`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `group_ibfk_2` FOREIGN KEY (`id_groupname`) REFERENCES `groupname` (`id_groupname`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `label`

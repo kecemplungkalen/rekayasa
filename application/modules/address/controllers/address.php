@@ -207,38 +207,32 @@ Class Address extends MX_Controller{
 		
 		$id_user = 1;
 		$id_address_book = $this->input->post('id_address_book');
-		$number = $this->input->post('number');
-		$first_name = $this->input->post('first_name');
-		$last_name = $this->input->post('last_name');
+		$number = $this->input->post('phone');
+		$first_name = $this->input->post('firstname');
+		$last_name = $this->input->post('lastname');
 		$email = $this->input->post('email');
 		$group = $this->input->post('group');
-		/*
-		$update = $this->Address_Book_Model->update($number,$first_name,$last_name,$email,$id_user);
+		
+		$data = array('first_name' => $first_name,'last_name' => $last_name,'number' => $number,'email' => $email);
+		$update = $this->Address_Book_Model->update($id_address_book,$data);
 		if($update)
 		{
-			$group = $this->Group_Model->gets_by('id_address_book',$id_address_book)
-			if($group)
+			$hapus = $this->Group_Model->delete('id_address_book',$id_address_book);
+			if($hapus)
 			{
-				foreach($group as $g)
+				if(isset($group))
 				{
-					
-				}	
+					for($i=0;$i < count($group);$i++)
+					{
+						$data = $this->Group_Model->add($id_address_book,$group[$i],$id_user);
+					}
+				}
+				return true;
 			}
 			
 		}
 		
-		
-		for($i=0;$i < count($group);$i++)
-			{
-				$this->Group_Model->add($last_id,$group[$i],$id_user);
-			}
-			return true;
-		else 
-		return false;
-		*/
-		
-
-		var_dump($_POST);
+		//var_dump($_POST);
 	}
 	
 	public function address_search($keyword=false,$perpage=false,$start=false)

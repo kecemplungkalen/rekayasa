@@ -4,8 +4,11 @@
 
 		$('#edit').click(function(){
 			$.post('<?php echo base_url();?>address/update_address',$('#editaddr').serialize(),function(data){
-				
-				console.log(data);
+				if(data)
+				{
+					location.reload();
+				}
+					//console.log(data);
 			});
 			
 		});

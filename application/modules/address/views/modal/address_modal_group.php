@@ -31,9 +31,6 @@
 			}
 			$('.groupdata:checkbox').map(function() {
 				if(action == 'cek'){
-					//$("#"+this.id).removeAttr("checked");
-					//$("#"+this.id).attr("checked","checked");
-					//$('.checkbox input[type="checkbox"]').prop('checked', true);
 					$("#"+this.id).prop('checked', true);
 				}else{
 					$("#"+this.id).removeAttr("checked");

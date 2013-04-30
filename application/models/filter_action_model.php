@@ -37,4 +37,20 @@ Class Filter_Action_Model extends CI_model{
 		
 	}
 	
+	public function get_advance($id_labelname=false)
+	{
+		if($id_labelname)
+		{
+			$this->db->where('id_filter_action_type','1');
+			$this->db->where('id_label',$id_labelname);
+			$get = $this->db->get('filter_action');
+			if($get->num_rows() > 0)
+			{
+				return $get->row();
+			}
+		}
+		return false;
+	}
+	
+	
 }
