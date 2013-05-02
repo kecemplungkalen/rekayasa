@@ -48,6 +48,20 @@ Class Config_Modem_Model extends CI_model{
 		return false;
 	}
 	
+	public function get_by($kolom=false,$value=false)
+	{
+		if($kolom && $value)
+		{
+			$this->db->where($kolom,$value);
+			$get = $this->db->get('config_modem');
+			if($get->num_rows() > 0 )
+			{
+				return $get->row();
+			}
+		}
+		return false;
+	}
+	
 	public function gets()
 	{
 		$all = $this->db->get('config_modem');

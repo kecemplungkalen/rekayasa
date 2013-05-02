@@ -84,5 +84,10 @@ Class Dashboard_data extends MX_Controller{
 		}
 		
 	}
+	
+	public function read_sms_modal()
+	{
+		$this->load->view('modal/read_sms_modal_view');
+	}
 
 }

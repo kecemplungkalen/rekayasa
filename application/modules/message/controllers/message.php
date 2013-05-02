@@ -154,6 +154,7 @@ Class Message extends MX_Controller{
 		else
 		{
 			$data_id = $this->inbox_model->gets();
+			$total = false;
 			if($data_id)
 			{
 				foreach($data_id as $di)

@@ -4,8 +4,11 @@
 			$.post('<?php echo base_url();?>config/rule/edit_rule',$('#form_rule').serialize(),function(data){
 				if(data)
 				{
-					//location.reload();
-					window.location.reload(true);
+					//location.href;
+					//window.location.reload(true);
+					//window.location.href = '<?php echo base_url()?>config#rule';
+					//window.location.assign('<?php echo base_url()?>config#rule');				
+					
 				}
 				
 			});

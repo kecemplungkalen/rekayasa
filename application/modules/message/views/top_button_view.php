@@ -153,7 +153,16 @@
 	}
 	//});
 	
-
+	function read_sms()
+	{
+		$.get('<?php echo base_url();?>dashboard_data/read_sms_modal',function(data){
+			
+			$('#show_modal').html(data);
+			$('#readsms').modal('show');
+		});
+		
+		
+	}
 </script>
 
 <div id="top_btn" class="btn-group animated hide">

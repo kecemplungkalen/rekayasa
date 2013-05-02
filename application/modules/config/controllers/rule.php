@@ -105,7 +105,7 @@ Class Rule extends MX_Controller{
 		return false;
 		
 	}
-	public function sending_rule($data)
+	public function sending_rule($number=false)
 	{
 		// number 
 		// cek di group jika ada 
@@ -113,14 +113,18 @@ Class Rule extends MX_Controller{
 		// cek config rule 
 		// jika tidak cari modem default 
 		// modem
-		if($data)
+		if($number)
 		{
-			for($i=0;$i<count($data);$i++)
-			{
-				$get_id_addr = $this->Address_Book_Model->get_where('number',$data[$i]['number']);
+			$phoneID =false;
+			$temp =false;
+			$tmp = false;
+				$get_id_addr = $this->Address_Book_Model->get_where('number',$number);
 				if($get_id_addr)
 				{
+					$temp['id_address_book'] = $get_id_addr->id_address_book;
+					$temp['id_smsc'] = $get_id_addr->id_smsc;
 					$get_smsc = $this->Smsc_Model->get($get_id_addr->id_smsc);
+
 					if($get_smsc)
 					{
 						$getrule = $this->Config_Rule_Model->get_by('id_smsc_name',$get_smsc->smsc_name);
@@ -130,26 +134,25 @@ Class Rule extends MX_Controller{
 							$phone_id = $this->Config_Modem_Model->get($getrule->id_config_modem);
 							if($phone_id)
 							{
-								$phoneID = $phone_id->phoneID;
+								$temp['phoneID'] = $phone_id->phoneID;
 								
 							}
-							else
-							{
-								$getdefault = $this->Config_Modem_Model->gets_by('default','1');
-								$phoneID = $getdefault->phoneID;
-							}
-
 							
 						}
-						
-						
+						else
+							{
+								$getdefault = $this->Config_Modem_Model->get_by('default','1');
+								if($getdefault)
+								{
+									$temp['phoneID'] = $getdefault->phoneID;
+								}
+							}
 					}
 				}
-				
 
-			}
-			
-		} 
+			return $temp; 
+		}
+		return false; 
 	}
 	
 	

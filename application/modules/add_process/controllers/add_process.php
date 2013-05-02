@@ -19,7 +19,7 @@ Class Add_process extends MX_Controller{
 
 	}
 	
-	public function index($data)
+	public function index($data=false)
 	{
 		/// data dari sms gateway 	
 		if($data)
@@ -61,6 +61,7 @@ Class Add_process extends MX_Controller{
 			'id_user' => $id_user,
 			'id_address_book' => $id_address_book,
 			'recive_date' => $recive_date,
+			'number' => $number,
 			'content'=> $isi_sms,
 			'last_update' => time(),
 			'read_status' => 0 );
@@ -312,6 +313,15 @@ Class Add_process extends MX_Controller{
 		*/
 	}
 	
+	
+	public function test()
+	{
+		$temp['number'] = '+62819678420';
+		$temp['text'] = 'Uye Maaaaaaaaaan.. Piye';
+		$tmp[]= $temp;
+		$return = $this->curl->simple_post('http://localhost/rekayasa/send',$tmp);
+		echo $return;
+	}
 
 	
 }
