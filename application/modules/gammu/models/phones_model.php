@@ -20,7 +20,37 @@ class Phones_Model extends CI_Model{
 		return false;
 	}
 	
+	public function get($imei=false)
+	{
+		$this->gammu = $this->load->database('gammu',true); 
+		
+		if($imei)
+		{
+			$this->gammu->where('IMEI',$imei);
+			$row = $this->gammu->get('phones');
+			if($row->num_rows() > 0)
+			{
+				return $row->row();
+			}
+		}			
+		return false;
+	}
 	
+	public function get_kol($kolom=false,$value=false)
+	{
+		$this->gammu = $this->load->database('gammu',true); 
+		
+		if($kolom && $value)
+		{
+			$this->gammu->where($kolom,$value);
+			$row = $this->gammu->get('phones');
+			if($row->num_rows() > 0)
+			{
+				return $row->row();
+			}
+		}			
+		return false;
+	}
 	
 
 }

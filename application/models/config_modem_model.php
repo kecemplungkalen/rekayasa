@@ -9,7 +9,7 @@ Class Config_Modem_Model extends CI_model{
 	{
 		if($data)
 		{
-			$this->db->insert($data);
+			$this->db->insert('config_modem',$data);
 			$last_id = $this->db->insert_id();
 			if($last_id)
 			{
@@ -43,6 +43,30 @@ Class Config_Modem_Model extends CI_model{
 			if($get->num_rows() > 0 )
 			{
 				return $get->result();
+			}
+		}
+		return false;
+	}
+	
+	public function gets()
+	{
+		$all = $this->db->get('config_modem');
+		if($all->num_rows() > 0)
+		{
+			return $all->result();
+		}else
+		return false;
+	}
+	
+	public function delete($id_config_modem=false)
+	{
+		if($id_config_modem)
+		{
+			$this->db->where('id_config_modem',$id_config_modem);
+			$del= $this->db->delete('config_modem');
+			if($del)
+			{
+				return true;
 			}
 		}
 		return false;

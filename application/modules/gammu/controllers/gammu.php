@@ -100,16 +100,6 @@ Class Gammu extends MX_Controller{
 	}
 	*/
 	
-	public function get_phone()
-	{
-		$phone = $this->Phones_Model->get_active();
-		if($phone)
-		{
-			return $phone;
-		}
-		else
-		return false;
-	}
-	
+
 	
 }

@@ -214,6 +214,22 @@ Class Filter extends MX_Controller{
 				return $delete;
 			}
 		}
+	}
+	
+	public function cek_nama_filter()
+	{
+		$nama_filter = $this->input->post('nama_filter');
+		if($nama_filter)
+		{
+			$cek = $this->Filter_Model->get_by('filter_name',$nama_filter);
+			if($cek)
+			{
+				echo 'false';
+			}else{
+				echo 'true';
+			}
+		}
+		
 	} 
 
 }

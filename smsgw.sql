@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 30, 2013 at 10:27 AM
+-- Generation Time: May 02, 2013 at 01:47 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS `address_book` (
 --
 
 INSERT INTO `address_book` (`id_address_book`, `id_user`, `first_name`, `last_name`, `number`, `id_smsc`, `email`, `create_date`, `last_update`) VALUES
-(1, 1, 'bob', 'marley', '+62819678420', 5, 'bob@mail.com', 1366263728, 1366263728),
 (2, 1, 'jah', 'rastafara', '+62819678421', 5, 'jah@kingofking.mail', 1366263728, 1366263728),
 (8, 1, 'mbah ', 'mangun', '+6281927198', 0, 'mbah.mbagen@gmail.com', 1366633298, 1366633298),
 (9, 1, 'mbah ', 'joyo', '+62789789123', 0, 'mbah_joyo_imut@ymail.com', 1366677403, 1366677403),
@@ -67,12 +66,38 @@ CREATE TABLE IF NOT EXISTS `config_modem` (
   `id_config_modem` int(10) NOT NULL AUTO_INCREMENT,
   `nama_modem` varchar(50) NOT NULL,
   `phoneID` varchar(50) NOT NULL,
-  `imei` int(100) NOT NULL,
   `number` varchar(50) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `default` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_config_modem`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `config_modem`
+--
+
+INSERT INTO `config_modem` (`id_config_modem`, `nama_modem`, `phoneID`, `number`, `status`, `default`) VALUES
+(1, 'Pro XL', 'RumahwebXL', '+62819678420', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `config_rule`
+--
+
+CREATE TABLE IF NOT EXISTS `config_rule` (
+  `id_config_rule` int(11) NOT NULL AUTO_INCREMENT,
+  `id_config_modem` int(11) NOT NULL,
+  `id_smsc_name` int(11) NOT NULL,
+  PRIMARY KEY (`id_config_rule`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `config_rule`
+--
+
+INSERT INTO `config_rule` (`id_config_rule`, `id_config_modem`, `id_smsc_name`) VALUES
+(1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -258,7 +283,7 @@ CREATE TABLE IF NOT EXISTS `group` (
   PRIMARY KEY (`id_group`),
   KEY `id_address_book` (`id_address_book`),
   KEY `id_groupname` (`id_groupname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `group`
@@ -268,11 +293,7 @@ INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) V
 (1, 2, 1, 1),
 (10, 9, 1, 1),
 (11, 9, 1, 4),
-(20, 1, 1, 4),
-(21, 8, 1, 1),
-(22, 8, 1, 2),
-(23, 8, 1, 3),
-(24, 8, 1, 4);
+(25, 8, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -395,8 +416,9 @@ INSERT INTO `labelname` (`id_labelname`, `name`, `color`, `additional`) VALUES
 CREATE TABLE IF NOT EXISTS `smsc` (
   `id_smsc` int(11) NOT NULL AUTO_INCREMENT,
   `smsc_number` varchar(20) NOT NULL,
-  `smsc_name` text NOT NULL,
-  PRIMARY KEY (`id_smsc`)
+  `smsc_name` int(11) NOT NULL,
+  PRIMARY KEY (`id_smsc`),
+  KEY `smsc_name` (`smsc_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
@@ -404,21 +426,47 @@ CREATE TABLE IF NOT EXISTS `smsc` (
 --
 
 INSERT INTO `smsc` (`id_smsc`, `smsc_number`, `smsc_name`) VALUES
-(1, '+62811000000', 'Telkomsel'),
-(2, '+6281100000', 'Telkomsel'),
-(3, '+62816124', 'Indosat'),
-(4, '+6281615', 'Satelindo'),
-(5, '+62818445009', 'Exelcomindo'),
-(6, '+628315000031', 'Lippo Telecom'),
-(7, '+62855000000', 'Indosat'),
-(8, '+6289644000001', 'Three'),
-(9, '+62816125', 'Mentari'),
-(10, '+62816126', 'Mentari'),
-(11, '+62816127', 'Mentari'),
-(12, '+62816128', 'Mentari'),
-(13, '+628184450095', 'Exelcomindo'),
-(14, '+628315000032', 'Lippo Telecom'),
-(15, '+6280980000', 'Flexi');
+(1, '+62811000000', 1),
+(2, '+6281100000', 1),
+(3, '+62816124', 2),
+(4, '+6281615', 4),
+(5, '+62818445009', 3),
+(6, '+628315000031', 8),
+(7, '+62855000000', 2),
+(8, '+6289644000001', 5),
+(9, '+62816125', 6),
+(10, '+62816126', 6),
+(11, '+62816127', 6),
+(12, '+62816128', 6),
+(13, '+628184450095', 3),
+(14, '+628315000032', 8),
+(15, '+6280980000', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `smsc_name`
+--
+
+CREATE TABLE IF NOT EXISTS `smsc_name` (
+  `id_smsc_name` int(11) NOT NULL AUTO_INCREMENT,
+  `operator_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_smsc_name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `smsc_name`
+--
+
+INSERT INTO `smsc_name` (`id_smsc_name`, `operator_name`) VALUES
+(1, 'Telkomsel'),
+(2, 'Indosat'),
+(3, 'Exelcomindo'),
+(4, 'Satelindo'),
+(5, 'Three'),
+(6, 'Mentari'),
+(7, 'Flexi'),
+(8, 'Lippo Telecom');
 
 -- --------------------------------------------------------
 
@@ -475,3 +523,9 @@ ALTER TABLE `group`
 ALTER TABLE `label`
   ADD CONSTRAINT `label_ibfk_1` FOREIGN KEY (`id_inbox`) REFERENCES `inbox` (`id_inbox`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `label_ibfk_2` FOREIGN KEY (`id_labelname`) REFERENCES `labelname` (`id_labelname`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `smsc`
+--
+ALTER TABLE `smsc`
+  ADD CONSTRAINT `smsc_ibfk_1` FOREIGN KEY (`smsc_name`) REFERENCES `smsc_name` (`id_smsc_name`) ON DELETE CASCADE ON UPDATE CASCADE;

@@ -8,6 +8,7 @@ Class Address extends MX_Controller{
 		$this->load->module('message');
 		$this->load->model('Address_Book_Model');
 		$this->load->model('Smsc_Model');
+		$this->load->model('Smsc_Name_Model');
 		$this->load->model('Group_Model');
 		$this->load->model('Groupname_Model');
 		$this->load->model('inbox_model');
@@ -96,7 +97,11 @@ Class Address extends MX_Controller{
 					$smscname = $this->Smsc_Model->get($li->id_smsc);
 					if($smscname)
 					{
-						$temp['operator'] = $smscname->smsc_name;
+						$nama_operator = $this->Smsc_Name_Model->get($smscname->smsc_name);
+						if($nama_operator)
+						{
+							$temp['operator'] = $nama_operator->operator_name;
+						}
 					}
 					else
 					{

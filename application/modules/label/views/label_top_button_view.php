@@ -30,7 +30,7 @@
 		
 			$.post('<?php echo base_url();?>label/hapus_label',{id:id},function(){
 				
-						location.reload();
+					location.reload();
 					//console.log(id);
 				
 			});

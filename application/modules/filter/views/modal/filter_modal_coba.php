@@ -1,6 +1,6 @@
 <div id="addfilter" class="container modal hide fade">
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<button type="button" class="close" data-dismiss="modal" onclick="javascript:location.reload();" aria-hidden="true">&times;</button>
 		<h3>Create Filter</h3>
 	</div>
 			<!-- test jquery -->
@@ -17,12 +17,48 @@
 					
 
 					$('#save').click(function(){
+						var valid = $('#form_rule').valid();
+						if(valid == true)
+						{	
+							$.post('<?php echo base_url()?>filter/add_filter',$('#form_rule').serialize(),function(data){
+								//console.log(data);
+								location.reload();
+							});
+						}
+						else
+						{
+							return false;
+						}
 						
-						$.post('<?php echo base_url()?>filter/add_filter',$('#form_rule').serialize(),function(data){
-							//console.log(data);
-							location.reload();
-						});
-					});					
+					});
+					
+					//valiasi
+					$('#form_rule').validate({
+						rules: {
+						  nama_filter : {
+							required: true,
+							remote:{
+								type:'post',	
+								url:'<?php echo base_url();?>filter/cek_nama_filter'
+							}
+						  }
+						},
+					
+						messages: {
+							nama_filter :{
+								remote:'Nama Filter Telah dipakai..!!'
+							}
+						},
+						highlight: function(element) {
+								$(element).closest('.control-group').removeClass('success').addClass('error');
+						},
+						success: function(element) {
+								element
+								.text('OK!').addClass('valid')
+								.closest('.control-group').removeClass('error').addClass('success');
+						}
+					});
+					
 				});
 				
 				
@@ -100,6 +136,7 @@
 						if(act_type == '2')
 						{
 							$('#api'+plus).show();
+							$('#label'+plus).hide();
 						}else if(act_type == '1')
 						{
 							$('#api'+plus).hide();
@@ -201,6 +238,9 @@
 				<div class="controls">
 					<input name="nama_filter" type="text" class="input-large" placeholder="Filter Name">
 				</div>
+			</div>
+			
+			<div class="control-group">
 				<label class="control-label">Delimiter</label>
 				<div class="controls">
 					<select name="delimiter" class="input-medium" id="delimiter">
@@ -291,7 +331,7 @@
 	</div>
 	
 	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+		<a href="#" class="btn" data-dismiss="modal" onclick="javascript:location.reload();" aria-hidden="true">Close</a>
 	</div>
 	
 </div>

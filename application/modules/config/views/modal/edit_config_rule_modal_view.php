@@ -1,53 +1,72 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#edit').click(function(){
+			$.post('<?php echo base_url();?>config/rule/edit_rule',$('#form_rule').serialize(),function(data){
+				if(data)
+				{
+					//location.reload();
+					window.location.reload(true);
+				}
+				
+			});
+			
+		});
+		
+		
+	});
+
+</script>
+
 <div id="editrule" class="modal hide fade">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3>Modem Port Management</h3>
+		<h3>Group Send Rule Management</h3>
 	</div>
 	<div class="modal-body">
-		<form class="form-horizontal">
+		<form class="form-horizontal" id="form_rule">
+			<?php if(isset($edit)){?>
+				<input type="hidden" value="<?php echo $edit->id_config_rule;?>" name="id_config_rule" >
+			<?php $id_smsc_name = $edit->id_smsc_name; ?>
+			<?php $id_config_modem = $edit->id_config_modem; ?>
+			<?php }?>
 			<div class="control-group">
-				<label class="control-label">Modem Name</label>
+				<label class="control-label"> Group </label>
 				<div class="controls">
-					<input type="text" class="input-small" placeholder="Modem Name">
-				</div>				
-			</div>
-			<div class="control-group">
-				<label class="control-label">Port</label>
-				<div class="controls">
-					<select>
-						<option>USB01</option>
-						<option>USB02</option>
-						<option>USB03</option>
+					<select name="id_smsc_name">
+					<?php if(isset($operator)){?>
+					<?php foreach($operator as $gen){?>
+						<?php if($gen->id_smsc_name == $id_smsc_name){ ?>
+						<option value="<?php echo $gen->id_smsc_name;?>" selected><?php echo $gen->operator_name;?></option>
+						<?php }else { ?>
+						<option value="<?php echo $gen->id_smsc_name;?>"><?php echo $gen->operator_name;?></option>						
+						<?php } ?>
+					<?php } ?>
+					<?php } ?>
 					</select>
 				</div>				
 			</div>
+			
 			<div class="control-group">
-				<label class="control-label">Phone Number</label>
+				<label class="control-label"> Phone </label>
 				<div class="controls">
-					<input type="text" class="input-medium" placeholder="Phone Number">
+					<select name="id_config_modem">
+					<?php if(isset($modem)){?>
+					<?php foreach($modem as $md){?>
+						<?php if($md->id_config_modem == $id_config_modem){?>
+						<option value="<?php echo $md->id_config_modem;?>"><?php echo $md->nama_modem;?></option>
+						<?php } else { ?>
+						<option value="<?php echo $md->id_config_modem;?>" selected ><?php echo $md->nama_modem;?></option>						
+						<?php } ?>
+					<?php } ?>
+					<?php } ?>
+					</select>
 				</div>				
-			</div>
-			<div class="control-group">
-				<label class="control-label">SMS Center</label>
-				<div class="controls">
-					<input type="text" class="input-medium" placeholder="SMS Center">
-				</div>				
-			</div>
-			<div class="control-group">
-				<label class="control-label">Default Modem</label>
-				<div class="controls">
-					<label class="checkbox">
-						<input type="checkbox"> Make this modem as default modem
-					</label>
-				</div>				
-			</div>
-			<div class="control-group" align="right">
-				<button class="btn btn-primary">Save</button>
-				<button class="btn btn-success">Enable</button>
-				<button class="btn btn-warning">Disable</button>
-				<button class="btn btn-danger">Delete</button>
 			</div>
 		</form>
+			<div class="control-group" align="right">
+				<button class="btn" data-dismiss="modal" >Batal</button>
+				<button class="btn btn-primary" id="edit">Save</button>
+			</div>
 	</div>
 	<div class="modal-footer">
 		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>

@@ -36,9 +36,10 @@
 			{
 				action = 'uncek';
 				$('#checkall_address').removeAttr('checked');
-
+				$('.centang_group').hide();	
 			}else{
 				$('#checkall_address').attr('checked','checked');
+				$('.centang_group').show();	
 			}
 			
 			$('.address_list:checkbox').map(function() {
@@ -80,11 +81,28 @@
 		
 		
 		$('#nama_group').click(function() {
-			var $this = $(this);   
-			if ($this.is(':checked')) {
+			var ini = $(this);   
+			if (ini.is(':checked')) {
 				alert('ceked');
 			} else {
 				alert('uncek');
+			}
+		});
+		
+		$('.address_list').click(function() {
+			var ini = $(this);
+
+			var value =  $('.address_list:checkbox').map(function() {
+					if(this.checked){
+					   return this.value;
+					  }
+				}).get();   
+			if (ini.is(':checked')) {
+				console.log(value);
+				$('.centang_group').show();				
+			} else {
+				console.log(value);
+				$('.centang_group').hide();
 			}
 		});
 		
@@ -104,7 +122,7 @@
 	<ul class="dropdown-menu">
 		<?php if(isset($data)) {?>
 		<?php foreach($data as $dt) {?>
-		<li >
+		<li id="centang_group_<?php echo $dt->id_groupname; ?>" class="centang_group hide">
 			<a id="cebox"><input id="nama_group" type="checkbox" id="<?php echo $dt->id_groupname; ?>" value="<?php echo $dt->id_groupname; ?>" >&nbsp;&nbsp;<span class="label badge-<?php echo $dt->color ;?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $dt->nama_group; ?></a>
 		</li>
 		<?php } ?>
