@@ -153,15 +153,23 @@
 	}
 	//});
 	
-	function read_sms()
+	function read_sms(number)
 	{
-		$.get('<?php echo base_url();?>dashboard_data/read_sms_modal',function(data){
+		$.get('<?php echo base_url();?>dashboard_data/read_sms_modal',{number:number,label:'<?php if($label){ echo $label; } ?>'},function(data){
 			
 			$('#show_modal').html(data);
+			//$('#readsms .modal-body').css(['max-height','70px','overflow-y','scroll']);
 			$('#readsms').modal('show');
+			
 		});
-		
-		
+	}
+	function reloadz()
+	{
+		$.post('<?php echo base_url();?>message/<?php if($label){ echo $label; } ?>/',$('#search').serialize()+"&reload=1",function(data) {
+			$("#tampil_data").html(data);
+			applyPagination();
+		});
+	
 	}
 </script>
 

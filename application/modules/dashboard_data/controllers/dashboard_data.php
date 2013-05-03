@@ -7,8 +7,9 @@ Class Dashboard_data extends MX_Controller{
 		parent::__construct();
 		
 		$this->load->model('inbox_model');
-		$this->load->model('address_book_model');
+		$this->load->model('Address_Book_Model');
 		$this->load->model('label_model');
+		$this->load->model('Labelname_Model');
 	}
 	
 	
@@ -87,7 +88,79 @@ Class Dashboard_data extends MX_Controller{
 	
 	public function read_sms_modal()
 	{
-		$this->load->view('modal/read_sms_modal_view');
+		$number = $this->input->get('number');
+		$label = $this->input->get('label');
+		$data = false;
+		if($number && $label)
+		{
+			$data['data'] = $this->read_sms($number,$label);
+		}
+		$this->load->view('modal/read_sms_modal_view',$data);
+	}
+	
+	function read_sms($number=false,$label=false)
+	{
+		// label dipakai untuk masa depan saja 
+		if($number && $label)
+		{
+			$temp = false;
+			$tmp = false;
+			$label = false;
+			$unread = false;
+			$mark = false;
+			$sms = $this->inbox_model->gets_where('number',$number);
+			if($sms)
+			{
+
+				foreach($sms as $isi)
+				{
+					//cek label
+					//$tmp['label'] = false; 
+					$label_sms = $this->label_model->get_by_id_inbox($isi->id_inbox);
+					if($label_sms)
+					{
+						$lb = false;
+						$lbtem = false;
+						foreach($label_sms as $ls)
+						{
+							$label = $this->Labelname_Model->get($ls->id_labelname);
+							if($label)
+							{
+								$lb['name'] = $label->name;
+								$lb['color'] = $label->color;
+								$lbtem[] = $lb;
+							} 
+						}
+						// dapat label sms 
+						$tmp['label'] =  $lbtem;
+					}
+					//
+					$tmp['recive_date'] = $isi->recive_date;
+					$tmp['content'] = $isi->content;
+					//cek phonebook 
+					$has_address = $this->Address_Book_Model->get($isi->id_address_book);
+					if($has_address)
+					{
+						$tmp['first_name'] = $has_address->first_name;
+						$tmp['last_name'] = $has_address->last_name;
+					}
+					$tmp['number'] = $isi->number;
+					$tmp['read_status'] = $isi->read_status;
+					if($isi->read_status != '1')
+					{
+						$up = array('read_status' => '1');
+						$this->inbox_model->update($isi->id_inbox,$up);
+						//$unread = $isi->id_inbox;
+					}
+					//$mark[] = $unread;
+					$tmp['tempat'] = $label;
+					$temp[]=$tmp;
+				}
+				return $temp;
+				
+			}
+		}
+		return false;
 	}
 
 }

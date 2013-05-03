@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 02, 2013 at 01:47 AM
+-- Generation Time: May 03, 2013 at 04:39 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `address_book` (
   `create_date` int(11) NOT NULL,
   `last_update` int(11) NOT NULL,
   PRIMARY KEY (`id_address_book`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `address_book`
@@ -41,7 +41,8 @@ INSERT INTO `address_book` (`id_address_book`, `id_user`, `first_name`, `last_na
 (2, 1, 'jah', 'rastafara', '+62819678421', 5, 'jah@kingofking.mail', 1366263728, 1366263728),
 (8, 1, 'mbah ', 'mangun', '+6281927198', 0, 'mbah.mbagen@gmail.com', 1366633298, 1366633298),
 (9, 1, 'mbah ', 'joyo', '+62789789123', 0, 'mbah_joyo_imut@ymail.com', 1366677403, 1366677403),
-(10, 1, '+6287869122852', '', '+6287869122852', 5, '', 1367287159, 1367287159);
+(10, 1, '+6287869122852', '', '+6287869122852', 5, '', 1367287159, 1367287159),
+(11, 1, 'bob', 'maleh', '+62819678420', 5, 'bob_maleh@ymail.com', 1367459799, 1367459799);
 
 -- --------------------------------------------------------
 
@@ -90,14 +91,14 @@ CREATE TABLE IF NOT EXISTS `config_rule` (
   `id_config_modem` int(11) NOT NULL,
   `id_smsc_name` int(11) NOT NULL,
   PRIMARY KEY (`id_config_rule`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `config_rule`
 --
 
 INSERT INTO `config_rule` (`id_config_rule`, `id_config_modem`, `id_smsc_name`) VALUES
-(1, 1, 2);
+(4, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -146,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `filter_action` (
 --
 
 INSERT INTO `filter_action` (`id_action`, `id_filter`, `id_filter_action_type`, `id_label`, `api_post`, `api_error_email`, `order`) VALUES
-(1, 6, 1, 6, '', '', 1),
+(1, 6, 1, NULL, '', '', 1),
 (2, 6, 2, 5, 'http://www.google.com/', 'coba@gmail.com', 2),
 (3, 6, 3, 5, '', '', 3),
 (4, 7, 1, 5, '', '', 1),
@@ -283,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `group` (
   PRIMARY KEY (`id_group`),
   KEY `id_address_book` (`id_address_book`),
   KEY `id_groupname` (`id_groupname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
 --
 -- Dumping data for table `group`
@@ -293,7 +294,8 @@ INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) V
 (1, 2, 1, 1),
 (10, 9, 1, 1),
 (11, 9, 1, 4),
-(25, 8, 1, 4);
+(25, 8, 1, 4),
+(26, 11, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -328,25 +330,33 @@ CREATE TABLE IF NOT EXISTS `inbox` (
   `id_inbox` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `id_address_book` int(11) NOT NULL,
+  `number` varchar(20) NOT NULL,
   `recive_date` int(11) NOT NULL,
   `content` text NOT NULL,
   `read_status` tinyint(1) NOT NULL,
   `last_update` int(11) NOT NULL,
   PRIMARY KEY (`id_inbox`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=68 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=76 ;
 
 --
 -- Dumping data for table `inbox`
 --
 
-INSERT INTO `inbox` (`id_inbox`, `id_user`, `id_address_book`, `recive_date`, `content`, `read_status`, `last_update`) VALUES
-(3, 1, 2, 1366363799, 'reg rasta sabtu legi 1366263728', 1, 1366263928),
-(7, 1, 1, 1366691039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366691039),
-(8, 1, 2, 1366791039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366691039),
-(9, 1, 2, 1366891039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366691039),
-(10, 1, 8, 1366991039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 0, 1366691039),
-(11, 1, 9, 1366699039, 'keyword cari', 0, 1366691039),
-(67, 1, 10, 1364200074, 'REG KONF 123', 1, 1367296284);
+INSERT INTO `inbox` (`id_inbox`, `id_user`, `id_address_book`, `number`, `recive_date`, `content`, `read_status`, `last_update`) VALUES
+(3, 1, 2, '+62819678421', 1366363799, 'reg rasta sabtu legi 1366263728', 1, 1366263928),
+(8, 1, 2, '+62819678421', 1366791039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 1, 1366691039),
+(9, 1, 2, '+62819678421', 1366891039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 1, 1366691039),
+(10, 1, 8, '+6281927198', 1366991039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 1, 1366691039),
+(11, 1, 9, '+62789789123', 1366699039, 'keyword cari', 1, 1366691039),
+(67, 1, 10, '+6287869122852', 1364200074, 'REG KONF 123', 1, 1367296284),
+(68, 1, 11, '+62819678420', 1367465994, 'Uye Maaaaaaaaaan.. Piye', 1, 1367465994),
+(69, 1, 9, '+62789789123', 1367470864, 'aaaaaaaaaaaaaaaaaa', 1, 1367470864),
+(70, 1, 2, '+62819678421', 1367471080, 'Bob MArlwywwwwwwwwwww', 1, 1367471080),
+(71, 1, 10, '+6287869122852', 1367471127, 'test Number without name', 1, 1367471127),
+(72, 1, 9, '+62789789123', 1367471179, 'test lagi brow..', 1, 1367471179),
+(73, 1, 12, '+62819678423', 1367471179, 'TEST DELETE ADDRSS', 1, 1367471179),
+(74, 1, 9, '+62789789123', 1367471179, 'test nomer 2 lagi brow..', 1, 1367471179),
+(75, 1, 9, '+62789789123', 1367471179, 'test nomer 22 lagi brow..', 1, 1367471179);
 
 -- --------------------------------------------------------
 
@@ -361,7 +371,7 @@ CREATE TABLE IF NOT EXISTS `label` (
   PRIMARY KEY (`id_label`),
   KEY `id_inbox` (`id_inbox`),
   KEY `id_labelname` (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=96 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=105 ;
 
 --
 -- Dumping data for table `label`
@@ -372,11 +382,19 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (22, 11, 1),
 (23, 10, 8),
 (26, 3, 4),
-(27, 7, 4),
-(29, 8, 6),
+(29, 8, 10),
 (93, 67, 1),
-(94, 67, 6),
-(95, 9, 9);
+(94, 67, 10),
+(95, 9, 9),
+(96, 68, 3),
+(97, 69, 3),
+(98, 70, 3),
+(99, 71, 3),
+(100, 72, 3),
+(101, 73, 1),
+(102, 74, 1),
+(103, 75, 1),
+(104, 11, 8);
 
 -- --------------------------------------------------------
 
@@ -390,7 +408,7 @@ CREATE TABLE IF NOT EXISTS `labelname` (
   `color` varchar(20) NOT NULL,
   `additional` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `labelname`
@@ -402,10 +420,10 @@ INSERT INTO `labelname` (`id_labelname`, `name`, `color`, `additional`) VALUES
 (3, 'outbox', 'ff7537', 0),
 (4, 'trash', '16a765', 0),
 (5, 'spam', '4986e7', 0),
-(6, 'registrasi', 'ff7537', 1),
 (7, 'konfirmasi', '16a765', 1),
 (8, 'Pertanyaan', '4986e7', 1),
-(9, 'informasi', '42d692', 1);
+(9, 'informasi', '42d692', 1),
+(10, 'Registrasi', 'ff7537', 1);
 
 -- --------------------------------------------------------
 
