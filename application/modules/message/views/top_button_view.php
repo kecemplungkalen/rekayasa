@@ -3,13 +3,14 @@
 	$(document).ready(function(){
 		
 		$('#set_archive').click(function(){
-			var id =  $('.pesan_list:checkbox').map(function() {
+			var thread =  $('.pesan_list:checkbox').map(function() {
 				if(this.checked){
 				   return this.value;
 				  }
 			}).get();
+			//console.log(thread);
 			
-			$.post('<?php echo base_url();?>dashboard_data/set_archive',{id:id},function(){
+			$.post('<?php echo base_url();?>dashboard_data/set_archive',{thread:thread},function(){
 				
 				location.reload();
 				
@@ -153,12 +154,11 @@
 	}
 	//});
 	
-	function read_sms(number)
+	function read_sms(thread)
 	{
-		$.get('<?php echo base_url();?>dashboard_data/read_sms_modal',{number:number,label:'<?php if($label){ echo $label; } ?>'},function(data){
+		$.get('<?php echo base_url();?>dashboard_data/read_sms_modal',{thread:thread,label:'<?php if($label){ echo $label; } ?>'},function(data){
 			
 			$('#show_modal').html(data);
-			//$('#readsms .modal-body').css(['max-height','70px','overflow-y','scroll']);
 			$('#readsms').modal('show');
 			
 		});

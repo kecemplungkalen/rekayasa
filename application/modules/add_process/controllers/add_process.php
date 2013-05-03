@@ -33,7 +33,6 @@ Class Add_process extends MX_Controller{
 			//cek di address 
 			$id_address_book = false;
 			$address_book = $this->Address_Book_Model->get_where('number',$number);
-
 			if($address_book)
 			{
 				$id_address_book = $address_book->id_address_book;
@@ -55,16 +54,33 @@ Class Add_process extends MX_Controller{
 					}					
 				}
 			}
+			
+			//cek tread
+			$thread = false;
+			$cari = array('number' => $number,'status_archive' => '0');
+			$cek_thread = $this->inbox_model->arr_wheres($cari);
+			if($cek_thread)
+			{
+				$thread = $cek_thread[0]->thread;
+			}
+			else
+			{
+				$thread = mt_rand();
+			}
+
 			//insert ke tabel inbox mark unread 
 			$id_inbox = false;
 			$input_inbox = array(
 			'id_user' => $id_user,
+			'thread ' => $thread ,
 			'id_address_book' => $id_address_book,
 			'recive_date' => $recive_date,
 			'number' => $number,
 			'content'=> $isi_sms,
 			'last_update' => time(),
-			'read_status' => 0 );
+			'read_status' => '0',
+			'status_archive' => '0'
+			);
 			
 			$data_id_inbox = $this->inbox_model->add($input_inbox); // kita dapat id_inbox
 			if($data_id_inbox)
@@ -98,6 +114,7 @@ Class Add_process extends MX_Controller{
 				//	$coba_data[] = $valid_array;
 			} // end ambil data filter
 			
+			// balikin ke gammu biar ndak berat
 			return true;
 			//$filter_detail = $this->Filter_Detail_Model->gets_by_col();
 			
@@ -158,6 +175,7 @@ Class Add_process extends MX_Controller{
 			$v = false;
 			$word = false;
 			//olah validasi 
+			$data_isisms = false;
 			foreach($tmp as $t)
 			{
 				//$value_filter = ;
@@ -171,7 +189,7 @@ Class Add_process extends MX_Controller{
 						switch($t->type_regex)
 						{
 							case '=' :
-								if($data_isisms[$t->word-1])
+								if(isset($data_isisms[$t->word-1]))
 								{
 									if($t->regex_data == $data_isisms[$t->word-1])
 									{
@@ -180,7 +198,7 @@ Class Add_process extends MX_Controller{
 								}
 							break;
 							case 'start_with' :
-								if($data_isisms[$t->word-1])
+								if(isset($data_isisms[$t->word-1]))
 								{
 									if(preg_match('/^'.$t->regex_data.'/',$data_isisms[$t->word-1]))
 									{
@@ -189,7 +207,7 @@ Class Add_process extends MX_Controller{
 								}
 							break;
 							case 'regex' : 
-								if($data_isisms[$t->word -1])
+								if(isset($data_isisms[$t->word -1]))
 								{
 									if(preg_match($t->regex_data,$data_isisms[$t->word -1]))
 									{
@@ -199,9 +217,10 @@ Class Add_process extends MX_Controller{
 							break;
 						}
 						
-					}else
+					}
+					else
 					{
-						if($data_isisms[$t->word -1])
+						if(isset($data_isisms[$t->word -1]))
 						{
 							$fr = $this->Filter_Regex_Model->get($t->id_filter_regex);
 							if(preg_match($fr->regex_value,$data_isisms[$t->word -1]))
@@ -313,6 +332,23 @@ Class Add_process extends MX_Controller{
 		*/
 	}
 	
+	
+	function rand_tread()
+	{
+		$number = '+62789789123';
+			$cari = array('number' => $number,'status_archive' => '0');
+			$data = $this->inbox_model->arr_wheres($cari);
+			if($data)
+			{
+				$cek_thread = $this->inbox_model->arr_wheres($cari);
+				if($cek_thread)
+				{
+					$thread = mt_rand();
+					var_dump($thread);					
+				}
+			}
+			
+	}
 	
 	public function test()
 	{

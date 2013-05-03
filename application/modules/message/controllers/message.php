@@ -103,6 +103,7 @@ Class Message extends MX_Controller{
 						{
 							$isi['read_status'] = $da->read_status;
 							$isi['id_inbox'] = $da->id_inbox;
+							$isi['thread'] = $da->thread;
 							$isi['number'] = $da->number;
 							$isi['total'] = $da->total;
 							$isi['content'] = substr($da->content,0,50);
@@ -170,6 +171,7 @@ Class Message extends MX_Controller{
 					{
 						$isi['read_status'] = $da->read_status;
 						$isi['id_inbox'] = $da->id_inbox;
+						$isi['thread'] = $da->thread;
 						$isi['number'] = $da->number;
 						$isi['total'] = $da->total;
 						$isi['content'] = substr($da->content,0,50);

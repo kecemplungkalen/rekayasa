@@ -38,6 +38,11 @@ Class Gammu extends MX_Controller{
 				else
 					{
 						// tambahkan ke aplikasi 
+						$this->add_process->index($data);
+						$set = array('Processed' => 'true');
+						$sukses = $this->Gammu_Model->update($id,$set);
+
+						/* dipakai kalau proses API sudah jalan 
 						$proses = $this->add_process->index($data);
 						if($proses)
 						{
@@ -45,6 +50,7 @@ Class Gammu extends MX_Controller{
 							$sukses = $this->Gammu_Model->update($id,$set);
 							return $sukses;
 						}
+						*/
 					}
 			}
 		}

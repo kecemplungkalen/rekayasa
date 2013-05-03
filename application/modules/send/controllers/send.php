@@ -19,8 +19,20 @@ Class Send extends MX_Controller{
 		if(is_array($data))
 		{
 			$recive_date = false;
+			$thread = false;
+			$address_book = false;
 			for($i=0;$i < count($data);$i++)
 			{
+				$cari_thread = array('number' => $data[$i]['number'],'status_archive' => '0'); 
+				$data_thread = $this->inbox_model->arr_wheres($cari_thread);
+				if($data_thread)
+				{
+					$thread = $data_thread[0]->thread;
+				}
+				else
+				{
+					$thread = mt_rand();
+				}
 				$phoneID = $this->rule->sending_rule($data[$i]['number']);
 				if($phoneID)
 				{
@@ -29,20 +41,28 @@ Class Send extends MX_Controller{
 					$read_status = '1';
 					
 					// data label 
+					if(isset($phoneID['id_address_book']))
+					{
+						$address_book = $phoneID['id_address_book'];
+					}
+					
 					$insert = array(
 					'id_user' => $id_user,
-					'id_address_book' => $phoneID['id_address_book'],
+					'id_address_book' => $id_address_book,
+					'number' => $data[$i]['number'],
+					'thread' => $thread,
 					'recive_date' => $recive_date,
 					'content' => $data[$i]['text'],
 					'read_status' => $read_status,
-					'last_update' => $recive_date
+					'last_update' => $recive_date,
+					'status_archive' => '0'
 					);
 					$id_inbox = $this->inbox_model->add($insert);
 					
 					if($id_inbox)
 					{
-						// labelin outbox atau 3
-						$id_labelname = '3';
+						// labelin sent atau 2
+						$id_labelname = '2';
 						$this->label_model->add($id_inbox,$id_labelname);
 					}
 					
@@ -55,7 +75,12 @@ Class Send extends MX_Controller{
 					{
 						return true;
 					}
+					else
+					{
+						//gammu galat 
+					}
 				}
+
 			}			
 		}
 		return false;

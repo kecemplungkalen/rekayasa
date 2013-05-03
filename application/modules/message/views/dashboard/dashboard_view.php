@@ -41,11 +41,11 @@
 		<?php for($i=0;$i< count($data);$i++) { ?>
 		<tr>
 			<td>
-				<input class="pesan_list" type="checkbox" id="<?php echo $data[$i]['id_inbox']; ?>" value="<?php echo $data[$i]['id_inbox']; ?>"> 
+				<input class="pesan_list" type="checkbox" id="<?php echo $data[$i]['id_inbox']; ?>" value="<?php echo $data[$i]['thread']; ?>"> 
 			</td>
 			<td>
-				<a href="#" onclick="read_sms('<?php echo $data[$i]['number'];?>')">
-					<?php if($data[$i]['read_status'] == '0'){?>
+				<a href="#" onclick="read_sms('<?php echo $data[$i]['thread']; ?>')">
+					<?php if($data[$i]['read_status'] != '1'){?>
 					<strong><?php echo $data[$i]['first_name'];?> <?php echo $data[$i]['last_name'] ;?><br><?php echo $data[$i]['number'];?> <?php if($data[$i]['total'] != '1'){?> (<?php echo $data[$i]['total'];  ?>)<?php } ?> </strong>
 					<?php } else {?>
 					<?php echo $data[$i]['first_name'];?> <?php echo $data[$i]['last_name'] ;?><br><?php echo $data[$i]['number'];?>  <?php if($data[$i]['total'] != '1'){?> (<?php echo $data[$i]['total'];  ?>)<?php } ?> 

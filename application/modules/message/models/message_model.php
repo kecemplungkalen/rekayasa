@@ -19,7 +19,7 @@ Class message_model extends CI_model{
 	{
 		if(is_array($data))
 		{ //count(inbox.id_inbox)
-			$this->db->select('inbox.id_inbox,inbox.number,recive_date,count(inbox.number) as total,content,address_book.id_address_book,read_status,first_name,last_name');
+			$this->db->select('inbox.thread,max(inbox.id_inbox) as id_inbox,inbox.number,recive_date,count(inbox.thread) as total,max(content) as content,address_book.id_address_book,min(read_status) as read_status,first_name,last_name');
 			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book','left');
 			$this->db->where_in('id_inbox',$data);
 			if($keyword)
@@ -34,7 +34,7 @@ Class message_model extends CI_model{
 				$this->db->or_like($key);
 			}
 			//$this->db->group_by('address_book.id_address_book');
-			$this->db->group_by('inbox.number');
+			$this->db->group_by('inbox.thread');
 			$this->db->order_by('recive_date','desc');
 			$this->db->order_by('id_inbox','desc');
 			if($perpage)

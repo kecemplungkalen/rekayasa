@@ -1,25 +1,7 @@
-<div id="readsms" class="modal hide fade " data-backdrop="static" >
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" onclick="reloadz()" aria-hidden="true">&times;</button>
-	
-	<script type="text/javascript">
-	
-		function load_body(thread,label)
-		{
-			$('#datadata').load('<?php echo base_url();?>dashboard_data/modal_body/'+thread+'/'+label);
-		}
-	
-	</script>
-	<?php if($data){?>
-	<?php if(isset($data[0]['first_name']) || isset($data[0]['last_name'])){ ?>
-						<h3> <?php echo $data[0]['first_name'].' '.$data[0]['last_name'];?></h3> 
-				<?php } else {?>
-						<h3> <?php echo $data[0]['number'];?> </h3>
-				<?php }?>
-	</div>
-	<div class="modal-body" style="overflow-y: scroll;height:400px">
+	<?php if(isset($data)){?>
+
 	<!-- start modal body -->
-	<div id="datadata">
+
 		<?php $class=false; ?>
 		
 		<?php for($d=0;$d < count($data);$d++){?>
@@ -44,7 +26,6 @@
 					<span class="label pull-right badge-<?php echo $label[$i]['color'];?>"><?php echo $label[$i]['name'];?></span> 
 					<?php }?>
 				<?php } ?>
-		<button type="button" onclick="" aria-hidden="true"> Hapus Pesan &times;</button>
 		</div>
 		<!-- end alert -->
 		<!-- start content -->
@@ -53,15 +34,6 @@
       </div>
       <!-- end content -->
 		<?php } ?>
-		
-		<a href="#" onclick="load_body('<?php echo $data[0]['thread']?>','1')"> Tets</a>
     <?php } ?>
       <!--end modal body -->
-      </div>
-	</div>
 	
-	<div class="modal-footer">
-		<a class="btn btn-success">Reply</a>
-		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true" onclick="reloadz()">Close</a>
-	</div>
-</div>

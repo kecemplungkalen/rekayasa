@@ -69,51 +69,81 @@ Class Dashboard_data extends MX_Controller{
 	
 	public function set_archive()
 	{
-		$id_inbox = $this->input->post('id');
-		if($id_inbox)
+		// ganti thread 
+		
+		$thread = $this->input->post('thread');
+		if($thread)
 		{
-			for($i=0;$i < count($id_inbox); $i++)
+			for($i=0;$i < count($thread); $i++)
 			{
-				//$this->inbox_model->delete($id_inbox[$i]);
-				$get = $this->label_model->set_archive($id_inbox[$i]);
+				$data = array('thread' => $thread[$i],'status_archive' => '0');
+				$get = $this->inbox_model->arr_wheres($data);
+				// dapat inbox
 				if($get)
 				{
-					$this->label_model->delete($get->id_label);
+					foreach($get as $g)
+					{
+						// set archive by  id inbox
+						$up = array('status_archive' => '1');
+						$this->inbox_model->update($g->id_inbox,$up); 
+						// hapus di label
+						$id_label = $this->label_model->set_archive($g->id_inbox);
+						if($id_label)
+						{
+							$this->label_model->delete($id_label->id_label);
+						}
+						
+					}
+					
 				}
-				
 			}
 		}
 		
 	}
 	
+	
+	public function modal_body($thread=false,$label=false)
+	{
+		//$thread = $this->input->get('thread');
+		//$label = $this->input->get('label');
+		$data = false;
+		if($thread && $label)
+		{
+			$data['data'] = $this->read_sms($thread,$label);
+		}
+		$this->load->view('modal/read_sms_modal_body',$data);
+	}
+	
 	public function read_sms_modal()
 	{
-		$number = $this->input->get('number');
+		$thread = $this->input->get('thread');
 		$label = $this->input->get('label');
 		$data = false;
-		if($number && $label)
+		if($thread && $label)
 		{
-			$data['data'] = $this->read_sms($number,$label);
+			$data['data'] = $this->read_sms($thread,$label);
 		}
 		$this->load->view('modal/read_sms_modal_view',$data);
 	}
 	
-	function read_sms($number=false,$label=false)
+	function read_sms($thread=false,$label=false)
 	{
 		// label dipakai untuk masa depan saja 
-		if($number && $label)
+		if($thread && $label)
 		{
 			$temp = false;
 			$tmp = false;
 			$label = false;
 			$unread = false;
 			$mark = false;
-			$sms = $this->inbox_model->gets_where('number',$number);
+			$sms = $this->inbox_model->gets_where('thread',$thread);
 			if($sms)
 			{
 
 				foreach($sms as $isi)
 				{
+					$tmp['thread'] = $thread;
+					$tmp['lbl'] = $label;
 					//cek label
 					//$tmp['label'] = false; 
 					$label_sms = $this->label_model->get_by_id_inbox($isi->id_inbox);
@@ -123,11 +153,11 @@ Class Dashboard_data extends MX_Controller{
 						$lbtem = false;
 						foreach($label_sms as $ls)
 						{
-							$label = $this->Labelname_Model->get($ls->id_labelname);
-							if($label)
+							$lab = $this->Labelname_Model->get($ls->id_labelname);
+							if($lab)
 							{
-								$lb['name'] = $label->name;
-								$lb['color'] = $label->color;
+								$lb['name'] = $lab->name;
+								$lb['color'] = $lab->color;
 								$lbtem[] = $lb;
 							} 
 						}
@@ -152,8 +182,7 @@ Class Dashboard_data extends MX_Controller{
 						$this->inbox_model->update($isi->id_inbox,$up);
 						//$unread = $isi->id_inbox;
 					}
-					//$mark[] = $unread;
-					$tmp['tempat'] = $label;
+
 					$temp[]=$tmp;
 				}
 				return $temp;

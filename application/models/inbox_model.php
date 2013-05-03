@@ -88,5 +88,16 @@ Class inbox_model extends CI_model{
 		}
 		return false;
 	}
+	
+	public function arr_wheres($data=false)
+	{
+		$this->db->where($data);
+		$result = $this->db->get('inbox');
+		if($result->num_rows() > 0)
+		{
+			return $result->result();
+		}
+		return false;
+	}
 
 }
