@@ -24,6 +24,36 @@
 			});
 
 		}
+		$(document).ready(function(){
+			
+			$('.pesan_list').click(function(){
+				
+				var id =  $('.pesan_list:checkbox').map(function() {
+					if(this.checked){
+					   return this.value;
+					  }
+				}).get();
+				if(id != '')
+				{
+					$.post('<?php echo base_url();?>dashboard_data/get_label_thread/',{thread:id},function(data){
+						for(var i=0;i < data.length;i++)
+						{
+							//console.log(data[i]);labelcek
+							$('#label_to_'+data[i]).val(data[i]).prop('checked',true);
+						}
+						
+					},'json');
+					$('#top_btn').show();
+				}
+				else
+				{
+					$('.labelcek').prop('checked',false);
+					$('#top_btn').hide();
+				}
+				//console.log(id);
+			});			
+			
+		});
 			
 	</script>
 <table class="table table-striped table-hover">

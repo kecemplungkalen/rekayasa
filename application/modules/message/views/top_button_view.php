@@ -74,39 +74,24 @@
 				  }
 			}).get();
 			
-			var id_pesan =  $('.pesan_list:checkbox').map(function() {
+			var value_thread =  $('.pesan_list:checkbox').map(function() {
 				if(this.checked){
 				   return this.value;
 				  }
 			}).get();
 			
-			$.post('<?php echo base_url();?>dashboard_data/apply_label',{id_label:id_label,id_pesan:id_pesan},function(data){
-				if(data)
+			$.post('<?php echo base_url();?>dashboard_data/apply_label',{id_label:id_label,thread:value_thread},function(data){
+				if(data != false)
 				{
-					location.reload();
+					reloadz();
+					//applyPagination();
 				}
+				console.log(data);
 			});
 
 		});
 		
-		$('.pesan_list').click(function(){
-			
-			var id =  $('.pesan_list:checkbox').map(function() {
-				if(this.checked){
-				   return this.value;
-				  }
-			}).get();
-			if(id != '')
-			{
-				$('#top_btn').show();
-			}
-			else
-			{
-				$('#top_btn').hide();
-			}
-			//console.log(id);
-		});
-		
+	
 		$('.labelcek').click(function(){
 			
 			var labelcek =  $('.labelcek:checkbox').map(function() {
@@ -180,7 +165,7 @@
 		<?php if(isset($list_label)){?>
 		<?php foreach($list_label as $ll){?>
 			<li>
-				<a   id="labelcek"><input class="labelcek" type="checkbox" value="<?php echo $ll->id_labelname;?>" >&nbsp;&nbsp;<span class="label badge-<?php echo $ll->color;?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $ll->name;?></a>
+				<a   id="labelcek"><input class="labelcek" id="label_to_<?php echo $ll->id_labelname;?>"type="checkbox" value="<?php echo $ll->id_labelname;?>" >&nbsp;&nbsp;<span class="label badge-<?php echo $ll->color;?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $ll->name;?></a>
 			</li>
 		
 		<?php }?>

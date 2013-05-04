@@ -10,7 +10,47 @@ Class label_model extends CI_model{
 	join labelname on label.id_labelname=labelname.id_labelname 
 	where label.id_inbox='1';
 	*/
+	public function search_in($kolom=false,$data=false)
+	{
+		if($kolom && $data)
+		{
+			$this->db->where_in($kolom,$data);
+			$data = $this->db->get('label');
+			if($data->num_rows() > 0)	
+			{
+				return $data->result();
+			}
+		}
+		return false;
+	}
 	
+	public function search_not_in($kolom=false,$data=false)
+	{
+		if($kolom && $data)
+		{
+			$this->db->where_not_in($kolom,$data);
+			$data = $this->db->get('label');
+			if($data->num_rows() > 0)	
+			{
+				return $data->result();
+			}
+		}
+		return false;
+	}
+	
+	public function gets_where($kolom=false,$data=false)
+	{
+		if($kolom && $data)
+		{
+			$this->db->where($kolom,$data);
+			$data = $this->db->get('label');
+			if($data->num_rows() > 0)
+			{
+				return $data->result();
+			}
+		}
+		return false;
+	}
 	public function get_by_id_inbox($id_inbox=false)
 	{
 		if($id_inbox)
@@ -98,6 +138,25 @@ Class label_model extends CI_model{
 			if($delete)
 			{
 				return $id_label;
+			}
+		}
+		return false;
+	}
+	
+	public function delete_in($id_inbox=false)
+	{
+		if($id_inbox)
+		{
+			$this->db->where('id_inbox',$id_inbox);
+			$this->db->where('id_labelname !=','1');
+			$this->db->where('id_labelname !=','2');
+			$this->db->where('id_labelname !=','3');
+			$this->db->where('id_labelname !=','4');
+			$this->db->where('id_labelname !=','5');
+			$delete = $this->db->delete('label');
+			if($delete)
+			{
+				return $id_inbox;
 			}
 		}
 		return false;

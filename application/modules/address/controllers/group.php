@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 Class Group extends MX_Controller{
 	
 	function __construct()
@@ -35,6 +34,54 @@ Class Group extends MX_Controller{
 		
 		echo $html;
 		
+	}
+	
+	public function apply_group()
+	{
+		$id_address_book = $this->input->post('address');
+		$group = $this->input->post('group');
+		$id_user = '1';
+		if($id_address_book && $group)
+		{
+			for($i=0;$i < count($id_address_book);$i++)
+			{
+				$hapus = $this->Group_Model->delete('id_address_book',$id_address_book[$i]);
+				if($hapus)
+				{
+					for($j=0;$j < count($group);$j++)
+					{
+						$add = $this->Group_Model->add($id_address_book[$i],$group[$j],$id_user);
+					}
+				}
+				
+			}
+			echo 'true';
+		}
+		return false;
+	}
+	
+	public function get_value_group()
+	{
+		$address_book = $this->input->get('address');
+		if($address_book)
+		{
+			for($i=0;$i < count($address_book);$i++)
+			{
+				$result = $this->Group_Model->gets_by('id_address_book',$address_book[$i]);
+				if($result)
+				{
+					$gr = false;
+					foreach($result as $res)
+					{
+						$gr[] = $res->id_groupname;
+						
+					}
+					echo json_encode($gr);
+				}
+				
+			}
+		}
+		return false;
 	}
 	
 	public function hapus_group()
@@ -150,5 +197,3 @@ Class Group extends MX_Controller{
 		}	
 	}
 }
-
-

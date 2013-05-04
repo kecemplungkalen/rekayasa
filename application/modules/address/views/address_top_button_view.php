@@ -28,30 +28,52 @@
 		});
 	}
 	
-	//		$('#checkall_address').click(function(){
 	function checkall()
+	{
+		var action = 'cek';
+		if($('#checkall_address').attr('checked'))
 		{
-			var action = 'cek';
-			if($('#checkall_address').attr('checked'))
-			{
-				action = 'uncek';
-				$('#checkall_address').removeAttr('checked');
-				$('.centang_group').hide();	
-			}else{
-				$('#checkall_address').attr('checked','checked');
-				$('.centang_group').show();	
-			}
-			
-			$('.address_list:checkbox').map(function() {
-				if(action == 'cek'){
-					$("#"+this.id).prop('checked', true);
-				}else{
-					$("#"+this.id).removeAttr("checked");
-				}
-			});
+			action = 'uncek';
+			$('#checkall_address').removeAttr('checked');
+			$('.centang_group').hide();	
+		}else{
+			$('#checkall_address').attr('checked','checked');
+			$('.centang_group').show();	
 		}
-		//});
+		
+		$('.address_list:checkbox').map(function() {
+			if(action == 'cek'){
+				$("#"+this.id).prop('checked', true);
+			}else{
+				$("#"+this.id).removeAttr("checked");
+			}
+		});
+	}
 	
+	
+	
+	function apply_group()
+	{
+		var value =  $('.address_list:checkbox').map(function() {
+		if(this.checked){
+		   return this.value;
+		  }
+		}).get();
+		
+		var group =  $('.cekbox:checkbox').map(function() {
+		if(this.checked){
+		   return this.value;
+		  }
+		}).get();
+		$.post('<?php echo base_url();?>address/group/apply_group',{address:value,group:group},function(data){
+				if(data=='true')
+				{
+					location.reload();
+					applyPagination();
+				}
+			//alert(data);
+		});
+	}
 	
 	$(document).ready(function(){
 		
@@ -65,7 +87,6 @@
 			$.post('<?php echo base_url();?>address/hapus_address',{id:id},function(){
 				
 						location.reload();
-					//console.log(id);
 				
 			});
 			
@@ -79,36 +100,10 @@
 			});
 		});
 		
-		
-		$('#nama_group').click(function() {
-			var ini = $(this);   
-			if (ini.is(':checked')) {
-				alert('ceked');
-			} else {
-				alert('uncek');
-			}
-		});
-		
-		$('.address_list').click(function() {
-			var ini = $(this);
-
-			var value =  $('.address_list:checkbox').map(function() {
-					if(this.checked){
-					   return this.value;
-					  }
-				}).get();   
-			if (ini.is(':checked')) {
-				console.log(value);
-				$('.centang_group').show();				
-			} else {
-				console.log(value);
-				$('.centang_group').hide();
-			}
-		});
-		
 		$('.dropdown-menu a#cebox').click(function(e) {
 		  e.stopPropagation();
 		});
+		
 		
 
 		
@@ -123,11 +118,16 @@
 		<?php if(isset($data)) {?>
 		<?php foreach($data as $dt) {?>
 		<li id="centang_group_<?php echo $dt->id_groupname; ?>" class="centang_group hide">
-			<a id="cebox"><input id="nama_group" type="checkbox" id="<?php echo $dt->id_groupname; ?>" value="<?php echo $dt->id_groupname; ?>" >&nbsp;&nbsp;<span class="label badge-<?php echo $dt->color ;?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $dt->nama_group; ?></a>
+			<a id="cebox"><input  class="cekbox" type="checkbox" id="nama_<?php echo $dt->id_groupname; ?>" value="<?php echo $dt->id_groupname; ?>" >&nbsp;&nbsp;<span class="label badge-<?php echo $dt->color ;?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $dt->nama_group; ?></a>
 		</li>
 		<?php } ?>
 		<?php } ?>
 		<li class="divider"></li>
+		
+		<li class="apply_group hide" >
+			<a href="#" onclick="apply_group()">Apply Group</a>
+		</li>
+		
 		<li>
 			<a href="#" onclick="add_user()">Add User</a>
 		</li>

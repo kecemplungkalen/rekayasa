@@ -56,18 +56,43 @@ Class Add_process extends MX_Controller{
 			}
 			
 			//cek tread
-			$thread = false;
+			$thread = mt_rand();;
 			$cari = array('number' => $number,'status_archive' => '0');
 			$cek_thread = $this->inbox_model->arr_wheres($cari);
-			if($cek_thread)
+			if($cek_thread) // thread sudah pernah dibuat 
 			{
 				$thread = $cek_thread[0]->thread;
+				//ambil label sebelumnya
+				//ambil id_inbox berdasarkan thread  (wafer 1)
+				$comot_id_inbox = $this->inbox_model->gets_where('thread',$thread);
+				$cil = false;
+				if($comot_id_inbox)
+				{
+					$id_inbox_ar = false; 
+					foreach($comot_id_inbox as $comot)
+					{
+						$cil[] = $comot->id_inbox;
+					}
+					$id_inbox_ar = $cil;
+					//ambil id nama label di label (wafer 2);
+					$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
+					$insert_labelname = false;
+					if($comot_id_labelname)
+					{
+						$lbl_name = false;
+						foreach($comot_id_labelname as $id_labelname)
+						{
+							if($id_labelname->id_labelname == '1' || $id_labelname->id_labelname == '2' || $id_labelname->id_labelname == '4')
+							{
+								$lbl_name['id_labelname'] = $id_labelname->id_labelname;
+								$insert_labelname[]= $lbl_name; // dapat id_labelname
+							}
+						}
+						
+					}
+				}
+				
 			}
-			else
-			{
-				$thread = mt_rand();
-			}
-
 			//insert ke tabel inbox mark unread 
 			$id_inbox = false;
 			$input_inbox = array(
@@ -81,14 +106,25 @@ Class Add_process extends MX_Controller{
 			'read_status' => '0',
 			'status_archive' => '0'
 			);
-			
 			$data_id_inbox = $this->inbox_model->add($input_inbox); // kita dapat id_inbox
 			if($data_id_inbox)
 			{
 				$id_inbox = $data_id_inbox;
+			
 			}
+			
 			// tambah ke label inbox 
 			$id_label_inbox = $this->label_model->add($id_inbox,'1');
+			// tambahkan semua label thread sebelumnya kecuali sent (wafer 3)
+			if($insert_labelname)
+			{
+				for($i=0;$i<count($insert_labelname);$i++)
+				{
+					$this->label_model->add($id_inbox,$insert_labelname[$i]);
+					
+				}
+			}
+			
 			//ambil filter aktif
 			$data_filter = $this->Filter_Model->gets(1);
 			if($data_filter)

@@ -25,6 +25,38 @@
 			});
 
 		}
+		
+		$(document).ready(function(){
+			$('.address_list').click(function() {
+				var value =  $('.address_list:checkbox').map(function() {
+						if(this.checked){
+						   return this.value;
+						  }
+					}).get();
+				if(value != '')
+				{
+					$.get('<?php echo base_url();?>address/group/get_value_group',{address:value},function(data){
+						
+						if(data)
+						{
+							for(var i=0;i < data.length;i++)
+							{
+								$('#nama_'+data[i]).prop('checked',true);
+								
+							}
+						}						
+					},'json');
+					$('.centang_group').show();
+					$('.apply_group').show();	
+				}else
+				{
+					$('.cekbox').prop('checked',false);
+					$('.centang_group').hide();
+					$('.apply_group').hide();
+				}   
+
+			});			
+		});
 			
 	</script>
 <table class="table table-striped table-hover">

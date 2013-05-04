@@ -38,16 +38,74 @@ Class Dashboard_data extends MX_Controller{
 	public function apply_label()
 	{
 		$id_labelname = $this->input->post('id_label');
-		$id_pesan = $this->input->post('id_pesan');
+		$thread = $this->input->post('thread');
 		//var_dump($_POST);
-		for($i=0;$i < count($id_pesan);$i++)
+		//for($i=0;$i < count($id_pesan);$i++)
+		//{
+		//	for($j=0;$j < count($id_labelname);$j++)
+		//	{
+		//		$data[] = $this->label_model->add($id_pesan[$i],$id_labelname[$j]);
+		//	}
+		//}
+
+		//for($j=0;$j < count($id_labelname);$j++)
+		//{
+		//	$data[] = $this->label_model->add($idp->id_inbox,$id_labelname[$j]);
+			
+			//
+			
+		//}
+
+		
+		$data = false;
+		$sama  = false;
+		for($i=0;$i < count($thread);$i++)
 		{
-			for($j=0;$j < count($id_labelname);$j++)
+			// ambil list id 
+			//var_dump($thread);
+			$id_pesan = $this->inbox_model->gets_where('thread',$thread[$i]);
+			
+			if($id_pesan)
 			{
-				$data[] = $this->label_model->add($id_pesan[$i],$id_labelname[$j]);
+				$arr1 = false;
+				$delete =false;
+				foreach($id_pesan as $idp)
+				{
+					$labelname_id= false;
+					// dapat id inbox
+					
+					//delete semua addtional 
+					$delete = $this->label_model->delete_in($idp->id_inbox);
+					//var_dump($delete);
+					if($delete)
+					{
+						// tambahkan label baru 
+						for($j=0;$j < count($id_labelname);$j++)
+						{
+							$data = $this->label_model->add($idp->id_inbox,$id_labelname[$j]);
+							if($data)
+							{
+								return $data;
+							}
+						}
+					}
+					
+					/*
+					$id_inbox = $this->label_model->gets_where('id_inbox',$idp->id_inbox);
+					if($id_inbox)
+					{
+						foreach($id_inbox as $ibey)
+						{
+							$labelname_id[] =  $ibey->id_labelname;
+						}
+					}
+					$sama = array_diff($id_labelname,$labelname_id);
+					var_dump($labelname_id);
+					*/
+				}
 			}
 		}
-		echo $data;
+		//return $data;
 		//var_dump($id_pesan);
 		
 	}
@@ -65,6 +123,49 @@ Class Dashboard_data extends MX_Controller{
 			else
 			return false;
 		}
+	}
+	
+	function get_label_thread()
+	{
+		$thread = $this->input->post('thread');
+		if($thread)
+		{
+			for($i=0;$i < count($thread);$i++)
+			{
+				$result = $this->inbox_model->gets_where('thread',$thread[$i]);
+				$cil= false;
+				if($result)
+				{
+					$id_inbox_ar = false;
+					foreach($result as $res)
+					{
+						$cil[] = $res->id_inbox;						
+					}
+
+					$id_inbox_ar = $cil;
+					//ambil id nama label di label (wafer 2);
+					$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
+					$insert_labelname = false;
+					$lbl_name = false;
+					if($comot_id_labelname)
+					{
+						$hasil = false;
+						foreach($comot_id_labelname as $id_labelname)
+						{
+							$lbl_name[] = $id_labelname->id_labelname;
+							
+							//$insert_labelname[]= $lbl_name; // dapat id_labelname
+						}
+						$hasil = array_unique($lbl_name);
+						$ret = array_values($hasil);
+						echo json_encode($ret);
+					}
+				}
+				
+			}
+			
+		}
+		return false;
 	}
 	
 	public function set_archive()
