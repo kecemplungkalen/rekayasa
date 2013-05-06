@@ -53,9 +53,13 @@
 				$.post('<?php echo base_url(); ?>address/tambah_address',$('#add_addr').serialize(),function(data){
 					
 					//console.log(data);
-					if(data)
+					if(data=='true')
 					{
 						location.reload();
+					}
+					else
+					{
+						$('#err').show();
 					}
 					
 				});
@@ -78,6 +82,7 @@
 		<h3>Add Address Book</h3>
 	</div>
 	<div class="modal-body">
+	<div class="alert alert-error hide" id="err"> <strong>Galat..!</strong> Dalam Menambahkan Addess Baru</div>
 		<form class="form-horizontal" id="add_addr" >
 			<div class="control-group">
 				<label class="control-label">Phone Number</label>

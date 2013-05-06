@@ -28,6 +28,19 @@
 		
 		});
 		
+		$('#alert').click(function(){
+			
+			var id =  $('.filter_list:checkbox').map(function() {
+				if(this.checked){
+				return this.value;
+				}
+			}).get();
+			if(id != '')
+			{
+				$('#konfirm').modal('show');
+			}
+				
+		});
 
 		
 	});
@@ -91,7 +104,7 @@
 </script>
 <div class="btn-group">
 	<a class="btn dropdown-toggle" onclick="add_filter()" >+ <i class="icon-th"></i></a>
-	<a class="btn" id="hapus_filter"><i class="icon-trash"></i></a>
+	<a class="btn" id="alert"><i class="icon-trash"></i></a>
 </div>
 <form class="form-search pull-right" id="search">
   <input type="text" name="keyword" id="keyword" class="input-medium search-query" placeholder="Search keyword ...	">
@@ -105,3 +118,13 @@
 	</li>
 	<li class="active">Filter</li>
 </ul>
+
+<div class="modal fade hide" id="konfirm">
+	<div class="modal-header">
+	<h6>Ingin Menghapus Filter ini ?</h6> 
+	</div>
+	<div class="modal-body pull-right">
+	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
+	<a href="#" class="btn btn-danger" id="hapus_filter">Hapus</a>
+	</div>
+</div>

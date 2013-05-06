@@ -104,9 +104,18 @@
 		  e.stopPropagation();
 		});
 		
-		
-
-		
+		$('#alert').click(function(){
+			var id =  $('.address_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+			
+			if(id != '')
+			{
+				$('#konfirm').modal('show');
+			}
+		});
 	});
 
 	
@@ -135,7 +144,7 @@
 			<a href="#" onclick="group_manage()">Manage Groups</a>
 		</li>
 	</ul>
-	<a class="btn" id="hapus_address"><i class="icon-trash"></i></a>
+	<a class="btn" id="alert" ><i class="icon-trash"></i></a>
 </div>
 <form class="form-search pull-right" id="search_address" method="post">
   <input name="keyword" id="keyword" type="text" class="input-medium search-query" placeholder="Search keyword ...	">
@@ -149,3 +158,13 @@
 	</li>
 	<li class="active">Address Book</li>
 </ul>
+
+<div class="modal fade hide" id="konfirm">
+	<div class="modal-header">
+	<h6>Ingin Menghapus Address ini ?</h6> 
+	</div>
+	<div class="modal-body pull-right">
+	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
+	<a href="#" class="btn btn-danger" id="hapus_address">Hapus</a>
+	</div>
+</div>

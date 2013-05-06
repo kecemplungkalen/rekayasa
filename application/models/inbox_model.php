@@ -89,6 +89,36 @@ Class inbox_model extends CI_model{
 		return false;
 	}
 	
+	function get_in_where($data=false)
+	{
+		if($data)
+		{
+			$this->db->where_in('id_inbox',$data);
+			$this->db->group_by('thread');
+			$thread  = $this->db->get('inbox');
+			if($thread->num_rows() > 0)
+			{
+				return $thread->result();
+			}
+		}	
+		return false;
+	}
+
+	function gets_in_where($kolom=false,$data=false)
+	{
+		if($kolom && $data)
+		{
+			$this->db->where_in($kolom,$data);
+			$this->db->group_by('thread');
+			$thread  = $this->db->get('inbox');
+			if($thread->num_rows() > 0)
+			{
+				return $thread->result();
+			}
+		}	
+		return false;
+	}
+	
 	public function arr_wheres($data=false)
 	{
 		$this->db->where($data);

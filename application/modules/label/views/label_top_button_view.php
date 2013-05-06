@@ -38,12 +38,22 @@
 		});
 		
 		
-
+		$('#alert').click(function(){
+			
+			var id =  $('.label_list:checkbox').map(function() {
+			if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+			if(id != '')
+			{
+				$('#konfirm').modal('show');
+			}
+		});
 
 		
 	});
 	
-	//		$('#checkall_label').click(function(){
 	function checkall()
 	{		
 		var action = 'cek';
@@ -64,7 +74,8 @@
 			}
 		});
 	}
-		//});
+	
+	
 	
 	
 	function show_edit(id_labelname)
@@ -77,10 +88,9 @@
 	}
 	
 </script>
-
 <div class="btn-group">
 	<a class="btn" id="label_add">+ <i class="icon-tags"></i></a>
-	<a class="btn" id="hapus_label"><i class="icon-trash"></i></a>
+	<a class="btn" id="alert"><i class="icon-trash"></i></a>
 </div>
 <form class="form-search pull-right" id="search">
   <input type="text" class="input-medium search-query" name="keyword" id="keyword" placeholder="Search keyword ...	">
@@ -96,3 +106,12 @@
 	<li class="active">Additional Label</li>
 </ul>
 <a class="btn btn-primary pull-right" href="<?php echo base_url();?>label/system">Go to System Label</a>
+<div class="modal fade hide" id="konfirm">
+	<div class="modal-header">
+	<h6>Ingin Menghapus Label ini ?</h6> 
+	</div>
+	<div class="modal-body pull-right">
+	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
+	<a href="#" class="btn btn-danger" id="hapus_label">Hapus</a>
+	</div>
+</div>

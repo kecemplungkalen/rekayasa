@@ -51,9 +51,13 @@
 						if(valid == true)
 						{
 							$.post('<?php echo base_url();?>label/edit_label',$('#form_label_add_edit').serialize(),function(data){
-								if(data)
+								if(data=='true')
 								{
 									location.reload();
+								}
+								else
+								{
+									$('#err').show();
 								}
 							});
 						}
@@ -71,6 +75,7 @@
 		<h3>Edit Label : <?php echo $label->name;?></h3>
 	</div>
 	<div class="modal-body">
+		<div class="alet alert-danger hide" id="err"><strong>Galat.!!</strong> dalam pengeditan</div>
 		<form class="form-horizontal"  id="form_label_add_edit">
 			<div class="control-group">
 				<label class="control-label">Label Name</label>
@@ -174,6 +179,5 @@
 	<div class="modal-footer">
 		<a href="#" class="btn btn-primary" id="edit_label" >Save changes</a>		
 		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
-		<a href="#" class="btn btn-danger">Delete</a>
 	</div>
 </div>

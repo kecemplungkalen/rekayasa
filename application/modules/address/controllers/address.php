@@ -199,10 +199,10 @@ Class Address extends MX_Controller{
 			{
 				$this->Group_Model->add($last_id,$group[$i],$id_user);
 			}
-			return true;
+			echo 'true';
 		}
 		else 
-		return false;
+		echo 'false';
 		
 		
 	}
@@ -232,10 +232,12 @@ Class Address extends MX_Controller{
 						$data = $this->Group_Model->add($id_address_book,$group[$i],$id_user);
 					}
 				}
-				return true;
+				echo 'true';
 			}
 			
 		}
+		else
+		echo 'false';
 		
 		//var_dump($_POST);
 	}

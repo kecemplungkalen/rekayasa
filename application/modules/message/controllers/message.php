@@ -33,7 +33,6 @@ Class Message extends MX_Controller{
 		//seting coba data perpage pagina
 		$perpage = 10;
 		$isi = $this->tampil_data($label,$perpage,$start,$keyword);
-		
 		if($isi['remap'])
 		{
 			$view['data'] = $isi['remap'];
@@ -85,68 +84,103 @@ Class Message extends MX_Controller{
 			$get_label_id = $this->Labelname_Model->get_label_id($label);
 			if($get_label_id)
 			{
-				$total = false;
-				//ambil data label
-				$data_id = $this->label_model->get_id_inbox($get_label_id->id_labelname);
-				if($data_id)
+				if($get_label_id->id_labelname == '4')
 				{
-					foreach($data_id as $di)
+					//dapat id inboxnya yang lablnya trash  
+					$all_id_inbox_this_label = $this->label_model->get_id_inbox($get_label_id->id_labelname);
+					$ret = false;
+					//var_dump($all_id_inbox_this_label);
+					$temp = false;
+					if($all_id_inbox_this_label)
 					{
-						$id_inbox[] = $di->id_inbox;
-					}
-					$data = $this->message_model->get_inbox($id_inbox,$jumlah,$mulai,$keyword=false);
-					if($data)
-					{
-						$isi=false;
-						$remap=false;
-						foreach($data as $da)
+						
+						//cari threadnya
+						
+						$tmp = false;
+						$tempo = false;
+						foreach($all_id_inbox_this_label as $aiitl)
 						{
-							$isi['read_status'] = $da->read_status;
-							$isi['id_inbox'] = $da->id_inbox;
-							$isi['thread'] = $da->thread;
-							$isi['number'] = $da->number;
-							$isi['total'] = $da->total;
-							$isi['content'] = substr($da->content,0,50);
-							$isi['recive_date'] = $da->recive_date;
-							$isi['id_address_book'] = $da->id_address_book;
-							$isi['first_name'] = $da->first_name;
-							$isi['last_name'] = $da->last_name;
-							$data_label = $this->label_model->get_by_id_inbox($da->id_inbox);
-							$sub_data=false;
-							if($data_label)
+							
+							$temp = $aiitl->id_inbox;
+							$tempo[] = $temp;
+						}
+						//var_dump($tempo);
+						// ambil 1 
+						$tmp = $this->inbox_model->get_in_where($tempo);
+						$tem_thread = false;
+						$d_thread = false;
+						$wafer = false;
+						if($tmp)
+						{
+							
+							foreach($tmp as $t)
 							{
-								
-								foreach($data_label as $dl)
-								{
-									$sub['id_label'] = $dl->id_label;
-									$sub['id_labelname'] = $dl->id_labelname;
-									$sub['name'] = $dl->name;
-									$sub['color'] = $dl->color;
-									$sub_data[] = $sub; 									
-								}
+								$d_thread = $t->thread;
+								$wafer[]= $d_thread;
 							}
-							$isi['label'] = $sub_data;
-							$remap[] = $isi;
+							//var_dump($wafer);
+							// ambil wafer 1 
+							$data_tampil1 = $this->message_model->get_by_thread($d_thread);
+							//var_dump($data_tampil1);
+							if($data_tampil1)
+							{
+								$gt_content = false;
+								$isi = false;
+								$ambil_label = false;
+								foreach($data_tampil1 as $dtam)
+								{
+									$isi['fist_name'] = $dtam->first_name;	
+									$isi['last_name'] = $dtam->last_name;	
+									$gt_content = $this->inbox_model->get($dtam->id_inbox);
+									if($gt_content)
+									{
+										$isi['content'] = $gt_content->content;
+										
+									}
+									
+									$isi['number'] = $dtam->number;
+									$isi['total'] = $dtam->total;
+									$isi['thread'] = $dtam->thread;
+									// ambil label total 
+									$arr  = array('thread' => $isi['thread']);
+									$ambil_label = $this->inbox_model->arr_wheres($arr);
+									$id_inb= false;
+									$datanya = false;
+									var_dump($ambil_label);
+									if($ambil_label)
+									{
+										foreach($ambil_label as $alb)
+										{
+											$id_inb[] = $alb->id_inbox;
+											
+										}
+										//$datanya = $this->label_model->search_in('id_inbox',$id_inb);
+									}
+									
+									$isi['read_status'] = $dtam->read_status;
+									$remap[] = $isi;
+								}
+								var_dump($remap);
+							}
+							
+							
+							
 						}
 						
 					}
-					if($keyword)
-					{
-						$data_total = $this->message_model->get_inbox($id_inbox,0,0,$keyword);
-					}
-					else
-					{
-						$data_total = $this->message_model->get_inbox($id_inbox);
-					}
-					if($data_total)
-					{
-						$total = count($data_total);
-					}
-
+					return $ret;
+					
 				}
-				$has = array('remap' => $remap,'total' => $total);
-				return $has;
+				else
+				{
+					
+					
+				}
+				
+				
+				
 			}
+			
 		}
 		else
 		{

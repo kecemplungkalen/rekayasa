@@ -2,13 +2,21 @@
 	
 	$(document).ready(function(){
 		
+		
+		<?php if($label){ ?>
+		 
+			<?php if($label != 'inbox'){ ?>
+			$('#set_archive').hide();
+			<?php } ?>
+			
+		<?php } ?>
+		
 		$('#set_archive').click(function(){
 			var thread =  $('.pesan_list:checkbox').map(function() {
 				if(this.checked){
 				   return this.value;
 				  }
 			}).get();
-			//console.log(thread);
 			
 			$.post('<?php echo base_url();?>dashboard_data/set_archive',{thread:thread},function(){
 				
@@ -45,9 +53,12 @@
 				  }
 			}).get();
 			//maek this make labeled trash
-			$.post('<?php echo base_url();?>dashboard_data/hapus_message',{id:id},function(){
-				
-				location.reload();
+			$.post('<?php echo base_url();?>dashboard_data/hapus_message',{id:id},function(data){
+				if(data == 'true')
+				{
+
+					location.reload();
+				}
 				//	console.log(data);
 				
 			});
@@ -74,12 +85,12 @@
 			$.post('<?php echo base_url();?>dashboard_data/apply_label',{id_label:id_label,thread:value_thread},function(data){
 				
 				console.log(data);
-				//if(data == 'true')
-				//{
+				if(data == 'true')
+				{
 					//reloadz();
 					//applyPagination();
-					//location.reload();
-				//}
+					location.reload();
+				}
 			});
 
 		});
@@ -102,12 +113,25 @@
 			}
 		});
 		
+		$('#alert').click(function(){
+			var ceklist =  $('.pesan_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+			
+			if(ceklist !='')
+			{
+				$('#konfirm').modal('show');
+			}
+
+		});
+		
 
 
 
 	});
 	
-	//$('#checkall_pesan').click(function(){
 	function checkall()
 	{		
 			var action = 'cek';
@@ -130,7 +154,6 @@
 				}
 			});
 	}
-	//});
 	
 	function read_sms(thread)
 	{
@@ -141,6 +164,7 @@
 			
 		});
 	}
+	
 	function reloadz()
 	{
 		$.post('<?php echo base_url();?>message/<?php if($label){ echo $label; } ?>/',$('#search').serialize()+"&reload=1",function(data) {
@@ -168,7 +192,7 @@
 			<a id="terapkan_label">Terapkan Label</a>
 		</li>
 	</ul>
-	<a class="btn" id="hapus_pesan" ><i class="icon-trash"></i></a>
+	<a class="btn" id="alert" ><i class="icon-trash"></i></a>
 </div>
 <form class="form-search pull-right" id="search">
   <input type="hidden" name="label" value="<?php if($label){ echo $label; } ?>">
@@ -183,3 +207,13 @@
 	</li>
 	<li class="active"><?php if($label){ echo $label; } ?></li>
 </ul> 
+
+<div class="modal fade hide" id="konfirm">
+	<div class="modal-header">
+	<h6>Ingin Menghapus thread ini ?</h6> 
+	</div>
+	<div class="modal-body pull-right">
+	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
+	<a href="#" class="btn btn-danger" id="hapus_pesan">Hapus</a>
+	</div>
+</div>

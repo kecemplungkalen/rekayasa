@@ -43,10 +43,14 @@
 						if(valid == true)
 						{
 							$.post('<?php echo base_url();?>label/add_label',$('#form_label_add').serialize(),function(data){
-								if(data)
+								if(data=='true')
 								{
 									//console.log(data);
 									location.reload();
+								}
+								else
+								{
+									$('#err').show();
 								}
 							});
 						}
@@ -64,6 +68,7 @@
 		<h3>Add Label</h3>
 	</div>
 	<div class="modal-body">
+		<div  class="alert alert-danger hide" id="err"><strong>Galat</strong>Error Dalam Menambahkan Label</div>
 		<form class="form-horizontal"  id="form_label_add">
 			<div class="control-group">
 				<label class="control-label">Label Name</label>

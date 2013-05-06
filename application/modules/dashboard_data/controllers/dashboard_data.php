@@ -16,23 +16,34 @@ Class Dashboard_data extends MX_Controller{
 	
 	public function hapus_message()
 	{
-		//id label yg di remove  
+		//thread label yg di remove  
 		
-		//id inbox
-		$id_inbox = $this->input->post('id');
-		if($id_inbox)
-		{
-			for($i=0;$i < count($id_inbox); $i++)
+		$thread = $this->input->post('id');
+		if($thread)
+		{	$stat = false;
+			for($i=0;$i < count($thread); $i++)
 			{
-				//$this->inbox_model->delete($id_inbox[$i]);
-				$delete = $this->label_model->delete_by('id_inbox',$id_inbox[$i]);
-				if($delete)
+				$get_id_inbox = $this->inbox_model->gets_where('thread' ,$thread[$i]);
+				if($get_id_inbox)
 				{
-					$this->label_model->add($id_inbox[$i],'4');
+					foreach($get_id_inbox as $gid)
+					{
+						$data = array('id_labelname' => '1','id_inbox' => $gid->id_inbox);		
+						$this->label_model->add($gid->id_inbox,'4');
+					}
+					$stat = true;
 				}
 				
 			}
+			$jum = $stat && $stat;
+			if($jum)
+			{
+				echo 'true';
+			}
 		}
+		else
+		echo 'false';
+		
 	}
 	
 	public function apply_label()
@@ -64,7 +75,7 @@ Class Dashboard_data extends MX_Controller{
 						if($data)
 						{
 							//var_dump($data);
-							$arr1[]=true;
+							$arr1=true;
 						}
 					}
 
@@ -72,7 +83,7 @@ Class Dashboard_data extends MX_Controller{
 			}
 		}
 
-		$dumy = $arr1[] && $arr1;
+		$dumy = $arr1 && $arr1;
 		if($dumy)
 		{
 			echo 'true';

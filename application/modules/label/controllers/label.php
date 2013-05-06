@@ -58,6 +58,7 @@ Class Label extends MX_Controller{
 	{
 
 		$label_list = $this->Labelname_Model->get_add($perpage,$start,$keyword);
+		$tmp = false;
 		if($label_list)
 		{
 			$tmp = false;
@@ -205,10 +206,10 @@ Class Label extends MX_Controller{
 		$add_label = $this->Labelname_Model->add($name,$color);
 		if($add_label)
 		{
-			return $add_label;
+			echo 'true';
 		}
 		else
-		return false;
+		echo 'false';
 		
 	}
 	public function edit_label()
@@ -221,21 +222,21 @@ Class Label extends MX_Controller{
 			$update = $this->Labelname_Model->update($id_labelname,$name,$color);
 			if($update)
 			{
-				return true;
+				echo 'true';
 			}
 			else 
 			{
-				return false;
+				echo 'false';
 			}
 		}else
 		{
 			$update = $this->Labelname_Model->update_label_system($id_labelname,$color);
 			if($update)
 			{
-				return true;
+				echo 'true';
 			}else
 			{
-				return false;
+				echo 'false';
 			}	
 		}
 	}

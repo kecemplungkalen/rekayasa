@@ -51,6 +51,20 @@ Class label_model extends CI_model{
 		}
 		return false;
 	}
+	
+	public function getswhere($dawere=false)
+	{
+		if($dawere)
+		{
+			$this->db->where($dawere);
+			$cari =  $this->db->get('label');
+			if($cari->num_rows() > 0)
+			{
+				return $cari->result();
+			}
+		}
+		return false;
+	}
 	public function get_by_id_inbox($id_inbox=false)
 	{
 		if($id_inbox)

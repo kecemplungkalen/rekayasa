@@ -4,9 +4,12 @@
 
 		$('#edit').click(function(){
 			$.post('<?php echo base_url();?>address/update_address',$('#editaddr').serialize(),function(data){
-				if(data)
+				if(data=='true')
 				{
 					location.reload();
+				}else
+				{
+					$('#err').show();
 				}
 			});
 			
@@ -22,6 +25,7 @@
 		<h3><span id="top_first"> <?php echo $address['first_name'];?> </span>  <span id="top_last"> <?php echo $address['last_name'];?></span></h3>
 	</div>
 	<div class="modal-body">
+			<div class="alert alert-error hide" id="err"> <strong>Galat..!</strong> Dalam Merubah Addess</div>
 		<form class="form-horizontal" id="editaddr">
 		<input type="hidden" id="id_address_book" name="id_address_book" value="<?php echo $address['id_address_book']?>">
 

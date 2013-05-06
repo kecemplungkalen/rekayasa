@@ -53,5 +53,22 @@ Class message_model extends CI_model{
 		
 	}
 	
+	function get_by_thread($thread=false)
+	{
+		if($thread)
+		{
+			$this->db->select('max(inbox.id_inbox) as id_inbox,min(read_status) as read_status,thread,count(id_inbox) as total, inbox.number,first_name,last_name');
+			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book','left');			
+			$this->db->where_in('thread',$thread);
+			$this->db->group_by('thread');
+			$this->db->order_by('recive_date','desc');
+			$data = $this->db->get('inbox');
+			if($data->num_rows() > 0)
+			{
+				return $data->result();
+			}
+		}
+		return false;
+	}
 
 }
