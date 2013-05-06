@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 04, 2013 at 07:40 AM
+-- Generation Time: May 06, 2013 at 02:04 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `address_book` (
   `create_date` int(11) NOT NULL,
   `last_update` int(11) NOT NULL,
   PRIMARY KEY (`id_address_book`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `address_book`
@@ -42,7 +42,9 @@ INSERT INTO `address_book` (`id_address_book`, `id_user`, `first_name`, `last_na
 (8, 1, 'mbah ', 'mangun', '+6281927198', 0, 'mbah.mbagen@gmail.com', 1366633298, 1366633298),
 (9, 1, 'mbah ', 'joyo', '+62789789123', 0, 'mbah_joyo_imut@ymail.com', 1366677403, 1366677403),
 (10, 1, '+6287869122852', '', '+6287869122852', 5, '', 1367287159, 1367287159),
-(11, 1, 'bob', 'maleh', '+62819678420', 5, 'bob_maleh@ymail.com', 1367459799, 1367459799);
+(11, 1, 'bob', 'maleh', '+62819678420', 5, 'bob_maleh@ymail.com', 1367459799, 1367459799),
+(12, 1, '+62819678430', '', '+62819678430', 5, '', 1367659875, 1367659875),
+(13, 1, '+62819678431', '', '+62819678431', 5, '', 1367660168, 1367660168);
 
 -- --------------------------------------------------------
 
@@ -91,14 +93,14 @@ CREATE TABLE IF NOT EXISTS `config_rule` (
   `id_config_modem` int(11) NOT NULL,
   `id_smsc_name` int(11) NOT NULL,
   PRIMARY KEY (`id_config_rule`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `config_rule`
 --
 
 INSERT INTO `config_rule` (`id_config_rule`, `id_config_modem`, `id_smsc_name`) VALUES
-(4, 1, 6);
+(8, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -119,10 +121,10 @@ CREATE TABLE IF NOT EXISTS `filter` (
 --
 
 INSERT INTO `filter` (`id_filter`, `id_delimiter`, `filter_name`, `status`) VALUES
-(6, 1, 'registrasi', 0),
-(7, 1, 'Filter spam', 0),
-(8, 4, 'Konfirmasi', 0),
-(9, 1, 'Registrasi 2', 0);
+(6, 1, 'registrasi', 1),
+(7, 1, 'Filter spam', 1),
+(8, 4, 'Konfirmasi', 1),
+(9, 1, 'Registrasi 2', 1);
 
 -- --------------------------------------------------------
 
@@ -288,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `group` (
   PRIMARY KEY (`id_group`),
   KEY `id_address_book` (`id_address_book`),
   KEY `id_groupname` (`id_groupname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=73 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=77 ;
 
 --
 -- Dumping data for table `group`
@@ -298,8 +300,9 @@ INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) V
 (10, 9, 1, 1),
 (11, 9, 1, 4),
 (26, 11, 1, 4),
-(71, 2, 1, 1),
-(72, 8, 1, 1);
+(72, 8, 1, 1),
+(75, 2, 1, 1),
+(76, 10, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -342,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `inbox` (
   `last_update` int(11) NOT NULL,
   `status_archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_inbox`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=87 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=89 ;
 
 --
 -- Dumping data for table `inbox`
@@ -373,7 +376,9 @@ INSERT INTO `inbox` (`id_inbox`, `thread`, `id_user`, `id_address_book`, `number
 (83, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 1111', 1, 1367569842, 0),
 (84, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 420420', 1, 1367570145, 0),
 (85, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 999999999', 1, 1367570306, 0),
-(86, '', 1, 8, '', 1367574969, 'Coba wae brow//', 1, 1367574969, 0);
+(86, '', 1, 8, '', 1367574969, 'Coba wae brow//', 1, 1367574969, 0),
+(87, '1505695122', 1, 12, '+62819678430', 1364200074, 'code name revolution', 1, 1367659875, 0),
+(88, '1165169767', 1, 13, '+62819678431', 1364200074, 'code name revolutionaries', 0, 1367660168, 0);
 
 -- --------------------------------------------------------
 
@@ -388,14 +393,13 @@ CREATE TABLE IF NOT EXISTS `label` (
   PRIMARY KEY (`id_label`),
   KEY `id_inbox` (`id_inbox`),
   KEY `id_labelname` (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=212 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=309 ;
 
 --
 -- Dumping data for table `label`
 --
 
 INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
-(95, 9, 9),
 (96, 68, 2),
 (97, 69, 2),
 (98, 70, 2),
@@ -407,26 +411,40 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (115, 84, 1),
 (117, 85, 1),
 (118, 86, 2),
-(120, 11, 9),
-(121, 74, 10),
 (184, 67, 10),
 (185, 71, 10),
 (186, 76, 10),
-(197, 81, 7),
-(198, 81, 8),
-(199, 81, 9),
-(200, 82, 7),
-(201, 82, 8),
-(202, 82, 9),
-(203, 83, 7),
-(204, 83, 8),
-(205, 83, 9),
-(206, 84, 7),
-(207, 84, 8),
-(208, 84, 9),
-(209, 85, 7),
-(210, 85, 8),
-(211, 85, 9);
+(263, 81, 7),
+(264, 81, 8),
+(267, 82, 7),
+(268, 82, 8),
+(271, 83, 7),
+(272, 83, 8),
+(275, 84, 7),
+(276, 84, 8),
+(279, 85, 7),
+(280, 85, 8),
+(283, 3, 8),
+(284, 3, 9),
+(285, 8, 8),
+(286, 8, 9),
+(287, 9, 8),
+(288, 9, 9),
+(289, 70, 8),
+(290, 70, 9),
+(291, 11, 8),
+(292, 11, 9),
+(294, 69, 8),
+(295, 69, 9),
+(297, 72, 8),
+(298, 72, 9),
+(300, 74, 8),
+(301, 74, 9),
+(303, 75, 8),
+(304, 75, 9),
+(306, 87, 1),
+(307, 88, 1),
+(308, 87, 9);
 
 -- --------------------------------------------------------
 
