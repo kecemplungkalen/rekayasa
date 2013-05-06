@@ -72,12 +72,14 @@
 			}).get();
 			
 			$.post('<?php echo base_url();?>dashboard_data/apply_label',{id_label:id_label,thread:value_thread},function(data){
-				if(data == 'true')
-				{
+				
+				console.log(data);
+				//if(data == 'true')
+				//{
 					//reloadz();
 					//applyPagination();
-					location.reload();
-				}
+					//location.reload();
+				//}
 			});
 
 		});

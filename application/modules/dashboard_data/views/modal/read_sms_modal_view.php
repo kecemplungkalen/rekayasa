@@ -11,6 +11,7 @@
 	
 	</script>
 	<?php if($data){?>
+	
 	<?php if(isset($data[0]['first_name']) || isset($data[0]['last_name'])){ ?>
 						<h3> <?php echo $data[0]['first_name'].' '.$data[0]['last_name'];?></h3> 
 				<?php } else {?>

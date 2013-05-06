@@ -47,33 +47,32 @@ Class Dashboard_data extends MX_Controller{
 			// ambil list id 
 			//var_dump($thread);
 			$id_pesan = $this->inbox_model->gets_where('thread',$thread[$i]);
-			
+
 			if($id_pesan)
 			{
 				
 				$delete =false;
 				foreach($id_pesan as $idp)
 				{
-					$labelname_id= false;
 					// dapat id inbox
 					$delete = $this->label_model->delete_in($idp->id_inbox);
-					if($delete)
+				// tambahkan label baru
+					
+					for($j=0;$j < count($id_labelname);$j++)
 					{
-						// tambahkan label baru 
-						for($j=0;$j < count($id_labelname);$j++)
+						$data = $this->label_model->add($idp->id_inbox,$id_labelname[$j]);
+						if($data)
 						{
-							$data = $this->label_model->add($idp->id_inbox,$id_labelname[$j]);
-							if($data)
-							{
-								$arr1=true;
-							}
+							//var_dump($data);
+							$arr1[]=true;
 						}
 					}
 
 				}
 			}
 		}
-		$dumy = $arr1 && $arr1;
+
+		$dumy = $arr1[] && $arr1;
 		if($dumy)
 		{
 			echo 'true';
@@ -81,8 +80,7 @@ Class Dashboard_data extends MX_Controller{
 		{
 			echo 'false';
 		}
-		//return $data;
-		//var_dump($id_pesan);
+
 		
 	}
 	
@@ -225,6 +223,7 @@ Class Dashboard_data extends MX_Controller{
 				{
 					$tmp['thread'] = $thread;
 					$tmp['lbl'] = $label;
+					$tmp['status_archive'] = $isi->status_archive;
 					//cek label
 					//$tmp['label'] = false; 
 					$tmp['id_inbox'] = $isi->id_inbox;
@@ -256,6 +255,7 @@ Class Dashboard_data extends MX_Controller{
 						$tmp['first_name'] = $has_address->first_name;
 						$tmp['last_name'] = $has_address->last_name;
 					}
+					
 					$tmp['number'] = $isi->number;
 					$tmp['read_status'] = $isi->read_status;
 					if($isi->read_status != '1')
