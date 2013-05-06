@@ -41,21 +41,20 @@
 			
 		<!-- start content -->
 	<div class="accordion" id="_<?php echo $data[$d]['id_inbox'];?> ">
-		<div class="accordion-group">
+		<div class="accordion-group"> 
 			<div class="accordion-heading">
-				<div class="<?php echo $class;?>">
+				<div class="<?php echo $class;?>">  
+				  <a type="button" class="close" data-animation="true" data-dismiss="alert" data-toggle="tooltip" title="Hapus Pesan Ini" > <i class="icon-trash"> </i> </a>
 					<a class="accordion-toggle" data-toggle="collapse" data-parent="#content" href="#content_<?php echo $data[$d]['id_inbox'];?>">
 					<?php if(isset($data[$d]['first_name']) || isset($data[$d]['last_name'])){ ?>
 							<b> <?php echo $data[$d]['first_name'].' '.$data[$d]['last_name'];?></b> 
 					<?php } else {?>
 							<b> <?php echo $data[$d]['number'];?> </b>
-					<?php }?>
-
-		
+					<?php }?><span class="label"> <?php echo date('d F Y h:i a',$data[$d]['recive_date']);?> </span>
 					</a>
 				</div>			
 			</div>
-			<div id="content_<?php echo $data[$d]['id_inbox'];?>" class="accordion-body collapse in">
+			<div id="content_<?php echo $data[$d]['id_inbox'];?>" class="accordion-body collapse">
 				
 				<pre>
 				<p class="text-info" ><?php echo $data[$d]['content']; ?></p>
