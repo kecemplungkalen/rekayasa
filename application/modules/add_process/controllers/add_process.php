@@ -58,6 +58,7 @@ Class Add_process extends MX_Controller{
 			//cek tread
 			$thread = mt_rand();;
 			$cari = array('number' => $number,'status_archive' => '0');
+			$insert_labelname = false;
 			$cek_thread = $this->inbox_model->arr_wheres($cari);
 			if($cek_thread) // thread sudah pernah dibuat 
 			{
@@ -66,6 +67,7 @@ Class Add_process extends MX_Controller{
 				//ambil id_inbox berdasarkan thread  (wafer 1)
 				$comot_id_inbox = $this->inbox_model->gets_where('thread',$thread);
 				$cil = false;
+				$col = false;
 				if($comot_id_inbox)
 				{
 					$id_inbox_ar = false; 
@@ -147,17 +149,14 @@ Class Add_process extends MX_Controller{
 					}
 					
 				} // end ambil filter by id and proses 
-				//	$coba_data[] = $valid_array;
 			} // end ambil data filter
 			
 			// balikin ke gammu biar ndak berat
 			return true;
 			//$filter_detail = $this->Filter_Detail_Model->gets_by_col();
-			
 		}
 		return false;
 		//di return langsung  
-		
 	}	
 	
 	public function filter_action($id_filter=false,$id_inbox=false,$id_label_inbox=false,$isi_sms=false)
@@ -359,41 +358,7 @@ Class Add_process extends MX_Controller{
 			
 			
 		}
-		/*
-		 * test saja 
-		$data = array('number' => '+62819678420' , 'isi_sms' => 'test saja Loh.. :-)'); 
-		$return = $this->curl->simple_post('http://localhost/rekayasa/add_process',$data);
-		
-		echo $return;
-		*/
-	}
-	
-	
-	function rand_tread()
-	{
-		$number = '+62789789123';
-			$cari = array('number' => $number,'status_archive' => '0');
-			$data = $this->inbox_model->arr_wheres($cari);
-			if($data)
-			{
-				$cek_thread = $this->inbox_model->arr_wheres($cari);
-				if($cek_thread)
-				{
-					$thread = mt_rand();
-					var_dump($thread);					
-				}
-			}
-			
-	}
-	
-	public function test()
-	{
-		$temp['number'] = '+62819678420';
-		$temp['text'] = 'Uye Maaaaaaaaaan.. Piye';
-		$tmp[]= $temp;
-		$return = $this->curl->simple_post('http://localhost/rekayasa/send',$tmp);
-		echo $return;
-	}
 
-	
+	}
+		
 }

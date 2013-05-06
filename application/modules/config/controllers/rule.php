@@ -66,9 +66,9 @@ Class Rule extends MX_Controller{
 			{
 				$del = $this->Config_Rule_Model->delete($value[$i]);
 			}
-			return true;
-		}
-		return false;
+			echo 'true';
+		}else
+		echo 'false';
 	}
 	
 	function add()
@@ -80,10 +80,10 @@ Class Rule extends MX_Controller{
 			$add = $this->Config_Rule_Model->add($id_smsc_name,$id_config_modem);
 			if($add)
 			{
-				return $add;
+				echo 'true';
 			}
-		}
-		return false;
+		}else
+		echo 'false';
 	}
 	
 	
@@ -101,8 +101,8 @@ Class Rule extends MX_Controller{
 				echo 'true';
 			}
 			
-		}
-		return false;
+		}else
+		echo 'false';
 		
 	}
 	public function sending_rule($number=false)

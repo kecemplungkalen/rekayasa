@@ -122,6 +122,7 @@ Class Message extends MX_Controller{
 									if($dl->additional != 0)
 									{
 										$sub['id_label'] = $dl->id_label;
+										$sub['id_labelname'] = $dl->id_labelname;
 										$sub['name'] = $dl->name;
 										$sub['color'] = $dl->color;
 										$sub_data[] = $sub; 
@@ -190,6 +191,7 @@ Class Message extends MX_Controller{
 								if($dl->additional != 0)
 								{
 									$sub['id_label'] = $dl->id_label;
+									$sub['id_labelname'] = $dl->id_labelname;
 									$sub['name'] = $dl->name;
 									$sub['color'] = $dl->color;
 									$sub_data[] = $sub; 

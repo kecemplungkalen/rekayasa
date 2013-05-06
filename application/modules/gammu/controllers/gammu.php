@@ -18,7 +18,7 @@ Class Gammu extends MX_Controller{
 			$data = $this->Gammu_Model->get($id);
 			if($data)
 			{
-				
+				// jaga -jaga jika lomncat atau delay
 				if($data->Processed == 'true')
 				{
 					$ambil_lain = $this->Gammu_Model->get_inbox('1','0');
@@ -37,11 +37,15 @@ Class Gammu extends MX_Controller{
 				}
 				else
 					{
+						//lets gow//
 						// tambahkan ke aplikasi 
 						$this->add_process->index($data);
 						$set = array('Processed' => 'true');
 						$sukses = $this->Gammu_Model->update($id,$set);
-
+						if($sukses)
+						{
+							return true;
+						}
 						/* dipakai kalau proses API sudah jalan 
 						$proses = $this->add_process->index($data);
 						if($proses)

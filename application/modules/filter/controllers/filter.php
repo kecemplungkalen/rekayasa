@@ -189,7 +189,11 @@ Class Filter extends MX_Controller{
 			$update = $this->Filter_Model->update($id_filter,$data);
 			if($update)
 			{
-				return $update;
+				echo 'true';
+			}
+			else
+			{
+				echo 'false';
 			}
 		}
 		else
@@ -198,7 +202,11 @@ Class Filter extends MX_Controller{
 			$update = $this->Filter_Model->update($id_filter,$data);
 			if($update)
 			{
-				return $update;
+				echo 'true';
+			}
+			else
+			{
+				echo 'false';
 			}
 		}
 	}

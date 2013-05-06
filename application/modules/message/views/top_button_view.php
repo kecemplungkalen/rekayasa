@@ -54,16 +54,7 @@
 		});
 		
 		
-		$('.remove_label').click(function(){
-			var id_label = $(this).data('value');
-			$.post('<?php echo base_url();?>dashboard_data/hapus_label',{id_label:id_label},function(data){
-				if(data)
-				{
-					location.reload();
-				}
-			});
-		});
-		
+
 		
 		
 		$('#terapkan_label').click(function(){
@@ -81,12 +72,12 @@
 			}).get();
 			
 			$.post('<?php echo base_url();?>dashboard_data/apply_label',{id_label:id_label,thread:value_thread},function(data){
-				if(data != false)
+				if(data == 'true')
 				{
-					reloadz();
+					//reloadz();
 					//applyPagination();
+					location.reload();
 				}
-				console.log(data);
 			});
 
 		});

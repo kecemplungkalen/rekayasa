@@ -7,8 +7,9 @@
 			if(valid == true)
 			{
 				$.post('<?php echo base_url();?>config/modem/add_modem',$('#data_modem').serialize(),function(balik){
-					if(balik)
+					if(balik == 'true')
 					{
+						window.location.href += "modem";
 						location.reload();
 					}
 				});

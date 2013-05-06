@@ -43,8 +43,10 @@ Class Modem extends MX_Controller{
 			$balik = $this->Config_Modem_Model->add($data);
 			if($balik)
 			{
-				echo $balik;
+				echo 'true';
 			}
+			else
+			echo 'false';
 		}
 	}
 	

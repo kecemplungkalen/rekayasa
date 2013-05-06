@@ -53,6 +53,9 @@
 		<a class="btn" id="hapus_modem"><i class="icon-trash"></i></a>
 	</div>
 	<hr>
+	<div id="warn" class="alert alert-error hide">
+	  <strong>Warning!</strong> 
+	</div>
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
@@ -79,7 +82,8 @@
 				<td> <?php echo $data[$i]['signal']; ?> <i class="icon-signal"> </i></td>
 				<td> <?php if($data[$i]['status'] == '1'){ ?>
 				<i class="icon-ok"> </i><?php } else{ ?>
-				<i class="icon-ban-circle"></i><?php } ?> <?php if($data[$i]['default'] == '1'){?>
+				<i class="icon-ban-circle" ></i><script> $('#warn').show(); $('#warn').append('<br >Modem ID <?php echo $data[$i]['phoneID']; ?> <strong> Offline..!!!</strong>')</script><?php } ?> 
+				<?php if($data[$i]['default'] == '1'){?>
 				<i class="icon-star"></i><?php } ?> </td>
 			</tr>
 			<?php }?>

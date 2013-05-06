@@ -8,7 +8,6 @@
 				{
 					location.reload();
 				}
-					//console.log(data);
 			});
 			
 		});

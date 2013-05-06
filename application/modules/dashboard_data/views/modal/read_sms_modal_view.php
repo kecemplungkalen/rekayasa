@@ -16,6 +16,16 @@
 				<?php } else {?>
 						<h3> <?php echo $data[0]['number'];?> </h3>
 				<?php }?>
+				<div id="tempat_label">
+					<?php if(isset($data[0]['label'])){?>
+					<?php $lbl = $data[0]['label'];?>
+						<?php for($l=0;$l < count($lbl);$l++){?>
+						<?php // :P ?>
+						<span class="label pull-right badge-<?php echo $lbl[$l]['color'];?>"><?php echo $lbl[$l]['name'];?></span> 
+						<?php }?>
+						<br>
+					<?php }?>
+				</div>
 	</div>
 	<div class="modal-body" style="overflow-y: scroll;height:400px">
 	<!-- start modal body -->
@@ -29,28 +39,30 @@
 				<?php $class='alert alert-success'; ?>
 			<?php } ?>
 			
-		<!-- jika pesan lama -->
-		<!-- start alert -->
-		<div class="<?php echo $class ;?>">
-				<?php if(isset($data[$d]['first_name']) || isset($data[$d]['last_name'])){ ?>
-						<b> <?php echo $data[$d]['first_name'].' '.$data[$d]['last_name'];?></b> 
-				<?php } else {?>
-						<b> <?php echo $data[$d]['number'];?> </b>
-				<?php }?>
-		<span class="label"> <?php echo date('d F Y h:i a',$data[$d]['recive_date']);?> </span>
-				<?php  if(isset($data[$d]['label'])){ $label = $data[$d]['label'];?>
-					<?php for($i=0;$i < count($label);$i++){?>
-			
-					<span class="label pull-right badge-<?php echo $label[$i]['color'];?>"><?php echo $label[$i]['name'];?></span> 
-					<?php }?>
-				<?php } ?>
-		<button type="button" onclick="" aria-hidden="true"> Hapus Pesan &times;</button>
-		</div>
-		<!-- end alert -->
 		<!-- start content -->
-      <div class="well">
-        <p ><?php echo  $data[$d]['content']; ?></p>
-      </div>
+	<div class="accordion" id="_<?php echo $data[$d]['id_inbox'];?> ">
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<div class="<?php echo $class;?>">
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#content" href="#content_<?php echo $data[$d]['id_inbox'];?>">
+					<?php if(isset($data[$d]['first_name']) || isset($data[$d]['last_name'])){ ?>
+							<b> <?php echo $data[$d]['first_name'].' '.$data[$d]['last_name'];?></b> 
+					<?php } else {?>
+							<b> <?php echo $data[$d]['number'];?> </b>
+					<?php }?>
+
+		
+					</a>
+				</div>			
+			</div>
+			<div id="content_<?php echo $data[$d]['id_inbox'];?>" class="accordion-body collapse in">
+				
+				<pre>
+				<p class="text-info" ><?php echo $data[$d]['content']; ?></p>
+				</pre>
+			</div>
+		</div>
+	</div>
       <!-- end content -->
 		<?php } ?>
 		
@@ -61,6 +73,7 @@
 	</div>
 	
 	<div class="modal-footer">
+		<a class="btn btn-warning">Archive</a>
 		<a class="btn btn-success">Reply</a>
 		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true" onclick="reloadz()">Close</a>
 	</div>

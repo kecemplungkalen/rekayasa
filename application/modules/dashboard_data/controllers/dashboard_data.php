@@ -39,26 +39,9 @@ Class Dashboard_data extends MX_Controller{
 	{
 		$id_labelname = $this->input->post('id_label');
 		$thread = $this->input->post('thread');
-		//var_dump($_POST);
-		//for($i=0;$i < count($id_pesan);$i++)
-		//{
-		//	for($j=0;$j < count($id_labelname);$j++)
-		//	{
-		//		$data[] = $this->label_model->add($id_pesan[$i],$id_labelname[$j]);
-		//	}
-		//}
-
-		//for($j=0;$j < count($id_labelname);$j++)
-		//{
-		//	$data[] = $this->label_model->add($idp->id_inbox,$id_labelname[$j]);
-			
-			//
-			
-		//}
-
-		
 		$data = false;
 		$sama  = false;
+		$arr1 = false;
 		for($i=0;$i < count($thread);$i++)
 		{
 			// ambil list id 
@@ -67,16 +50,13 @@ Class Dashboard_data extends MX_Controller{
 			
 			if($id_pesan)
 			{
-				$arr1 = false;
+				
 				$delete =false;
 				foreach($id_pesan as $idp)
 				{
 					$labelname_id= false;
 					// dapat id inbox
-					
-					//delete semua addtional 
 					$delete = $this->label_model->delete_in($idp->id_inbox);
-					//var_dump($delete);
 					if($delete)
 					{
 						// tambahkan label baru 
@@ -85,25 +65,21 @@ Class Dashboard_data extends MX_Controller{
 							$data = $this->label_model->add($idp->id_inbox,$id_labelname[$j]);
 							if($data)
 							{
-								return $data;
+								$arr1=true;
 							}
 						}
 					}
-					
-					/*
-					$id_inbox = $this->label_model->gets_where('id_inbox',$idp->id_inbox);
-					if($id_inbox)
-					{
-						foreach($id_inbox as $ibey)
-						{
-							$labelname_id[] =  $ibey->id_labelname;
-						}
-					}
-					$sama = array_diff($id_labelname,$labelname_id);
-					var_dump($labelname_id);
-					*/
+
 				}
 			}
+		}
+		$dumy = $arr1 && $arr1;
+		if($dumy)
+		{
+			echo 'true';
+		}else
+		{
+			echo 'false';
 		}
 		//return $data;
 		//var_dump($id_pesan);
@@ -112,17 +88,21 @@ Class Dashboard_data extends MX_Controller{
 	
 	public function hapus_label()
 	{
-		$id_label = $this->input->post('id_label');
-		if($id_label)
+		$thread = $this->input->post('thread');
+		$id_labelname = $this->input->post('id_labelname');
+		$get_data = $this->inbox_model->gets_where('thread',$thread);
+		if($get_data)
 		{
-			$delete = $this->label_model->delete($id_label);
-			if($delete)
+			
+			foreach($get_data as $gd)
 			{
-				echo $delete;
+				$data = array('id_inbox' => $gd->id_inbox,'id_labelname' => $id_labelname);
+				$this->label_model->delete_where($data); 
 			}
-			else
-			return false;
-		}
+			echo 'true';
+		}else
+		echo 'false';
+		
 	}
 	
 	function get_label_thread()
@@ -247,6 +227,7 @@ Class Dashboard_data extends MX_Controller{
 					$tmp['lbl'] = $label;
 					//cek label
 					//$tmp['label'] = false; 
+					$tmp['id_inbox'] = $isi->id_inbox;
 					$label_sms = $this->label_model->get_by_id_inbox($isi->id_inbox);
 					if($label_sms)
 					{

@@ -51,7 +51,19 @@
 					$('#top_btn').hide();
 				}
 				//console.log(id);
-			});			
+			});
+			
+			$('.remove_label').click(function(){
+				var thread = $(this).data('value');
+				var id_labelname = $(this).data('id_labelname');
+				$.post('<?php echo base_url();?>dashboard_data/hapus_label',{thread:thread,id_labelname:id_labelname},function(data){
+					if(data=='true')
+					{
+						location.reload();
+					}
+				});
+			});
+						
 			
 		});
 			
@@ -94,7 +106,7 @@
 				<?php $label = $data[$i]['label']; ?>
 				<?php if($label){ ?>
 				<?php for($j=0;$j< count($label);$j++){ ?>
-				<a href="<?php echo base_url();?>message/<?php echo $label[$j]['name']; ?>"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small><?php echo $label[$j]['name']; ?></small></span></a><a href="#remove_label" class="remove_label" data-value="<?php echo $label[$j]['id_label']; ?>"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small>x</small></span></a><br>
+				<a href="<?php echo base_url();?>message/<?php echo $label[$j]['name']; ?>"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small><?php echo $label[$j]['name']; ?></small></span></a><a href="#remove_label" class="remove_label" data-value="<?php echo $data[$i]['thread']; ?>" data-id_labelname="<?php echo $label[$j]['id_labelname']; ?>"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small>x</small></span></a><br>
 				<?php } ?>
 				<?php } ?>
 			</td>

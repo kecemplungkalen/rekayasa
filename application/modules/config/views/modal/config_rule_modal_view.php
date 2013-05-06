@@ -2,8 +2,9 @@
 	$(document).ready(function(){
 		$('#simpan').click(function(){
 			$.post('<?php echo base_url();?>config/rule/add',$('#form_rule').serialize(),function(data){
-				if(data)
+				if(data== 'true')
 				{
+					//window.location.href += "rule";
 					location.reload();
 				}
 				

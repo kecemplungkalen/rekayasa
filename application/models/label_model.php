@@ -176,6 +176,20 @@ Class label_model extends CI_model{
 		return false;
 	}
 	
+	public function delete_where($data=false)
+	{
+		if($data)
+		{
+			$this->db->where($data);
+			$delete = $this->db->delete('label');
+			if($delete)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	public function set_archive($id_inbox=false)
 	{

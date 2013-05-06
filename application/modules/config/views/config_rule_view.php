@@ -32,8 +32,9 @@
 			
 			$.post('<?php echo base_url();?>config/rule/hapus_rule',{value:value},function(data){
 				
-				if(data)
+				if(data=='true')
 				{
+					//window.location.href += "rule";
 					location.reload();
 				}
 			});

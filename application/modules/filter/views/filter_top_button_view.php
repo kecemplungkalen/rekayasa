@@ -44,7 +44,7 @@
 	function enable_filter(id_filter)
 	{
 		$.post('<?php echo base_url();?>filter/switch_status',{status:'enable',id_filter:id_filter},function(data){
-			if(data)
+			if(data=='true')
 			{
 				location.reload();
 			}
