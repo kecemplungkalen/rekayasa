@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 06, 2013 at 02:04 AM
+-- Generation Time: May 07, 2013 at 07:03 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `address_book` (
   `create_date` int(11) NOT NULL,
   `last_update` int(11) NOT NULL,
   PRIMARY KEY (`id_address_book`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `address_book`
@@ -44,7 +44,11 @@ INSERT INTO `address_book` (`id_address_book`, `id_user`, `first_name`, `last_na
 (10, 1, '+6287869122852', '', '+6287869122852', 5, '', 1367287159, 1367287159),
 (11, 1, 'bob', 'maleh', '+62819678420', 5, 'bob_maleh@ymail.com', 1367459799, 1367459799),
 (12, 1, '+62819678430', '', '+62819678430', 5, '', 1367659875, 1367659875),
-(13, 1, '+62819678431', '', '+62819678431', 5, '', 1367660168, 1367660168);
+(13, 1, '+62819678431', '', '+62819678431', 5, '', 1367660168, 1367660168),
+(15, 1, 'revolusi', 'revolusi', '+6726823sdsd', 0, 'galang@mail.com', 1367815339, 1367815339),
+(16, 1, 'galang', 'revolusi', '+62087328738283', 0, 'gr@gr.com', 1367815415, 1367815415),
+(17, 1, 'mbah', 'buyut', '7839749387364', 0, 'mbah_buyut@mail.net', 1367907234, 1367907234),
+(18, 1, 'rvolusi', 'indonesia', '67673864', 0, 'rev@maik.com', 1367907280, 1367907280);
 
 -- --------------------------------------------------------
 
@@ -290,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `group` (
   PRIMARY KEY (`id_group`),
   KEY `id_address_book` (`id_address_book`),
   KEY `id_groupname` (`id_groupname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=77 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=87 ;
 
 --
 -- Dumping data for table `group`
@@ -302,7 +306,12 @@ INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) V
 (26, 11, 1, 4),
 (72, 8, 1, 1),
 (75, 2, 1, 1),
-(76, 10, 1, 1);
+(76, 10, 1, 1),
+(80, 13, 1, 1),
+(83, 15, 1, 2),
+(84, 16, 1, 4),
+(85, 17, 1, 4),
+(86, 18, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -344,6 +353,7 @@ CREATE TABLE IF NOT EXISTS `inbox` (
   `read_status` tinyint(1) NOT NULL,
   `last_update` int(11) NOT NULL,
   `status_archive` tinyint(1) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_inbox`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=89 ;
 
@@ -351,34 +361,34 @@ CREATE TABLE IF NOT EXISTS `inbox` (
 -- Dumping data for table `inbox`
 --
 
-INSERT INTO `inbox` (`id_inbox`, `thread`, `id_user`, `id_address_book`, `number`, `recive_date`, `content`, `read_status`, `last_update`, `status_archive`) VALUES
-(3, '1873596087', 1, 2, '+62819678421', 1366363799, 'reg rasta sabtu legi 1366263728', 1, 1366263928, 1),
-(8, '1873596087', 1, 2, '+62819678421', 1366791039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 1, 1366691039, 1),
-(9, '1873596087', 1, 2, '+62819678421', 1366891039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 1, 1366691039, 1),
-(10, '1213962398', 1, 8, '+6281927198', 1366991039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 1, 1366691039, 1),
-(11, '1490511387', 1, 9, '+62789789123', 1366699039, 'keyword cari', 1, 1366691039, 1),
-(67, '1109987563', 1, 10, '+6287869122852', 1364200074, 'REG KONF 123', 1, 1367296284, 1),
-(68, '127905523', 1, 11, '+62819678420', 1367465994, 'Uye Maaaaaaaaaan.. Piye', 1, 1367465994, 1),
-(69, '1490511387', 1, 9, '+62789789123', 1367470864, 'aaaaaaaaaaaaaaaaaa', 1, 1367470864, 1),
-(70, '1873596087', 1, 2, '+62819678421', 1367471080, 'Bob MArlwywwwwwwwwwww', 1, 1367471080, 1),
-(71, '1109987563', 1, 10, '+6287869122852', 1367471127, 'test Number without name', 1, 1367471127, 1),
-(72, '1490511387', 1, 9, '+62789789123', 1367471179, 'test lagi brow..', 1, 1367471179, 1),
-(73, '97847966', 1, 12, '+62819678423', 1367471179, 'TEST DELETE ADDRSS', 1, 1367471179, 1),
-(74, '1490511387', 1, 9, '+62789789123', 1367471179, 'test nomer 2 lagi brow..', 1, 1367471179, 1),
-(75, '1490511387', 1, 9, '+62789789123', 1367471179, 'test nomer 22 lagi brow..', 1, 1367471179, 1),
-(76, '1109987563', 1, 10, '+6287869122852', 1364200074, 'REG TOP', 1, 1367564916, 1),
-(77, '1417798411', 1, 11, '+62819678420', 1364200074, 'REG TOP', 1, 1367568636, 1),
-(78, '1417798411', 1, 11, '+62819678420', 1364200074, 'REG TOP', 1, 1367568675, 1),
-(79, '1417798411', 1, 11, '+62819678420', 1364200074, 'REG TOP', 1, 1367568677, 1),
-(80, '1417798411', 1, 11, '+62819678420', 1364200074, 'REG TOP', 1, 1367568678, 1),
-(81, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP', 1, 1367569190, 0),
-(82, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 1', 1, 1367569737, 0),
-(83, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 1111', 1, 1367569842, 0),
-(84, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 420420', 1, 1367570145, 0),
-(85, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 999999999', 1, 1367570306, 0),
-(86, '', 1, 8, '', 1367574969, 'Coba wae brow//', 1, 1367574969, 0),
-(87, '1505695122', 1, 12, '+62819678430', 1364200074, 'code name revolution', 1, 1367659875, 0),
-(88, '1165169767', 1, 13, '+62819678431', 1364200074, 'code name revolutionaries', 0, 1367660168, 0);
+INSERT INTO `inbox` (`id_inbox`, `thread`, `id_user`, `id_address_book`, `number`, `recive_date`, `content`, `read_status`, `last_update`, `status_archive`, `is_delete`) VALUES
+(3, '1873596087', 1, 2, '+62819678421', 1366363799, 'reg rasta sabtu legi ', 1, 1366263928, 1, 0),
+(8, '1873596087', 1, 2, '+62819678421', 1366791039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 1, 1366691039, 1, 0),
+(9, '1873596087', 1, 2, '+62819678421', 1366891039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 1, 1366691039, 1, 0),
+(10, '1213962398', 1, 8, '+6281927198', 1366991039, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 1, 1366691039, 1, 0),
+(11, '1490511387', 1, 9, '+62789789123', 1366699039, 'keyword cari', 1, 1366691039, 1, 0),
+(67, '1109987563', 1, 10, '+6287869122852', 1364200074, 'REG KONF 123', 1, 1367296284, 1, 1),
+(68, '127905523', 1, 11, '+62819678420', 1367465994, 'Uye Maaaaaaaaaan.. Piye', 1, 1367465994, 1, 1),
+(69, '1490511387', 1, 9, '+62789789123', 1367470864, 'aaaaaaaaaaaaaaaaaa', 1, 1367470864, 1, 0),
+(70, '1873596087', 1, 2, '+62819678421', 1367471080, 'Bob MArlwywwwwwwwwwww', 1, 1367813958, 1, 0),
+(71, '1109987563', 1, 10, '+6287869122852', 1367471127, 'test Number without name', 1, 1367471127, 1, 1),
+(72, '1490511387', 1, 9, '+62789789123', 1367471179, 'test lagi brow..', 1, 1367471179, 1, 0),
+(73, '97847966', 1, 12, '+62819678423', 1367471179, 'TEST DELETE ADDRSS', 1, 1367471179, 1, 0),
+(74, '1490511387', 1, 9, '+62789789123', 1367471179, 'test nomer 2 lagi brow..', 1, 1367471179, 1, 0),
+(75, '1490511387', 1, 9, '+62789789123', 1367471179, 'test nomer 22 lagi brow..', 1, 1367471179, 1, 0),
+(76, '1109987563', 1, 10, '+6287869122852', 1364200074, 'REG TOP', 10, 1367564916, 1, 1),
+(77, '1417798411', 1, 11, '+62819678420', 1364200074, 'REG TOP', 1, 1367568636, 1, 0),
+(78, '1417798411', 1, 11, '+62819678420', 1364200074, 'REG TOP', 1, 1367568675, 1, 0),
+(79, '1417798411', 1, 11, '+62819678420', 1364200074, 'REG TOP', 1, 1367568677, 1, 0),
+(80, '1417798411', 1, 11, '+62819678420', 1364200074, 'REG TOP', 1, 1367568678, 1, 0),
+(81, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP', 1, 1367569190, 0, 0),
+(82, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 1', 1, 1367569737, 0, 0),
+(83, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 1111', 1, 1367569842, 0, 0),
+(84, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 420420', 1, 1367570145, 0, 0),
+(85, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 999999999', 1, 1367570306, 0, 0),
+(86, '', 1, 8, '', 1367574969, 'Coba wae brow//', 1, 1367574969, 0, 0),
+(87, '1505695122', 1, 12, '+62819678430', 1364200074, 'code name revolution', 1, 1367659875, 0, 0),
+(88, '1165169767', 1, 13, '+62819678431', 1364200074, 'code name revolutionaries', 0, 1367660168, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -393,7 +403,7 @@ CREATE TABLE IF NOT EXISTS `label` (
   PRIMARY KEY (`id_label`),
   KEY `id_inbox` (`id_inbox`),
   KEY `id_labelname` (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=309 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=412 ;
 
 --
 -- Dumping data for table `label`
@@ -415,23 +425,10 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (185, 71, 10),
 (186, 76, 10),
 (263, 81, 7),
-(264, 81, 8),
 (267, 82, 7),
-(268, 82, 8),
 (271, 83, 7),
-(272, 83, 8),
 (275, 84, 7),
-(276, 84, 8),
 (279, 85, 7),
-(280, 85, 8),
-(283, 3, 8),
-(284, 3, 9),
-(285, 8, 8),
-(286, 8, 9),
-(287, 9, 8),
-(288, 9, 9),
-(289, 70, 8),
-(290, 70, 9),
 (291, 11, 8),
 (292, 11, 9),
 (294, 69, 8),
@@ -444,7 +441,16 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (304, 75, 9),
 (306, 87, 1),
 (307, 88, 1),
-(308, 87, 9);
+(393, 3, 8),
+(394, 3, 9),
+(395, 8, 8),
+(396, 8, 9),
+(397, 9, 8),
+(398, 9, 9),
+(399, 70, 8),
+(400, 70, 9),
+(410, 87, 8),
+(411, 87, 9);
 
 -- --------------------------------------------------------
 
@@ -469,7 +475,7 @@ INSERT INTO `labelname` (`id_labelname`, `name`, `color`, `additional`) VALUES
 (2, 'sent', 'ffc8af', 0),
 (3, 'outbox', 'ff7537', 0),
 (4, 'trash', '16a765', 0),
-(5, 'spam', '4986e7', 0),
+(5, 'spam', '42d692', 0),
 (7, 'konfirmasi', '16a765', 1),
 (8, 'Pertanyaan', '4986e7', 1),
 (9, 'informasi', '42d692', 1),

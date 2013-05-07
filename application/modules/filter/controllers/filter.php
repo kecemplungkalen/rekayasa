@@ -219,9 +219,10 @@ Class Filter extends MX_Controller{
 			$delete = $this->Filter_Model->delete($id_filter);
 			if($delete)
 			{
-				return $delete;
+				echo 'true';
 			}
 		}
+		echo 'true';
 	}
 	
 	public function cek_nama_filter()

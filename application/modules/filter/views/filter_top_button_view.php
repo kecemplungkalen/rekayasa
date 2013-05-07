@@ -20,10 +20,11 @@
 		}).get();
 	
 			$.post('<?php echo base_url();?>filter/hapus_filter',{id:id},function(data){
-				if(data)
+				if(data == 'true')
 				{
 					location.reload();
 				}
+				
 			});
 		
 		});
