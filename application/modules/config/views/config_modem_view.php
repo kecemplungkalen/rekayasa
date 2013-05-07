@@ -23,6 +23,7 @@
 	
 	$(document).ready(function(){
 		
+
 		$('#hapus_modem').click(function(){
 			
 			var mod =  $('.modem_list:checkbox').map(function() {
@@ -80,12 +81,24 @@
 				<td><?php echo $data[$i]['sent']; ?></td>
 				<td><?php echo $data[$i]['received']; ?></td>
 				<td> <?php echo $data[$i]['signal']; ?> <i class="icon-signal"> </i></td>
-				<td> <?php if($data[$i]['status'] == '1'){ ?>
-				<i class="icon-ok"> </i><?php } else{ ?>
-				<i class="icon-ban-circle" ></i><script> $('#warn').show(); $('#warn').append('<br >Modem ID <?php echo $data[$i]['phoneID']; ?> <strong> Offline..!!!</strong>')</script><?php } ?> 
+				<td > <?php if($data[$i]['status'] == '1'){ ?>
+				<i id="status_modem_<?php echo $data[$i]['phoneID']; ?>" class="active icon-ok"> </i><?php } else{ ?>
+				<i id="status_modem_<?php echo $data[$i]['phoneID']; ?>" class="icon-ban-circle" ></i><?php } ?> 
 				<?php if($data[$i]['default'] == '1'){?>
 				<i class="icon-star"></i><?php } ?> </td>
 			</tr>
+			<script type="text/javascript">
+				$(document).ready(function(){
+				var cek_phone = $('#status_modem_<?php echo $data[$i]['phoneID']; ?>').hasClass('active');
+					if(cek_phone != true)
+					{
+						$('#warn').show();
+						$('#warn').append('Modem <?php echo $data[$i]['phoneID']; ?> Saat ini Offline');
+
+					}
+				});
+			
+			</script>
 			<?php }?>
 		<?php }?>
 		</tbody>

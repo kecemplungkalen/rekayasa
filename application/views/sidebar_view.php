@@ -2,10 +2,22 @@
 	$(document).ready(function(){
 		var activeurl = window.location;
 		$('a[href="'+activeurl+'"]').parent('li').addClass('active');
+		
+		$('#compose').on('shown', function () {
+			$('#compose_text').focus();
+		})
 	});
-
+	
+	function compose_sms()
+	{
+		$.get('<?php echo base_url();?>dashboard_data/compose_sms',function(data){
+			
+			$('#show_modal').html(data);
+			$('#compose').modal('show');
+		});
+	}
 </script>
-<a class="btn btn-large btn-success btn-block" >COMPOSE</a>
+<a class="btn btn-large btn-success btn-block" onclick="compose_sms()">COMPOSE</a>
 <ul class="nav  nav-pills nav-stacked">
 	<?php if(isset($baku)){ ?>
 	<?php for($i=0;$i<count($baku);$i++) {?>

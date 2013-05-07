@@ -32,19 +32,6 @@ Class Dashboard_data extends MX_Controller{
 					$stat = true;
 				} 
 				
-				/*
-				$get_id_inbox = $this->inbox_model->gets_where('thread' ,$thread[$i]);
-				if($get_id_inbox)
-				{
-					foreach($get_id_inbox as $gid)
-					{
-						$data = array('id_labelname' => '1','id_inbox' => $gid->id_inbox);		
-						$this->label_model->add($gid->id_inbox,'4');
-					}
-					$stat = true;
-				}
-				*/
-				
 			}
 			$jum = $stat && $stat;
 			if($jum)
@@ -223,6 +210,7 @@ Class Dashboard_data extends MX_Controller{
 		if($thread && $label)
 		{
 			$data['data'] = $this->read_sms($thread,$label);
+			$data['thread'] = $thread;
 		}
 		$this->load->view('modal/read_sms_modal_view',$data);
 	}
@@ -294,6 +282,11 @@ Class Dashboard_data extends MX_Controller{
 			}
 		}
 		return false;
+	}
+	
+	function compose_sms()
+	{
+		$this->load->view('modal/compose_sms_modal_view');
 	}
 
 }

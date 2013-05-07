@@ -2,8 +2,6 @@
 	
 	$(document).ready(function(){
 		
-
-		
 		$('#search').submit(function(event){
 			event.preventDefault();
 			$.post('<?php echo base_url();?>filter',$('#search').serialize()+"&reload=1",function(data) {
@@ -79,28 +77,26 @@
 		});
 	}
 	
-		//$('#checkall_filter').click(function(){		
-		function checkall()
+	function checkall()
+	{
+		var action = 'cek';
+		if($('#checkall_filter').attr('checked'))
 		{
-			var action = 'cek';
-			if($('#checkall_filter').attr('checked'))
-			{
-				action = 'uncek';
-				$('#checkall_filter').removeAttr('checked');
+			action = 'uncek';
+			$('#checkall_filter').removeAttr('checked');
 
-			}else{
-				$('#checkall_filter').attr('checked','checked');
-			}
-			
-			$('.filter_list:checkbox').map(function() {
-				if(action == 'cek'){
-					$("#"+this.id).prop('checked', true);
-				}else{
-					$("#"+this.id).removeAttr("checked");
-				}
-			});
+		}else{
+			$('#checkall_filter').attr('checked','checked');
 		}
-		//});
+		
+		$('.filter_list:checkbox').map(function() {
+			if(action == 'cek'){
+				$("#"+this.id).prop('checked', true);
+			}else{
+				$("#"+this.id).removeAttr("checked");
+			}
+		});
+	}
 
 </script>
 <div class="btn-group">

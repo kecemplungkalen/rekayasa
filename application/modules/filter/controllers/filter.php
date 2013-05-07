@@ -214,15 +214,31 @@ Class Filter extends MX_Controller{
 	public function hapus_filter()
 	{
 		$id_filter = $this->input->post('id');
+		$true = false;
 		if($id_filter)
 		{
-			$delete = $this->Filter_Model->delete($id_filter);
-			if($delete)
+			for($i=0;$i< count($id_filter);$i++)
 			{
-				echo 'true';
+				$delete = $this->Filter_Model->delete($id_filter[$i]);
+				
+				if($delete) 
+				{
+					$true = true;
+				}					
 			}
+
+
 		}
-		echo 'true';
+		$true = $true && $true;
+		if($true)
+		{
+			
+			echo 'true';
+			
+		}else
+		{
+			echo 'false';
+		}
 	}
 	
 	public function cek_nama_filter()
