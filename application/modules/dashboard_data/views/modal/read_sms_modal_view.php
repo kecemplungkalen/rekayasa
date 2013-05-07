@@ -44,12 +44,6 @@
 		
 		
 	<?php } ?>
-<!--
-		<div class="alert alert-info"> 
-			<strong>You (08112540606):</strong> <small>31/03/2013 - 03:01pm</small> <br>
-			You have successfully done it.
-		</div>
--->
 		<hr>
 		<div>
 			<div class="btn-group">

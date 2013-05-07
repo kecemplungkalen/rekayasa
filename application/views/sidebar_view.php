@@ -24,6 +24,9 @@
 		
     <li id="<?php echo $baku[$i]['name'];?>">
       <a href="<?php echo base_url();?>message/<?php echo $baku[$i]['name'];?>"> <?php echo $baku[$i]['name'];?>
+      <?php if($baku[$i]['name'] == 'trash'){?>
+      <i class="icon-trash"></i>
+      <?php } ?>
       <?php if($baku[$i]['count'] != false) { ?>
       <span class="badge badge-important"><?php echo $baku[$i]['count'];?></span>
       <?php } ?> 

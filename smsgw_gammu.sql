@@ -1,10 +1,9 @@
- 
 -- phpMyAdmin SQL Dump
 -- version 3.5.7
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 29, 2013 at 10:25 AM
+-- Generation Time: May 07, 2013 at 10:20 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -70,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `inbox` (
 --
 
 INSERT INTO `inbox` (`UpdatedInDB`, `ReceivingDateTime`, `Text`, `SenderNumber`, `Coding`, `UDH`, `SMSCNumber`, `Class`, `TextDecoded`, `ID`, `RecipientID`, `Processed`) VALUES
-('2013-04-29 10:16:24', '2013-03-25 01:27:54', '0074006F006400200031003200330020004100410041', '+6287869122852', 'Default_No_Compression', '', '+62818445009', -1, 'tod 123 AAA', 1, '', 'true');
+('2013-05-04 09:36:09', '2013-03-25 01:27:54', '0074006F006400200031003200330020004100410041', '+62819678431', 'Default_No_Compression', '', '+62818445009', -1, 'code name revolutionaries', 1, 'RumahwebXL', 'true');
 
 --
 -- Triggers `inbox`
@@ -114,7 +113,16 @@ CREATE TABLE IF NOT EXISTS `outbox` (
   PRIMARY KEY (`ID`),
   KEY `outbox_date` (`SendingDateTime`,`SendingTimeOut`),
   KEY `outbox_sender` (`SenderID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `outbox`
+--
+
+INSERT INTO `outbox` (`UpdatedInDB`, `InsertIntoDB`, `SendingDateTime`, `SendBefore`, `SendAfter`, `Text`, `DestinationNumber`, `Coding`, `UDH`, `Class`, `TextDecoded`, `ID`, `MultiPart`, `RelativeValidity`, `SenderID`, `SendingTimeOut`, `DeliveryReport`, `CreatorID`) VALUES
+('2013-05-02 03:39:55', '2013-05-02 03:39:55', '2013-05-02 03:39:55', '23:59:59', '00:00:00', NULL, '+62819678420', 'Default_No_Compression', NULL, -1, 'Uye Maaaaaaaaaan.. Piye', 1, 'false', -1, 'RumahwebXL', '2013-05-02 03:39:55', 'default', 'RumahwebXL'),
+('2013-05-02 05:04:40', '2013-05-02 05:04:40', '2013-05-02 05:04:40', '23:59:59', '00:00:00', NULL, '+62819678421', 'Default_No_Compression', NULL, -1, 'Bob MArlwywwwwwwwwwww', 2, 'false', -1, 'RumahwebXL', '2013-05-02 05:04:40', 'default', 'RumahwebXL'),
+('2013-05-02 05:05:27', '2013-05-02 05:05:27', '2013-05-02 05:05:27', '23:59:59', '00:00:00', NULL, '+6287869122852', 'Default_No_Compression', NULL, -1, 'test Number without name', 3, 'false', -1, 'RumahwebXL', '2013-05-02 05:05:27', 'default', 'RumahwebXL');
 
 --
 -- Triggers `outbox`
@@ -200,6 +208,13 @@ CREATE TABLE IF NOT EXISTS `phones` (
   `Received` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`IMEI`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `phones`
+--
+
+INSERT INTO `phones` (`ID`, `UpdatedInDB`, `InsertIntoDB`, `TimeOut`, `Send`, `Receive`, `IMEI`, `Client`, `Battery`, `Signal`, `Sent`, `Received`) VALUES
+('RumahwebXL', '2013-05-01 11:24:24', '2013-05-01 01:05:13', '2013-05-01 11:24:34', 'yes', 'yes', '356673030752012', 'Gammu 1.31.0, Linux, kernel 3.4.6-2.10-desktop (#1 SMP PREEMPT Thu Jul 26 09:36:26 UTC 2012 (641c197)), GCC 4.7', 100, 30, 0, 0);
 
 --
 -- Triggers `phones`
