@@ -61,6 +61,22 @@ Class inbox_model extends CI_model{
 		return false;
 	}
 	
+	// model tumpuk teruuuuuuuus..
+	public function gets_wheres($data=false)
+	{
+		if($data)
+		{
+			$this->db->where($data);
+			$this->db->group_by('thread');
+			$data = $this->db->get('inbox');
+			if($data->num_rows() > 0)
+			{
+				return $data->result();
+			}
+		}
+		return false;
+	}
+	
 	public function delete($id_inbox=false)
 	{
 		if($id_inbox)
@@ -89,6 +105,20 @@ Class inbox_model extends CI_model{
 		return false;
 	}
 	
+	public function update_where($where=false,$data=false)
+	{
+		if($where && $data)
+		{
+			$this->db->where($where);
+			$update = $this->db->update('inbox',$data);
+			if($update)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	function get_in_where($data=false)
 	{
 		if($data)
@@ -104,12 +134,27 @@ Class inbox_model extends CI_model{
 		return false;
 	}
 
+	function get_notin($kolom=false,$data=false)
+	{
+		if($kolom && $data)
+		{
+			$this->db->where_not_in($kolom,$data);
+			//$this->db->group_by('thread');
+			$thread  = $this->db->get('inbox');
+			if($thread->num_rows() > 0)
+			{
+				return $thread->result();
+			}
+		}	
+		return false;
+	}
+
 	function gets_in_where($kolom=false,$data=false)
 	{
 		if($kolom && $data)
 		{
 			$this->db->where_in($kolom,$data);
-			$this->db->group_by('thread');
+			//$this->db->group_by('thread');
 			$thread  = $this->db->get('inbox');
 			if($thread->num_rows() > 0)
 			{
@@ -126,6 +171,22 @@ Class inbox_model extends CI_model{
 		if($result->num_rows() > 0)
 		{
 			return $result->result();
+		}
+		return false;
+	}
+
+	public function arr_wheres_group($data=false,$group=false)
+	{
+		if($data && $group)
+		{
+			$this->db->where($data);
+			$this->db->group_by($group);
+			// $this->db->limit();
+			$result = $this->db->get('inbox');
+			if($result->num_rows() > 0)
+			{
+				return $result->result();
+			}
 		}
 		return false;
 	}

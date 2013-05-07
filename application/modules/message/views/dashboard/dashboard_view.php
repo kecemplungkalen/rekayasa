@@ -83,7 +83,7 @@
 		<?php for($i=0;$i< count($data);$i++) { ?>
 		<tr>
 			<td>
-				<input class="pesan_list" type="checkbox" id="<?php echo $data[$i]['id_inbox']; ?>" value="<?php echo $data[$i]['thread']; ?>"> 
+				<input class="pesan_list" type="checkbox" id="<?php echo $data[$i]['thread']; ?>" value="<?php echo $data[$i]['thread']; ?>"> 
 			</td>
 			<td>
 				<a href="#" onclick="read_sms('<?php echo $data[$i]['thread']; ?>')">

@@ -53,19 +53,68 @@ Class message_model extends CI_model{
 		
 	}
 	
-	function get_by_thread($thread=false)
+	function get_by_thread($thread=false,$perpage=0,$start=0,$keyword=false)
 	{
 		if($thread)
 		{
-			$this->db->select('max(inbox.id_inbox) as id_inbox,min(read_status) as read_status,thread,count(id_inbox) as total, inbox.number,first_name,last_name');
+			$this->db->select('max(inbox.id_inbox) as id_inbox,recive_date,min(read_status) as read_status,thread,count(id_inbox) as total, inbox.number,first_name,last_name');
 			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book','left');			
 			$this->db->where_in('thread',$thread);
 			$this->db->group_by('thread');
+			if($keyword)
+			{
+				$key = array(
+				'inbox.content' => $keyword,
+				'address_book.first_name' => $keyword,
+				'address_book.last_name' => $keyword,
+				'address_book.number' => $keyword,
+				'address_book.email' => $keyword
+				);
+				$this->db->or_like($key);
+			}
+			
 			$this->db->order_by('recive_date','desc');
-			$data = $this->db->get('inbox');
+			
+			if($perpage)
+			{
+				$data = $this->db->get('inbox',$perpage,$start);
+			}
+			else
+			{
+				$data = $this->db->get('inbox');
+			}
 			if($data->num_rows() > 0)
 			{
 				return $data->result();
+			}
+		}
+		return false;
+	}
+	
+	function group_labelname($id_inbox_aray=false)
+	{
+		if($id_inbox_aray)
+		{
+			$this->db->where_in('id_inbox',$id_inbox_aray);
+			$this->db->group_by('id_labelname');
+			$data = $this->db->get('label');
+			if($data->num_rows() > 0)
+			{
+				return $data->result();
+			}
+		}
+		return false;
+	}
+	
+	function labelname_data($id_labelname=false)
+	{
+		if($id_labelname)
+		{
+			$this->db->where_in('id_labelname',$id_labelname);
+			$res = $this->db->get('labelname');
+			if($res->num_rows() > 0)
+			{
+				return $res->result();
 			}
 		}
 		return false;

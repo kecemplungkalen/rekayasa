@@ -23,6 +23,16 @@ Class Dashboard_data extends MX_Controller{
 		{	$stat = false;
 			for($i=0;$i < count($thread); $i++)
 			{
+				$where = array('thread'=>$thread[$i]);
+				$data = array('is_delete' => '1');
+				$update = $this->inbox_model->update_where($where,$data);
+				if($update)
+				{
+					
+					$stat = true;
+				} 
+				
+				/*
 				$get_id_inbox = $this->inbox_model->gets_where('thread' ,$thread[$i]);
 				if($get_id_inbox)
 				{
@@ -33,6 +43,7 @@ Class Dashboard_data extends MX_Controller{
 					}
 					$stat = true;
 				}
+				*/
 				
 			}
 			$jum = $stat && $stat;
