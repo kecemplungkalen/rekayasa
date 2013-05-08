@@ -78,9 +78,9 @@
 				<td><a href="#"><?php echo $data[$i]['name']; ?></a></td>
 				<td><?php echo $data[$i]['phoneID']; ?></td>
 				<td><?php echo $data[$i]['number']; ?></td>
-				<td><?php echo $data[$i]['sent']; ?></td>
-				<td><?php echo $data[$i]['received']; ?></td>
-				<td> <?php echo $data[$i]['signal']; ?> <i class="icon-signal"> </i></td>
+				<td><?php if(isset($data[$i]['sent'])){ echo $data[$i]['sent']; }?></td>
+				<td><?php if(isset($data[$i]['received'])){echo $data[$i]['received'];}?></td>
+				<td> <?php if(isset($data[$i]['signal'])){ echo $data[$i]['signal'];} ?> <i class="icon-signal"> </i></td>
 				<td > <?php if($data[$i]['status'] == '1'){ ?>
 				<i id="status_modem_<?php echo $data[$i]['phoneID']; ?>" class="active icon-ok"> </i><?php } else{ ?>
 				<i id="status_modem_<?php echo $data[$i]['phoneID']; ?>" class="icon-ban-circle" ></i><?php } ?> 

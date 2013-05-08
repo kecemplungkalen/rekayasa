@@ -16,6 +16,7 @@ Class Add_process extends MX_Controller{
 		$this->load->model('label_model');
 		$this->load->model('Smsc_Model');
 		$this->load->model('Address_Book_Model');
+		$this->load->model('Operator_Number_Model');
 
 	}
 	
@@ -49,8 +50,29 @@ Class Add_process extends MX_Controller{
 					$id_smsc = $this->Smsc_Model->get_by_col('smsc_number',$smsc);
 					if($id_smsc)
 					{
-						$data = array('id_smsc' => $id_smsc->id_smsc);
+						// kolom id_smsc isinya smsc_name.id_smsc_name 
+						$data = array('id_smsc' => $id_smsc->id_smsc_name);
 						$this->Address_Book_Model->update($id_address_book,$data);
+					}
+					else // jika tidak ada di database smsc ambil di data operator number
+					{
+						
+						//$match = preg_match(); 
+						
+						$data_op = $this->Operator_Number_Model->gets();
+						if($data_op)
+						{
+							foreach($data_op as $dp)
+							{
+								if(preg_match('/^\\'.$dp->operator_number.'/',$number))
+								{
+									$data = array('id_smsc' => $dp->id_smsc_name);
+									$this->Address_Book_Model->update($id_address_book,$data);
+								}
+							}
+							
+						}
+						
 					}					
 				}
 			}

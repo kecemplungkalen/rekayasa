@@ -94,14 +94,10 @@ Class Address extends MX_Controller{
 					$temp['first_name'] = $li->first_name;
 					$temp['last_name'] = $li->last_name;
 					$temp['number'] = $li->number;
-					$smscname = $this->Smsc_Model->get($li->id_smsc);
-					if($smscname)
+					$nama_operator = $this->Smsc_Name_Model->get($li->id_smsc);
+					if($nama_operator)
 					{
-						$nama_operator = $this->Smsc_Name_Model->get($smscname->smsc_name);
-						if($nama_operator)
-						{
-							$temp['operator'] = $nama_operator->operator_name;
-						}
+						$temp['operator'] = $nama_operator->operator_name;
 					}
 					else
 					{

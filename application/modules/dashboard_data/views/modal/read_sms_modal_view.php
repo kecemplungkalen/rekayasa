@@ -3,6 +3,17 @@
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h3>SMS Message</h3>
 	</div>
+	<script type="text/javascript">
+		
+      function countChar(val) {
+        var len = val.value.length;
+        if (len >= 160) {
+           $('#charNum').html('<p class="text-error"> '+ len +'  character(s) <p>');
+        } else {
+          $('#charNum').html('<p id="jumchar">'+len+'  character(s) <p>');
+        }
+      };
+	</script>
 	<div class="modal-body">
 		
 	<?php $label=false;?>
@@ -12,15 +23,20 @@
 			<?php if($data[$d]['label']){ ?>			
 				<?php $label=$data[$d]['label']; ?>
 					<?php for($j=0;$j < count($label); $j++){ ?>
+					
+					<!-- jika terdapat label sent -->
 						<?php if(in_array('sent',$label[$j])){?>
 							<?php $stat=true;?>
 						<?php } ?>
+						<!-- end jika sent -->
+						 
 					<?php } ?>
 				<?php if($stat){?>
 				<?php $class='alert alert-success'; ?>
 				<div class="<?php echo $class;?>" >
 					<strong> <?php echo 'System';?></strong> 
 					<small> <?php echo date('d F Y h:i a',$data[$d]['recive_date']);?></small> <br>
+					<a class="close"><i class="icon-trash"></i></a>
 					<?php echo $data[$d]['content']; ?>
 				</div>
 
@@ -34,8 +50,10 @@
 								<strong><?php echo $data[$d]['number'];?> </strong> 
 						<?php }?></a>
 					<small> <?php echo date('d F Y h:i a',$data[$d]['recive_date']);?></small> <br>
-
-					<?php echo $data[$d]['content']; ?>				</div>
+					<a class="close"><i class="icon-trash"></i></a>
+					<?php echo $data[$d]['content']; ?>				
+				
+				</div>
 
 				<?php } ?>
 				<?php } ?>
@@ -61,8 +79,8 @@
 			</div>
 			<h5>Reply:</h5>
 			<form>  
-				<textarea rows="3" style="width:97%;"></textarea>
-				<span class="help-inline">x character(s)</span>
+				<textarea rows="3" style="width:97%;" onkeyup="countChar(this)"></textarea>
+				<span class="help-inline" id="charNum"> </span>
 			</form>
 		</div>
 	</div>

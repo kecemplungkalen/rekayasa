@@ -1,4 +1,4 @@
- <?php 
+<?php 
 
 Class Outbox extends MX_Controller{
 	
@@ -18,6 +18,7 @@ Class Outbox extends MX_Controller{
 		{
 			//masukkan data sms ke database gammu
 			$jumlahSMS = ceil(strlen($isi_pesan)/153);
+			$sum = false;
 			if($jumlahSMS > 1)
 			{
 				// pecah pesan
@@ -32,21 +33,40 @@ Class Outbox extends MX_Controller{
 					{
 						//$insert_id = $this->outbox_model->add('DestinationNumber, UDH, TextDecoded, ID, MultiPart, CreatorID, SenderID'); // bikin outbox model
 						$data = array('DestinationNumber' => $number,'UDH' => $udh,'TextDecoded' => $sentText, 'MultiPart' => 'true' , 'CreatorID' => $phoneID ,'SenderID' => $phoneID);
-						$insert_id = $this->Gammu_Outbox_Model->insert($data); 
+						$ins = $insert_id = $this->Gammu_Outbox_Model->insert($data);
+						if($ins)
+						{
+							$sum = true;
+						} 
+					
 					}else
 					{
 						
 						//$this->outbox_multipart_model->add('UDH, TextDecoded, ID, SequencePosition');
 						$data = array('UDH' => $udh, 'TextDecoded' => $sentText,'ID' => $insert_id ,'SequencePosition' => $i);
-						$this->Gammu_Outbox_Multipart_Model->add($data); // bikin outbox_multipart_model
+						$mp = $this->Gammu_Outbox_Multipart_Model->add($data); // bikin outbox_multipart_model
+						if($mp)
+						{
+							$sum = true;
+						}
 					}
 				}
+				$sum = $sum && $sum;
+				if($sum)
+				{
+					return $sum;
+				}
+				
 			}
 			else
 			{
 				
 				$data = array('DestinationNumber' => $number,'TextDecoded' => $isi_pesan, 'CreatorID' => $phoneID ,'SenderID' => $phoneID);						
-				$this->Gammu_Outbox_Model->insert($data);
+				$insert = $this->Gammu_Outbox_Model->insert($data);
+				if($insert)
+				{
+					return $insert;
+				}
 			}
 		}
 		return false;

@@ -207,6 +207,8 @@ Class Dashboard_data extends MX_Controller{
 		$thread = $this->input->get('thread');
 		$label = $this->input->get('label');
 		$data = false;
+		
+		
 		if($thread && $label)
 		{
 			$data['data'] = $this->read_sms($thread,$label);
@@ -286,7 +288,8 @@ Class Dashboard_data extends MX_Controller{
 	
 	function compose_sms()
 	{
-		$this->load->view('modal/compose_sms_modal_view');
+		$data['data'] = $this->Address_Book_Model->gets();
+		$this->load->view('modal/compose_sms_modal_view',$data);
 	}
 
 }

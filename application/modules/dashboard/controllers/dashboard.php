@@ -6,6 +6,7 @@ Class Dashboard extends MX_Controller{
 	{
 		parent::__construct();
 		$this->load->module('message');
+		$this->load->library('curl');
 
 	}
 	
@@ -13,5 +14,39 @@ Class Dashboard extends MX_Controller{
 	{
 		$this->message->index('inbox');		
 	}	
+	
+	public function contoh()
+	{
 
+		echo 'true';
+	}
+	
+	public function insert()
+	{
+		$data = $_POST;
+		$tmp = false;
+		$temp = false;
+		if(is_array($data))
+		{
+			if(isset($data['checkbox']))
+			{
+				$temp['number'] = $data['number_box'];
+			}
+			else
+			{
+				$temp['number'] = $data['number'];
+			}
+			$temp['text'] = $data['text'];
+			
+			$tmp[]= $temp;
+			$ret = $this->curl->simple_post(base_url().'send/',$tmp);
+			if($ret)
+			{
+				echo $ret;
+			}
+		}
+		return false;
+
+	}
+	
 }

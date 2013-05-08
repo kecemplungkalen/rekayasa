@@ -36,20 +36,7 @@ Class Single_page extends MX_Controller{
 			
 			$tmp[]= $temp;
 		}
-		//var_dump($tmp);
-		$ret = $this->curl->simple_post('http://localhost/rekayasa/send',$tmp);
-		return $ret;
+		$ret = $this->curl->simple_post(base_url().'send',$tmp);
+		echo  $ret;
 	}
-	/*
-	 * 
-	 * 	public function test()
-	{
-		$temp['number'] = '+62819678420';
-		$temp['text'] = 'Uye Maaaaaaaaaan.. Piye';
-		$tmp[]= $temp;
-		$return = $this->curl->simple_post('http://localhost/rekayasa/send',$tmp);
-		echo $return;
-	}
-	*/
-
 } 

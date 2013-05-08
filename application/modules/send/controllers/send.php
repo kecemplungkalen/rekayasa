@@ -10,6 +10,10 @@ Class Send extends MX_Controller{
 		$this->load->model('label_model');
 	}
 	
+	public function contoh()
+	{
+		echo 'true';
+	}
 	
 	public function index()
 	{
@@ -33,7 +37,10 @@ Class Send extends MX_Controller{
 				{
 					$thread = mt_rand();
 				}
+				
+				// cari rule
 				$phoneID = $this->rule->sending_rule($data[$i]['number']);
+				log_message('error','error phone ID data : '. print_r($phoneID,true));
 				if($phoneID)
 				{
 					$id_user = '1'; //sementara bos
@@ -43,7 +50,7 @@ Class Send extends MX_Controller{
 					// data label 
 					if(isset($phoneID['id_address_book']))
 					{
-						$address_book = $phoneID['id_address_book'];
+						$id_address_book = $phoneID['id_address_book'];
 					}
 					
 					$insert = array(
@@ -73,17 +80,20 @@ Class Send extends MX_Controller{
 					$push = $this->outbox->push_outbox($data[$i]['number'],$data[$i]['text'],$phoneID['phoneID']);
 					if($push)
 					{
-						return true;
+						//return true;
+						echo 'true';
 					}
 					else
 					{
+						echo 'false'; 
 						//gammu galat 
 					}
 				}
 
 			}			
 		}
-		return false;
+		
+		//return false;
 	}
 	
 } 

@@ -12,6 +12,7 @@ Class Rule extends MX_Controller{
 		$this->load->model('Smsc_Name_Model');
 		$this->load->model('Smsc_Model');
 		$this->load->model('Address_Book_Model');
+		$this->load->model('Operator_Number_Model');
 	}
 	
 	function get()
@@ -118,38 +119,78 @@ Class Rule extends MX_Controller{
 			$phoneID =false;
 			$temp =false;
 			$tmp = false;
-				$get_id_addr = $this->Address_Book_Model->get_where('number',$number);
-				if($get_id_addr)
+			$get_id_addr = $this->Address_Book_Model->get_where('number',$number);
+			if($get_id_addr)
+			{
+				$temp['id_address_book'] = $get_id_addr->id_address_book;
+				$temp['id_smsc'] = $get_id_addr->id_smsc;
+				$getrule = $this->Config_Rule_Model->get_by('id_smsc_name',$get_id_addr->id_smsc);
+				if($getrule)
 				{
-					$temp['id_address_book'] = $get_id_addr->id_address_book;
-					$temp['id_smsc'] = $get_id_addr->id_smsc;
-					$get_smsc = $this->Smsc_Model->get($get_id_addr->id_smsc);
-
-					if($get_smsc)
+					$phone_id = $this->Config_Modem_Model->get($getrule->id_config_modem);
+					if($phone_id)
 					{
-						$getrule = $this->Config_Rule_Model->get_by('id_smsc_name',$get_smsc->smsc_name);
-						if($getrule)
-						{
-							
-							$phone_id = $this->Config_Modem_Model->get($getrule->id_config_modem);
-							if($phone_id)
-							{
-								$temp['phoneID'] = $phone_id->phoneID;
-								
-							}
-							
-						}
-						else
-							{
-								$getdefault = $this->Config_Modem_Model->get_by('default','1');
-								if($getdefault)
-								{
-									$temp['phoneID'] = $getdefault->phoneID;
-								}
-							}
+						$temp['phoneID'] = $phone_id->phoneID;
 					}
 				}
+				else
+				{
+					$getdefault = $this->Config_Modem_Model->get_by('default','1');
+					if($getdefault)
+					{
+						$temp['phoneID'] = $getdefault->phoneID;
+					}
+				}
+			}
+			else
+			{
+				$last_name = false;
+				$email = false;
+				$id_user = false;
+				$last_id = $this->Address_Book_Model->add($number,$number,$last_name,$email,$id_user);
+				if($last_id)
+				{
+					$temp['id_address_book'] = $last_id;
+					// ini karena males update  model
+					$cari_op = $this->Operator_Number_Model->gets();
+					if($cari_op)
+					{	
+						foreach($cari_op as $co)
+						{
+							if(preg_match('/^\\'.$co->operator_number.'/',$number))
+							{
+								$up = array('id_smsc' => $co->id_smsc_name);
+								$this->Address_Book_Model->update($last_id,$up);
+								$temp['id_smsc'] = $co->id_smsc_name;
+							}
+						}
+						
+					}
 
+				}
+				
+				$getrule = $this->Config_Rule_Model->get_by('id_smsc_name',$temp['id_smsc']);
+				if($getrule)
+				{
+					$phone_id = $this->Config_Modem_Model->get($getrule->id_config_modem);
+					if($phone_id)
+					{
+						$temp['phoneID'] = $phone_id->phoneID;
+					}					
+					
+				}
+				else
+				{
+					$getdefault = $this->Config_Modem_Model->get_by('default','1');
+					if($getdefault)
+					{
+						$temp['phoneID'] = $getdefault->phoneID;
+					}
+				}
+	
+			}
+			
+			
 			return $temp; 
 		}
 		return false; 
