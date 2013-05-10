@@ -102,6 +102,32 @@ Class Message extends MX_Controller{
 					
 				}	
 			}
+			elseif($get_label_id->id_labelname == '5')
+			{
+				$data_inbox = $this->label_model->gets_where('id_labelname', $get_label_id->id_labelname);
+				$id_inbox = false;
+				if($data_inbox)
+				{
+					foreach($data_inbox as $datin)
+					{
+						$id_inbox[] = $datin->id_inbox;
+					}
+					
+					// cari thread wher in 
+					$get = $this->inbox_model->get_in_where($id_inbox);
+
+					if($get)
+					{
+						foreach($get as $g)
+						{
+							if($g->is_delete == '2')
+							{
+								$thread[] = $g->thread;
+							}		
+						}							
+					}	
+				}
+			}
 			else
 			{
 				$data_inbox = $this->label_model->gets_where('id_labelname', $get_label_id->id_labelname);
@@ -121,17 +147,13 @@ Class Message extends MX_Controller{
 					{
 						foreach($get as $g)
 						{
-							if($g->is_delete != '1')
+							if($g->is_delete != '1' && $g->is_delete != '2')
 							{
 								$thread[] = $g->thread;
-							}
-							
+							}		
 						}							
-					}
-					
-					
+					}	
 				}
-				
 			}
 			// disini saja 	
 			//var_dump($thread);
@@ -140,7 +162,6 @@ Class Message extends MX_Controller{
 			$isi = false;
 			$ambil_label = false;
 			$balike = false;
-
 			$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$keyword);
 			if($ambil_isi)
 			{
@@ -151,7 +172,7 @@ Class Message extends MX_Controller{
 					$gt_content = $this->inbox_model->get($dtam->id_inbox);
 					if($gt_content)
 					{
-						$isi['content'] = $gt_content->content;
+						$isi['content'] = substr($gt_content->content,0,20);
 						
 					}
 					
@@ -214,12 +235,11 @@ Class Message extends MX_Controller{
 					$allres  = $ambil_isi = $this->message_model->get_by_thread($thread,0,0,false);
 				}
 				$total = count($allres);
-			//var_dump($total);
 				$ret = array('remap' => $remap,'total' => $total);
 			}
 			return $ret;
 		}
-
+		return false;
 	}
 	
 	

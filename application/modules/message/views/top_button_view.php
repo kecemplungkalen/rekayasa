@@ -24,9 +24,6 @@
 				
 				
 			});
-
-			
-			
 			
 		});
 		
@@ -44,7 +41,79 @@
 		  e.stopPropagation();
 		});
 		
+		$('#pindah_dari_trash').click(function(){
+			
+			var clist =  $('.pesan_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+			
+			if(clist !='')
+			{
+				$('#move_from_trash').modal('show');
+			}			
+			
+		});
+		
+		$('#blacklist_this').click(function(){
+			
+			var blist =  $('.pesan_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+			
+			$.post('<?php echo base_url();?>dashboard_data/mark_spam',{thread:blist},function(data){
+				console.log(data);
+				if(data == 'true')
+				{
+					location.reload();
+				}
+				
+				
+			});
+			
+		});
+		
+		$('#remove_blacklist_this').click(function(){
+			
+			var blist =  $('.pesan_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+			
+			$.post('<?php echo base_url();?>dashboard_data/remove_blacklist',{thread:blist},function(data){
+				console.log(data);
+				if(data == 'true')
+				{
+					location.reload();
+				}
+				
+				
+			});
+			
+		});
+		
+		$('#remove_from_trash').click(function(){
+			var list_trash =  $('.pesan_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
 
+			$.post('<?php echo base_url();?>dashboard_data/remove_from_trash',{thread:list_trash},function(data){
+				if(data == 'true')
+				{
+
+					location.reload();
+				}
+			});
+			
+		});
+		
+		
 		$('#hapus_pesan').click(function(){
 			
 			var id =  $('.pesan_list:checkbox').map(function() {
@@ -129,7 +198,6 @@
 		
 
 
-
 	});
 	
 	function checkall()
@@ -192,7 +260,19 @@
 			<a id="terapkan_label">Terapkan Label</a>
 		</li>
 	</ul>
-	<a class="btn" id="alert" ><i class="icon-trash"></i></a>
+	<?php if(isset($label)){ if($label != 'trash'){ ?>
+		<a data-placement="bottom" rel="tooltip" data-title="Move to Trash"  class="btn" id="alert" ><i class="icon-trash"></i></a>
+		<?php }else{ ?>
+		<a href="#" data-placement="bottom" rel="tooltip" data-title="Move From Trash"   class="btn" id="pindah_dari_trash" ><i class="icon-share"></i></a>
+		<?php } ?>
+	<?php }?>
+	<?php if(isset($label)){ if($label != 'spam'){ ?>
+	<a href="#mark_as_spams" data-toggle="modal" data-placement="bottom" rel="tooltip" data-title="Mark Spam" class="btn" id="marks" ><i class="icon-warning-sign"></i></a>
+		<?php }else{ ?>
+	<a href="#mark_not_spams" data-toggle="modal" data-placement="bottom" rel="tooltip" data-title="Bukan Spam" class="btn" id="marks" >Bukan Spam</a>
+		<?php } ?>
+	<?php }?>
+	
 </div>
 <form class="form-search pull-right" id="search">
   <input type="hidden" name="label" value="<?php if($label){ echo $label; } ?>">
@@ -208,6 +288,26 @@
 	<li class="active"><?php if($label){ echo $label; } ?></li>
 </ul> 
 
+<div class="modal fade hide" id="mark_as_spams">
+	<div class="modal-header">
+	<h6>Mark As SPAM ?</h6> 
+	</div>
+	<div class="modal-body pull-right">
+	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
+	<a href="#" class="btn btn-danger" id="blacklist_this">Mark SPAM</a>
+	</div>
+</div>
+
+<div class="modal fade hide" id="mark_not_spams">
+	<div class="modal-header">
+	<h6>Bukan SPAM ?</h6> 
+	</div>
+	<div class="modal-body pull-right">
+	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
+	<a href="#" class="btn btn-success" id="remove_blacklist_this">Bukan Spam</a>
+	</div>
+</div>
+
 <div class="modal fade hide" id="konfirm">
 	<div class="modal-header">
 	<h6>Ingin Menghapus thread ini ?</h6> 
@@ -215,5 +315,17 @@
 	<div class="modal-body pull-right">
 	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
 	<a href="#" class="btn btn-danger" id="hapus_pesan">Hapus</a>
+	</div>
+</div>
+
+<div class="modal fade hide" id="move_from_trash">
+	<div class="modal-header">
+
+	<h6>Ingin Megembalikan Pesan ?</h6> 
+
+	</div>
+	<div class="modal-body pull-right">
+	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
+	<a href="#" class="btn btn-info" id="remove_from_trash">Kembalikan</a>
 	</div>
 </div>

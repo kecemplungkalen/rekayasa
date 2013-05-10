@@ -9,11 +9,7 @@ Class Send extends MX_Controller{
 		$this->load->model('inbox_model');
 		$this->load->model('label_model');
 	}
-	
-	public function contoh()
-	{
-		echo 'true';
-	}
+
 	
 	public function index()
 	{
@@ -27,7 +23,7 @@ Class Send extends MX_Controller{
 			$address_book = false;
 			for($i=0;$i < count($data);$i++)
 			{
-				$cari_thread = array('number' => $data[$i]['number'],'status_archive' => '0'); 
+				$cari_thread = array('number' => $data[$i]['number'],'status_archive' => '0','is_delete !=' => '1'); 
 				$data_thread = $this->inbox_model->arr_wheres($cari_thread);
 				if($data_thread)
 				{

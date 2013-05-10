@@ -28,6 +28,11 @@
 		$(window).load(function() {
 			$('#prog').modal('hide');
 		});
+		$(document).ready(function () {
+			if ($("[rel=tooltip]").length) {
+			$("[rel=tooltip]").tooltip();
+			}
+		});
 			
 	</script>
 	  <style type="text/css">

@@ -29,7 +29,7 @@
 		function send()
 		{
 			$.post('<?php echo base_url();?>dashboard/insert',$('#form_send').serialize(),function(data){
-				//console.log(data);
+			//	console.log($('#form_send').serialize());
 				if(data=='true')
 				{
 					location.reload();

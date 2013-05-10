@@ -99,7 +99,7 @@
 				<?php echo date('j F Y',$data[$i]['recive_date']);?><br>
 				<small><?php echo date('g:i a',$data[$i]['recive_date']);?><br></small>
 			<td>
-				<?php echo $data[$i]['content'] ;?>
+				<?php echo $data[$i]['content'] ;?>...
 			</td>
         	<td>
 				

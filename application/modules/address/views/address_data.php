@@ -115,3 +115,4 @@
 <div align="center">
 	<?php if($paging){ echo $paging; }?>
 </div>
+<div id="show_modal"> </div>

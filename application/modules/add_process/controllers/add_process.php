@@ -17,6 +17,7 @@ Class Add_process extends MX_Controller{
 		$this->load->model('Smsc_Model');
 		$this->load->model('Address_Book_Model');
 		$this->load->model('Operator_Number_Model');
+		$this->load->model('Blacklist_Model');
 
 	}
 	
@@ -31,6 +32,8 @@ Class Add_process extends MX_Controller{
 			$smsc = $data->SMSCNumber;
 			$recive_date = strtotime($data->ReceivingDateTime);  
 			$id_user = '1';
+
+			
 			//cek di address 
 			$id_address_book = false;
 			$address_book = $this->Address_Book_Model->get_where('number',$number);
@@ -48,10 +51,12 @@ Class Add_process extends MX_Controller{
 					$id_address_book = $tambah_address_book;
 				
 					$id_smsc = $this->Smsc_Model->get_by_col('smsc_number',$smsc);
+					//log_message('error','smsc nya '.print_r($id_smsc));
 					if($id_smsc)
 					{
 						// kolom id_smsc isinya smsc_name.id_smsc_name 
-						$data = array('id_smsc' => $id_smsc->id_smsc_name);
+						$data = array('id_smsc' => $id_smsc->smsc_name);
+						
 						$this->Address_Book_Model->update($id_address_book,$data);
 					}
 					else // jika tidak ada di database smsc ambil di data operator number
@@ -100,13 +105,14 @@ Class Add_process extends MX_Controller{
 					$id_inbox_ar = $cil;
 					//ambil id nama label di label (wafer 2);
 					$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
-					$insert_labelname = false;
+					//$insert_labelname = false;
 					if($comot_id_labelname)
 					{
 						$lbl_name = false;
 						foreach($comot_id_labelname as $id_labelname)
 						{
-							if($id_labelname->id_labelname == '1' || $id_labelname->id_labelname == '2' || $id_labelname->id_labelname == '4')
+							// sementara tunggu revisi
+							if($id_labelname->id_labelname != '1' && $id_labelname->id_labelname != '2' && $id_labelname->id_labelname != '3' && $id_labelname->id_labelname != '4' && $id_labelname->id_labelname != '5')
 							{
 								$lbl_name['id_labelname'] = $id_labelname->id_labelname;
 								$insert_labelname[]= $lbl_name; // dapat id_labelname
@@ -117,64 +123,96 @@ Class Add_process extends MX_Controller{
 				}
 				
 			}
-			//insert ke tabel inbox mark unread 
-			$id_inbox = false;
-			$input_inbox = array(
-			'id_user' => $id_user,
-			'thread ' => $thread ,
-			'id_address_book' => $id_address_book,
-			'recive_date' => $recive_date,
-			'number' => $number,
-			'content'=> $isi_sms,
-			'last_update' => time(),
-			'read_status' => '0',
-			'status_archive' => '0'
-			);
-			$data_id_inbox = $this->inbox_model->add($input_inbox); // kita dapat id_inbox
-			if($data_id_inbox)
+			// cek di blacklist
+			$black = array('blacklist_number' => $number);
+			$cek_spam = $this->Blacklist_Model->get($black);
+			if($cek_spam)
 			{
-				$id_inbox = $data_id_inbox;
-			
-			}
-			
-			// tambah ke label inbox 
-			$id_label_inbox = $this->label_model->add($id_inbox,'1');
-			// tambahkan semua label thread sebelumnya kecuali sent (wafer 3)
-			if($insert_labelname)
-			{
-				for($i=0;$i<count($insert_labelname);$i++)
+				$id_inbox = false;
+				$input_inbox = array(
+				'id_user' => $id_user,
+				'thread ' => $thread ,
+				'id_address_book' => $id_address_book,
+				'recive_date' => $recive_date,
+				'number' => $number,
+				'content'=> $isi_sms,
+				'last_update' => time(),
+				'read_status' => '1',
+				'status_archive' => '0'
+				);	
+				$data_id_inbox = $this->inbox_model->add($input_inbox); // kita dapat id_inbox
+				if($data_id_inbox)
 				{
-					$this->label_model->add($id_inbox,$insert_labelname[$i]);
-					
-				}
-			}
-			
-			//ambil filter aktif
-			$data_filter = $this->Filter_Model->gets(1);
-			if($data_filter)
-			{
-				//$data_isisms = false;
-				$coba_data = false;
-				$value_filter = false;
-				$logika = false;
+					$id_inbox = $data_id_inbox;
 				
-				$tmp = false;
-				foreach($data_filter as $df)
+				}
+				$where = array('id_inbox' => $id_inbox);
+				$data = array('is_delete' => '2');
+				$this->inbox_model->update_where($where,$data);
+				$this->label_model->add($id_inbox,'5');
+				
+				return true;
+			}
+			else
+			{
+				//insert ke tabel inbox mark unread 
+				$id_inbox = false;
+				$input_inbox = array(
+				'id_user' => $id_user,
+				'thread ' => $thread ,
+				'id_address_book' => $id_address_book,
+				'recive_date' => $recive_date,
+				'number' => $number,
+				'content'=> $isi_sms,
+				'last_update' => time(),
+				'read_status' => '0',
+				'status_archive' => '0'
+				);
+				$data_id_inbox = $this->inbox_model->add($input_inbox); // kita dapat id_inbox
+				if($data_id_inbox)
 				{
-					//var_dump($count++);
-					$delimiter = $this->Filter_Delimiter_Model->get($df->id_delimiter);
-					
-					$logika = $this->saring($df->id_filter,$number,$isi_sms,$delimiter->value_delimiter);
-					if($logika)
+					$id_inbox = $data_id_inbox;
+				
+				}
+				
+				// tambah ke label inbox 
+				$id_label_inbox = $this->label_model->add($id_inbox,'1');
+				// tambahkan semua label thread sebelumnya kecuali sent (wafer 3)
+				if($insert_labelname)
+				{
+					for($i=0;$i<count($insert_labelname);$i++)
 					{
-						$this->filter_action($df->id_filter,$id_inbox,$id_label_inbox,$isi_sms);
+						$this->label_model->add($id_inbox,$insert_labelname[$i]['id_labelname']);
 					}
+				}
+				
+				//ambil filter aktif
+				$data_filter = $this->Filter_Model->gets(1);
+				if($data_filter)
+				{
+					//$data_isisms = false;
+					$coba_data = false;
+					$value_filter = false;
+					$logika = false;
 					
-				} // end ambil filter by id and proses 
-			} // end ambil data filter
-			
-			// balikin ke gammu biar ndak berat
-			return true;
+					$tmp = false;
+					foreach($data_filter as $df)
+					{
+						//var_dump($count++);
+						$delimiter = $this->Filter_Delimiter_Model->get($df->id_delimiter);
+						
+						$logika = $this->saring($df->id_filter,$number,$isi_sms,$delimiter->value_delimiter);
+						if($logika)
+						{
+							$this->filter_action($df->id_filter,$id_inbox,$id_label_inbox,$isi_sms);
+						}
+						
+					} // end ambil filter by id and proses 
+				} // end ambil data filter
+				
+				// balikin ke gammu biar ndak berat
+				return true;
+			}
 			//$filter_detail = $this->Filter_Detail_Model->gets_by_col();
 		}
 		return false;

@@ -1,0 +1,69 @@
+################################
+# Wavecom MULTIBAND 900E 1800  #
+#	 	8 Slot SIM CARD   	   #
+#							   #
+#							   #
+#							   #
+################################
+# sim card 1
+[gammu]
+port = /dev/ttyUSB0                                                                                                                                                                 
+connection = at115200
+synchronizetime = yes
+logfile = /root/logGammu
+#+6287838743088
+
+# sim card 2
+[gammu1]
+port = /dev/ttyUSB1                                                                                                                                                                 
+connection = at115200
+synchronizetime = yes
+logfile = /root/logGammu
+
+
+# sim card 3
+[gammu2]
+port = /dev/ttyUSB2                                                                                                                                                                 
+connection = at115200
+synchronizetime = yes
+logfile = /root/logGammu
+
+
+# sim card 4 
+[gammu3]
+port = /dev/ttyUSB3                                                                                                                                                                 
+connection = at115200
+synchronizetime = yes
+logfile = /root/logGammu
+
+
+# sim card 5 
+[gammu4]
+port = /dev/ttyUSB4                                                                                                                                                                 
+connection = at115200
+synchronizetime = yes
+logfile = /root/logGammu
+
+
+
+# sim card 6
+[gammu5]
+port = /dev/ttyUSB5                                                                                                                                                                 
+connection = at115200
+synchronizetime = yes
+logfile = /root/logGammu
+
+
+# sim card 7
+[gammu6]
+port = /dev/ttyUSB6                                                                                                                                                                 
+connection = at115200
+synchronizetime = yes
+logfile = /root/logGammu
+
+# sim card 8
+[gammu7]
+port = /dev/ttyUSB7                                                                                                                                                                 
+connection = at115200
+synchronizetime = yes
+logfile = /root/logGammu

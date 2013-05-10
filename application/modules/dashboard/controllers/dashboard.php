@@ -15,12 +15,6 @@ Class Dashboard extends MX_Controller{
 		$this->message->index('inbox');		
 	}	
 	
-	public function contoh()
-	{
-
-		echo 'true';
-	}
-	
 	public function insert()
 	{
 		$data = $_POST;

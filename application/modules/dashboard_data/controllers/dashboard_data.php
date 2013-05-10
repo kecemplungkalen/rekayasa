@@ -10,10 +10,40 @@ Class Dashboard_data extends MX_Controller{
 		$this->load->model('Address_Book_Model');
 		$this->load->model('label_model');
 		$this->load->model('Labelname_Model');
+		$this->load->model('Blacklist_Model');
 	}
 	
 	
-	
+	function remove_from_trash()
+	{
+		$thread = $this->input->post('thread');
+		$dummy = false;
+		if($thread)
+		{
+			
+			for($i=0;$i < count($thread) ;$i++)
+			{
+				$where = array('thread' => $thread[$i]);
+				$data = array('is_delete' => '0');
+				$remove_tash = $this->inbox_model->update_where($where,$data);
+				if($remove_tash)
+				{
+					$dummy = true;
+				}
+				
+			}
+			$dummy = $dummy && $dummy;
+		}
+		if($dummy)
+		{
+			echo 'true';
+			
+		}else
+		{
+			echo 'false';
+		}
+		
+	}
 	public function hapus_message()
 	{
 		//thread label yg di remove  
@@ -192,13 +222,17 @@ Class Dashboard_data extends MX_Controller{
 	
 	public function modal_body($thread=false,$label=false)
 	{
-		//$thread = $this->input->get('thread');
-		//$label = $this->input->get('label');
+		$thread = $this->input->get('thread');
+		$label = $this->input->get('label');
 		$data = false;
+		
+		
 		if($thread && $label)
 		{
 			$data['data'] = $this->read_sms($thread,$label);
+			$data['thread'] = $thread;
 		}
+		$data['list_label'] = $this->Labelname_Model->get_add();
 		$this->load->view('modal/read_sms_modal_body',$data);
 	}
 	
@@ -214,6 +248,8 @@ Class Dashboard_data extends MX_Controller{
 			$data['data'] = $this->read_sms($thread,$label);
 			$data['thread'] = $thread;
 		}
+		$data['list_label'] = $this->Labelname_Model->get_add();
+
 		$this->load->view('modal/read_sms_modal_view',$data);
 	}
 	
@@ -224,7 +260,7 @@ Class Dashboard_data extends MX_Controller{
 		{
 			$temp = false;
 			$tmp = false;
-			$label = false;
+			//$label = false;
 			$unread = false;
 			$mark = false;
 			$sms = $this->inbox_model->gets_where('thread',$thread);
@@ -249,6 +285,7 @@ Class Dashboard_data extends MX_Controller{
 							$lab = $this->Labelname_Model->get($ls->id_labelname);
 							if($lab)
 							{
+								$lb['id_labelname'] = $ls->id_labelname;
 								$lb['name'] = $lab->name;
 								$lb['color'] = $lab->color;
 								$lbtem[] = $lb;
@@ -269,6 +306,7 @@ Class Dashboard_data extends MX_Controller{
 					}
 					
 					$tmp['number'] = $isi->number;
+					$tmp['is_delete'] = $isi->is_delete;
 					$tmp['read_status'] = $isi->read_status;
 					if($isi->read_status != '1')
 					{
@@ -284,6 +322,103 @@ Class Dashboard_data extends MX_Controller{
 			}
 		}
 		return false;
+	}
+	
+	function remove_blacklist()
+	{
+		$thread = $this->input->post('thread');
+		if($thread)
+		{
+			$number = false;
+			$status = false;
+			for($i=0;$i < count($thread);$i++)
+			{
+				$data = array('thread' => $thread[$i]);
+				$get_id = $this->inbox_model->arr_wheres($data);
+				if($get_id)
+				{
+					// number
+					$number = $get_id[0]->number;
+					foreach($get_id as $gid)
+					{
+						// update id inbox
+						$dwhere = array('id_inbox' => $gid->id_inbox,'id_labelname' => '5');
+						$this->label_model->delete_where($dwhere);
+						
+					}
+					$del = array('blacklist_number' => $number);
+					$delete = $this->Blacklist_Model->delete($del);
+					if($delete)
+					{
+						$id = array('thread' => $thread[$i]);
+						$set = array('is_delete' => '0'); 
+						$this->inbox_model->update_where($id,$set);
+						$status = true;
+					}
+				}	
+			}
+			$status = $status  && $status ;
+			if($status)
+			{
+				echo 'true';
+			}
+			else
+			{
+				echo 'false';
+			}			
+		}
+		else
+		return false;
+	}
+	
+	function mark_spam()
+	{
+		$thread = $this->input->post('thread');
+		if($thread)
+		{
+			
+			$id_inbox = false;
+			$status = false;
+			$number = false;
+			for($i=0;$i<count($thread);$i++)
+			{
+				$data = array('thread' => $thread[$i]);
+				$getspam = $this->inbox_model->arr_wheres($data);
+				if($getspam)
+				{
+					$number = $getspam[0]->number;
+					$tmp = false;
+					foreach($getspam as $ges)
+					{
+						// tambah label spam ke label 
+						$this->label_model->add($ges->id_inbox,'5');
+					}
+					$colok = array('blacklist_number' => $number);
+					$last_id = $this->Blacklist_Model->add($colok);
+					if($last_id)
+					{
+						//update inbox is delete = 2 
+						$where = array('thread' => $thread[$i]);
+						$mark = array('is_delete' => '2');
+						$this->inbox_model->update_where($where,$mark);
+						$status = true;
+					}
+					
+				}
+			}
+			$status = $status  && $status ;
+			if($status)
+			{
+				echo 'true';
+			}
+			else
+			{
+				echo 'false';
+			}
+		}
+		else
+		return false;
+		
 	}
 	
 	function compose_sms()
