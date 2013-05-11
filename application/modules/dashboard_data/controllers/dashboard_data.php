@@ -50,10 +50,32 @@ Class Dashboard_data extends MX_Controller{
 		
 		$thread = $this->input->post('id');
 		if($thread)
-		{	$stat = false;
-			for($i=0;$i < count($thread); $i++)
+		{	
+			if(is_array($thread))
 			{
-				$where = array('thread'=>$thread[$i]);
+				$stat = false;
+				for($i=0;$i < count($thread); $i++)
+				{
+					$where = array('thread'=>$thread[$i]);
+					$data = array('is_delete' => '1');
+					$update = $this->inbox_model->update_where($where,$data);
+					if($update)
+					{
+						
+						$stat = true;
+					} 
+					
+				}
+				$jum = $stat && $stat;
+				if($jum)
+				{
+					echo 'true';
+				}
+			}
+			else
+			{
+				$stat = false;
+				$where = array('id_inbox'=>$thread);
 				$data = array('is_delete' => '1');
 				$update = $this->inbox_model->update_where($where,$data);
 				if($update)
@@ -61,12 +83,11 @@ Class Dashboard_data extends MX_Controller{
 					
 					$stat = true;
 				} 
+				if($stat)
+				{
+					echo 'true';
+				}
 				
-			}
-			$jum = $stat && $stat;
-			if($jum)
-			{
-				echo 'true';
 			}
 		}
 		else
@@ -249,13 +270,12 @@ Class Dashboard_data extends MX_Controller{
 			$data['thread'] = $thread;
 		}
 		$data['list_label'] = $this->Labelname_Model->get_add();
-
+		$data['pbk'] = $this->Address_Book_Model->gets();
 		$this->load->view('modal/read_sms_modal_view',$data);
 	}
 	
 	function read_sms($thread=false,$label=false)
 	{
-		// label dipakai untuk masa depan saja 
 		if($thread && $label)
 		{
 			$temp = false;
@@ -263,7 +283,22 @@ Class Dashboard_data extends MX_Controller{
 			//$label = false;
 			$unread = false;
 			$mark = false;
-			$sms = $this->inbox_model->gets_where('thread',$thread);
+			$where = false;
+			switch($label)
+			{
+				case 'trash' :
+				$where = array('is_delete =' => '1');
+				break;
+				case 'spam' :
+				$where = array('is_delete =' => '2');
+				break;
+				//default :
+				//$where = array('is_delete =' => '0');
+				//break;
+			}
+			
+			$sms = $this->inbox_model->gets_where('thread',$thread,$where);
+
 			if($sms)
 			{
 
@@ -312,7 +347,6 @@ Class Dashboard_data extends MX_Controller{
 					{
 						$up = array('read_status' => '1');
 						$this->inbox_model->update($isi->id_inbox,$up);
-						//$unread = $isi->id_inbox;
 					}
 
 					$temp[]=$tmp;
@@ -329,11 +363,52 @@ Class Dashboard_data extends MX_Controller{
 		$thread = $this->input->post('thread');
 		if($thread)
 		{
-			$number = false;
-			$status = false;
-			for($i=0;$i < count($thread);$i++)
+			if(is_array($thread))
 			{
-				$data = array('thread' => $thread[$i]);
+				
+				$number = false;
+				$status = false;
+				for($i=0;$i < count($thread);$i++)
+				{
+					$data = array('thread' => $thread[$i]);
+					$get_id = $this->inbox_model->arr_wheres($data);
+					if($get_id)
+					{
+						// number
+						$number = $get_id[0]->number;
+						foreach($get_id as $gid)
+						{
+							// update id inbox
+							$dwhere = array('id_inbox' => $gid->id_inbox,'id_labelname' => '5');
+							$this->label_model->delete_where($dwhere);
+							
+						}
+						$del = array('blacklist_number' => $number);
+						$delete = $this->Blacklist_Model->delete($del);
+						if($delete)
+						{
+							$id = array('thread' => $thread[$i]);
+							$set = array('is_delete' => '0'); 
+							$this->inbox_model->update_where($id,$set);
+							$status = true;
+						}
+					}	
+				}
+				$status = $status  && $status ;
+				if($status)
+				{
+					echo 'true';
+				}
+				else
+				{
+					echo 'false';
+				}
+			}
+			else
+			{
+				$number = false;
+				$status = false;
+				$data = array('thread' => $thread);
 				$get_id = $this->inbox_model->arr_wheres($data);
 				if($get_id)
 				{
@@ -350,21 +425,20 @@ Class Dashboard_data extends MX_Controller{
 					$delete = $this->Blacklist_Model->delete($del);
 					if($delete)
 					{
-						$id = array('thread' => $thread[$i]);
+						$id = array('thread' => $thread);
 						$set = array('is_delete' => '0'); 
 						$this->inbox_model->update_where($id,$set);
 						$status = true;
 					}
 				}	
-			}
-			$status = $status  && $status ;
-			if($status)
-			{
-				echo 'true';
-			}
-			else
-			{
-				echo 'false';
+				if($status)
+				{
+					echo 'true';
+				}
+				else
+				{
+					echo 'false';
+				}				
 			}			
 		}
 		else
@@ -376,13 +450,54 @@ Class Dashboard_data extends MX_Controller{
 		$thread = $this->input->post('thread');
 		if($thread)
 		{
-			
-			$id_inbox = false;
-			$status = false;
-			$number = false;
-			for($i=0;$i<count($thread);$i++)
+			if(is_array($thread))
 			{
-				$data = array('thread' => $thread[$i]);
+				$id_inbox = false;
+				$status = false;
+				$number = false;
+				for($i=0;$i<count($thread);$i++)
+				{
+					$data = array('thread' => $thread[$i]);
+					$getspam = $this->inbox_model->arr_wheres($data);
+					if($getspam)
+					{
+						$number = $getspam[0]->number;
+						$tmp = false;
+						foreach($getspam as $ges)
+						{
+							// tambah label spam ke label 
+							$this->label_model->add($ges->id_inbox,'5');
+						}
+						$colok = array('blacklist_number' => $number);
+						$last_id = $this->Blacklist_Model->add($colok);
+						if($last_id)
+						{
+							//update inbox is delete = 2 
+							$where = array('thread' => $thread[$i]);
+							$mark = array('is_delete' => '2');
+							$this->inbox_model->update_where($where,$mark);
+							$status = true;
+						}
+						
+					}
+				}
+				$status = $status  && $status ;
+				if($status)
+				{
+					echo 'true';
+				}
+				else
+				{
+					echo 'false';
+				}
+			}
+			else
+			{
+				$id_inbox = false;
+				$status = false;
+				$number = false;
+				
+				$data = array('thread' => $thread);
 				$getspam = $this->inbox_model->arr_wheres($data);
 				if($getspam)
 				{
@@ -393,27 +508,29 @@ Class Dashboard_data extends MX_Controller{
 						// tambah label spam ke label 
 						$this->label_model->add($ges->id_inbox,'5');
 					}
+					
 					$colok = array('blacklist_number' => $number);
 					$last_id = $this->Blacklist_Model->add($colok);
 					if($last_id)
 					{
 						//update inbox is delete = 2 
-						$where = array('thread' => $thread[$i]);
+						$where = array('thread' => $thread);
 						$mark = array('is_delete' => '2');
 						$this->inbox_model->update_where($where,$mark);
 						$status = true;
 					}
 					
 				}
-			}
-			$status = $status  && $status ;
-			if($status)
-			{
-				echo 'true';
-			}
-			else
-			{
-				echo 'false';
+
+				if($status)
+				{
+					echo 'true';
+				}
+				else
+				{
+					echo 'false';
+				}
+
 			}
 		}
 		else
@@ -426,5 +543,6 @@ Class Dashboard_data extends MX_Controller{
 		$data['data'] = $this->Address_Book_Model->gets();
 		$this->load->view('modal/compose_sms_modal_view',$data);
 	}
+	
 
 }

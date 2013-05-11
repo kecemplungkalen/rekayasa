@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 10, 2013 at 10:22 AM
+-- Generation Time: May 11, 2013 at 10:18 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -66,14 +66,14 @@ CREATE TABLE IF NOT EXISTS `blacklist` (
   `id_blacklist` int(11) NOT NULL AUTO_INCREMENT,
   `blacklist_number` varchar(20) NOT NULL,
   PRIMARY KEY (`id_blacklist`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `blacklist`
 --
 
 INSERT INTO `blacklist` (`id_blacklist`, `blacklist_number`) VALUES
-(1, '+628123456789');
+(3, '+62819678430');
 
 -- --------------------------------------------------------
 
@@ -374,17 +374,17 @@ INSERT INTO `groupname` (`id_groupname`, `nama_group`, `color`) VALUES
 CREATE TABLE IF NOT EXISTS `inbox` (
   `id_inbox` int(11) NOT NULL AUTO_INCREMENT,
   `thread` varchar(50) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_address_book` int(11) NOT NULL,
-  `number` varchar(20) NOT NULL,
+  `id_user` int(11) NOT NULL DEFAULT '0',
+  `id_address_book` int(11) NOT NULL DEFAULT '0',
+  `number` varchar(20) NOT NULL DEFAULT 'Unset Number',
   `recive_date` int(11) NOT NULL,
   `content` text NOT NULL,
   `read_status` tinyint(1) NOT NULL,
   `last_update` int(11) NOT NULL,
-  `status_archive` tinyint(1) NOT NULL,
-  `is_delete` tinyint(1) NOT NULL,
+  `status_archive` tinyint(1) NOT NULL DEFAULT '0',
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_inbox`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=120 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=123 ;
 
 --
 -- Dumping data for table `inbox`
@@ -415,7 +415,7 @@ INSERT INTO `inbox` (`id_inbox`, `thread`, `id_user`, `id_address_book`, `number
 (83, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 1111', 1, 1367569842, 0, 0),
 (84, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 420420', 1, 1367570145, 0, 0),
 (85, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 999999999', 1, 1367570306, 0, 0),
-(87, '1505695122', 1, 12, '+62819678430', 1364200074, 'code name revolution', 1, 1367659875, 0, 0),
+(87, '1505695122', 1, 12, '+62819678430', 1364200074, 'code name revolution', 1, 1367659875, 0, 2),
 (88, '1165169767', 1, 13, '+62819678431', 1364200074, 'code name revolutionaries', 1, 1367660168, 0, 0),
 (89, '1165169767', 1, 13, '+62819678431', 1364200074, 'Sms Ini Mau Dikirim kapan ya?', 1, 1367960168, 0, 0),
 (90, '1555997036', 1, 2, '+62819678421', 1368007326, 'AAAAAAAAAAAAA  AAAAAAAAAAA', 1, 1368007326, 0, 0),
@@ -426,13 +426,13 @@ INSERT INTO `inbox` (`id_inbox`, `thread`, `id_user`, `id_address_book`, `number
 (95, '728247135', 1, 11, '+62819678420', 1368008480, 'Mbaaaaaaaaaaaaaah...!', 1, 1368008480, 0, 0),
 (96, '728247135', 1, 11, '+62819678420', 1368018848, 'Testing Sent Saja', 1, 1368018848, 0, 0),
 (97, '1722666432', 1, 11, '+62819678420', 1368019077, 'Test New Thread..!!!!', 1, 1368019077, 0, 0),
-(98, '1885174197', 1, 19, '+628123456789', 1368174474, 'Apakah Masuk Spam?', 1, 1368157145, 0, 2),
-(99, '1885174197', 1, 19, '+628123456789', 1368174474, 'Spammer in Action', 1, 1368157966, 0, 2),
-(100, '1885174197', 1, 19, '+628123456789', 1368185274, 'Hayoo Tak Spam..!!', 1, 1368158197, 0, 2),
+(98, '1885174197', 1, 19, '+628123456789', 1368174474, 'Apakah Masuk Spam?', 1, 1368157145, 0, 0),
+(99, '1885174197', 1, 19, '+628123456789', 1368174474, 'Spammer in Action', 1, 1368157966, 0, 0),
+(100, '1885174197', 1, 19, '+628123456789', 1368185274, 'Hayoo Tak Spam..!!', 1, 1368158197, 0, 0),
 (101, '685903348', 1, 20, '+6281931781912', 1368171474, 'Testing...!!', 1, 1368171474, 0, 0),
 (102, '685903348', 1, 20, '+6281931781912', 1368171510, 'test brow', 1, 1368171510, 0, 0),
 (103, '1783805106', 1, 21, '+6287878351478', 1368197172, 'Test SMS Gateway', 1, 1368172196, 0, 0),
-(104, '98666392', 1, 22, '+6287845675824', 1368197524, 'Gammu Run One Recive Testing', 0, 1368172315, 0, 0),
+(104, '98666392', 1, 22, '+6287845675824', 1368197524, 'Gammu Run One Recive Testing', 1, 1368172315, 0, 0),
 (105, '2049485985', 1, 23, '+6287835357712', 1368197622, 'Gammu test SMS to 087838743088', 0, 1368172414, 0, 0),
 (106, '876410452', 1, 24, '+6287867823851', 1368197716, '087838743088 Teting Saja Brotha ', 0, 1368172507, 0, 0),
 (107, '1783805106', 1, 21, '+6287878351478', 1368197979, 'olehkarena itu maka penjajahan diatas dunia harus dihapuskan karena tidak sesuai dengan pri kemanusian dan pri keadilan', 1, 1368172772, 0, 0),
@@ -441,13 +441,16 @@ INSERT INTO `inbox` (`id_inbox`, `thread`, `id_user`, `id_address_book`, `number
 (110, '1783805106', 1, 21, '+6287878351478', 1368173863, 'System Reply Testing', 1, 1368173863, 0, 0),
 (111, '1783805106', 1, 21, '+6287878351478', 1368199797, 'whooi please reply again brotha :-O', 1, 1368174595, 0, 0),
 (112, '1783805106', 1, 21, '+6287878351478', 1368174926, 'AKU EMANG TAMPAN..!!!!!!!!', 1, 1368174926, 0, 0),
-(113, '1783805106', 1, 21, '+6287878351478', 1368174946, 'AKU EMANG TAMPAN..!!!!!!!!', 1, 1368174946, 0, 0),
-(114, '1783805106', 1, 21, '+6287878351478', 1368200460, 'hahahah Mosok?[test reply]', 1, 1368175249, 0, 0),
+(113, '1783805106', 1, 21, '+6287878351478', 1368174946, 'AKU EMANG TAMPAN..!!!!!!!!', 1, 1368174946, 0, 1),
+(114, '1783805106', 1, 21, '+6287878351478', 1368200460, 'hahahah Mosok?[test reply]', 1, 1368175249, 0, 1),
 (115, '1783805106', 1, 21, '+6287878351478', 1368175282, 'testing reload modal', 1, 1368175282, 0, 0),
 (116, '1783805106', 1, 21, '+6287878351478', 1368175293, 'testing reload modal', 1, 1368175293, 0, 0),
 (117, '1783805106', 1, 21, '+6287878351478', 1368200641, 'reply lagi yak..', 1, 1368175429, 0, 0),
 (118, '1783805106', 1, 21, '+6287878351478', 1368175446, 'yoo man ', 1, 1368175446, 0, 0),
-(119, '1783805106', 1, 21, '+6287878351478', 1368175519, 'test rload lagi man :D', 1, 1368175519, 0, 0);
+(119, '1783805106', 1, 21, '+6287878351478', 1368175519, 'test rload lagi man :D', 1, 1368175519, 0, 0),
+(120, '1869105371', 0, 0, '+6281927198', 1368262258, 'Saved In Draft Yeah...', 0, 1368262258, 0, 0),
+(121, '728247135', 1, 11, '+62819678420', 1368262925, 'test Reply yeh', 1, 1368262925, 0, 0),
+(122, '1505695122', 1, 12, '+62819678430', 1368263131, 'tereply kah ??', 1, 1368263131, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -462,7 +465,7 @@ CREATE TABLE IF NOT EXISTS `label` (
   PRIMARY KEY (`id_label`),
   KEY `id_inbox` (`id_inbox`),
   KEY `id_labelname` (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=449 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=475 ;
 
 --
 -- Dumping data for table `label`
@@ -517,9 +520,6 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (419, 95, 2),
 (420, 96, 2),
 (421, 97, 2),
-(422, 98, 5),
-(423, 99, 5),
-(424, 100, 5),
 (430, 101, 2),
 (431, 102, 2),
 (432, 103, 1),
@@ -538,7 +538,19 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (445, 116, 2),
 (446, 117, 1),
 (447, 118, 2),
-(448, 119, 2);
+(448, 119, 2),
+(449, 114, 4),
+(464, 120, 3),
+(465, 88, 9),
+(466, 89, 9),
+(467, 121, 2),
+(468, 122, 2),
+(469, 87, 5),
+(470, 122, 5),
+(471, 77, 10),
+(472, 78, 10),
+(473, 79, 10),
+(474, 80, 10);
 
 -- --------------------------------------------------------
 

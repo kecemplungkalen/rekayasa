@@ -1,9 +1,8 @@
 <script  type="text/javascript">
 	$(document).ready(function(){
 		
-		$('#add_modem').click(function(){
+		$('#edit').click(function(){
 			var valid = $('#data_modem').valid();
-			//alert(valid);
 			if(valid == true)
 			{
 				$.post('<?php echo base_url();?>config/modem/add_modem',$('#data_modem').serialize(),function(balik){
@@ -59,17 +58,19 @@
 </script>
 
 
-<div id="addmodem" class="modal hide fade">
+<div id="editmodem" class="modal hide fade">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h3>Modem Management</h3>
 	</div>
 	<div class="modal-body">
+		<?php if(isset($config)){?>
 		<form class="form-horizontal" id="data_modem">
+			<input type="hidden" name="id_config_modem" value="<?php echo $config->id_config_modem; ?>" >
 			<div class="control-group">
 				<label class="control-label">Modem Name</label>
 				<div class="controls">
-					<input type="text" class="input-medium" name="nama_modem" placeholder="Modem Name">
+					<input type="text" class="input-medium" name="nama_modem" placeholder="Modem Name" value="<?php echo $config->nama_modem;?>" >
 				</div>				
 			</div>
 			<div class="control-group">
@@ -77,8 +78,12 @@
 				<div class="controls">
 					<select name="phoneID">
 						<?php if($id_phone){?>
+							<?php $ceked = false;?>
 							<?php for($i=0;$i < count($id_phone);$i++){?>
-							<option value="<?php echo $id_phone[$i]['modem'];?>"><?php echo $id_phone[$i]['modem'];?></option>
+							<?php if($id_phone[$i]['modem'] == $config->phoneID){?>
+							<?php $ceked=true;?>
+							<?php }?>
+							<option value="<?php echo $id_phone[$i]['modem'];?>" <?php if($ceked){ echo 'selected';}?>><?php echo $id_phone[$i]['modem'];?></option>
 							<?php }?>
 						<?php }?>
 					</select>
@@ -87,7 +92,7 @@
 			<div class="control-group">
 				<label class="control-label">Phone Number</label>
 				<div class="controls">
-					<input type="text" class="input-medium" name="number" placeholder="+62">
+					<input type="text" class="input-medium" name="number" placeholder="+62" value="<?php echo $config->number;?>">
 				</div>				
 			</div>
 			<div class="control-group">
@@ -99,6 +104,7 @@
 				</div>				
 			</div>
 		</form>
+		<?php } ?>
 			<div class="control-group" align="right">
 				<button class="btn" data-dismiss="modal" >Batal</button>
 				<button class="btn btn-primary" id="add_modem">Save</button>

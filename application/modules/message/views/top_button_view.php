@@ -152,12 +152,9 @@
 			}).get();
 			
 			$.post('<?php echo base_url();?>dashboard_data/apply_label',{id_label:id_label,thread:value_thread},function(data){
-				
-				console.log(data);
 				if(data == 'true')
 				{
-					//reloadz();
-					//applyPagination();
+
 					location.reload();
 				}
 			});
@@ -235,10 +232,10 @@
 	
 	function reloadz()
 	{
-		$.post('<?php echo base_url();?>message/<?php if($label){ echo $label; } ?>/',$('#search').serialize()+"&reload=1",function(data) {
-			$("#tampil_data").html(data);
+		//$.post('<?php echo base_url();?>message/<?php if($label){ echo $label; } ?>/',$('#search').serialize()+"&reload=1",function(data) {
+		//	$("#tampil_data").html(data);
 			applyPagination();
-		});
+		//});
 	
 	}
 </script>

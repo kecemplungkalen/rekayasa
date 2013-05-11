@@ -72,10 +72,16 @@
 	<thead>
 		<tr>
 			<th><input id="checkall_pesan" onclick="checkall()" type="checkbox"></th>
-			<th>From</th>
-			<th>Date</th>
-			<th>Content</th>
-			<th>Label</th>
+			<?php if(isset($lbl)){?>
+			<?php if($lbl == 'outbox' || $lbl == 'sent' ){ ?>
+			<th> To </th>
+			<?php } else { ?>
+			<th> From </th>
+			<?php }?>
+			<?php }?>
+			<th> Date </th>
+			<th> Content </th>
+			<th> Label </th>
 		</tr>
 	</thead>
     <tbody>

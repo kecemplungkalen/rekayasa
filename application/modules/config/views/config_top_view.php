@@ -49,9 +49,19 @@
 	}
 	// Javascript to enable link to tab
 	
-
+	
 	// Change hash for page-reload
 	$('.nav-tabs a').on('shown', function (e) {
 		window.location.hash = e.target.hash;
 	});
+	
+	function edit_config_modem(id_config_modem)
+	{
+		$.get('<?php echo base_url();?>config/modem/edit_config_modem_modal',{id_config_modem:id_config_modem},function(data){
+			$('#show_modal').html(data);
+			$('#editmodem').modal('show');
+			
+		});
+	
+	}
 </script> 

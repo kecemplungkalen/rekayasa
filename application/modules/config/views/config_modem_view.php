@@ -42,6 +42,7 @@
 		});
 		
 	});
+	
 
 </script>
 
@@ -75,7 +76,7 @@
 			<?php for($i=0;$i < count($data);$i++){?>
 			<tr>
 				<td><input class="modem_list" type="checkbox" id="modem_<?php echo $data[$i]['id_config_modem']; ?>" value="<?php echo $data[$i]['id_config_modem']; ?>"></td>
-				<td><a href="#"><?php echo $data[$i]['name']; ?></a></td>
+				<td><a href="#" onclick="edit_config_modem('<?php echo $data[$i]['id_config_modem']; ?>');"><?php echo $data[$i]['name']; ?></a></td>
 				<td><?php echo $data[$i]['phoneID']; ?></td>
 				<td><?php echo $data[$i]['number']; ?></td>
 				<td><?php if(isset($data[$i]['sent'])){ echo $data[$i]['sent']; }?></td>
@@ -93,7 +94,7 @@
 					if(cek_phone != true)
 					{
 						$('#warn').show();
-						$('#warn').append('Modem <?php echo $data[$i]['phoneID']; ?> Saat ini Offline');
+						$('#warn').append('<br> Modem <strong><?php echo $data[$i]['phoneID']; ?></strong> Saat ini Offline');
 
 					}
 				});

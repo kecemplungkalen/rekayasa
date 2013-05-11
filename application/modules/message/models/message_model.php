@@ -53,14 +53,17 @@ Class message_model extends CI_model{
 		
 	}
 	
-	function get_by_thread($thread=false,$perpage=0,$start=0,$keyword=false)
+	function get_by_thread($thread=false,$perpage=0,$start=0,$where=false,$keyword=false)
 	{
 		if($thread)
 		{
 			$this->db->select('max(inbox.id_inbox) as id_inbox,recive_date,min(read_status) as read_status,thread,count(id_inbox) as total, inbox.number,first_name,last_name');
 			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book','left');			
 			$this->db->where_in('thread',$thread);
-			$this->db->group_by('thread');
+			if($where)
+			{
+				$this->db->where($where);
+			}
 			if($keyword)
 			{
 				$key = array(
@@ -72,7 +75,7 @@ Class message_model extends CI_model{
 				);
 				$this->db->or_like($key);
 			}
-			
+			$this->db->group_by('thread');
 			$this->db->order_by('recive_date','desc');
 			
 			if($perpage)

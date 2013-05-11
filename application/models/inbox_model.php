@@ -47,11 +47,15 @@ Class inbox_model extends CI_model{
 		return false;
 	}
 	
-	public function gets_where($kolom=false,$data=false)
+	public function gets_where($kolom=false,$data=false,$where=false)
 	{
 		if($kolom && $data)
 		{
 			$this->db->where($kolom,$data);
+			if($where)
+			{
+				$this->db->where($where);
+			}
 			$data = $this->db->get('inbox');
 			if($data->num_rows() > 0)
 			{
@@ -126,6 +130,8 @@ Class inbox_model extends CI_model{
 			$this->db->where_in('id_inbox',$data);
 			$this->db->group_by('thread');
 			$thread  = $this->db->get('inbox');
+			log_message('error' ,$this->db->last_query());
+
 			if($thread->num_rows() > 0)
 			{
 				return $thread->result();
@@ -183,6 +189,8 @@ Class inbox_model extends CI_model{
 			$this->db->group_by($group);
 			// $this->db->limit();
 			$result = $this->db->get('inbox');
+			log_message('error' ,$this->db->last_query());
+			
 			if($result->num_rows() > 0)
 			{
 				return $result->result();

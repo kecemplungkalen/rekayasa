@@ -13,8 +13,10 @@ Class Modem extends MX_Controller{
 	{
 		$view = false;
 		$modem = $this->phones->gets_phone();
+		$temp = false;
 		if($modem)
 		{
+			$data = false;
 			foreach($modem as $mod)
 			{
 				$temp['modem'] = $mod->ID;
@@ -28,7 +30,30 @@ Class Modem extends MX_Controller{
 	}
 	
 	
-	
+	function edit_config_modem_modal()
+	{
+		$id_config_modem = $this->input->get('id_config_modem');
+		$detail = $this->Config_Modem_Model->get($id_config_modem);
+		$view = false;
+		if($detail)
+		{
+			$view['config'] = $detail;
+		}
+		$modem = $this->phones->gets_phone();
+		if($modem)
+		{
+			foreach($modem as $mod)
+			{
+				$temp['modem'] = $mod->ID;
+				$temp['imei'] = $mod->IMEI;
+				$data[] = $temp;
+			}
+			$view['id_phone'] = $data;
+		}		
+		
+		$this->load->view('modal/edit_config_modem_modal_view',$view);
+		
+	}
 	public function add_modem()
 	{
 		$default = 0;

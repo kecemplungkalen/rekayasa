@@ -44,6 +44,7 @@ Class Message extends MX_Controller{
 			$total_rows = $isi['total'];
 		}
 		$view['paging'] = $this->paging($label,$total_rows,$perpage);
+		$view['lbl'] = $label;
 		if($this->input->post('reload'))
 		{
 			$this->load->view('dashboard/dashboard_view',$view);
@@ -84,6 +85,7 @@ Class Message extends MX_Controller{
 		$get_label_id = $this->Labelname_Model->get_label_id($label);
 		$data_tampil1 = false;
 		$thread = false;
+		$where = false;
 		if($get_label_id)
 		{
 			//$data_inbox = false;
@@ -97,7 +99,7 @@ Class Message extends MX_Controller{
 					foreach($data_inbox as $di)
 					{
 						$thread[] = $di->thread;
-						
+						$where = array('is_delete ' => '1');
 					}
 					
 				}	
@@ -123,6 +125,7 @@ Class Message extends MX_Controller{
 							if($g->is_delete == '2')
 							{
 								$thread[] = $g->thread;
+								$where = array('is_delete' => '2');
 							}		
 						}							
 					}	
@@ -130,29 +133,68 @@ Class Message extends MX_Controller{
 			}
 			else
 			{
-				$data_inbox = $this->label_model->gets_where('id_labelname', $get_label_id->id_labelname);
-				//var_dump('by labelname' ,$data_inbox);
-				$id_inbox = false;
-				if($data_inbox)
+				if(!$keyword)
 				{
-					foreach($data_inbox as $datin)
+					$data_inbox = $this->label_model->gets_where('id_labelname', $get_label_id->id_labelname);
+					//var_dump('by labelname' ,$data_inbox);
+					$id_inbox = false;
+					if($data_inbox)
 					{
-						$id_inbox[] = $datin->id_inbox;
+						foreach($data_inbox as $datin)
+						{
+							$id_inbox[] = $datin->id_inbox;
+						}
+						
+						// cari thread wher in 
+						$get = $this->inbox_model->get_in_where($id_inbox);
+
+						if($get)
+						{
+							foreach($get as $g)
+							{
+								//if($g->is_delete != '1' && $g->is_delete != '2')
+								//{
+									$thread[] = $g->thread;
+									$where = array('is_delete' => '0');
+								//}	
+							}							
+						}	
+					}
+				}
+				else
+				{
+					$data_inbox = $this->inbox_model->gets();
+					$id_inbox = false;
+					if($data_inbox)
+					{
+						foreach($data_inbox as $datin)
+						{
+							$id_inbox[] = $datin->id_inbox;
+						}
+						
+						// cari thread wher in 
+						$get = $this->inbox_model->get_in_where($id_inbox);
+
+						if($get)
+						{
+							foreach($get as $g)
+							{
+								//if($g->is_delete != '1' && $g->is_delete != '2')
+								//{
+									$thread[] = $g->thread;
+									if($keyword)
+									{
+										$where = false;
+									}
+									else
+									{
+										$where = array('is_delete' => '0');
+									}
+								//}	
+							}							
+						}	
 					}
 					
-					// cari thread wher in 
-					$get = $this->inbox_model->get_in_where($id_inbox);
-
-					if($get)
-					{
-						foreach($get as $g)
-						{
-							if($g->is_delete != '1' && $g->is_delete != '2')
-							{
-								$thread[] = $g->thread;
-							}		
-						}							
-					}	
 				}
 			}
 			// disini saja 	
@@ -162,7 +204,13 @@ Class Message extends MX_Controller{
 			$isi = false;
 			$ambil_label = false;
 			$balike = false;
-			$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$keyword);
+			if($keyword)
+			{
+				$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,$keyword);
+			}else
+			{
+				$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,$keyword);
+			}
 			if($ambil_isi)
 			{
 				foreach($ambil_isi as $dtam)
@@ -228,11 +276,11 @@ Class Message extends MX_Controller{
 				}
 				if($keyword)
 				{
-					$allres  = $ambil_isi = $this->message_model->get_by_thread($thread,0,0,$keyword);
+					$allres  = $this->message_model->get_by_thread($thread,0,0,false,$keyword);
 				}
 				else
 				{
-					$allres  = $ambil_isi = $this->message_model->get_by_thread($thread,0,0,false);
+					$allres  = $this->message_model->get_by_thread($thread,0,0,$where,false);
 				}
 				$total = count($allres);
 				$ret = array('remap' => $remap,'total' => $total);

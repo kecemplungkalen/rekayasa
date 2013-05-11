@@ -1,6 +1,6 @@
 <div id="compose" class="modal hide fade " data-backdrop="static" >
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" onclick="reloadz()" aria-hidden="true">&times;</button>
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h6>Kirim SMS</h6>
 	</div>
 
@@ -25,7 +25,23 @@
 			  $('#charNum').html('<p id="jumchar">'+len+'  character(s) <p>');
 			}     
 		}
-      
+		
+		function save()
+		{
+			$.post('<?php echo base_url();?>dashboard/save_draft',$('#form_send').serialize(),function(data){
+			//	console.log($('#form_send').serialize());
+				if(data=='true')
+				{
+					location.reload();
+				}
+				else
+				{
+					$('#warning').show();
+				}
+			});
+			
+		}
+		
 		function send()
 		{
 			$.post('<?php echo base_url();?>dashboard/insert',$('#form_send').serialize(),function(data){
@@ -43,7 +59,7 @@
 	</script>
 	<div class="modal-body" >
 		<div id="warning" class="alert-error hide">
-		<strong> Warning Modem Galau..!!</strong>
+		<strong> Warning Modem Galat..!!</strong>
 		</div>
 		<!-- start modal body -->
 	<form id="form_send">  
@@ -77,7 +93,8 @@
 	</div>
 	
 	<div class="modal-footer">
+		<a class="btn btn-info" onclick="save()">Save</a>
 		<a class="btn btn-success" onclick="send()">Send</a>
-		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true" onclick="reloadz()">Close</a>
+		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true" >Close</a>
 	</div>
 </div>
