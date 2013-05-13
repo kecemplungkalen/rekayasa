@@ -68,6 +68,13 @@ Class Modem extends MX_Controller{
 			$balik = $this->Config_Modem_Model->add($data);
 			if($balik)
 			{
+				if($default == '1')
+				{
+					$where = array('id_config_modem !=' => $balik,'default' => '1');
+					$data = array('default' => '1');
+					$this->Config_Modem_Model->update_where($where,$data);
+
+				}
 				echo 'true';
 			}
 			else
@@ -147,6 +154,88 @@ Class Modem extends MX_Controller{
 		}
 		return false;
 		
+	}
+	
+	function update_modem()
+	{
+
+		$data = $_POST;
+		if($data)
+		{
+			$id_config_modem = $data['id_config_modem'];
+			$nama_modem = $data['nama_modem'];
+			$phoneID = $data['phoneID'];
+			$number = $data['number'];
+			if(isset($data['default']))
+			{
+				// remove other devault
+				$where = array('id_config_modem !=' => $id_config_modem,'default' => '1');
+				$data = array('default' => '0');
+				$set = $this->Config_Modem_Model->update_where($where,$data);
+				if($set)
+				{
+					$where = array('id_config_modem' => $id_config_modem);
+					$data = array('default' => '1','nama_modem' => $nama_modem,'phoneID' => $phoneID,'number' => $number);
+					$up = $this->Config_Modem_Model->update_where($where,$data);
+				}				
+			}
+			else
+			{
+				$where = array('id_config_modem' => $id_config_modem);
+				$data = array('default' => '0','nama_modem' => $nama_modem,'phoneID' => $phoneID,'number' => $number);
+				$up = $this->Config_Modem_Model->update_where($where,$data);								
+			}
+			
+			if($up)
+			{
+				echo 'true';
+			}
+			else
+			{
+				echo 'false';
+			}
+			
+		}
+		else
+		return false;
+	}
+	
+	function cek_edit($id_config_modem)
+	{
+		if($id_config_modem)
+		{
+			if($this->input->post('nama_modem'))
+			{
+				$nama_modem = $this->input->post('nama_modem');
+				$data = array('id_config_modem !=' => $id_config_modem,'nama_modem' => $nama_modem);
+				$get = $this->Config_Modem_Model->get_where($data);
+				if($get)
+				{
+					echo 'false';
+				}
+				else
+				{
+					echo 'true';
+				}
+			}
+			
+			if($this->input->post('number'))
+			{
+				$number = $this->input->post('number');
+				$data = array('id_config_modem !=' => $id_config_modem,'number' => $number);
+				$get = $this->Config_Modem_Model->get_where($data);
+				if($get)
+				{
+					echo 'false';
+				}
+				else
+				{
+					echo 'true';
+				}			
+			}
+		}
+		else
+		return false;
 	}
 	
 }

@@ -60,7 +60,9 @@
 		
 		$('.show_balas').click(function(){
 			$('#balas').show();
-			$('#act').append('<h5>Reply:</h5>');
+			$('#act').html('<h5>Reply:</h5>');
+			$('#checkbox').remove();
+			$('.combobox-container').remove();
 			$('#reply').append('<input type="hidden" name="number" value="<?php echo $data[0]['number'];?>">');
 		});
 		
@@ -83,6 +85,11 @@
 					//	$('#modal_body').html(data);
 			
 					//});
+				}
+				else
+				{
+					$('#modal_body').append('<div class="alert alert-error"><strong> Warning..!</strong>  Modem Error..! </div>');
+					$('#save').show();
 				}
 			});		
 		});
@@ -121,9 +128,11 @@
 		$('.forward').click(function(){
 			var content = $(this).data('content'); 
 			$('#balas').show()
-			$('#act').html('<h5>Forward:</h5>');;
+			$('#act').html('<h5>Forward:</h5>');
 			$('#text').html(content);
-			$('#number_fwd').html('<select class="combobox" name="number_box" id="number_box"><?php if($pbk){?><?php foreach($pbk as $pb){?> <option value="<?php echo $pb->number?>"><?php echo $pb->first_name.' '.$pb->last_name ;?></option><?php }?><?php }?></select>')
+			
+			$('#number_fwd').html('<select class="combobox" name="number_box" id="number_box"><?php if($pbk){?><?php foreach($pbk as $pb){?> <option value="<?php echo $pb->number?>"><?php echo $pb->first_name.' '.$pb->last_name ;?></option><?php }?><?php }?></select>');
+			$('#number_fwd').append('<input type="hidden" id="checkbox" name="checkbox" value="true" >');
 
 			$('#number_box').combobox();
 			
@@ -180,6 +189,7 @@
 			$('#balas').show()
 			$('#act').append('<h5>Edit Draft:</h5>');
 			$('#reply').append('<input type="hidden" name="number" value="<?php echo $data[0]['number'];?>">');
+			$('#reply').append('<input type="hidden" name="id_draft" value="'+id_inbox+'">');
 			$('#text').append(content);
 			
 		});
@@ -222,6 +232,21 @@
 	  }
 	};
 	
+		function save()
+		{
+			$.post('<?php echo base_url();?>dashboard/save_draft',$('#reply').serialize(),function(data){
+			//	console.log($('#form_send').serialize());
+				if(data=='true')
+				{
+					location.reload();
+				}
+				else
+				{
+					$('#warning').show();
+				}
+			});
+			
+		}	
 	</script>
 	<div id="modal_body" class="modal-body" style="height: 400px;overflow-y: auto;">	
 	<?php $label=false;?>
@@ -257,7 +282,6 @@
 						<strong> <?php echo 'System';?></strong> 
 						<small> <?php echo date('d F Y - h:i a',$data[$d]['recive_date']);?></small>
 						<?php if($draft){?>
-						<a  class="btn btn-mini pull-right" data-placement="bottom" rel="tooltip" data-title="Send This Message"  ><i class="icon-envelope"></i></a> 	
 						<a  class="edit_draft btn btn-mini pull-right" data-placement="bottom" rel="tooltip" data-title="Edit This Message" data-content="<?php echo $data[$d]['content']; ?>" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?>"><i class="icon-edit"></i></a>
 						<?php } else { ?>
 						<a data-placement="left" rel="tooltip" class="pull-right hapus btn btn-mini" data-toggle="tooltip" data-title="Delete" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?>" ><i class="icon-trash"></i></a>
@@ -280,15 +304,16 @@
 					<?php } else {?>
 					<div id="div_inbox_<?php echo $data[$d]['id_inbox']; ?>"> 
 					<?php $class='alert alert-info'; ?>	
-					<a href="#editaddress" data-dismiss="modal" data-toggle="modal">	
+
 					<?php if(isset($data[$d]['first_name']) || isset($data[$d]['last_name'])){ ?>
+					<a href="#editaddress" data-dismiss="modal" data-toggle="modal" onclick="edit_address('<?php echo $data[$d]['id_address_book'];?>')">	
 						<strong> <?php echo $data[$d]['first_name'].' '.$data[$d]['last_name'];?> (<?php echo $data[$d]['number'];?>)</strong> 
 							<?php } else {?>
 									<strong><?php echo $data[$d]['number'];?> </strong> 
 							<?php }?></a>
 						<small> <?php echo date('d F Y - h:i a',$data[$d]['recive_date']);?></small> 
-						<a data-placement="bottom" rel="tooltip" class="pull-right btn hapus btn-mini" data-toggle="tooltip" data-title="Delete" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?>" ><i class="icon-trash"></i></a> 
-						<a data-placement="bottom" rel="tooltip" class="pull-right btn forward btn-mini" data-toggle="tooltip" data-title="Forward" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?> "data-content="<?php echo $data[$d]['content']; ?>" ><i class="icon-arrow-right" ></i></a> 
+						<a data-placement="bottom" rel="tooltip" class="pull-right btn hapus btn-mini" data-toggle="tooltip" data-original-title="Delete" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?>" ><i class="icon-trash"></i></a> 
+						<a data-placement="bottom" rel="tooltip" class="pull-right btn forward btn-mini" data-toggle="tooltip" data-original-title="Forward" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?> "data-content="<?php echo $data[$d]['content']; ?>" ><i class="icon-arrow-right" ></i></a> 
 						<br><br>
 						<div class="<?php echo $class;?>" id="id_inbox_<?php echo $data[$d]['id_inbox']; ?>" >
 							<?php echo $data[$d]['content']; ?>				
@@ -323,6 +348,7 @@
 	</div>
 	
 	<div class="modal-footer">
+		<a id="save" class="btn btn-info hide" onclick="save()">Save</a>
 		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true" onclick="reloadz()">Close</a>
 	</div>
 </div>

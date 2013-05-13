@@ -10,7 +10,18 @@
 		
 			$('.combobox').combobox();
 			
+			$('#number').click(function(){
+				
+				$('#checkpbk').prop('checked',false);
+				$('.combobox').val('');
+				
+			});
 			
+			$('.combobox').click(function(){
+				
+				$('#checkpbk').prop('checked',true);
+				
+			});
 		});
 		
 		function countChar(val) 
@@ -56,10 +67,14 @@
 				}
 			});
 		}
+		$('#number_box').change(function(){
+			$('#checkpbk').prop('checked',true);
+			$('#number').val('');
+		});
 	</script>
 	<div class="modal-body" >
 		<div id="warning" class="alert-error hide">
-		<strong> Warning Modem Galat..!!</strong>
+		<strong> Warning Modem Error..!!</strong>
 		</div>
 		<!-- start modal body -->
 	<form id="form_send">  
@@ -67,11 +82,11 @@
 			<div class="span12">
 				<label class="control-label">Nomor</label>
 				<div class="controls">
-					<input type="text" class="input-block-level input-medium" name="number" placeholder="Must start with +62">
+					<input type="text" id="number" class="input-block-level input-medium" name="number" placeholder="Must start with +62">
 				</div>
 
 				<label class="checkbox">
-				<input type="checkbox" value="true" name="checkbox">Pilih Dari Phone Book 
+				<input type="checkbox" value="true" name="checkbox" id="checkpbk">Pilih Dari Phone Book 
 				</label>
 				<div class="controls">
 				  <select class="combobox" name="number_box" id="number_box">

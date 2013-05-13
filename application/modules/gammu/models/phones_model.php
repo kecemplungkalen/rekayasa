@@ -52,5 +52,21 @@ class Phones_Model extends CI_Model{
 		return false;
 	}
 	
+	public function where_kol($where=false)
+	{
+		$this->gammu = $this->load->database('gammu',true); 
+		
+		if($where)
+		{
+			$this->gammu->where($where);
+			$row = $this->gammu->get('phones');
+			if($row->num_rows() > 0)
+			{
+				return $row->row();
+			}
+		}			
+		return false;
+	}
+	
 
 }

@@ -9,6 +9,7 @@
 	<li class="active"><a href="#modem" data-toggle="tab">Modem</a></li>
 	<li><a href="#rule" data-toggle="tab">Rule</a></li>
 	<li><a href="#user" data-toggle="tab">User</a></li>
+	<li><a href="#api" data-toggle="tab">API</a></li>
 </ul>
 <!-- javascriptnya -->
 <script>

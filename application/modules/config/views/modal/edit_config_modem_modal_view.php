@@ -1,11 +1,12 @@
+<?php if(isset($config)){?>
 <script  type="text/javascript">
 	$(document).ready(function(){
 		
-		$('#edit').click(function(){
+		$('#edit_modem').click(function(){
 			var valid = $('#data_modem').valid();
 			if(valid == true)
 			{
-				$.post('<?php echo base_url();?>config/modem/add_modem',$('#data_modem').serialize(),function(balik){
+				$.post('<?php echo base_url();?>config/modem/update_modem',$('#data_modem').serialize(),function(balik){
 					if(balik == 'true')
 					{
 						window.location.href += "modem";
@@ -27,17 +28,24 @@
 				required: true,
 				remote:{
 					type:'post',	
-					url:'<?php echo base_url();?>config/modem/cek_nama_modem'
+					url:'<?php echo base_url();?>config/modem/cek_edit/<?php echo $config->id_config_modem;?>'
 				}
 			  },
 			  number : {
 				required: true,
+				remote:{
+					type:'post',	
+					url:'<?php echo base_url();?>config/modem/cek_edit/<?php echo $config->id_config_modem;?>'
+				}
 			  }
 			},
 		
 			messages: {
 				nama_modem :{
-					remote:'Nama Modem Telah dipakai..!!'
+					remote:'modem name was used by other config..!!'
+				},
+				number: {
+					remote : 'Number is Used By other config..!!'
 				}
 			},
 			highlight: function(element) {
@@ -64,7 +72,6 @@
 		<h3>Modem Management</h3>
 	</div>
 	<div class="modal-body">
-		<?php if(isset($config)){?>
 		<form class="form-horizontal" id="data_modem">
 			<input type="hidden" name="id_config_modem" value="<?php echo $config->id_config_modem; ?>" >
 			<div class="control-group">
@@ -99,7 +106,11 @@
 				<label class="control-label">Default Modem</label>
 				<div class="controls">
 					<label class="checkbox">
-						<input type="checkbox" value="1" name="default"> Make this modem as default modem
+						<?php $ceked=false; ?>
+						<?php if($config->default){?>
+							<?php $ceked = true; ?>
+						<?php } ?>
+							<input type="checkbox" value="1" name="default" <?php if($ceked){ echo 'checked' ;} ?> > Make this modem as default modem
 					</label>
 				</div>				
 			</div>
@@ -107,7 +118,7 @@
 		<?php } ?>
 			<div class="control-group" align="right">
 				<button class="btn" data-dismiss="modal" >Batal</button>
-				<button class="btn btn-primary" id="add_modem">Save</button>
+				<button class="btn btn-primary" id="edit_modem">Save</button>
 			</div>
 	</div>
 	<div class="modal-footer">

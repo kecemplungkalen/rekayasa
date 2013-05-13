@@ -232,11 +232,21 @@
 	
 	function reloadz()
 	{
+		location.reload();
+
 		//$.post('<?php echo base_url();?>message/<?php if($label){ echo $label; } ?>/',$('#search').serialize()+"&reload=1",function(data) {
 		//	$("#tampil_data").html(data);
 			applyPagination();
 		//});
+	}
 	
+	function edit_address(id_address_book)
+	{
+		$.post('<?php echo base_url();?>address/edit_address/'+id_address_book,function(data){
+			
+			$('#show_modal').html(data);
+			$('#editaddress').modal('show');
+		});
 	}
 </script>
 

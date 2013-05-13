@@ -7,6 +7,7 @@ Class Rule extends MX_Controller{
 		parent::__construct();
 		$this->load->module('message');
 		$this->load->module('gammu');
+		$this->load->module('gammu/phones');
 		$this->load->model('Config_Modem_Model');
 		$this->load->model('Config_Rule_Model');
 		$this->load->model('Smsc_Name_Model');
@@ -144,7 +145,8 @@ Class Rule extends MX_Controller{
 			}
 			else
 			{
-				$last_name = false;
+				$temp['id_smsc'] = false;
+				$last_name = '';
 				$email = false;
 				$id_user = false;
 				$last_id = $this->Address_Book_Model->add($number,$number,$last_name,$email,$id_user);
@@ -190,8 +192,12 @@ Class Rule extends MX_Controller{
 	
 			}
 			
-			
-			return $temp; 
+			$cekmod = $this->phones->cek_phoneID($temp['phoneID']);
+			if($cekmod)
+			{
+				return $temp;	
+			}
+			 
 		}
 		return false; 
 	}

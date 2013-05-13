@@ -62,12 +62,12 @@
 				</tr>
 			</thead>
 			<tbody>
-			<?php if($rule){?>
+			<?php if(isset($rule)){?>
 				<?php for($i=0;$i<count($rule);$i++){?>
 				<tr>
 					<td><input class="rule_list" type="checkbox" id="rule_<?php echo $rule[$i]['id_config_rule'];?>" value="<?php echo $rule[$i]['id_config_rule'];?>"></td>
 					<td><a href="#" onclick="edit_config_rule('<?php echo $rule[$i]['id_config_rule'];?>')"><strong><?php echo $rule[$i]['smsc_name'];?></strong></a></td>
-					<td><?php echo $rule[$i]['nama_modem'];?></td>
+					<td><?php if(isset($rule[$i]['nama_modem'])){echo $rule[$i]['nama_modem'];} ?></td>
 				</tr>
 				<?php }?>
 			<?php }?>

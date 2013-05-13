@@ -111,9 +111,13 @@
 				
 				<?php $label = $data[$i]['label']; ?>
 				<?php if($label){ ?>
-				<?php for($j=0;$j< count($label);$j++){ ?>
-				<a href="<?php echo base_url();?>message/<?php echo $label[$j]['name']; ?>"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small><?php echo $label[$j]['name']; ?></small></span></a><a href="#remove_label" class="remove_label" data-value="<?php echo $data[$i]['thread']; ?>" data-id_labelname="<?php echo $label[$j]['id_labelname']; ?>"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small>x</small></span></a><br>
-				<?php } ?>
+					<?php for($j=0;$j< count($label);$j++){ ?>
+						<?php if(isset($lbl)){ ?>
+							<?php if($lbl != $label[$j]['name']){?>
+								<a href="<?php echo base_url();?>message/<?php echo $label[$j]['name']; ?>"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small><?php echo $label[$j]['name']; ?></small></span></a><a href="#remove_label" class="remove_label" data-value="<?php echo $data[$i]['thread']; ?>" data-id_labelname="<?php echo $label[$j]['id_labelname']; ?>"><span class="label badge-<?php echo $label[$j]['color']; ?>"><small>x</small></span></a><br>
+							<?php } ?>
+						<?php } ?>
+					<?php } ?>
 				<?php } ?>
 			</td>
 		</tr>

@@ -86,5 +86,32 @@ Class Config_Modem_Model extends CI_model{
 		return false;
 	}
 	
+	public function get_where($data=false)
+	{
+		if($data)
+		{
+			$this->db->where($data);
+			$hasil= $this->db->get('config_modem');
+			if($hasil->num_rows() > 0)
+			{
+				return $hasil->result();
+			}
+		}
+		return false;
+	}
+	
+	function update_where($where=false,$data=false)
+	{
+		if($where && $data)
+		{
+			$this->db->where($where);
+			$up = $this->db->update('config_modem',$data);
+			if($up)
+			{
+				return true;
+			}
+		}	
+		return false;
+	}
 }
 

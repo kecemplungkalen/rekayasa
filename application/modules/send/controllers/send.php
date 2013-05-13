@@ -16,8 +16,12 @@ Class Send extends MX_Controller{
 		//[0][number] = 'nomor'
 		//[0][text] = 'isi textnya'
 		$data = $_POST;
+		
+		//log_message('error','error  data : '. print_r($data,true));
+		//var_dump($data);
 		if(is_array($data))
 		{
+			$sta = false;
 			$recive_date = false;
 			$thread = false;
 			$address_book = false;
@@ -36,7 +40,8 @@ Class Send extends MX_Controller{
 				
 				// cari rule
 				$phoneID = $this->rule->sending_rule($data[$i]['number']);
-				log_message('error','error phone ID data : '. print_r($phoneID,true));
+				//log_message('error','error phone ID data : '. print_r($phoneID,true));
+				#cek di rule modem ofline atau online 
 				if($phoneID)
 				{
 					$id_user = '1'; //sementara bos
@@ -67,25 +72,25 @@ Class Send extends MX_Controller{
 						// labelin sent atau 2
 						$id_labelname = '2';
 						$this->label_model->add($id_inbox,$id_labelname);
-					}
 					
-					/*tambah ke proses input tabel outbox gammu
-					 * array(3) { ["id_address_book"]=> string(2) "11" ["id_smsc"]=> string(1) "5" ["phoneID"]=> string(10) "RumahwebXL" }
-					 * 
-					 */ 
-					$push = $this->outbox->push_outbox($data[$i]['number'],$data[$i]['text'],$phoneID['phoneID']);
-					if($push)
-					{
-						//return true;
-						echo 'true';
+						$push = $this->outbox->push_outbox($data[$i]['number'],$data[$i]['text'],$phoneID['phoneID']);
+						if($push)
+						{
+							//return true;
+							$sta = true;
+						}
 					}
-					else
-					{
-						echo 'false'; 
-						//gammu galat 
-					}
+
 				}
 
+			}
+			$sta = $sta && $sta;
+			if($sta)
+			{
+				echo 'true';
+			}else
+			{
+				echo 'false'; 
 			}			
 		}
 		

@@ -8,6 +8,7 @@ Class Dashboard extends MX_Controller{
 		$this->load->module('message');
 		$this->load->model('inbox_model');
 		$this->load->model('label_model');
+		$this->load->model('Address_Book_Model');
 		$this->load->library('curl');
 
 	}
@@ -19,11 +20,13 @@ Class Dashboard extends MX_Controller{
 	
 	public function insert()
 	{
+		#+6287838743087
 		$data = $_POST;
 		$tmp = false;
 		$temp = false;
 		if(is_array($data))
 		{
+
 			if(isset($data['checkbox']))
 			{
 				$temp['number'] = $data['number_box'];
@@ -34,10 +37,17 @@ Class Dashboard extends MX_Controller{
 			}
 			$temp['text'] = $data['text'];
 			
+			
 			$tmp[]= $temp;
+			
 			$ret = $this->curl->simple_post(base_url().'send/',$tmp);
+			//var_dump($tmp);
 			if($ret)
 			{
+				if(isset($data['id_draft']))
+				{
+					$this->inbox_model->delete($data['id_draft']);
+				}
 				echo $ret;
 			}
 		}
@@ -50,8 +60,10 @@ Class Dashboard extends MX_Controller{
 		$data = $_POST;
 		$tmp = false;
 		$temp = false;
+		$id_address_book = 0;
 		if(is_array($data))
 		{
+			$number = false;
 			if(isset($data['checkbox']))
 			{
 				$temp['number'] = $data['number_box'];
@@ -62,11 +74,21 @@ Class Dashboard extends MX_Controller{
 			}
 			$temp['text'] = $data['text'];
 			//$tmp[]= $temp;
+			
+			// cek number di address
+			
+			$ceknum = $this->Address_Book_Model->get_where('number',$temp['number']);
+			if($ceknum)
+			{
+				$id_address_book = $ceknum->id_address_book;
+			}
+			
 			$thread = mt_rand();
 			$time = time();
 			$add = array(
 			'number' => $temp['number'],
 			'content' => $temp['text'],
+			'id_address_book' => $id_address_book,
 			'thread' => $thread,
 			'read_status' => '0',
 			'last_update' => $time,

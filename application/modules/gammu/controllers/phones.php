@@ -43,4 +43,21 @@ Class Phones extends MX_Controller{
 		}
 		return false;
 	}
+	
+	function cek_phoneID($phoneID=false)
+	{
+		if($phoneID)
+		{
+			// 
+			$data = array('ID' => $phoneID,'TimeOut < ' => 'now()');
+			$res = $this->Phones_Model->where_kol($data);
+			if($res)
+			{
+				//var_dump($res);
+				return $res;
+			}
+			
+		}
+		return false;
+	}
 }

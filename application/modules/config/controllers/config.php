@@ -25,6 +25,7 @@ Class Config extends MX_Controller{
 		$rule['rule'] = $this->rule->get(); 
 		$tab['config_rule'] = $this->load->view('config_rule_view',$rule,true);
 		$tab['config_user'] = $this->load->view('config_user_view','',true);
+		$tab['config_api'] = $this->load->view('config_api_view','',true);
 
 		$data['content'] = $this->load->view('config_content_tab_view',$tab,true);
 		//$this->load->view('config_content_end_tab_view');

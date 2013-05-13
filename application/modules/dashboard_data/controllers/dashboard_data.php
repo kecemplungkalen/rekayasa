@@ -336,6 +336,7 @@ Class Dashboard_data extends MX_Controller{
 					$has_address = $this->Address_Book_Model->get($isi->id_address_book);
 					if($has_address)
 					{
+						$tmp['id_address_book'] = $has_address->id_address_book;
 						$tmp['first_name'] = $has_address->first_name;
 						$tmp['last_name'] = $has_address->last_name;
 					}
