@@ -1,5 +1,5 @@
 <?php 
-Class Modem extends MX_Controller{
+Class Modem extends MY_Controller{
 	
 	function __construct()
 	{

@@ -24,12 +24,8 @@ Class Address_Book_Model extends CI_model{
 	{
 		if($keyword)
 		{
-			$data = array(
-				'first_name' => $keyword,
-				'last_name' => $keyword,
-				'number' => $keyword
-				);
-			$this->db->or_like($data);
+
+			$this->db->or_like($keyword);
 		}
 		if($perpage)
 		{

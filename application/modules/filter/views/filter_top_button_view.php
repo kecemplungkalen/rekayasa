@@ -104,7 +104,7 @@
 	<a class="btn" id="alert"><i class="icon-trash"></i></a>
 </div>
 <form class="form-search pull-right" id="search">
-  <input type="text" name="keyword" id="keyword" class="input-medium search-query" placeholder="Search keyword ...	">
+  <input type="text" name="keyword" autocomplete="off" id="keyword" class="input-medium search-query" placeholder="Search filter ...	">
   <button type="submit" class="btn">Search</button>
 </form>
 <hr>

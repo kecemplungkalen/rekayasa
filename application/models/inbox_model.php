@@ -147,6 +147,8 @@ Class inbox_model extends CI_model{
 			$this->db->where_not_in($kolom,$data);
 			//$this->db->group_by('thread');
 			$thread  = $this->db->get('inbox');
+			log_message('error' ,$this->db->last_query());
+
 			if($thread->num_rows() > 0)
 			{
 				return $thread->result();

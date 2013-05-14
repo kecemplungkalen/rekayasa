@@ -82,7 +82,7 @@
 			<div class="span12">
 				<label class="control-label">Nomor</label>
 				<div class="controls">
-					<input type="text" id="number" class="input-block-level input-medium" name="number" placeholder="Must start with +62">
+					<input type="text" id="number" class="input-block-level input-medium" name="number" placeholder="Must start with +62" autocomplete="off">
 				</div>
 
 				<label class="checkbox">

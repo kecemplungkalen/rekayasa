@@ -64,16 +64,18 @@ Class message_model extends CI_model{
 			{
 				$this->db->where($where);
 			}
+
 			if($keyword)
 			{
-				$key = array(
-				'inbox.content' => $keyword,
-				'address_book.first_name' => $keyword,
-				'address_book.last_name' => $keyword,
-				'address_book.number' => $keyword,
-				'address_book.email' => $keyword
-				);
-				$this->db->or_like($key);
+				//$key = array(
+				//'inbox.content' => $keyword,
+				//'address_book.first_name' => $keyword,
+				//'address_book.last_name' => $keyword,
+				//'address_book.number' => $keyword,
+				//'address_book.email' => $keyword
+				//);
+				// or like
+				$this->db->or_like($keyword);
 			}
 			$this->db->group_by('thread');
 			$this->db->order_by('recive_date','desc');

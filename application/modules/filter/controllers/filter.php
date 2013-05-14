@@ -1,6 +1,6 @@
 <?php 
 
-Class Filter extends MX_Controller{
+Class Filter extends MY_Controller{
 	
 	function __construct()
 	{
@@ -175,8 +175,8 @@ Class Filter extends MX_Controller{
 			}
 			$insert_add[]=$add;
 		}
-		$balik = array('satu' => $insert_id_filter,'dua' => $insert_add );
-		var_dump($balik);
+		//$balik = array('satu' => $insert_id_filter,'dua' => $insert_add );
+		//var_dump($balik);
 	}
 	
 	public function switch_status()

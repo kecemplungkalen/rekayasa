@@ -21,7 +21,7 @@ Class Add_process extends MX_Controller{
 
 	}
 	
-	public function index($data=false)
+	function index($data=false)
 	{
 		/// data dari sms gateway 	
 		if($data)
@@ -204,7 +204,7 @@ Class Add_process extends MX_Controller{
 						$logika = $this->saring($df->id_filter,$number,$isi_sms,$delimiter->value_delimiter);
 						if($logika)
 						{
-							$this->filter_action($df->id_filter,$id_inbox,$id_label_inbox,$isi_sms);
+							$this->filter_action($df->id_filter,$recive_date,$number,$id_inbox,$id_label_inbox,$isi_sms);
 						}
 						
 					} // end ambil filter by id and proses 
@@ -219,7 +219,7 @@ Class Add_process extends MX_Controller{
 		//di return langsung  
 	}	
 	
-	public function filter_action($id_filter=false,$id_inbox=false,$id_label_inbox=false,$isi_sms=false)
+	function filter_action($id_filter=false,$recive_date=false,$number=false,$id_inbox=false,$id_label_inbox=false,$isi_sms=false)
 	{
 		$action = $this->Filter_Action_model->gets_by_col('id_filter',$id_filter);
 		if($action)
@@ -235,7 +235,7 @@ Class Add_process extends MX_Controller{
 					
 					case '2' :
 					//action post api
-					$this->post_data_api($act->api_post,$act->api_error_email,$isi_sms);
+					$this->post_data_api($act->api_post,$act->api_error_email,$recive_date,$number,$isi_sms);
 					break;
 					
 					case '3' :
@@ -258,7 +258,7 @@ Class Add_process extends MX_Controller{
 
 	}
 	
-	public function saring($id_filter=false,$number=false,$isi_sms=false,$delimiter=false)
+	function saring($id_filter=false,$number=false,$isi_sms=false,$delimiter=false)
 	{
 		
 		$tmp = $this->Filter_Detail_Model->gets_by_col('id_filter',$id_filter);
@@ -304,7 +304,7 @@ Class Add_process extends MX_Controller{
 							case 'regex' : 
 								if(isset($data_isisms[$t->word -1]))
 								{
-									if(preg_match($t->regex_data,$data_isisms[$t->word -1]))
+									if(preg_match('/'.$t->regex_data.'/',$data_isisms[$t->word -1]))
 									{
 										$valid = true;
 									}
@@ -343,7 +343,7 @@ Class Add_process extends MX_Controller{
 									}
 								break;
 								case 'regex' : 
-									if(preg_match($t->regex_data,$number))
+									if(preg_match('/'.$t->regex_data.'/',$number))
 									{
 										$valid = true;
 									}
@@ -353,7 +353,7 @@ Class Add_process extends MX_Controller{
 						}else
 						{
 							//sementara sama dengan regex
-							if(preg_match($t->regex_data,$data_isisms[$t->word -1]))
+							if(preg_match('/'.$t->regex_data.'/',$data_isisms[$t->word -1]))
 							{
 								$valid = true;
 							}
@@ -401,18 +401,28 @@ Class Add_process extends MX_Controller{
 		return false;
 	}
 	
-	public function post_data_api($url_api=false,$report_email=false,$data_sms=false)
+	public function post_data_api($url_api=false,$report_email=false,$recive_date=false,$number=false,$data_sms=false)
 	{
 		if($url_api)
 		{
-			$respons = $this->curl->simple_post($url_api,$data_sms);
+			$data_api = array(
+			'message' => $data_sms,
+			'username' => 'admin',
+			'password' => 'admin',
+			'tanggal' =>$recive_date,
+			'number' => $number
+			
+			);
+			$respons = $this->curl->simple_post($url_api,$data_api);
 			if($respons)
 			{
-				return true;
+				
+				var_dump($respons);
 			}
 			else
 			{
 				// send email report ke $report_email
+				
 				
 			}
 			

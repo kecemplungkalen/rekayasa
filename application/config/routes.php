@@ -39,7 +39,7 @@
 */
 $route['message/(:any)'] = "message/index/$1";
 $route['address/(:num)'] = "address/index/$1";
-$route['default_controller'] = "dashboard";
+$route['default_controller'] = "login";
 $route['404_override'] = '';
 
 

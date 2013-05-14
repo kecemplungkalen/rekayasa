@@ -33,6 +33,8 @@
 					   return this.value;
 					  }
 				}).get();
+				
+				
 				if(id != '')
 				{
 					$.post('<?php echo base_url();?>dashboard_data/get_label_thread/',{thread:id},function(data){
@@ -51,6 +53,16 @@
 					$('#top_btn').hide();
 				}
 				//console.log(id);
+				
+				var read_stat =  $('.pesan_list:checkbox').map(function() {
+					
+					if(this.checked){
+					   var rs = $(this).data('read');
+					   return rs;
+					  }
+				}).get();				
+				
+				console.log(read_stat);
 			});
 			
 			$('.remove_label').click(function(){
@@ -89,7 +101,7 @@
 		<?php for($i=0;$i< count($data);$i++) { ?>
 		<tr>
 			<td>
-				<input class="pesan_list" type="checkbox" id="<?php echo $data[$i]['thread']; ?>" value="<?php echo $data[$i]['thread']; ?>"> 
+				<input class="pesan_list" data-read="<?php echo $data[$i]['read_status'];?>"type="checkbox" id="<?php echo $data[$i]['thread']; ?>" value="<?php echo $data[$i]['thread']; ?>"> 
 			</td>
 			<td>
 				<a href="#" onclick="read_sms('<?php echo $data[$i]['thread']; ?>')">

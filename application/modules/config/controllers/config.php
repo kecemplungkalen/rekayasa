@@ -1,6 +1,6 @@
 <?php 
 
-Class Config extends MX_Controller{
+Class Config extends MY_Controller{
 	
 	function __construct()
 	{

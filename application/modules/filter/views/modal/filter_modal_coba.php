@@ -68,7 +68,7 @@
 				{
 					num = intId++;
 					var fieldWrapper = $("<div class=\"control-group\" id=\"parameter" + num + "\"/>");
-					var paramtype = $('<div class=\"controls\" id=\"param\"> <select name="type_filter[]" class=\"input-medium\" id=\"rule'+num+'\"><option value="number" >Number</option><option value="messages">Messages</option></select> <select name="word[]"class=\"input-medium hide\" id=\"word'+num+'\"><option value="1">1st word</option><option value="2">2nd word</option><option value="3">3rd word</option><option value="4">4th word</option><option value="5">5th word</option></select> <select name="type_regex[]"class=\"input-small\" id=\"rule_type'+num+'\"><option value="regex">Regex</option><option value="=">=(Equal)</option><option value="start_with">Start With</option><option value="type">Type</option></select> <select name="filter_regex[]"class=\"input-medium hide\" id=\"cumatype'+num+'\"><?php if(isset($filter_regex)){?><?php foreach($filter_regex as $fr){?> <option value="<?php echo $fr->id_filter_regex;?>"> <?php echo $fr->regex;?></option><?php } ?> <?php } ?></select> <input name="regex_data[]" id="value'+num+'"type=\"text\" class=\"input-large\"> Additional rule: <select name="add_rule[]" class="input-medium " id="join'+num+'"> <option value="none">NONE</option><option value="and">AND</option><option value="or">OR</option></select> <a class=\"btn hide\" id="plus'+num+'" onclick=\"add_param()\"><i class=\"icon-plus-sign\"></i></a> <a class=\"btn\" onclick="remove_id(\'parameter'+num+'\')"><i class=\"icon-minus-sign\"></i></a></div>');
+					var paramtype = $('<div class=\"controls\" id=\"param\"> <select name="type_filter[]" class=\"input-medium\" id=\"rule'+num+'\"><option value="number" >Number</option><option value="messages">Messages</option></select> <select name="word[]"class=\"input-medium hide\" id=\"word'+num+'\"><option value="1">1st word</option><option value="2">2nd word</option><option value="3">3rd word</option><option value="4">4th word</option><option value="5">5th word</option><option value="6">6th word</option><option value="7">7th word</option><option value="8">8th word</option><option value="9">9th word</option><option value="10">10th word</option></select> <select name="type_regex[]"class=\"input-small\" id=\"rule_type'+num+'\"><option value="regex">Regex</option><option value="=">=(Equal)</option><option value="start_with">Start With</option><option value="type">Type</option></select> <select name="filter_regex[]"class=\"input-medium hide\" id=\"cumatype'+num+'\"><?php if(isset($filter_regex)){?><?php foreach($filter_regex as $fr){?> <option value="<?php echo $fr->id_filter_regex;?>"> <?php echo $fr->regex;?></option><?php } ?> <?php } ?></select> <input name="regex_data[]" id="value'+num+'"type=\"text\" class=\"input-large\"> Additional rule: <select name="add_rule[]" class="input-medium " id="join'+num+'"> <option value="none">NONE</option><option value="and">AND</option><option value="or">OR</option></select> <a class=\"btn hide\" id="plus'+num+'" onclick=\"add_param()\"><i class=\"icon-plus-sign\"></i></a> <a class=\"btn\" onclick="remove_id(\'parameter'+num+'\')"><i class=\"icon-minus-sign\"></i></a></div>');
 					fieldWrapper.append(paramtype);
 					$('#filter_rule').append(fieldWrapper);
 
@@ -265,6 +265,11 @@
 							<option value="3">3rd word</option>
 							<option value="4">4th word</option>
 							<option value="5">5th word</option>
+							<option value="6">6th word</option>
+							<option value="7">7th word</option>
+							<option value="8">8th word</option>
+							<option value="9">9th word</option>
+							<option value="10">10th word</option>
 						</select>
 						<select name="type_regex[]"  class="input-small" id="rule_type">
 							<option value="regex">Regex</option>

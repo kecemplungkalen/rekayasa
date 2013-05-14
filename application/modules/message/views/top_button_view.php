@@ -18,10 +18,11 @@
 				  }
 			}).get();
 			
-			$.post('<?php echo base_url();?>dashboard_data/set_archive',{thread:thread},function(){
-				
-				location.reload();
-				
+			$.post('<?php echo base_url();?>dashboard_data/set_archive',{thread:thread},function(data){
+				if(data == 'true')
+				{
+					location.reload();
+				}
 				
 			});
 			
@@ -232,12 +233,8 @@
 	
 	function reloadz()
 	{
-		location.reload();
-
-		//$.post('<?php echo base_url();?>message/<?php if($label){ echo $label; } ?>/',$('#search').serialize()+"&reload=1",function(data) {
-		//	$("#tampil_data").html(data);
-			applyPagination();
-		//});
+		//location.reload();
+		applyPagination();
 	}
 	
 	function edit_address(id_address_book)
@@ -274,16 +271,16 @@
 		<?php } ?>
 	<?php }?>
 	<?php if(isset($label)){ if($label != 'spam'){ ?>
-	<a href="#mark_as_spams" data-toggle="modal" data-placement="bottom" rel="tooltip" data-title="Mark Spam" class="btn" id="marks" ><i class="icon-warning-sign"></i></a>
+	<a href="#mark_as_spams" data-toggle="modal" data-placement="bottom" rel="tooltip" data-title="Mark Spam" class="btn btn-danger" id="marks" >Mark Spam</a>
 		<?php }else{ ?>
-	<a href="#mark_not_spams" data-toggle="modal" data-placement="bottom" rel="tooltip" data-title="Bukan Spam" class="btn" id="marks" >Bukan Spam</a>
+	<a href="#mark_not_spams" data-toggle="modal" data-placement="bottom" rel="tooltip" data-title="Bukan Spam" class="btn btn-info" id="marks" >Bukan Spam</a>
 		<?php } ?>
 	<?php }?>
 	
 </div>
 <form class="form-search pull-right" id="search">
   <input type="hidden" name="label" value="<?php if($label){ echo $label; } ?>">
-  <input type="text" name="keyword" id="keyword" class="input-medium search-query" placeholder="Search keyword ...	">
+  <input type="text" name="keyword" id="keyword" class="input-medium search-query" autocomplete="off" placeholder="Search keyword ...	" data-provide="typeahead" data-source='["to:","from:","label:","num:"]' minLength='1'  >
   <button type="submit" class="btn">Search</button>
 </form>
 <hr>

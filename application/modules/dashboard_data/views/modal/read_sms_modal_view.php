@@ -49,7 +49,7 @@
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<strong>Warning!</strong><br>
 		Are you sure you want to delete this Thread?
-		<a class="thread_trash btn btn-danger pull-right" data-id_ib="<?php echo $data[0]['thread']; ?>" >Yes</a>  
+		<a class="thread_trash btn btn-danger pull-right"  >Yes</a>  
 		<a class="btn pull-right" data-dismiss="alert">No</a>
 		</div>		
 	</div>
@@ -57,6 +57,19 @@
 	<script type="text/javascript">
 	
 	$(document).ready(function(){
+		
+		$('.move_from_trash').click(function(){
+			
+			var thr = '<?php echo $data[0]['thread'];?>';
+			$.post('<?php echo base_url();?>dashboard_data/remove_from_trash',{thread:thr},function(data){
+				if(data== 'true')
+				{
+					location.reload();
+				}
+				
+			});
+			
+		});
 		
 		$('.show_balas').click(function(){
 			$('#balas').show();
@@ -101,7 +114,7 @@
 		
 		// individual move trash
 		$('.move_trash').click(function(){	
-			var id_ib = $(this).data('id_ib');
+			var id_ib ='<?php echo $data[0]['thread']; ?>';
 			$('#div_inbox_'+id_ib).hide();
 			$.post('<?php echo base_url();?>dashboard_data/hapus_message',{id:id_ib},function(data){
 				if(data =='true')
@@ -115,8 +128,7 @@
 		
 		$('.move_archive').click(function(){
 			var dt = $(this).data('thread');
-			var thread = [thread];
-			$.post('<?php echo base_url();?>dashboard_data/set_archive',{thread:thread},function(data){
+			$.post('<?php echo base_url();?>dashboard_data/set_archive',{thread:dt},function(data){
 				if(data == 'true')
 				{
 					location.reload();
@@ -141,11 +153,8 @@
 		
 		
 		$('.thread_trash').click(function(){
-			var aw = $(this).data('thread');
-			var thread = [aw];
-			
-			console.log(thread);
-			$.post('<?php echo base_url();?>dashboard_data/hapus_message',{id:thread},function(data){
+			var aw = '<?php echo $data[0]['thread']; ?>';
+			$.post('<?php echo base_url();?>dashboard_data/hapus_message',{id:aw},function(data){
 				if(data = 'true')
 				{
 					location.reload();
@@ -179,8 +188,7 @@
 			});
 			
 		});
-		
-		
+
 		$('.edit_draft').click(function(){
 			
 			var content = $(this).data('content');

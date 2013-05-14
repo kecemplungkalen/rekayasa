@@ -93,7 +93,7 @@
 	<a class="btn" id="alert"><i class="icon-trash"></i></a>
 </div>
 <form class="form-search pull-right" id="search">
-  <input type="text" class="input-medium search-query" name="keyword" id="keyword" placeholder="Search keyword ...	">
+  <input type="text" class="input-medium search-query" autocomplete="off" name="keyword" id="keyword" placeholder="Search label ...	">
   <button type="submit" class="btn">Search</button>
 </form>
 <hr>

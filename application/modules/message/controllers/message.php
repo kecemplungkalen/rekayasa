@@ -1,6 +1,6 @@
 <?php 
 
-Class Message extends MX_Controller{
+Class Message extends MY_Controller{
 	
 	function __construct()
 	{
@@ -86,57 +86,31 @@ Class Message extends MX_Controller{
 		$data_tampil1 = false;
 		$thread = false;
 		$where = false;
+		$ambil_isi = false;
 		if($get_label_id)
 		{
 			//$data_inbox = false;
-			if($get_label_id->id_labelname == '4')
+			if(!$keyword)
 			{
-				$data = array('is_delete' => '1');
-				$data_inbox = $this->inbox_model->arr_wheres_group($data,'thread');
-				//var_dump('Di Trash? ' ,$data_inbox);
-				if($data_inbox)
+				
+				if($get_label_id->id_labelname == '4')
 				{
-					foreach($data_inbox as $di)
+					$data = array('is_delete' => '1');
+					$data_inbox = $this->inbox_model->arr_wheres_group($data,'thread');
+					//var_dump('Di Trash? ' ,$data_inbox);
+					if($data_inbox)
 					{
-						$thread[] = $di->thread;
-						$where = array('is_delete ' => '1');
-					}
-					
-				}	
-			}
-			elseif($get_label_id->id_labelname == '5')
-			{
-				$data_inbox = $this->label_model->gets_where('id_labelname', $get_label_id->id_labelname);
-				$id_inbox = false;
-				if($data_inbox)
-				{
-					foreach($data_inbox as $datin)
-					{
-						$id_inbox[] = $datin->id_inbox;
-					}
-					
-					// cari thread wher in 
-					$get = $this->inbox_model->get_in_where($id_inbox);
-
-					if($get)
-					{
-						foreach($get as $g)
+						foreach($data_inbox as $di)
 						{
-							if($g->is_delete == '2')
-							{
-								$thread[] = $g->thread;
-								$where = array('is_delete' => '2');
-							}		
-						}							
+							$thread[] = $di->thread;
+							$where = array('is_delete ' => '1');
+						}
+						
 					}	
 				}
-			}
-			else
-			{
-				if(!$keyword)
+				elseif($get_label_id->id_labelname == '5')
 				{
 					$data_inbox = $this->label_model->gets_where('id_labelname', $get_label_id->id_labelname);
-					//var_dump('by labelname' ,$data_inbox);
 					$id_inbox = false;
 					if($data_inbox)
 					{
@@ -152,18 +126,18 @@ Class Message extends MX_Controller{
 						{
 							foreach($get as $g)
 							{
-								//if($g->is_delete != '1' && $g->is_delete != '2')
-								//{
+								if($g->is_delete == '2')
+								{
 									$thread[] = $g->thread;
-									$where = array('is_delete' => '0');
-								//}	
+									$where = array('is_delete' => '2');
+								}		
 							}							
 						}	
 					}
 				}
 				else
 				{
-					$data_inbox = $this->inbox_model->gets();
+					$data_inbox = $this->label_model->gets_where('id_labelname', $get_label_id->id_labelname);
 					$id_inbox = false;
 					if($data_inbox)
 					{
@@ -179,23 +153,164 @@ Class Message extends MX_Controller{
 						{
 							foreach($get as $g)
 							{
-								//if($g->is_delete != '1' && $g->is_delete != '2')
-								//{
-									$thread[] = $g->thread;
-									if($keyword)
-									{
-										$where = false;
-									}
-									else
-									{
-										$where = array('is_delete' => '0');
-									}
-								//}	
+								$thread[] = $g->thread;
+								$where = array('is_delete' => '0');
 							}							
 						}	
 					}
-					
 				}
+				// get data 
+				$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,$keyword);
+				$allres  = $this->message_model->get_by_thread($thread,0,0,$where,false);
+
+			}
+			else
+			{
+				// disini jika ada keyword
+				$word = false;
+				if(preg_match('/^from:/',$keyword))
+				{
+					$word = preg_replace('/^from:/','',$keyword);
+					$in_tag = 'from';
+					$notsend = $this->label_model->gets_where('id_labelname', '2');
+					if($notsend)
+					{
+						foreach($notsend as $ns)
+						{
+							$id_inbox[]=$ns->id_inbox;
+						}
+					}
+					$thr = $this->inbox_model->get_notin('id_inbox',$id_inbox);
+					if($thr)
+					{
+						foreach($thr as $thc)
+						{
+							$thread[] = $thc->thread;
+						}
+						
+					}
+					$key = array(
+					'address_book.first_name' => $word,
+					'address_book.last_name' => $word
+					);
+					$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,$key);
+					$allres  = $this->message_model->get_by_thread($thread,0,0,false,$key);
+				}
+				elseif(preg_match('/^to:/',$keyword))
+				{
+					$word = preg_replace('/^to:/','',$keyword);
+					$in_tag = 'to';
+					$data_inbox = $this->label_model->gets_where('id_labelname', '2');
+					if($data_inbox)
+					{
+						foreach($data_inbox as $datin)
+						{
+							$id_inbox[] = $datin->id_inbox;
+						}
+					}
+					$get = $this->inbox_model->get_in_where($id_inbox);
+					if($get)
+					{
+						foreach($get as $g)
+						{
+							$thread[] = $g->thread;
+						}
+						
+					}
+					$key = array(
+					'address_book.first_name' => $word,
+					'address_book.last_name' => $word
+					);
+					$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,$key);
+					$allres  = $this->message_model->get_by_thread($thread,0,0,false,$key);
+				}
+				elseif(preg_match('/^num:/',$keyword))
+				{
+					$word = preg_replace('/^num:/','',$keyword);
+					$in_tag = 'num';
+					$data_inbox =  $this->inbox_model->gets();
+					if($data_inbox)
+					{
+						foreach($data_inbox as $datin)
+						{
+							$id_inbox[] = $datin->id_inbox;
+						}
+					}
+					$get = $this->inbox_model->get_in_where($id_inbox);
+					if($get)
+					{
+						foreach($get as $g)
+						{
+							$thread[] = $g->thread;
+						}
+						
+					}
+					$key = array(
+					'inbox.number' => $word
+					);
+					$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,$key);
+					$allres  = $this->message_model->get_by_thread($thread,0,0,false,$key);
+				}
+				elseif(preg_match('/^label:/',$keyword))
+				{
+					$word = preg_replace('/^label:/','',$keyword);
+					$in_tag = 'label';
+					$getlabel = $this->Labelname_Model->get_label_id($word);
+					if($getlabel)
+					{
+						$data_inbox = $this->label_model->gets_where('id_labelname', $getlabel->id_labelname);
+						if($data_inbox)
+						{
+							foreach($data_inbox as $datin)
+							{
+								$id_inbox[] = $datin->id_inbox;
+							}
+						}
+						$get = $this->inbox_model->get_in_where($id_inbox);
+						if($get)
+						{
+							foreach($get as $g)
+							{
+								$thread[] = $g->thread;
+							}
+							
+						}					
+
+					}
+					$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,false);
+					$allres  = $this->message_model->get_by_thread($thread,0,0,false,false);
+				}
+				else
+				{
+					$word = $keyword;
+					$data_inbox = $this->inbox_model->gets();
+					if($data_inbox)
+					{
+						foreach($data_inbox as $datin)
+						{
+							$id_inbox[] = $datin->id_inbox;
+						}
+					}
+					$get = $this->inbox_model->get_in_where($id_inbox);
+					if($get)
+					{
+						foreach($get as $g)
+						{
+							$thread[] = $g->thread;
+						}
+						
+					}
+					$key = array(
+					'inbox.content' => $word,
+					'address_book.first_name' => $word,
+					'address_book.last_name' => $word,
+					'inbox.number' => $word,
+					'address_book.email' => $word
+					);	
+					$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,$key);
+					$allres  = $this->message_model->get_by_thread($thread,0,0,false,$key);
+				}
+
 			}
 			// disini saja 	
 			//var_dump($thread);
@@ -204,13 +319,6 @@ Class Message extends MX_Controller{
 			$isi = false;
 			$ambil_label = false;
 			$balike = false;
-			if($keyword)
-			{
-				$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,$keyword);
-			}else
-			{
-				$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,$keyword);
-			}
 			if($ambil_isi)
 			{
 				foreach($ambil_isi as $dtam)
@@ -274,15 +382,9 @@ Class Message extends MX_Controller{
 					$remap[] = $isi;
 					$total = false;
 				}
-				if($keyword)
-				{
-					$allres  = $this->message_model->get_by_thread($thread,0,0,false,$keyword);
-				}
-				else
-				{
-					$allres  = $this->message_model->get_by_thread($thread,0,0,$where,false);
-				}
+				if($allres){
 				$total = count($allres);
+				}
 				$ret = array('remap' => $remap,'total' => $total);
 			}
 			return $ret;

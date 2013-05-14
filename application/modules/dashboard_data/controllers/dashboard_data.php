@@ -20,19 +20,31 @@ Class Dashboard_data extends MX_Controller{
 		$dummy = false;
 		if($thread)
 		{
-			
-			for($i=0;$i < count($thread) ;$i++)
+			if(is_array($thread))
 			{
-				$where = array('thread' => $thread[$i]);
+				for($i=0;$i < count($thread) ;$i++)
+				{
+					$where = array('thread' => $thread[$i]);
+					$data = array('is_delete' => '0');
+					$remove_tash = $this->inbox_model->update_where($where,$data);
+					if($remove_tash)
+					{
+						$dummy = true;
+					}
+					
+				}
+				$dummy = $dummy && $dummy;
+			}
+			else
+			{
+				$where = array('thread' => $thread);
 				$data = array('is_delete' => '0');
 				$remove_tash = $this->inbox_model->update_where($where,$data);
 				if($remove_tash)
 				{
 					$dummy = true;
-				}
-				
+				}			
 			}
-			$dummy = $dummy && $dummy;
 		}
 		if($dummy)
 		{
@@ -75,7 +87,7 @@ Class Dashboard_data extends MX_Controller{
 			else
 			{
 				$stat = false;
-				$where = array('id_inbox'=>$thread);
+				$where = array('thread' => $thread);
 				$data = array('is_delete' => '1');
 				$update = $this->inbox_model->update_where($where,$data);
 				if($update)
@@ -213,10 +225,51 @@ Class Dashboard_data extends MX_Controller{
 		$thread = $this->input->post('thread');
 		if($thread)
 		{
-			for($i=0;$i < count($thread); $i++)
+			if(is_array($thread))
 			{
-				$data = array('thread' => $thread[$i],'status_archive' => '0');
+				$ret = false;
+				for($i=0;$i < count($thread); $i++)
+				{
+					$data = array('thread' => $thread[$i],'status_archive' => '0');
+					$get = $this->inbox_model->arr_wheres($data);
+					// dapat inbox
+					if($get)
+					{
+						foreach($get as $g)
+						{
+							// set archive by  id inbox
+							$up = array('status_archive' => '1');
+							$this->inbox_model->update($g->id_inbox,$up); 
+							// hapus di label
+							$id_label = $this->label_model->set_archive($g->id_inbox);
+							if($id_label)
+							{
+								$del = $this->label_model->delete($id_label->id_label);
+								if($del)
+								{
+									$ret = true;
+								}
+							}
+							
+						}
+						
+					}
+				}
+				$ret = $ret && $ret;
+				if($ret)
+				{
+					echo 'true';
+				}
+				else
+				{
+					echo 'false';
+				}
+			}
+			else
+			{
+				$data = array('thread' => $thread,'status_archive' => '0');
 				$get = $this->inbox_model->arr_wheres($data);
+				$ret = false;
 				// dapat inbox
 				if($get)
 				{
@@ -229,11 +282,24 @@ Class Dashboard_data extends MX_Controller{
 						$id_label = $this->label_model->set_archive($g->id_inbox);
 						if($id_label)
 						{
-							$this->label_model->delete($id_label->id_label);
+							$del = $this->label_model->delete($id_label->id_label);
+							if($del)
+							{
+								$ret = true;
+							}
 						}
 						
 					}
 					
+				}
+				$ret = $ret && $ret;
+				if($ret)
+				{
+					echo 'true';
+				}
+				else
+				{
+					echo 'false';
 				}
 			}
 		}
@@ -292,9 +358,9 @@ Class Dashboard_data extends MX_Controller{
 				case 'spam' :
 				$where = array('is_delete =' => '2');
 				break;
-				//default :
-				//$where = array('is_delete =' => '0');
-				//break;
+				default :
+				$where = array('is_delete =' => '0');
+				break;
 			}
 			
 			$sms = $this->inbox_model->gets_where('thread',$thread,$where);
@@ -304,6 +370,7 @@ Class Dashboard_data extends MX_Controller{
 
 				foreach($sms as $isi)
 				{
+					$tmp['is_delete'] = $isi->is_delete;
 					$tmp['thread'] = $thread;
 					$tmp['lbl'] = $label;
 					$tmp['status_archive'] = $isi->status_archive;
@@ -342,7 +409,7 @@ Class Dashboard_data extends MX_Controller{
 					}
 					
 					$tmp['number'] = $isi->number;
-					$tmp['is_delete'] = $isi->is_delete;
+					
 					$tmp['read_status'] = $isi->read_status;
 					if($isi->read_status != '1')
 					{

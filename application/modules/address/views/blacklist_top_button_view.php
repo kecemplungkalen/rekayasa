@@ -156,9 +156,15 @@
 		<a href="<?php echo base_url();?>">Dashboard</a>
 		<span class="divider">/</span> 
 	</li>
-	<li class="active">Address Book</li>
+	<li>
+		<a href="<?php echo base_url();?>address">Address Book</a>
+		<span class="divider">/</span> 
+	</li>
+	<li class="active">
+		Blacklist Number
+	</li>
 </ul>
-<a class="btn btn-primary pull-right" href="<?php echo base_url() ?>address/blacklist">View Blacklist Number</a>
+<a class="btn btn-primary pull-right" href="<?php echo base_url() ?>address">View Address Book</a>
 
 <div class="modal fade hide" id="konfirm">
 	<div class="modal-header">

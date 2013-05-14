@@ -1,6 +1,6 @@
 <?php 
 
-Class Address extends MX_Controller{
+Class Address extends MY_Controller{
 
 	function __construct()
 	{
@@ -11,6 +11,7 @@ Class Address extends MX_Controller{
 		$this->load->model('Smsc_Name_Model');
 		$this->load->model('Group_Model');
 		$this->load->model('Groupname_Model');
+		$this->load->model('Blacklist_Model');
 		$this->load->model('inbox_model');
 
 
@@ -21,23 +22,45 @@ Class Address extends MX_Controller{
 
 		# define search key value
 		$keyword = false;
+		$key = false;
 		if($this->input->post('keyword')){
 			if($this->input->post('keyword') != ''){
 				$keyword = $this->input->post('keyword');
+				if(preg_match('/^name:/',$keyword))
+				{
+					$tag = preg_replace('/^name:/','',$keyword);
+					$key = array(
+					'first_name' => $tag,
+					'last_name' => $tag  
+					);
+				}
+				elseif(preg_match('/^num:/',$keyword))
+				{
+					$tag = preg_replace('/^num:/','',$keyword);
+					$key = array(
+					'number' => $tag 
+					);
+				}
+				else
+				{
+					$key = array(
+					'first_name' => $keyword,
+					'last_name' => $keyword,
+					'number' => $keyword
+					);
+				}
 			}
 		}
-		$perpage = 10 ; // data perpage
-		if(!$this->input->post('reload'))
-		{
-		}
+		$perpage = 10 ;
+		$blacklist = false; 
 		$side['baku'] = $this->message->sidebar_baku();
 		$side['add'] =  $this->message->sidebar_adt();
 		$data['navbar'] = $this->load->view('navbar_view','',true);
 		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
 		$top['data'] = $this->Groupname_Model->gets();
 		$data['top_button'] = $this->load->view('address_top_button_view',$top,true);
-		$isi['data'] = $this->ambil_list($perpage,$start,$keyword);
-		$isi['paging'] = $this->paging($perpage,$keyword);
+		$isi['data'] = $this->ambil_list($perpage,$start,$key);
+		$isi['paging'] = $this->paging($blacklist,$perpage,$key);
 		if($this->input->post('reload'))
 		{
 			$this->load->view('address_data',$isi,false);
@@ -52,23 +75,97 @@ Class Address extends MX_Controller{
 		
 	}	
 	
+	function blacklist($start=0)
+	{
+		$keyword = false;
+		$key = false;
+		if($this->input->post('keyword')){
+			if($this->input->post('keyword') != ''){
+				$keyword = $this->input->post('keyword');
+				if(preg_match('/^name:/',$keyword))
+				{
+					$tag = preg_replace('/^name:/','',$keyword);
+					$key = array(
+					'first_name' => $tag,
+					'last_name' => $tag  
+					);
+				}
+				elseif(preg_match('/^num:/',$keyword))
+				{
+					$tag = preg_replace('/^num:/','',$keyword);
+					$key = array(
+					'number' => $tag 
+					);
+				}
+				else
+				{
+					$key = array(
+					'first_name' => $keyword,
+					'last_name' => $keyword,
+					'number' => $keyword
+					);
+				}
+			}
+		}
+		$perpage = 10 ;
+		$blacklist = true; 
+		$side['baku'] = $this->message->sidebar_baku();
+		$side['add'] =  $this->message->sidebar_adt();
+		$data['navbar'] = $this->load->view('navbar_view','',true);
+		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
+		$top['data'] = $this->Groupname_Model->gets();
+		$data['top_button'] = $this->load->view('blacklist_top_button_view',$top,true);
+		$isi['data'] = $this->ambil_blacklist($perpage,$start,$key);
+		$isi['paging'] = $this->paging($blacklist,$perpage,$key);
+		if($this->input->post('reload'))
+		{
+			$this->load->view('blacklist_data_view',$isi,false);
 
-	function paging($perpage=false,$keyword=false)
+		}else
+		{	
+			$this->load->view('header_view');
+			$data['content'] = $this->load->view('blacklist_data_view',$isi,true);
+			$this->load->view('body_view',$data);
+			$this->load->view('footer_view');
+		}
+
+	}
+	
+	
+	function paging($blacklist=false,$perpage=false,$keyword=false)
 	{
 		$this->load->library('pagination');
 		$config['base_url'] = base_url().'address';
 		$config['per_page'] = $perpage;
-		if($keyword)
+		if(!$blacklist)
 		{
-			$total = $this->Address_Book_Model->gets(0,0,$keyword);
-			$config['total_rows'] = count($total);
-			$config['uri_segment'] = $this->uri->total_segments();
+			if($keyword)
+			{
+				$total = $this->Address_Book_Model->gets(0,0,$keyword);
+				$config['total_rows'] = count($total);
+				$config['uri_segment'] = $this->uri->total_segments();
+			}
+			else
+			{
+				$total_rows = $this->Address_Book_Model->gets();			
+				$config['total_rows'] = count($total_rows);
+				$config['uri_segment'] = $this->uri->total_segments();
+			}
 		}
 		else
 		{
-			$total_rows = $this->Address_Book_Model->gets();			
-			$config['total_rows'] = count($total_rows);
-			$config['uri_segment'] = $this->uri->total_segments();
+			if($keyword)
+			{
+				$total_rows = $this->Blacklist_Model->gets_list(0,0,$keyword);
+				$config['total_rows'] = count($total_rows);
+				$config['uri_segment'] = $this->uri->total_segments();
+			}
+			else
+			{
+				$total_rows = $this->Blacklist_Model->gets_list();
+				$config['total_rows'] = count($total_rows);
+				$config['uri_segment'] = $this->uri->total_segments();				
+			}
 		}
 		$this->pagination->initialize($config); 
 		return $this->pagination->create_links();
@@ -81,20 +178,96 @@ Class Address extends MX_Controller{
 		{
 			
 			$list = $this->Address_Book_Model->gets($jumlah,$mulai,$keyword);
-			log_message('error','error paging data : '.count($list));
+			//log_message('error','error paging data : '.count($list));
 
 			if($list)
 			{
 				$temp = false;
 				$smscname = false;
 				$rec = false;
+				$cek = false;
 				foreach($list as $li)
 				{
-					$temp['id_address_book'] = $li->id_address_book;
-					$temp['first_name'] = $li->first_name;
-					$temp['last_name'] = $li->last_name;
-					$temp['number'] = $li->number;
-					$nama_operator = $this->Smsc_Name_Model->get($li->id_smsc);
+					$dat = array('blacklist_number' => $li->number);
+					$cek = $this->Blacklist_Model->get($dat);
+					if(!$cek)
+					{
+						$temp['id_address_book'] = $li->id_address_book;
+						$temp['first_name'] = $li->first_name;
+						$temp['last_name'] = $li->last_name;
+						$temp['number'] = $li->number;
+						$nama_operator = $this->Smsc_Name_Model->get($li->id_smsc);
+						if($nama_operator)
+						{
+							$temp['operator'] = $nama_operator->operator_name;
+						}
+						else
+						{
+							$temp['operator'] = false;
+						}
+
+						$group = $this->Group_Model->gets_by('id_address_book',$li->id_address_book);
+						if($group)
+						{
+							$rem = false;
+							foreach($group as $g)
+							{
+								$detail = $this->Groupname_Model->get($g->id_groupname);
+								if($detail)
+								{
+									$rem[] = $detail->nama_group;
+								}
+							}
+
+							$temp['group'] = $rem;
+						}
+						else
+						{
+							$temp['group'] = false;
+						}
+
+						$last_mess = $this->inbox_model->gets_where('id_address_book',$li->id_address_book);
+						if($last_mess)
+						{
+							$date=false;
+							foreach($last_mess as $lm)
+							{
+								$date = $lm->recive_date;
+							}
+							$temp['last_message'] = $date; 
+						}else
+						{
+							$temp['last_message'] = false; 
+						}
+						$rec[] = $temp;
+					}
+				}
+				return $rec;
+			}
+		}
+		return false;
+
+	}
+
+
+	function ambil_blacklist($jumlah=0,$mulai=0,$keyword=false)
+	{
+		if($jumlah)
+		{
+
+			$temp = false;
+			$get_list = $this->Blacklist_Model->gets_list($jumlah,$mulai,$keyword);
+			if($get_list)
+			{
+				foreach($get_list as $get_in_addr)
+				{
+					$temp['id_address_book'] = $get_in_addr->id_address_book;
+					$temp['first_name'] = $get_in_addr->first_name;
+						
+					$temp['last_name'] = $get_in_addr->last_name;
+					
+					$temp['number'] = $get_in_addr->number;
+					$nama_operator = $this->Smsc_Name_Model->get($get_in_addr->id_smsc);
 					if($nama_operator)
 					{
 						$temp['operator'] = $nama_operator->operator_name;
@@ -104,7 +277,7 @@ Class Address extends MX_Controller{
 						$temp['operator'] = false;
 					}
 
-					$group = $this->Group_Model->gets_by('id_address_book',$li->id_address_book);
+					$group = $this->Group_Model->gets_by('id_address_book',$get_in_addr->id_address_book);
 					if($group)
 					{
 						$rem = false;
@@ -123,8 +296,7 @@ Class Address extends MX_Controller{
 					{
 						$temp['group'] = false;
 					}
-
-					$last_mess = $this->inbox_model->gets_where('id_address_book',$li->id_address_book);
+					$last_mess = $this->inbox_model->gets_where('id_address_book',$get_in_addr->id_address_book);
 					if($last_mess)
 					{
 						$date=false;
@@ -137,18 +309,14 @@ Class Address extends MX_Controller{
 					{
 						$temp['last_message'] = false; 
 					}
-					
 					$rec[] = $temp;
 				}
-				return $rec;
+				return $rec;				
 			}
 		}
 		return false;
-
 	}
-
-
-
+	
 	public function get_address_book_detail_php($id_address_book=false)
 	{
 		$detail = $this->Address_Book_Model->get($id_address_book);

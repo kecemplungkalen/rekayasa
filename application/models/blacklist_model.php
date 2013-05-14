@@ -5,6 +5,16 @@ if (!defined('BASEPATH'))
 
 Class Blacklist_Model extends CI_model{
 
+	public function all()
+	{
+		$data = $this->db->get('blacklist');
+		if($data->num_rows() > 0)
+		{
+			return $data->result();
+		}
+		else
+		return false;
+	}
 	
 	public function gets($data=false)
 	{
@@ -62,5 +72,29 @@ Class Blacklist_Model extends CI_model{
 		return false;
 	}
 	
+	function gets_list($limit=0,$start=0,$keyword=false)
+	{
+		$this->db->join('address_book','address_book.number = blacklist.blacklist_number');
+		if($keyword)
+		{
+			$key = array(
+			'first_name' => $keyword,
+			'last_name' => $keyword,
+			'number' => $keyword
+			);
+			$this->db->or_like($key);
+		}
+		if($limit)
+		{
+			$this->db->limit($limit,$start);
+		}
+		$res = $this->db->get('blacklist');
+		if($res->num_rows() > 0)
+		{
+			return $res->result();
+		}
+		else
+		return false;
+	}
 
 }

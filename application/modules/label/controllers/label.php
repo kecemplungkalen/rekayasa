@@ -1,6 +1,6 @@
 <?php 
 
-Class Label extends MX_Controller{
+Class Label extends MY_Controller{
 	
 	function __construct()
 	{

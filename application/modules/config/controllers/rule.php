@@ -1,6 +1,6 @@
 <?php 
 
-Class Rule extends MX_Controller{
+Class Rule extends MY_Controller{
 	
 	function __construct()
 	{
