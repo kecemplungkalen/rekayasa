@@ -52,7 +52,6 @@
 			{
 				$.post('<?php echo base_url(); ?>address/tambah_address',$('#add_addr').serialize(),function(data){
 					
-					//console.log(data);
 					if(data=='true')
 					{
 						location.reload();

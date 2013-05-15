@@ -116,6 +116,38 @@
 				$('#konfirm').modal('show');
 			}
 		});
+		
+		$('#rem_blacklist').click(function(){
+			
+			var id_pbk =  $('.address_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+			if(id_pbk != '')
+			{
+				$('#unblacklist').modal('show');
+			}
+		});
+		
+		$('#unblacklist_address').click(function(){
+			
+			var idpbk =  $('.address_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+			
+			$.post('<?php echo base_url();?>address/un_blacklist',{id_address_book:idpbk},function(data){
+				if(data = 'true')
+				{
+					location.reload();
+				}
+				
+				
+			});
+		});		
+		
 	});
 
 	
@@ -145,6 +177,7 @@
 		</li>
 	</ul>
 	<a class="btn" id="alert" ><i class="icon-trash"></i></a>
+	<a class="btn" id="rem_blacklist" >Move To Whitelist </a>
 </div>
 <form class="form-search pull-right" id="search_address" method="post">
   <input name="keyword" id="keyword" type="text" autocomplete="off" data-provide="typeahead" data-source='["name:","num:"]' minLength='1' class="input-medium search-query" placeholder="Search address ...	">
@@ -173,5 +206,14 @@
 	<div class="modal-body pull-right">
 	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
 	<a href="#" class="btn btn-danger" id="hapus_address">Hapus</a>
+	</div>
+</div>
+<div class="modal fade hide" id="unblacklist">
+	<div class="modal-header">
+	<h6>Set Address To Whitelist?</h6> 
+	</div>
+	<div class="modal-body pull-right">
+	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
+	<a href="#" class="btn btn-danger" id="unblacklist_address" >Set Whitelist</a>
 	</div>
 </div>

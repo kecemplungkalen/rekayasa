@@ -45,7 +45,8 @@
 			if(action == 'cek'){
 				$("#"+this.id).prop('checked', true);
 			}else{
-				$("#"+this.id).removeAttr("checked");
+				//$("#"+this.id).removeAttr("checked");
+				$("#"+this.id).prop("checked",false);
 			}
 		});
 	}
@@ -116,6 +117,36 @@
 				$('#konfirm').modal('show');
 			}
 		});
+		
+		$('#blacklist').click(function(){
+			
+			var id_pbk =  $('.address_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+			if(id_pbk != '')
+			{
+				$('#setblacklist').modal('show');
+			}
+		});
+		
+		$('#blacklist_address').click(function(){
+			
+			var idpbk =  $('.address_list:checkbox').map(function() {
+				if(this.checked){
+				   return this.value;
+				  }
+			}).get();
+			
+			$.post('<?php echo base_url();?>address/set_blacklist',{id_address_book:idpbk},function(data){
+				if(data == 'true')
+				{
+					loction.reload();
+				}
+			});
+		});
+		
 	});
 
 	
@@ -145,6 +176,7 @@
 		</li>
 	</ul>
 	<a class="btn" id="alert" ><i class="icon-trash"></i></a>
+	<a class="btn" id="blacklist" >Move To Blacklist</a>
 </div>
 <form class="form-search pull-right" id="search_address" method="post">
   <input name="keyword" id="keyword" type="text" autocomplete="off" data-provide="typeahead" data-source='["name:","num:"]' minLength='1' class="input-medium search-query" placeholder="Search address ...	">
@@ -167,5 +199,15 @@
 	<div class="modal-body pull-right">
 	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
 	<a href="#" class="btn btn-danger" id="hapus_address">Hapus</a>
+	</div>
+</div>
+
+<div class="modal fade hide" id="setblacklist">
+	<div class="modal-header">
+	<h6>Set Address To Blacklist?</h6> 
+	</div>
+	<div class="modal-body pull-right">
+	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Batal</a>
+	<a href="#" class="btn btn-danger" id="blacklist_address" >Set Blacklist</a>
 	</div>
 </div>

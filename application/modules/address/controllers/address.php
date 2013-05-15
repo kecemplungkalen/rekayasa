@@ -528,6 +528,74 @@ Class Address extends MY_Controller{
 		}
 	}
 	
+	function set_blacklist()
+	{
+		$id_address_book=$this->input->post('id_address_book');
+		if($id_address_book)
+		{
+			$ret = false;
+			for($i=0;$i< count($id_address_book);$i++)
+			{
+				$addr = $this->Address_Book_Model->get($id_address_book[$i]);
+				if($addr)
+				{
+					$data = array('blacklist_number' => $addr->number);
+					$id = $this->Blacklist_Model->add($data);
+					if($id)
+					{
+						$ret = true;
+					}
+				}
+			}
+			$ret = $ret && $ret;
+			if($ret)
+			{
+				echo 'true';
+			}
+			else
+			{
+				echo 'false';
+			}
+		}
+		else
+		return false;
+	}
 	
+	function un_blacklist()
+	{
+		$id_address_book=$this->input->post('id_address_book');
+		if($id_address_book)
+		{
+			$ret = false;
+			for($i=0;$i < count($id_address_book);$i++)
+			{
+				
+				$addr = $this->Address_Book_Model->get($id_address_book[$i]);
+				if($addr)
+				{
+					$data = array('blacklist_number' => $addr->number);
+					$del = $this->Blacklist_Model->delete($data);
+					if($del)
+					{
+							$ret = true;
+					}
+				}
+			}
+			
+			$ret = $ret && $ret;
+			if($ret)
+			{
+				echo 'true';
+			}
+			else
+			{
+				echo 'false';
+			}			
+			
+			
+		}
+		else
+		return false;
+	}
 
 }

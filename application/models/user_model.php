@@ -20,4 +20,13 @@ Class User_Model extends CI_model{
 		return false;
 	}
 	
+	function gets()
+	{
+		$get = $this->db->get('user');
+		if($get->num_rows() > 0)
+		{
+			return $get->result();
+		}else
+		return false;
+	}
 }
