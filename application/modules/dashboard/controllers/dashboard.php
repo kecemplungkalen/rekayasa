@@ -23,11 +23,12 @@ Class Dashboard extends MY_Controller{
 		#+6287838743087
 		$data = $_POST;
 		//var_dump($data);
+		
 		$tmp = false;
 		$temp = false;
 		if(is_array($data))
 		{
-
+			$status = false;
 			if(isset($data['checkbox']))
 			{
 				$temp['number'] = $data['number_box'];
@@ -48,30 +49,47 @@ Class Dashboard extends MY_Controller{
 					$arr['number'] = $number[$i];
 					$arr['text'] = $data['text'];
 					$arr['id_user'] = $data['id_user'];
+					$val[]= $arr;
 				}
-				$val[]= $arr;
-				var_dump($val);
-				//$ret = $this->curl->simple_post(base_url().'send/',$tmp);
-				/*
+				
+				//var_dump($val);
+				$ret = $this->curl->simple_post(base_url().'send/',$tmp);
 				if($ret)
 				{
 					if(isset($data['id_draft']))
 					{
 						$this->inbox_model->delete($data['id_draft']);
 					}
+					$status = true;
 				}
-				*/
 			}
 			else
 			{
 				$temp['text'] = $data['text'];
 				$temp['id_user'] = $data['id_user'];
 				$tmp[]= $temp;
-				$ret = $this->curl->simple_post(base_url().'send/',$tmp);				
+				$ret = $this->curl->simple_post(base_url().'send/',$tmp);
+				if($ret)
+				{
+					if(isset($data['id_draft']))
+					{
+						$this->inbox_model->delete($data['id_draft']);
+					}
+					$status = true;
+				}								
 			}
-			
+			$status = $status && $status;
+			if($status)
+			{
+				echo 'true';
+			}
+			else
+			{
+				echo 'false';
+			}
 
 		}
+		else
 		return false;
 
 	}

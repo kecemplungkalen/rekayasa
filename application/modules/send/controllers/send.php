@@ -15,6 +15,7 @@ Class Send extends MX_Controller{
 	{
 		//[0][number] = 'nomor'
 		//[0][text] = 'isi textnya'
+		//[0][id_user] = 
 		$data = $_POST;
 		
 		//log_message('error','error  data : '. print_r($data,true));
