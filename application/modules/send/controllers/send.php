@@ -27,7 +27,8 @@ Class Send extends MX_Controller{
 			$address_book = false;
 			for($i=0;$i < count($data);$i++)
 			{
-				$cari_thread = array('number' => $data[$i]['number'],'status_archive' => '0','is_delete !=' => '1'); 
+				$id_user = $data[$i]['id_user'];
+				$cari_thread = array('number' => $data[$i]['number'],'status_archive' => '0','is_delete !=' => '1','id_user' => $id_user); 
 				$data_thread = $this->inbox_model->arr_wheres($cari_thread);
 				if($data_thread)
 				{
@@ -44,7 +45,6 @@ Class Send extends MX_Controller{
 				#cek di rule modem ofline atau online 
 				if($phoneID)
 				{
-					$id_user = '1'; //sementara bos
 					$recive_date = time();
 					$read_status = '1';
 					

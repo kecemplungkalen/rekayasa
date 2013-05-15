@@ -22,6 +22,7 @@ Class Dashboard extends MY_Controller{
 	{
 		#+6287838743087
 		$data = $_POST;
+		//var_dump($data);
 		$tmp = false;
 		$temp = false;
 		if(is_array($data))
@@ -35,21 +36,41 @@ Class Dashboard extends MY_Controller{
 			{
 				$temp['number'] = $data['number'];
 			}
-			$temp['text'] = $data['text'];
-			
-			
-			$tmp[]= $temp;
-			
-			$ret = $this->curl->simple_post(base_url().'send/',$tmp);
-			//var_dump($tmp);
-			if($ret)
+			// jika number array
+			$val = false;
+			$arr = false; 
+			$number = false;
+			if(is_array($temp['number']))
 			{
-				if(isset($data['id_draft']))
+				$number = $temp['number'];
+				for($i=0;$i < count($number);$i++)
 				{
-					$this->inbox_model->delete($data['id_draft']);
+					$arr['number'] = $number[$i];
+					$arr['text'] = $data['text'];
+					$arr['id_user'] = $data['id_user'];
 				}
-				echo $ret;
+				$val[]= $arr;
+				var_dump($val);
+				//$ret = $this->curl->simple_post(base_url().'send/',$tmp);
+				/*
+				if($ret)
+				{
+					if(isset($data['id_draft']))
+					{
+						$this->inbox_model->delete($data['id_draft']);
+					}
+				}
+				*/
 			}
+			else
+			{
+				$temp['text'] = $data['text'];
+				$temp['id_user'] = $data['id_user'];
+				$tmp[]= $temp;
+				$ret = $this->curl->simple_post(base_url().'send/',$tmp);				
+			}
+			
+
 		}
 		return false;
 
@@ -61,6 +82,7 @@ Class Dashboard extends MY_Controller{
 		$tmp = false;
 		$temp = false;
 		$id_address_book = 0;
+		$thread = false;
 		if(is_array($data))
 		{
 			$number = false;
@@ -83,13 +105,22 @@ Class Dashboard extends MY_Controller{
 				$id_address_book = $ceknum->id_address_book;
 			}
 			
-			$thread = mt_rand();
+			if(isset($data['thread']))
+			{
+				$thread = $data['thread'];
+			}
+			else
+			{
+				$thread = mt_rand();
+			}
+			$id_user = $data['id_user'];
 			$time = time();
 			$add = array(
 			'number' => $temp['number'],
 			'content' => $temp['text'],
 			'id_address_book' => $id_address_book,
 			'thread' => $thread,
+			'id_user' => $id_user,
 			'read_status' => '0',
 			'last_update' => $time,
 			'recive_date' => $time
@@ -109,6 +140,7 @@ Class Dashboard extends MY_Controller{
 			}
 			
 		}
+		else
 		return false;
 	}
 }

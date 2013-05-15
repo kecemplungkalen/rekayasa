@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 11, 2013 at 10:18 AM
+-- Generation Time: May 15, 2013 at 05:00 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `address_book` (
   `create_date` int(11) NOT NULL,
   `last_update` int(11) NOT NULL,
   PRIMARY KEY (`id_address_book`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `address_book`
@@ -43,18 +43,26 @@ INSERT INTO `address_book` (`id_address_book`, `id_user`, `first_name`, `last_na
 (9, 1, 'mbah ', 'joyo', '+62789789123', 0, 'mbah_joyo_imut@ymail.com', 1366677403, 1366677403),
 (10, 1, '+6287869122852', '', '+6287869122852', 3, '', 1367287159, 1367287159),
 (11, 1, 'bob', 'maleh', '+62819678420', 3, 'bob_maleh@ymail.com', 1367459799, 1367459799),
-(12, 1, '+62819678430', '', '+62819678430', 3, '', 1367659875, 1367659875),
+(12, 1, 'mas', 'empat tiga', '+62819678430', 3, '', 1367659875, 1367659875),
 (13, 1, '+62819678431', '', '+62819678431', 3, '', 1367660168, 1367660168),
 (15, 1, 'revolusi', 'revolusi', '+6726823sdsd', 0, 'galang@mail.com', 1367815339, 1367815339),
 (16, 1, 'galang', 'revolusi', '+62087328738283', 0, 'gr@gr.com', 1367815415, 1367815415),
 (17, 1, 'mbah', 'buyut', '7839749387364', 0, 'mbah_buyut@mail.net', 1367907234, 1367907234),
-(18, 1, 'rvolusi', 'indonesia', '67673864', 0, 'rev@maik.com', 1367907280, 1367907280),
 (19, 1, '+628123456789', '', '+628123456789', 0, '', 1368156953, 1368156953),
 (20, 0, '+6281931781912', '0', '+6281931781912', 3, '0', 1368171473, 1368171473),
 (21, 1, '+6287878351478', '', '+6287878351478', 3, '', 1368172195, 1368172195),
 (22, 1, '+6287845675824', '', '+6287845675824', 3, '', 1368172314, 1368172314),
 (23, 1, '+6287835357712', '', '+6287835357712', 3, '', 1368172413, 1368172413),
-(24, 1, '+6287867823851', '', '+6287867823851', 3, '', 1368172507, 1368172507);
+(24, 1, '+6287867823851', '', '+6287867823851', 3, '', 1368172507, 1368172507),
+(25, 1, 'Modem', 'XL 1', '+6287838743088', 3, 'modem@ruahweb.com', 1368422731, 1368422731),
+(26, 0, '+6287838743087', '0', '+6287838743087', 3, '0', 1368425553, 1368425553),
+(27, 0, '4444', '0', '4444', 0, '0', 1368427140, 1368427140),
+(28, 1, 'XL-Axiata', '', 'XL-Axiata', 3, '', 1368427288, 1368427288),
+(29, 0, '588', '', '588', 0, '0', 1368428447, 1368428447),
+(30, 0, '*123#', '', '*123#', 0, '0', 1368428611, 1368428611),
+(31, 0, '+6289678420', '', '+6289678420', 5, '0', 1368428858, 1368428858),
+(32, 1, '+6287781263748', '', '+6287781263748', 3, '', 1368429506, 1368429506),
+(33, 1, 'Mas ', 'Hisam', '+628562927907', 2, '', 1368510263, 1368510263);
 
 -- --------------------------------------------------------
 
@@ -66,14 +74,15 @@ CREATE TABLE IF NOT EXISTS `blacklist` (
   `id_blacklist` int(11) NOT NULL AUTO_INCREMENT,
   `blacklist_number` varchar(20) NOT NULL,
   PRIMARY KEY (`id_blacklist`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `blacklist`
 --
 
 INSERT INTO `blacklist` (`id_blacklist`, `blacklist_number`) VALUES
-(3, '+62819678430');
+(3, '+62819678430'),
+(4, '+628123456789');
 
 -- --------------------------------------------------------
 
@@ -102,16 +111,15 @@ CREATE TABLE IF NOT EXISTS `config_modem` (
   `status` tinyint(1) NOT NULL,
   `default` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_config_modem`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `config_modem`
 --
 
 INSERT INTO `config_modem` (`id_config_modem`, `nama_modem`, `phoneID`, `number`, `status`, `default`) VALUES
-(1, 'Pro XL', 'RumahwebXL', '+62819678420', 1, 1),
-(2, 'Axixs', 'RumahwebAxis0', '+62382793729837293', 1, 0),
-(3, 'xl coba', 'RumahwebXL1', '+6274837648', 1, 0);
+(4, 'Modem XL 1', 'RumahwebXL', '+6287838743088', 1, 1),
+(5, 'Modem XL 2', 'RumahwebXL1', '+6287838743087', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -124,14 +132,15 @@ CREATE TABLE IF NOT EXISTS `config_rule` (
   `id_config_modem` int(11) NOT NULL,
   `id_smsc_name` int(11) NOT NULL,
   PRIMARY KEY (`id_config_rule`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `config_rule`
 --
 
 INSERT INTO `config_rule` (`id_config_rule`, `id_config_modem`, `id_smsc_name`) VALUES
-(8, 1, 3);
+(9, 5, 3),
+(10, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -152,10 +161,10 @@ CREATE TABLE IF NOT EXISTS `filter` (
 --
 
 INSERT INTO `filter` (`id_filter`, `id_delimiter`, `filter_name`, `status`) VALUES
-(6, 1, 'registrasi', 1),
-(7, 1, 'Filter spam', 1),
+(6, 1, 'registrasi', 0),
+(7, 1, 'Filter spam', 0),
 (8, 4, 'Konfirmasi', 0),
-(9, 1, 'filter saring', 0);
+(9, 1, 'Test API', 1);
 
 -- --------------------------------------------------------
 
@@ -174,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `filter_action` (
   PRIMARY KEY (`id_action`),
   KEY `id_filter` (`id_filter`),
   KEY `id_label` (`id_label`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `filter_action`
@@ -189,9 +198,8 @@ INSERT INTO `filter_action` (`id_action`, `id_filter`, `id_filter_action_type`, 
 (6, 8, 2, 5, 'http://www.websiteapi.com/stor_data/', 'xpl@gmail.com', 2),
 (7, 8, 3, 5, '', '', 3),
 (8, 8, 4, 5, '', '', 4),
-(9, 9, 4, 5, '', '', 1),
-(10, 9, 2, 5, 'http://www.google.com', '', 2),
-(11, 9, 3, 5, '', '', 3);
+(9, 9, 1, 7, '', '', 1),
+(10, 9, 2, 5, 'http://trialintra.satusite.net/mod_api/smsconfirmation/add', 'revolusigalang@gmail.com', 2);
 
 -- --------------------------------------------------------
 
@@ -260,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `filter_detail` (
   `id_filter_detail` int(11) NOT NULL AUTO_INCREMENT,
   `id_filter` int(11) NOT NULL,
   `type_filter` enum('number','messages') NOT NULL,
-  `word` enum('1','2','3','4','5') DEFAULT NULL,
+  `word` enum('1','2','3','4','5','6','7','8','9','10') DEFAULT NULL,
   `type_regex` enum('start_with','=','type','regex') NOT NULL,
   `id_filter_regex` int(11) DEFAULT NULL,
   `regex_data` varchar(50) DEFAULT NULL,
@@ -268,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `filter_detail` (
   `order` int(11) NOT NULL,
   PRIMARY KEY (`id_filter_detail`),
   KEY `id_filter` (`id_filter`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data for table `filter_detail`
@@ -283,8 +291,12 @@ INSERT INTO `filter_detail` (`id_filter_detail`, `id_filter`, `type_filter`, `wo
 (21, 8, 'messages', '1', '=', 1, 'REG', 'and', 1),
 (22, 8, 'messages', '2', 'start_with', 0, 'KONF', 'and', 2),
 (23, 8, 'messages', '3', 'type', 1, '', 'none', 3),
-(24, 9, 'messages', '1', 'type', 2, '', 'and', 1),
-(25, 9, 'messages', '2', 'regex', 0, 'REG', 'none', 2);
+(24, 9, 'messages', '1', '=', 0, 'CONFIRM', 'and', 1),
+(25, 9, 'messages', '2', 'regex', 0, '#[0-9]+', 'and', 2),
+(26, 9, 'messages', '3', 'type', 2, '', 'and', 3),
+(27, 9, 'messages', '4', 'type', 1, '', 'and', 4),
+(28, 9, 'messages', '5', 'type', 5, '', 'and', 5),
+(29, 9, 'messages', '6', 'type', 5, '', 'none', 6);
 
 -- --------------------------------------------------------
 
@@ -297,17 +309,18 @@ CREATE TABLE IF NOT EXISTS `filter_regex` (
   `regex` text NOT NULL,
   `regex_value` varchar(50) NOT NULL,
   PRIMARY KEY (`id_filter_regex`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `filter_regex`
 --
 
 INSERT INTO `filter_regex` (`id_filter_regex`, `regex`, `regex_value`) VALUES
-(1, 'numeric', '/^[0-9]/'),
+(1, 'numeric', '/^[0-9]*$/'),
 (2, 'alphabet', '/^[a-zA-Z]*$/'),
 (3, 'alphanumeric', '/^[A-Za-z][A-Za-z0-9]*$/'),
-(4, 'character', '/[$-/:-?{-~!"^_`\\[\\]]/');
+(4, 'character', '/^[$-/:-?{-~!"^_`\\[\\]]*$/'),
+(5, 'any', '/^[^\\n]*$/');
 
 -- --------------------------------------------------------
 
@@ -323,7 +336,7 @@ CREATE TABLE IF NOT EXISTS `group` (
   PRIMARY KEY (`id_group`),
   KEY `id_address_book` (`id_address_book`),
   KEY `id_groupname` (`id_groupname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=87 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=90 ;
 
 --
 -- Dumping data for table `group`
@@ -340,7 +353,8 @@ INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) V
 (83, 15, 1, 2),
 (84, 16, 1, 4),
 (85, 17, 1, 4),
-(86, 18, 1, 2);
+(88, 25, 1, 4),
+(89, 33, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -384,7 +398,7 @@ CREATE TABLE IF NOT EXISTS `inbox` (
   `status_archive` tinyint(1) NOT NULL DEFAULT '0',
   `is_delete` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_inbox`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=123 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=164 ;
 
 --
 -- Dumping data for table `inbox`
@@ -417,7 +431,6 @@ INSERT INTO `inbox` (`id_inbox`, `thread`, `id_user`, `id_address_book`, `number
 (85, '728247135', 1, 11, '+62819678420', 1364200074, 'REG TOP 999999999', 1, 1367570306, 0, 0),
 (87, '1505695122', 1, 12, '+62819678430', 1364200074, 'code name revolution', 1, 1367659875, 0, 2),
 (88, '1165169767', 1, 13, '+62819678431', 1364200074, 'code name revolutionaries', 1, 1367660168, 0, 0),
-(89, '1165169767', 1, 13, '+62819678431', 1364200074, 'Sms Ini Mau Dikirim kapan ya?', 1, 1367960168, 0, 0),
 (90, '1555997036', 1, 2, '+62819678421', 1368007326, 'AAAAAAAAAAAAA  AAAAAAAAAAA', 1, 1368007326, 0, 0),
 (91, '1599062565', 1, 17, '7839749387364', 1368007720, 'Piye MAAN??', 1, 1368007720, 0, 0),
 (92, '1599062565', 1, 17, '7839749387364', 1368007770, 'Piye MAAN??', 1, 1368007770, 0, 0),
@@ -426,15 +439,15 @@ INSERT INTO `inbox` (`id_inbox`, `thread`, `id_user`, `id_address_book`, `number
 (95, '728247135', 1, 11, '+62819678420', 1368008480, 'Mbaaaaaaaaaaaaaah...!', 1, 1368008480, 0, 0),
 (96, '728247135', 1, 11, '+62819678420', 1368018848, 'Testing Sent Saja', 1, 1368018848, 0, 0),
 (97, '1722666432', 1, 11, '+62819678420', 1368019077, 'Test New Thread..!!!!', 1, 1368019077, 0, 0),
-(98, '1885174197', 1, 19, '+628123456789', 1368174474, 'Apakah Masuk Spam?', 1, 1368157145, 0, 0),
-(99, '1885174197', 1, 19, '+628123456789', 1368174474, 'Spammer in Action', 1, 1368157966, 0, 0),
-(100, '1885174197', 1, 19, '+628123456789', 1368185274, 'Hayoo Tak Spam..!!', 1, 1368158197, 0, 0),
+(98, '1885174197', 1, 19, '+628123456789', 1368174474, 'Apakah Masuk Spam?', 1, 1368157145, 0, 2),
+(99, '1885174197', 1, 19, '+628123456789', 1368174474, 'Spammer in Action', 1, 1368157966, 0, 2),
+(100, '1885174197', 1, 19, '+628123456789', 1368185274, 'Hayoo Tak Spam..!!', 1, 1368158197, 0, 2),
 (101, '685903348', 1, 20, '+6281931781912', 1368171474, 'Testing...!!', 1, 1368171474, 0, 0),
 (102, '685903348', 1, 20, '+6281931781912', 1368171510, 'test brow', 1, 1368171510, 0, 0),
 (103, '1783805106', 1, 21, '+6287878351478', 1368197172, 'Test SMS Gateway', 1, 1368172196, 0, 0),
 (104, '98666392', 1, 22, '+6287845675824', 1368197524, 'Gammu Run One Recive Testing', 1, 1368172315, 0, 0),
-(105, '2049485985', 1, 23, '+6287835357712', 1368197622, 'Gammu test SMS to 087838743088', 0, 1368172414, 0, 0),
-(106, '876410452', 1, 24, '+6287867823851', 1368197716, '087838743088 Teting Saja Brotha ', 0, 1368172507, 0, 0),
+(105, '2049485985', 1, 23, '+6287835357712', 1368197622, 'Gammu test SMS to 087838743088', 1, 1368172414, 0, 0),
+(106, '876410452', 1, 24, '+6287867823851', 1368197716, '087838743088 Teting Saja Brotha ', 1, 1368172507, 0, 0),
 (107, '1783805106', 1, 21, '+6287878351478', 1368197979, 'olehkarena itu maka penjajahan diatas dunia harus dihapuskan karena tidak sesuai dengan pri kemanusian dan pri keadilan', 1, 1368172772, 0, 0),
 (108, '1783805106', 1, 21, '+6287878351478', 1368198010, 'olehkarena itu maka penjajahan diatas dunia harus dihapuskan karena tidak sesuai dengan pri kemanusian dan pri keadilan', 1, 1368172799, 0, 0),
 (109, '1783805106', 1, 21, '+6287878351478', 1368173836, 'asassa', 1, 1368173836, 0, 0),
@@ -448,9 +461,46 @@ INSERT INTO `inbox` (`id_inbox`, `thread`, `id_user`, `id_address_book`, `number
 (117, '1783805106', 1, 21, '+6287878351478', 1368200641, 'reply lagi yak..', 1, 1368175429, 0, 0),
 (118, '1783805106', 1, 21, '+6287878351478', 1368175446, 'yoo man ', 1, 1368175446, 0, 0),
 (119, '1783805106', 1, 21, '+6287878351478', 1368175519, 'test rload lagi man :D', 1, 1368175519, 0, 0),
-(120, '1869105371', 0, 0, '+6281927198', 1368262258, 'Saved In Draft Yeah...', 0, 1368262258, 0, 0),
 (121, '728247135', 1, 11, '+62819678420', 1368262925, 'test Reply yeh', 1, 1368262925, 0, 0),
-(122, '1505695122', 1, 12, '+62819678430', 1368263131, 'tereply kah ??', 1, 1368263131, 0, 2);
+(122, '1505695122', 1, 12, '+62819678430', 1368263131, 'tereply kah ??', 1, 1368263131, 0, 2),
+(123, '1869105371', 1, 8, '+6281927198', 1368406266, 'Saved In Draft Yeah...', 1, 1368406266, 0, 0),
+(126, '1869105371', 1, 8, '+6281927198', 1368408206, 'test saved draft and new thread\ndikirim saja ya brow...', 1, 1368408206, 0, 0),
+(127, '1317901112', 0, 11, '+62819678420', 1368410615, 'Test Saved Draft Brow..', 1, 1368410615, 0, 0),
+(128, '1687103744', 0, 17, '7839749387364', 1368411629, 'whooi please reply again brotha :-O', 1, 1368411629, 0, 0),
+(129, '1950347926', 1, 25, '+6287838743088', 1368446817, 'ajkshkas\naklsjalksjla', 1, 1368422732, 0, 0),
+(130, '384809859', 1, 26, '+6287838743087', 1368425553, '+6287838743087', 1, 1368425553, 0, 0),
+(131, '1950347926', 1, 25, '+6287838743088', 1368450793, '+6287838743087', 1, 1368425583, 0, 0),
+(132, '1950347926', 1, 25, '+6287838743088', 1368426340, 'REG TOP 999999999', 1, 1368426340, 0, 0),
+(133, '1950347926', 1, 25, '+6287838743088', 1368451578, 'REG TOP 999999999', 1, 1368426364, 0, 1),
+(134, '1067553368', 1, 27, '4444', 1368427140, 'DAFTAR', 1, 1368427140, 1, 0),
+(135, '1067553368', 1, 27, '4444', 1368427158, 'DAFTAR', 1, 1368427158, 1, 0),
+(136, '1067553368', 1, 27, '4444', 1368452345, 'Silahkan ketik:DAFTAR1#nama lkp#No.Identitas#Alamat.Contoh: DAFTAR1#Anindia Putri#0953081212820153#Jl. Kalibata 14 Jakarta 12490', 1, 1368427159, 1, 0),
+(137, '1067553368', 1, 27, '4444', 1368452381, 'Silahkan ketik:DAFTAR1#nama lkp#No.Identitas#Alamat.Contoh: DAFTAR1#Anindia Putri#0953081212820153#Jl. Kalibata 14 Jakarta 12490', 1, 1368427191, 1, 0),
+(138, '1067553368', 1, 27, '4444', 1368427267, 'DAFTAR1#Rumahweb Modem SMS#0953081212820153#Jl. Kalibata 14 Jakarta 12490', 1, 1368427267, 1, 0),
+(139, '1597942620', 1, 28, 'XL-Axiata', 1368452477, 'Terima kasih, selanjutnya silahkan ketik: DAFTAR2#tempat lhr#tgl lhr(dd/mm/yyyy)#jenis kelamin(L/P). Contoh:DAFTAR2#Bandung#22/12/1982#P', 1, 1368427289, 1, 0),
+(140, '1067553368', 1, 27, '4444', 1368427519, 'DAFTAR2#Yogyakarta#22/12/1982#L', 1, 1368427519, 1, 0),
+(141, '1597942620', 1, 28, 'XL-Axiata', 1368452722, 'Selamat datang di XL-KU, kartu tarif MURAH & PASTI SEHARIAN bikin Pulsa Gak Abis-Abis! Info sisa pulsa dan Promo Paket Hemat di *123#. Info 817', 1, 1368427533, 1, 0),
+(142, '1067553368', 1, 27, '4444', 1368452728, 'RBT Gratis berhadiah total 60 Juta. Aktifin RBT dr NOAH, Wali, Gamma1, dll di *919#. Pelanggan yg memiliki POIN tertinggi akan jd pemenang. CS: 817', 1, 1368427538, 1, 0),
+(143, '1233568130', 1, 29, '588', 1368428448, '', 1, 1368428448, 0, 0),
+(144, '1233568130', 1, 29, '588', 1368428462, '', 1, 1368428462, 0, 0),
+(145, '1058784071', 1, 30, '*123#', 1368428611, 'cek', 1, 1368428611, 0, 0),
+(146, '1890867690', 1, 31, '+6289678420', 1368428859, 'Test saja ...', 1, 1368428859, 0, 0),
+(147, '882286797', 1, 32, '+6287781263748', 1368454708, 'Tetst $temp[''id_smsc'']', 1, 1368429507, 0, 0),
+(148, '882286797', 1, 32, '+6287781263748', 1368455409, '087838743088test gratisan sms', 1, 1368430492, 0, 0),
+(149, '882286797', 1, 32, '+6287781263748', 1368458992, 'whooooaaah nguantuk buanget brow..', 1, 1368433780, 0, 0),
+(150, '882286797', 1, 32, '+6287781263748', 1368434337, 'tak sbrapa airmu...', 1, 1368434337, 0, 0),
+(151, '882286797', 1, 32, '+6287781263748', 1368459782, 'bengawan solow,,,', 1, 1368434571, 0, 0),
+(153, '882286797', 1, 32, '+6287781263748', 1368455409, 'CONFIRM #143 BCA 100000 14-05-2013 leli_sagita', 1, 1368509440, 0, 0),
+(154, '882286797', 1, 32, '+6287781263748', 1368455409, 'CONFIRM #144 BCA 140000 14-05-2013 leli_sagita', 1, 1368509542, 0, 0),
+(155, '53483849', 1, 33, '+628562927907', 1368535476, 'CONFIRM #144 BCA 140000 14-05-2013 leli_sagita', 1, 1368510263, 1, 0),
+(156, '53483849', 1, 33, '+628562927907', 1368535630, 'CONF #144 BCA 140000 14-05-2013 leli_sagita', 1, 1368510418, 1, 0),
+(157, '1537200085', 1, 33, '+628562927907', 1368535689, 'CONF #144 BCA 140000 14-05-2013 leli_sagita', 1, 1368510475, 0, 0),
+(158, '1537200085', 2, 33, '+628562927907', 1368535742, 'maknyos', 1, 1368510528, 0, 0),
+(159, '1537200085', 1, 33, '+628562927907', 1368535792, 'lupa', 1, 1368510579, 0, 0),
+(160, '1537200085', 1, 33, '+628562927907', 1368510673, 'woooy yoman...', 1, 1368510673, 0, 0),
+(161, '1537200085', 1, 33, '+628562927907', 1368510748, 'dddddddddddddddddddddd               fhhhhhhhhhhhhhhhdddddddddddj       dfhhhhhhhhhhhhhhhhhfdhd        dfhfghhhhhhhhhhhhhh d         fghfhggggggggggggjffhgjjjjjjjjjjj    ghhhhhhhhhhhhhfjjjjjjjjjjjjgk        fhjfffffhjjjf    fghgfhghj     ghjgjgjhgjhg', 1, 1368510748, 0, 0),
+(162, '384809859', 1, 26, '+6287838743087', 1368515463, 'testing brow...', 1, 1368515463, 0, 0),
+(163, '384809859', 1, 26, '+6287838743087', 1368540712, 'testing brow...', 1, 1368515498, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -465,7 +515,7 @@ CREATE TABLE IF NOT EXISTS `label` (
   PRIMARY KEY (`id_label`),
   KEY `id_inbox` (`id_inbox`),
   KEY `id_labelname` (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=475 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=529 ;
 
 --
 -- Dumping data for table `label`
@@ -490,16 +540,6 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (271, 83, 7),
 (275, 84, 7),
 (279, 85, 7),
-(291, 11, 8),
-(292, 11, 9),
-(294, 69, 8),
-(295, 69, 9),
-(297, 72, 8),
-(298, 72, 9),
-(300, 74, 8),
-(301, 74, 9),
-(303, 75, 8),
-(304, 75, 9),
 (306, 87, 1),
 (307, 88, 1),
 (393, 3, 8),
@@ -511,7 +551,6 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (399, 70, 8),
 (400, 70, 9),
 (410, 87, 8),
-(412, 89, 3),
 (414, 90, 2),
 (415, 91, 2),
 (416, 92, 2),
@@ -540,9 +579,7 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (447, 118, 2),
 (448, 119, 2),
 (449, 114, 4),
-(464, 120, 3),
 (465, 88, 9),
-(466, 89, 9),
 (467, 121, 2),
 (468, 122, 2),
 (469, 87, 5),
@@ -550,7 +587,46 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (471, 77, 10),
 (472, 78, 10),
 (473, 79, 10),
-(474, 80, 10);
+(474, 80, 10),
+(475, 123, 2),
+(478, 126, 2),
+(479, 127, 3),
+(480, 127, 7),
+(481, 128, 3),
+(482, 98, 5),
+(483, 99, 5),
+(484, 100, 5),
+(485, 129, 1),
+(486, 130, 2),
+(487, 131, 1),
+(488, 132, 2),
+(489, 133, 1),
+(490, 133, 1),
+(491, 134, 2),
+(492, 135, 2),
+(495, 138, 2),
+(497, 140, 2),
+(500, 143, 2),
+(501, 144, 2),
+(502, 145, 2),
+(503, 146, 2),
+(504, 147, 1),
+(505, 148, 1),
+(509, 150, 2),
+(510, 151, 1),
+(512, 153, 1),
+(513, 153, 7),
+(514, 154, 1),
+(515, 154, 7),
+(516, 154, 7),
+(518, 155, 7),
+(520, 156, 7),
+(521, 157, 1),
+(524, 159, 1),
+(525, 160, 2),
+(526, 161, 2),
+(527, 162, 2),
+(528, 163, 1);
 
 -- --------------------------------------------------------
 
@@ -709,7 +785,7 @@ INSERT INTO `smsc_name` (`id_smsc_name`, `operator_name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
   `first_name` text NOT NULL,
@@ -717,15 +793,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `status` tinyint(1) NOT NULL,
   `create_date` int(11) NOT NULL,
   `last_update` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`)
+  `level` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `username`, `password`, `first_name`, `last_name`, `status`, `create_date`, `last_update`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'sms', 1, 1366262306, 1366262306);
+INSERT INTO `user` (`id_user`, `username`, `password`, `first_name`, `last_name`, `status`, `create_date`, `last_update`, `level`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'sms', 1, 1366262306, 1366262306, 1);
 
 --
 -- Constraints for dumped tables

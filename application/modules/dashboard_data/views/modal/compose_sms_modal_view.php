@@ -40,7 +40,6 @@
 		function save()
 		{
 			$.post('<?php echo base_url();?>dashboard/save_draft',$('#form_send').serialize(),function(data){
-			//	console.log($('#form_send').serialize());
 				if(data=='true')
 				{
 					location.reload();
@@ -55,8 +54,8 @@
 		
 		function send()
 		{
+			alert($('.combobox').val());
 			$.post('<?php echo base_url();?>dashboard/insert',$('#form_send').serialize(),function(data){
-			//	console.log($('#form_send').serialize());
 				if(data=='true')
 				{
 					location.reload();
@@ -66,6 +65,7 @@
 					$('#warning').show();
 				}
 			});
+
 		}
 		$('#number_box').change(function(){
 			$('#checkpbk').prop('checked',true);
@@ -80,6 +80,7 @@
 	<form id="form_send">  
 		<div class="row-fluid">
 			<div class="span12">
+				<input type="hidden" name="id_user" value="<?php echo $this->session->userdata('id_user');?>">
 				<label class="control-label">Nomor</label>
 				<div class="controls">
 					<input type="text" id="number" class="input-block-level input-medium" name="number" placeholder="Must start with +62" autocomplete="off">

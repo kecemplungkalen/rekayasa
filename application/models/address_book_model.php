@@ -45,21 +45,26 @@ Class Address_Book_Model extends CI_model{
 	
 	}
 	
-	public function add($number=false,$first_name=false,$last_name=false,$email=false,$id_user=false)
+	//public function add($number=false,$first_name=false,$last_name=false,$email=false,$id_user=false)
+	//{
+		//if($number && $first_name)
+		//{
+			//$cerate_date=;
+	function add($data=false)
 	{
-		if($number && $first_name)
+		if($data)
 		{
 			//$cerate_date=;
 			
-			$data = array(
-			'first_name' => $first_name,
-			'last_name' => $last_name,
-			'number' => $number,
-			'email' => $email,
-			'create_date' => time(),
-			'last_update' => time(),
-			'id_user' => $id_user
-			);
+			//$data = array(
+			//'first_name' => $first_name,
+			//'last_name' => $last_name,
+			//'number' => $number,
+			//'email' => $email,
+			//'create_date' => time(),
+			//'last_update' => time(),
+			//'id_user' => $id_user
+			//);
 			$this->db->insert('address_book',$data);
 			$last_id = $this->db->insert_id();
 			if($last_id)

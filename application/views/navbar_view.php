@@ -22,6 +22,17 @@
 					</li>
 				</ul>
 			</div>
+	<div class="btn-group btn-inverse pull-right">
+	  <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">
+		Hallo <?php echo $this->session->userdata('user_data');?>
+		<span class="caret"></span>
+	  </a>
+	  <ul class="dropdown-menu">
+		<li>
+		<a href="<?php echo base_url();?>login/logoff" > Logout </a>
+		</li>
+	  </ul>
+	</div>
 		</div>
 	</div>
 </div>

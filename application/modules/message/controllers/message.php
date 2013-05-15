@@ -78,6 +78,7 @@ Class Message extends MY_Controller{
 	
 	public function tampil_data($label=false,$jumlah=0,$mulai=0,$keyword=false)
 	{
+		$id_user = $this->session->userdata('id_user');
 		$remap = false;
 		$sub=false;
 		$total = false;
@@ -103,7 +104,7 @@ Class Message extends MY_Controller{
 						foreach($data_inbox as $di)
 						{
 							$thread[] = $di->thread;
-							$where = array('is_delete ' => '1');
+							$where = array('is_delete ' => '1','inbox.id_user' => $id_user);
 						}
 						
 					}	
@@ -129,7 +130,7 @@ Class Message extends MY_Controller{
 								if($g->is_delete == '2')
 								{
 									$thread[] = $g->thread;
-									$where = array('is_delete' => '2');
+									$where = array('is_delete' => '2','inbox.id_user' => $id_user);
 								}		
 							}							
 						}	
@@ -154,7 +155,7 @@ Class Message extends MY_Controller{
 							foreach($get as $g)
 							{
 								$thread[] = $g->thread;
-								$where = array('is_delete' => '0');
+								$where = array('is_delete' => '0','inbox.id_user' => $id_user);
 							}							
 						}	
 					}
@@ -278,7 +279,8 @@ Class Message extends MY_Controller{
 
 					}
 					$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,false);
-					$allres  = $this->message_model->get_by_thread($thread,0,0,false,false);
+					$jum_peruser = array('inbox.id_user' => $id_user);
+					$allres  = $this->message_model->get_by_thread($thread,0,0,$jum_peruser,false);
 				}
 				else
 				{
@@ -308,7 +310,8 @@ Class Message extends MY_Controller{
 					'address_book.email' => $word
 					);	
 					$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,$key);
-					$allres  = $this->message_model->get_by_thread($thread,0,0,false,$key);
+					$jum_peruser = array('inbox.id_user' => $id_user);
+					$allres  = $this->message_model->get_by_thread($thread,0,0,$jum_peruser,$key);
 				}
 
 			}

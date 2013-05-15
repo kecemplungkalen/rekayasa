@@ -346,20 +346,20 @@ Class Dashboard_data extends MX_Controller{
 		{
 			$temp = false;
 			$tmp = false;
-			//$label = false;
+			$id_user = $this->session->userdata('id_user');
 			$unread = false;
 			$mark = false;
 			$where = false;
 			switch($label)
 			{
 				case 'trash' :
-				$where = array('is_delete =' => '1');
+				$where = array('is_delete =' => '1','inbox.id_user' => $id_user);
 				break;
 				case 'spam' :
-				$where = array('is_delete =' => '2');
+				$where = array('is_delete =' => '2','inbox.id_user' => $id_user);
 				break;
 				default :
-				$where = array('is_delete =' => '0');
+				$where = array('is_delete =' => '0','inbox.id_user' => $id_user);
 				break;
 			}
 			

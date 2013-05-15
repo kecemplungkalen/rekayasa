@@ -6,6 +6,7 @@ Class MY_Controller extends MX_Controller {
 		if(!$this->session->userdata('logged_in')){
 			redirect(base_url().'login', 'refresh');
 		}
+		
 	}
 }
 ?>

@@ -31,6 +31,8 @@ Class Add_process extends MX_Controller{
 			$isi_sms = $data->TextDecoded;
 			$smsc = $data->SMSCNumber;
 			$recive_date = strtotime($data->ReceivingDateTime);  
+			
+			// cari dimana 
 			$id_user = '1';
 
 			
@@ -44,41 +46,88 @@ Class Add_process extends MX_Controller{
 			else
 			{
 				//tambah ke phone book tambah ke group no group 
-				$tambah_address_book = $this->Address_Book_Model->add($number,$number,'','',$id_user);
+				//$tambah_address_book = $this->Address_Book_Model->add($number,$number,'','',$id_user);
+				//'first_name' => $first_name,
+				//'last_name' => $last_name,
+				//'number' => $number,
+				//'email' => $email,
+				//'create_date' => time(),
+				//'last_update' => time(),
+				//'id_user' => $id_user
+				$data_smsc = false;
+				$id_smsc = $this->Smsc_Model->get_by_col('smsc_number',$smsc);
+				if($id_smsc)
+				{
+					// kolom id_smsc isinya smsc_name.id_smsc_name 
+					//$data = array('id_smsc' => $id_smsc->smsc_name);
+					
+					//$this->Address_Book_Model->update($id_address_book,$data);
+					$data_smsc = $id_smsc->smsc_name;
+				}
+				else // jika tidak ada di database smsc ambil di data operator number
+				{
+					
+					$data_op = $this->Operator_Number_Model->gets();
+					if($data_op)
+					{
+						foreach($data_op as $dp)
+						{
+							if(preg_match('/^\\'.$dp->operator_number.'/',$number))
+							{
+								//$data = array('id_smsc' => $dp->id_smsc_name);
+								//$this->Address_Book_Model->update($id_address_book,$data);
+								$data_smsc = $dp->id_smsc_name;
+							}
+						}
+						
+					}
+					
+				}					
+
+				$addarr = array(
+				'first_name' => $first_name,
+				'number' => $number,
+				'create_date' => time(),
+				'last_update' => time(),
+				'id_smsc' => $data_smsc,
+				'id_user' => $id_user
+				
+				);
+				$tambah_address_book = $this->Address_Book_Model->add($addarr);
 
 				if($tambah_address_book)
 				{
 					$id_address_book = $tambah_address_book;
 				
-					$id_smsc = $this->Smsc_Model->get_by_col('smsc_number',$smsc);
-					//log_message('error','smsc nya '.print_r($id_smsc));
-					if($id_smsc)
-					{
-						// kolom id_smsc isinya smsc_name.id_smsc_name 
-						$data = array('id_smsc' => $id_smsc->smsc_name);
+					//$id_smsc = $this->Smsc_Model->get_by_col('smsc_number',$smsc);
+					////log_message('error','smsc nya '.print_r($id_smsc));
+					//if($id_smsc)
+					//{
+						//// kolom id_smsc isinya smsc_name.id_smsc_name 
+						//$data = array('id_smsc' => $id_smsc->smsc_name);
 						
-						$this->Address_Book_Model->update($id_address_book,$data);
-					}
-					else // jika tidak ada di database smsc ambil di data operator number
-					{
+						//$this->Address_Book_Model->update($id_address_book,$data);
+					//}
+					//else // jika tidak ada di database smsc ambil di data operator number
+					//{
 						
-						//$match = preg_match(); 
+						////$match = preg_match(); 
 						
-						$data_op = $this->Operator_Number_Model->gets();
-						if($data_op)
-						{
-							foreach($data_op as $dp)
-							{
-								if(preg_match('/^\\'.$dp->operator_number.'/',$number))
-								{
-									$data = array('id_smsc' => $dp->id_smsc_name);
-									$this->Address_Book_Model->update($id_address_book,$data);
-								}
-							}
+						//$data_op = $this->Operator_Number_Model->gets();
+						//if($data_op)
+						//{
+							//foreach($data_op as $dp)
+							//{
+								//if(preg_match('/^\\'.$dp->operator_number.'/',$number))
+								//{
+									//$data = array('id_smsc' => $dp->id_smsc_name);
+									//$this->Address_Book_Model->update($id_address_book,$data);
+								//}
+							//}
 							
-						}
+						//}
 						
-					}					
+					//}					
 				}
 			}
 			
@@ -137,7 +186,7 @@ Class Add_process extends MX_Controller{
 				'number' => $number,
 				'content'=> $isi_sms,
 				'last_update' => time(),
-				'read_status' => '1',
+				'read_status' => '0', // unread 
 				'status_archive' => '0'
 				);	
 				$data_id_inbox = $this->inbox_model->add($input_inbox); // kita dapat id_inbox
@@ -165,7 +214,7 @@ Class Add_process extends MX_Controller{
 				'number' => $number,
 				'content'=> $isi_sms,
 				'last_update' => time(),
-				'read_status' => '0',
+				'read_status' => '0', // unread
 				'status_archive' => '0'
 				);
 				$data_id_inbox = $this->inbox_model->add($input_inbox); // kita dapat id_inbox

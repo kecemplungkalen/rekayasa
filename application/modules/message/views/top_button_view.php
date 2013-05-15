@@ -246,7 +246,6 @@
 		});
 	}
 </script>
-
 <div id="top_btn" class="btn-group animated hide">
 	<a class="btn" id="set_archive"><i class="icon-hdd" ></i></a>
 	<a id="menu_label" class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-tags"></i> <span class="caret"></span></a>

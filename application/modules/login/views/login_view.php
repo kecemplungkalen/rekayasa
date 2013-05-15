@@ -6,7 +6,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<a class="brand" href="./">
+			<a class="brand" href="<?php echo base_url();?>">
 				Rekayasa SMS Management System
 			</a>		
 		</div> <!-- /container -->

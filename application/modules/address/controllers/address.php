@@ -350,13 +350,38 @@ Class Address extends MY_Controller{
 
 	public function tambah_address()
 	{
-		$id_user = 1;
+		$id_user = $this->session->userdata('id_user');
 		$number = $this->input->post('number');
 		$first_name = $this->input->post('first_name');
 		$last_name = $this->input->post('last_name');
 		$email = $this->input->post('email');
 		$group = $this->input->post('group');
-		$last_id = $this->Address_Book_Model->add($number,$first_name,$last_name,$email,$id_user);
+		// tambah addr
+		/*
+		 * 
+			$data = array(
+			'first_name' => $first_name,
+			'last_name' => $last_name,
+			'number' => $number,
+			'email' => $email,
+			'create_date' => time(),
+			'last_update' => time(),
+			'id_user' => $id_user
+			);
+		*/
+		 
+		$addr = array(
+			'first_name' => $first_name,
+			'last_name' => $last_name,
+			'number' => $number,
+			'email' => $email,
+			'create_date' => time(),
+			'last_update' => time(),
+			'id_user' => $id_user		
+		);
+		
+		//$last_id = $this->Address_Book_Model->add($number,$first_name,$last_name,$email,$id_user);
+		$last_id = $this->Address_Book_Model->add($addr);
 		if($last_id)
 		{
 			for($i=0;$i < count($group);$i++)

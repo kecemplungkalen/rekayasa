@@ -90,8 +90,11 @@
 			var lbl = '<?php echo $data[0]['lbl'];?>';
 			<?php } ?>
 			$.post('<?php echo base_url();?>dashboard/insert',$('#reply').serialize(),function(data){
+				console.log(data);
+/*
 				if(data == 'true')
 				{
+					
 					location.reload();
 					// di set untuk interaktif modal 
 					//$.get('<?php echo base_url();?>dashboard_data/modal_body',{thread:thread,label:lbl},function(data){
@@ -104,6 +107,7 @@
 					$('#modal_body').append('<div class="alert alert-error"><strong> Warning..!</strong>  Modem Error..! </div>');
 					$('#save').show();
 				}
+*/
 			});		
 		});
 		
@@ -143,7 +147,7 @@
 			$('#act').html('<h5>Forward:</h5>');
 			$('#text').html(content);
 			
-			$('#number_fwd').html('<select class="combobox" name="number_box" id="number_box"><?php if($pbk){?><?php foreach($pbk as $pb){?> <option value="<?php echo $pb->number?>"><?php echo $pb->first_name.' '.$pb->last_name ;?></option><?php }?><?php }?></select>');
+			$('#number_fwd').html('<div class="form-inline"><select class="combobox" name="number_box[]" id="number_box"><?php if($pbk){?><?php foreach($pbk as $pb){?> <option value="<?php echo $pb->number?>"><?php echo $pb->first_name.' '.$pb->last_name ;?></option><?php }?><?php }?></select><a class="btn" rel="tooltip"  data-toggle="tooltip" data-original-title="Add recipient(s)"  onclick="add_penerima()">+</a></div>');
 			$('#number_fwd').append('<input type="hidden" id="checkbox" name="checkbox" value="true" >');
 
 			$('#number_box').combobox();
@@ -240,21 +244,29 @@
 	  }
 	};
 	
-		function save()
-		{
-			$.post('<?php echo base_url();?>dashboard/save_draft',$('#reply').serialize(),function(data){
-			//	console.log($('#form_send').serialize());
-				if(data=='true')
-				{
-					location.reload();
-				}
-				else
-				{
-					$('#warning').show();
-				}
-			});
-			
-		}	
+	function save()
+	{
+		$.post('<?php echo base_url();?>dashboard/save_draft',$('#reply').serialize(),function(data){
+		//	console.log($('#form_send').serialize());
+			if(data=='true')
+			{
+				location.reload();
+			}
+			else
+			{
+				$('#warning').show();
+			}
+		});
+		
+	}	
+	var initNum = 0;
+	function add_penerima()
+	{
+		var num = initNum++;
+		$('#number_fwd').append('<div class="form-inline"><select class="combobox" name="number_box[]" id="number_box'+num+'"><?php if($pbk){?><?php foreach($pbk as $pb){?> <option value="<?php echo $pb->number?>"><?php echo $pb->first_name.' '.$pb->last_name ;?></option><?php }?><?php }?></select><a class="btn" rel="tooltip"  data-toggle="tooltip" data-original-title="Add recipient(s)"  onclick="add_penerima()">+</a></div>');
+		$('#number_box'+num).combobox();
+		
+	}
 	</script>
 	<div id="modal_body" class="modal-body" style="height: 400px;overflow-y: auto;">	
 	<?php $label=false;?>
@@ -347,6 +359,9 @@
 			<form id="reply"> 
 				<div id="number_fwd"> 
 				</div>
+				<br>
+				<input type="hidden" name="id_user" value="<?php echo $this->session->userdata('id_user');?>">
+				<input type="hidden" name="thread" value="<?php echo $data[0]['thread'];?>">
 				<textarea id="text" name="text" rows="3" style="width:97%;" onkeyup="countChar(this)"></textarea>
 				<span class="help-inline" id="charNum"> </span>
 				<button type="submit"  class="btn btn-success pull-right">Send</button>

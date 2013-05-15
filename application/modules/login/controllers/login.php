@@ -1,6 +1,6 @@
 <?php 
 
-Class Login extends MY_Controller{
+Class Login extends MX_Controller{
 	
 	function __construct()
 	{
@@ -8,21 +8,14 @@ Class Login extends MY_Controller{
 		$this->load->model('User_Model');
 	}
 
-	public function index($data=false)
+	public function index()
 	{
-		if($data)
-		{
-			$view['data'] = $data;
-			$this->load->view('header_view');
-			$this->load->view('login_view',$view);
-			$this->load->view('footer_view');			
+		if($this->session->userdata('logged_in')){
+			redirect(base_url().'dashboard', 'refresh');
 		}
-		else
-		{
-			$this->load->view('header_view');
-			$this->load->view('login_view');
-			$this->load->view('footer_view');			
-		}
+		$this->load->view('header_view');
+		$this->load->view('login_view');
+		$this->load->view('footer_view');			
 	}
 	
 	function user_login()
@@ -36,20 +29,27 @@ Class Login extends MY_Controller{
 			if($cek)
 			{
 				//echo 'true';
-				$logsess = array('user_data' => $cek->username,'logged_in' => TRUE,'level' => $cek->level);
+				$logsess = array('user_data' => $cek->username,'logged_in' => TRUE,'level' => $cek->level,'id_user' => $cek->id_user);
 				$this->session->set_userdata($logsess);
-				redirect(base_url().'dashboard');
+				redirect(base_url().'dashboard','refresh');
 			}
 			else
 			{
-				$val = 'Warning Login Gagal.!!! ';
-				$this->index($val);
+				$view['data'] = 'Warning Login Failed.!!!';
+				$this->load->view('header_view');
+				$this->load->view('login_view',$view);
+				$this->load->view('footer_view');			
 			}
+		}
+		else
+		{
+			$this->index();
 		} 
 	}
 	
-	public function logoff()
+	function logoff()
 	{
 		$this->session->sess_destroy();
+		redirect(base_url().'login','refresh');
 	}
 } 
