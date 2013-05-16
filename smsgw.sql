@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 16, 2013 at 05:31 AM
+-- Generation Time: May 16, 2013 at 10:26 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -161,9 +161,6 @@ CREATE TABLE IF NOT EXISTS `filter` (
 --
 
 INSERT INTO `filter` (`id_filter`, `id_delimiter`, `filter_name`, `status`) VALUES
-(6, 1, 'registrasi', 0),
-(7, 1, 'Filter spam', 0),
-(8, 4, 'Konfirmasi', 0),
 (9, 1, 'Test API', 1);
 
 -- --------------------------------------------------------
@@ -190,14 +187,6 @@ CREATE TABLE IF NOT EXISTS `filter_action` (
 --
 
 INSERT INTO `filter_action` (`id_action`, `id_filter`, `id_filter_action_type`, `id_label`, `api_post`, `api_error_email`, `order`) VALUES
-(1, 6, 1, 1, '', '', 1),
-(2, 6, 2, 5, 'http://www.google.com/', 'coba@gmail.com', 2),
-(3, 6, 3, 5, '', '', 3),
-(4, 7, 1, 5, '', '', 1),
-(5, 8, 1, 7, '', '', 1),
-(6, 8, 2, 5, 'http://www.websiteapi.com/stor_data/', 'xpl@gmail.com', 2),
-(7, 8, 3, 5, '', '', 3),
-(8, 8, 4, 5, '', '', 4),
 (9, 9, 1, 7, '', '', 1),
 (10, 9, 2, 5, 'http://trialintra.satusite.net/mod_api/smsconfirmation/add', 'revolusigalang@gmail.com', 2);
 
@@ -283,14 +272,6 @@ CREATE TABLE IF NOT EXISTS `filter_detail` (
 --
 
 INSERT INTO `filter_detail` (`id_filter_detail`, `id_filter`, `type_filter`, `word`, `type_regex`, `id_filter_regex`, `regex_data`, `add_rule`, `order`) VALUES
-(16, 6, 'messages', '1', '=', 0, 'REG', 'and', 1),
-(17, 6, 'messages', '3', 'type', 1, '', 'or', 2),
-(18, 6, 'messages', '3', '=', 0, 'RASTA', 'none', 3),
-(19, 7, 'number', '', '=', 0, '+62819678420', 'and', 1),
-(20, 7, 'messages', '1', '=', 0, 'SPAM', 'none', 2),
-(21, 8, 'messages', '1', '=', 1, 'REG', 'and', 1),
-(22, 8, 'messages', '2', 'start_with', 0, 'KONF', 'and', 2),
-(23, 8, 'messages', '3', 'type', 1, '', 'none', 3),
 (24, 9, 'messages', '1', '=', 0, 'CONFIRM', 'and', 1),
 (25, 9, 'messages', '2', 'regex', 0, '#[0-9]+', 'and', 2),
 (26, 9, 'messages', '3', 'type', 2, '', 'and', 3),
@@ -336,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `group` (
   PRIMARY KEY (`id_group`),
   KEY `id_address_book` (`id_address_book`),
   KEY `id_groupname` (`id_groupname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=91 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=92 ;
 
 --
 -- Dumping data for table `group`
@@ -349,12 +330,12 @@ INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) V
 (75, 2, 1, 1),
 (76, 10, 1, 1),
 (80, 13, 1, 1),
-(83, 15, 1, 2),
 (84, 16, 1, 4),
 (85, 17, 1, 4),
 (88, 25, 1, 4),
 (89, 33, 1, 3),
-(90, 8, 1, 1);
+(90, 8, 1, 1),
+(91, 15, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -513,15 +494,18 @@ CREATE TABLE IF NOT EXISTS `ip_restriction` (
   `id_user` int(11) NOT NULL,
   `ip_restriction` varchar(255) NOT NULL,
   PRIMARY KEY (`id_ip_restriction`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `ip_restriction`
 --
 
 INSERT INTO `ip_restriction` (`id_ip_restriction`, `id_user`, `ip_restriction`) VALUES
-(2, 1, '192.168.1.1'),
-(3, 1, '192.168.1.2');
+(4, 2, '127.0.0.1'),
+(5, 1, '192.168.1.1'),
+(6, 1, '192.168.1.2'),
+(7, 3, '8.8.8.8'),
+(8, 4, '8.8.8.8');
 
 -- --------------------------------------------------------
 
@@ -852,14 +836,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `api` tinyint(1) NOT NULL,
   `api_key` varchar(255) NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id_user`, `username`, `password`, `first_name`, `last_name`, `status`, `create_date`, `last_update`, `level`, `api`, `api_key`) VALUES
-(1, 'admin', 'e00cf25ad42683b3df678c61f42c6bda', 'admin', 'sms', 1, 1366262306, 1368681305, 1, 0, 'DHyUisPQk4cfuK3S8gt7bxeNzEhJaMBA');
+(1, 'admin', 'e00cf25ad42683b3df678c61f42c6bda', 'admin', 'sms', 1, 1366262306, 1368691502, 1, 1, 'DHyUisPQk4cfuK3S8gt7bxeNzEhJaMBA'),
+(2, 'galang', '7c84729cf45a522f35c8b43e658b7d5f', 'galang', 'revolusi', 1, 1368691483, 1368691483, 3, 1, 'aqJYjeDFPoIOnpGg7LWctlr29TAHk0Qx'),
+(3, 'momod', 'e10adc3949ba59abbe56e057f20f883e', 'momod', 'imud', 1, 1368691691, 1368691691, 2, 1, 'IQGbHgU4oPJBp8AcjfS2wVW9Des5ZYTq');
 
 --
 -- Constraints for dumped tables

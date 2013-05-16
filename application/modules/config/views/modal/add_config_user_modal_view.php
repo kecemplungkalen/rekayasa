@@ -2,6 +2,8 @@
 	
 	$(document).ready(function(){
 		
+		generate_rand();
+		
 		$('#add_usr').validate({
 			rules: {
 				first_name: {
@@ -72,7 +74,7 @@
 			if(data.length == 32)
 			{
 				$('#api_key').val(data);
-				$('#api_key_show').val(data);
+				$('#api_key_show').html(data);
 			}
 			
 		});
@@ -97,7 +99,10 @@
 		if(valid == true)
 		{
 			$.post('<?php echo base_url()?>config/user/add_user',$('#add_usr').serialize(),function(data){
-				console.log(data);
+				if(data == 'true')
+				{
+					location.reload();					
+				}
 			});
 		}
 	}
@@ -163,7 +168,7 @@
 				<label class="control-label">Status</label>
 				<div class="controls">
 					<label class="radio inline">
-					<input type="radio" name="status" id="status1" value="1" >>
+					<input type="radio" name="status" id="status1" value="1" >
 						Active
 					</label>
 					<label class="radio inline">
@@ -191,7 +196,7 @@
 				<label class="control-label">API Key</label>
 				<div class="controls">
 					<input class="input-large" type="hidden" name="api_key" id="api_key">
-					<input class="input-large" type="text" name="api_key_show" id="api_key_show" disabled>
+					<label><strong id="api_key_show"> </strong></label>
 					<label class="inline"><a class="btn" onclick="generate_rand()"><i class="icon-refresh"></i></a> Re-New</label>
 				</div>				
 			</div>
@@ -213,7 +218,7 @@
 				<button class="btn btn-primary" onclick="save()">Save</button>
 			<!--	<button class="btn btn-success">Enable</button> 
 				<button class="btn btn-warning">Disable</button>
-				<button class="btn btn-danger">Delete</button>-->
+				<button class="btn btn-danger delete">Delete</button>-->
 				<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
 			</div>
 	</div>

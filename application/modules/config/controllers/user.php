@@ -263,4 +263,36 @@ Class User extends MY_Controller{
 			}
 		}
 	}
+	
+	# hapus user #
+	function hapus_user()
+	{
+		//var_dump($_POST);
+		$user_list = $this->input->post('user_list');
+		$stat = false;
+		if($user_list)
+		{
+			$data = false;
+			$del = false;
+			for($i=0;$i < count($user_list);$i++)
+			{
+				$data = array('id_user' => $user_list[$i]);
+				$del = $this->User_Model->delete($data);
+				if($del)
+				{
+					$stat = true;
+				}
+			}
+			$stat = $stat && $stat;
+
+		}
+		if($stat)
+		{
+			echo 'true';
+		}
+		else
+		{
+			echo 'false';
+		}
+	}
 } 

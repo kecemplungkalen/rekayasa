@@ -34,7 +34,7 @@ Class User_Model extends CI_model{
 	{
 		if($data)
 		{
-			$this->db->insert($data);
+			$this->db->insert('user',$data);
 			$last_id = $this->db->insert_id();
 			if($last_id)
 			{
@@ -58,4 +58,18 @@ Class User_Model extends CI_model{
 		return false;
 	} 
 	
+	function delete($data=false)
+	{
+		if($data)
+		{
+			$this->db->where($data);
+			$del = $this->db->delete('user');
+			if($del)
+			{
+				return true;
+			}
+			
+		}
+		return false;
+	}
 }

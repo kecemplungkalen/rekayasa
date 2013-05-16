@@ -17,7 +17,6 @@ Class Send extends MX_Controller{
 		//[0][text] = 'isi textnya'
 		//[0][id_user] = 
 		$data = $_POST;
-		
 		//log_message('error','error  data : '. print_r($data,true));
 		//var_dump($data);
 		if(is_array($data))
@@ -77,7 +76,6 @@ Class Send extends MX_Controller{
 						$push = $this->outbox->push_outbox($data[$i]['number'],$data[$i]['text'],$phoneID['phoneID']);
 						if($push)
 						{
-							//return true;
 							$sta = true;
 						}
 					}

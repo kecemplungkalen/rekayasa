@@ -29,9 +29,20 @@ Class Login extends MX_Controller{
 			if($cek)
 			{
 				//echo 'true';
-				$logsess = array('user_data' => $cek->username,'logged_in' => TRUE,'level' => $cek->level,'id_user' => $cek->id_user);
-				$this->session->set_userdata($logsess);
-				redirect(base_url().'dashboard','refresh');
+				if($cek->status == '1')
+				{
+					
+					$logsess = array('user_data' => $cek->username,'logged_in' => TRUE,'level' => $cek->level,'id_user' => $cek->id_user);
+					$this->session->set_userdata($logsess);
+					redirect(base_url().'dashboard','refresh');
+				}
+				else
+				{
+					$view['data'] = 'Warning Login Failed.!!!';
+					$this->load->view('header_view');
+					$this->load->view('login_view',$view);
+					$this->load->view('footer_view');						
+				}
 			}
 			else
 			{

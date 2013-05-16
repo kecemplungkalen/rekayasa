@@ -205,7 +205,7 @@
 					<div id="ip_acc">
 					<?php if($ip){?>	
 					<?php foreach($ip as $ipz){?>
-					<input type="text" class="input-medium" name="ip[]" placeholder="127.0.0.1" value="<?php echo $ipz->ip_restriction; ?>">
+						<br><input type="text" class="input-medium" name="ip[]" placeholder="127.0.0.1" value="<?php echo $ipz->ip_restriction; ?>">
 					<?php  }?>
 					<?php } ?>
 					</div>

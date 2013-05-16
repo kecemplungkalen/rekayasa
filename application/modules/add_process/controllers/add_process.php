@@ -458,7 +458,7 @@ Class Add_process extends MX_Controller{
 			'message' => $data_sms,
 			'username' => 'admin',
 			'password' => 'admin',
-			'tanggal' =>$recive_date,
+			'tanggal' => $recive_date,
 			'number' => $number
 			
 			);

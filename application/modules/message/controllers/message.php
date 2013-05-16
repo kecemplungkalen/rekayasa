@@ -78,7 +78,8 @@ Class Message extends MY_Controller{
 	
 	public function tampil_data($label=false,$jumlah=0,$mulai=0,$keyword=false)
 	{
-		$id_user = $this->session->userdata('id_user');
+		// dipakai untuk next level
+		//$id_user = $this->session->userdata('id_user');
 		$remap = false;
 		$sub=false;
 		$total = false;
@@ -104,7 +105,9 @@ Class Message extends MY_Controller{
 						foreach($data_inbox as $di)
 						{
 							$thread[] = $di->thread;
-							$where = array('is_delete ' => '1','inbox.id_user' => $id_user);
+							## dipake untuk next level 
+							//$where = array('is_delete ' => '1','inbox.id_user' => $id_user);
+							$where = array('is_delete ' => '1');
 						}
 						
 					}	
@@ -130,7 +133,9 @@ Class Message extends MY_Controller{
 								if($g->is_delete == '2')
 								{
 									$thread[] = $g->thread;
-									$where = array('is_delete' => '2','inbox.id_user' => $id_user);
+									// dipakai untuk next level
+									//$where = array('is_delete' => '2','inbox.id_user' => $id_user);
+									$where = array('is_delete' => '2');
 								}		
 							}							
 						}	
@@ -155,7 +160,9 @@ Class Message extends MY_Controller{
 							foreach($get as $g)
 							{
 								$thread[] = $g->thread;
-								$where = array('is_delete' => '0','inbox.id_user' => $id_user);
+								// dipakai untuk next level
+								//$where = array('is_delete' => '0','inbox.id_user' => $id_user);
+								$where = array('is_delete' => '0');
 							}							
 						}	
 					}

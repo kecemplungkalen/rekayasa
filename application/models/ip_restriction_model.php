@@ -35,6 +35,20 @@ Class Ip_Restriction_Model extends CI_model{
 		return false;
 	}
 	
+	function get($data=false)
+	{
+		if($data)
+		{
+			$this->db->where($data);
+			$res = $this->db->get('ip_restriction');
+			if($res->num_rows() > 0)
+			{
+				return $res->row();
+			}
+		}
+		return false;
+	}
+	
 	function delete($where=false)
 	{
 		if($where)
