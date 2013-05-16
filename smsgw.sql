@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 15, 2013 at 05:00 AM
+-- Generation Time: May 16, 2013 at 05:31 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `address_book` (
 
 INSERT INTO `address_book` (`id_address_book`, `id_user`, `first_name`, `last_name`, `number`, `id_smsc`, `email`, `create_date`, `last_update`) VALUES
 (2, 1, 'jah', 'rastafara', '+62819678421', 4, 'jah@kingofking.mail', 1366263728, 1366263728),
-(8, 1, 'mbah ', 'mangun', '+6281927198', 0, 'mbah.mbagen@gmail.com', 1366633298, 1366633298),
+(8, 1, 'mbah ', 'mangunjgj', '+6281927198', 0, 'mbah.mbagen@gmail.com', 1366633298, 1366633298),
 (9, 1, 'mbah ', 'joyo', '+62789789123', 0, 'mbah_joyo_imut@ymail.com', 1366677403, 1366677403),
 (10, 1, '+6287869122852', '', '+6287869122852', 3, '', 1367287159, 1367287159),
 (11, 1, 'bob', 'maleh', '+62819678420', 3, 'bob_maleh@ymail.com', 1367459799, 1367459799),
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `blacklist` (
   `id_blacklist` int(11) NOT NULL AUTO_INCREMENT,
   `blacklist_number` varchar(20) NOT NULL,
   PRIMARY KEY (`id_blacklist`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `blacklist`
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `blacklist` (
 
 INSERT INTO `blacklist` (`id_blacklist`, `blacklist_number`) VALUES
 (3, '+62819678430'),
-(4, '+628123456789');
+(7, '+628123456789');
 
 -- --------------------------------------------------------
 
@@ -336,7 +336,7 @@ CREATE TABLE IF NOT EXISTS `group` (
   PRIMARY KEY (`id_group`),
   KEY `id_address_book` (`id_address_book`),
   KEY `id_groupname` (`id_groupname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=90 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=91 ;
 
 --
 -- Dumping data for table `group`
@@ -346,7 +346,6 @@ INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) V
 (10, 9, 1, 1),
 (11, 9, 1, 4),
 (26, 11, 1, 4),
-(72, 8, 1, 1),
 (75, 2, 1, 1),
 (76, 10, 1, 1),
 (80, 13, 1, 1),
@@ -354,7 +353,8 @@ INSERT INTO `group` (`id_group`, `id_address_book`, `id_user`, `id_groupname`) V
 (84, 16, 1, 4),
 (85, 17, 1, 4),
 (88, 25, 1, 4),
-(89, 33, 1, 3);
+(89, 33, 1, 3),
+(90, 8, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -467,10 +467,10 @@ INSERT INTO `inbox` (`id_inbox`, `thread`, `id_user`, `id_address_book`, `number
 (126, '1869105371', 1, 8, '+6281927198', 1368408206, 'test saved draft and new thread\ndikirim saja ya brow...', 1, 1368408206, 0, 0),
 (127, '1317901112', 0, 11, '+62819678420', 1368410615, 'Test Saved Draft Brow..', 1, 1368410615, 0, 0),
 (128, '1687103744', 0, 17, '7839749387364', 1368411629, 'whooi please reply again brotha :-O', 1, 1368411629, 0, 0),
-(129, '1950347926', 1, 25, '+6287838743088', 1368446817, 'ajkshkas\naklsjalksjla', 1, 1368422732, 0, 0),
+(129, '1950347926', 1, 25, '+6287838743088', 1368446817, 'ajkshkas\naklsjalksjla', 1, 1368422732, 0, 1),
 (130, '384809859', 1, 26, '+6287838743087', 1368425553, '+6287838743087', 1, 1368425553, 0, 0),
-(131, '1950347926', 1, 25, '+6287838743088', 1368450793, '+6287838743087', 1, 1368425583, 0, 0),
-(132, '1950347926', 1, 25, '+6287838743088', 1368426340, 'REG TOP 999999999', 1, 1368426340, 0, 0),
+(131, '1950347926', 1, 25, '+6287838743088', 1368450793, '+6287838743087', 1, 1368425583, 0, 1),
+(132, '1950347926', 1, 25, '+6287838743088', 1368426340, 'REG TOP 999999999', 1, 1368426340, 0, 1),
 (133, '1950347926', 1, 25, '+6287838743088', 1368451578, 'REG TOP 999999999', 1, 1368426364, 0, 1),
 (134, '1067553368', 1, 27, '4444', 1368427140, 'DAFTAR', 1, 1368427140, 1, 0),
 (135, '1067553368', 1, 27, '4444', 1368427158, 'DAFTAR', 1, 1368427158, 1, 0),
@@ -505,6 +505,27 @@ INSERT INTO `inbox` (`id_inbox`, `thread`, `id_user`, `id_address_book`, `number
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ip_restriction`
+--
+
+CREATE TABLE IF NOT EXISTS `ip_restriction` (
+  `id_ip_restriction` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `ip_restriction` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_ip_restriction`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `ip_restriction`
+--
+
+INSERT INTO `ip_restriction` (`id_ip_restriction`, `id_user`, `ip_restriction`) VALUES
+(2, 1, '192.168.1.1'),
+(3, 1, '192.168.1.2');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `label`
 --
 
@@ -515,7 +536,7 @@ CREATE TABLE IF NOT EXISTS `label` (
   PRIMARY KEY (`id_label`),
   KEY `id_inbox` (`id_inbox`),
   KEY `id_labelname` (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=529 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=579 ;
 
 --
 -- Dumping data for table `label`
@@ -535,11 +556,6 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (184, 67, 10),
 (185, 71, 10),
 (186, 76, 10),
-(263, 81, 7),
-(267, 82, 7),
-(271, 83, 7),
-(275, 84, 7),
-(279, 85, 7),
 (306, 87, 1),
 (307, 88, 1),
 (393, 3, 8),
@@ -578,8 +594,6 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (446, 117, 1),
 (447, 118, 2),
 (448, 119, 2),
-(449, 114, 4),
-(465, 88, 9),
 (467, 121, 2),
 (468, 122, 2),
 (469, 87, 5),
@@ -593,9 +607,6 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (479, 127, 3),
 (480, 127, 7),
 (481, 128, 3),
-(482, 98, 5),
-(483, 99, 5),
-(484, 100, 5),
 (485, 129, 1),
 (486, 130, 2),
 (487, 131, 1),
@@ -615,10 +626,7 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (509, 150, 2),
 (510, 151, 1),
 (512, 153, 1),
-(513, 153, 7),
 (514, 154, 1),
-(515, 154, 7),
-(516, 154, 7),
 (518, 155, 7),
 (520, 156, 7),
 (521, 157, 1),
@@ -626,7 +634,19 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (525, 160, 2),
 (526, 161, 2),
 (527, 162, 2),
-(528, 163, 1);
+(528, 163, 1),
+(535, 98, 5),
+(536, 99, 5),
+(537, 100, 5),
+(570, 81, 7),
+(571, 82, 7),
+(572, 83, 7),
+(573, 84, 7),
+(574, 85, 7),
+(575, 95, 7),
+(576, 96, 7),
+(577, 121, 7),
+(578, 88, 7);
 
 -- --------------------------------------------------------
 
@@ -716,6 +736,41 @@ INSERT INTO `operator_number` (`id_operator_number`, `operator_number`, `id_smsc
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `role`
+--
+
+CREATE TABLE IF NOT EXISTS `role` (
+  `id_role` int(11) NOT NULL AUTO_INCREMENT,
+  `level` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_role`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` (`id_role`, `level`) VALUES
+(1, 'Administrator'),
+(2, 'Moderator'),
+(3, 'User');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_detail`
+--
+
+CREATE TABLE IF NOT EXISTS `role_detail` (
+  `id_role_detail` int(11) NOT NULL AUTO_INCREMENT,
+  `id_role` int(11) NOT NULL,
+  `page` varchar(255) NOT NULL,
+  `access` enum('read','write','none') NOT NULL,
+  PRIMARY KEY (`id_role_detail`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `smsc`
 --
 
@@ -794,6 +849,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `create_date` int(11) NOT NULL,
   `last_update` int(11) NOT NULL,
   `level` tinyint(1) NOT NULL,
+  `api` tinyint(1) NOT NULL,
+  `api_key` varchar(255) NOT NULL,
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
@@ -801,8 +858,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id_user`, `username`, `password`, `first_name`, `last_name`, `status`, `create_date`, `last_update`, `level`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'sms', 1, 1366262306, 1366262306, 1);
+INSERT INTO `user` (`id_user`, `username`, `password`, `first_name`, `last_name`, `status`, `create_date`, `last_update`, `level`, `api`, `api_key`) VALUES
+(1, 'admin', 'e00cf25ad42683b3df678c61f42c6bda', 'admin', 'sms', 1, 1366262306, 1368681305, 1, 0, 'DHyUisPQk4cfuK3S8gt7bxeNzEhJaMBA');
 
 --
 -- Constraints for dumped tables

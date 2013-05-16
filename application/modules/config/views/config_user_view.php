@@ -8,10 +8,16 @@
 				$('#adduser').modal('show');
 			});
 		});
-		
+
 	
 	});
-	
+	function edit_user(id_user)
+	{
+		$.post('<?php echo base_url()?>config/user/edit_user_modal',{id_user:id_user},function(data){
+				$('#show_modal').html(data);
+				$('#edituser').modal('show');
+		});
+	}
 
 </script>
 
@@ -19,7 +25,6 @@
 	<legend>User</legend>
 	<div class="btn-group">
 		<a class="btn dropdown-toggle" rel="tooltip" data-original-title="Add User" id="add_user">+<i class="icon-user"></i></a>
-		<a class="btn"><i class="icon-th"></i></a>
 		<a class="btn"><i class="icon-trash"></i></a>
 	</div>
 	<table class="table table-striped">
@@ -37,7 +42,7 @@
 			
 			<tr>
 				<td><input type="checkbox" value="<?php echo $data[$i]['id_user'];?>"></input></td>
-				<td><a><?php echo $data[$i]['username'];?></a></td>
+				<td><a href="#" onclick="edit_user('<?php echo $data[$i]['id_user'];?>')" class="edit_user" data-value="<?php echo $data[$i]['id_user'];?>"><?php echo $data[$i]['username'];?></a></td>
 				<td><?php echo $data[$i]['level'];?></td>
 				<td>
 					<?php if($data[$i]['api'] == '0'){?> 
