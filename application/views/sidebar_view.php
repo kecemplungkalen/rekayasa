@@ -11,9 +11,14 @@
 	function compose_sms()
 	{
 		$.get('<?php echo base_url();?>dashboard_data/compose_sms',function(data){
-			
-			$('#show_modal').html(data);
-			$('#compose').modal('show');
+			if(data != '')
+			{
+				$('#show_modal').html(data);
+				$('#compose').modal('show');
+			}else
+			{
+				$('#noacc').modal('show');
+			}
 		});
 	}
 </script>
