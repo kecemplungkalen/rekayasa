@@ -9,6 +9,8 @@ Class Config extends MY_Controller{
 		$this->load->module('config/modem');
 		$this->load->module('config/rule');
 		$this->load->module('config/user');
+		$this->load->model('Config_smtp_model');
+
 	}
 
 	public function index()
@@ -18,10 +20,11 @@ Class Config extends MY_Controller{
 		$modem['data'] = $this->modem->get_data_modem();
 		$rule['rule'] = $this->rule->get(); 
 		$user['data'] = $this->user->get();
+		$smtp['smtp'] = $this->Config_smtp_model->get();
 		$tab['config_modem'] = $this->load->view('config_modem_view',$modem,true);
 		$tab['config_rule'] = $this->load->view('config_rule_view',$rule,true);
 		$tab['config_user'] = $this->load->view('config_user_view',$user,true);
-		$tab['config_api'] = $this->load->view('config_api_view','',true);
+		$tab['config_smtp'] = $this->load->view('config_smtp_view',$smtp,true);
 		$data['navbar'] = $this->load->view('navbar_view','',true);
 		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
 		$data['top_button'] = $this->load->view('config_top_view','',true);

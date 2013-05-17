@@ -466,17 +466,31 @@ Class Add_process extends MX_Controller{
 			if($respons)
 			{
 				
-				var_dump($respons);
+				return TRUE;
 			}
 			else
 			{
 				// send email report ke $report_email
-				
-				
+				$this->load->model('Config_smtp_model');
+				$config = $this->Config_smtp_model->get();
+				if($config)
+				{
+					$parameter_email = new  StdClass();
+					$parameter_email->from = $number.'@localhost';
+					$parameter_email->from_name = 'Rumahweb SMS Gateway';
+					$parameter_email->to = $report_email;
+					$parameter_email->message = 'Failure API Data ='.$number.', Content =>'.$data_sms.', Post To URL API = '.$url_api;
+					$parameter_email->subject = 'Failure API';
+					
+					$send = send_email($config,$parameter_email);
+					if($send == '1')
+					{
+						return TRUE;
+					}
+				}
 			}
-			
-			
 		}
+		return FALSE;
 
 	}
 		

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 16, 2013 at 10:26 AM
+-- Generation Time: May 17, 2013 at 10:01 AM
 -- Server version: 5.5.25a-log
 -- PHP Version: 5.3.15
 
@@ -141,6 +141,29 @@ CREATE TABLE IF NOT EXISTS `config_rule` (
 INSERT INTO `config_rule` (`id_config_rule`, `id_config_modem`, `id_smsc_name`) VALUES
 (9, 5, 3),
 (10, 4, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `config_smtp`
+--
+
+CREATE TABLE IF NOT EXISTS `config_smtp` (
+  `id_config_smtp` int(11) NOT NULL AUTO_INCREMENT,
+  `host` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `port` int(11) NOT NULL DEFAULT '25',
+  `ssl` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_config_smtp`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `config_smtp`
+--
+
+INSERT INTO `config_smtp` (`id_config_smtp`, `host`, `username`, `password`, `port`, `ssl`) VALUES
+(1, 'rumahweb.com', 'oki@rumahweb.com', 'password567', 25, 0);
 
 -- --------------------------------------------------------
 
@@ -520,7 +543,7 @@ CREATE TABLE IF NOT EXISTS `label` (
   PRIMARY KEY (`id_label`),
   KEY `id_inbox` (`id_inbox`),
   KEY `id_labelname` (`id_labelname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=579 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=538 ;
 
 --
 -- Dumping data for table `label`
@@ -605,12 +628,7 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (501, 144, 2),
 (502, 145, 2),
 (503, 146, 2),
-(504, 147, 1),
-(505, 148, 1),
 (509, 150, 2),
-(510, 151, 1),
-(512, 153, 1),
-(514, 154, 1),
 (518, 155, 7),
 (520, 156, 7),
 (521, 157, 1),
@@ -621,16 +639,7 @@ INSERT INTO `label` (`id_label`, `id_inbox`, `id_labelname`) VALUES
 (528, 163, 1),
 (535, 98, 5),
 (536, 99, 5),
-(537, 100, 5),
-(570, 81, 7),
-(571, 82, 7),
-(572, 83, 7),
-(573, 84, 7),
-(574, 85, 7),
-(575, 95, 7),
-(576, 96, 7),
-(577, 121, 7),
-(578, 88, 7);
+(537, 100, 5);
 
 -- --------------------------------------------------------
 
@@ -836,7 +845,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `api` tinyint(1) NOT NULL,
   `api_key` varchar(255) NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `user`
@@ -845,7 +854,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`id_user`, `username`, `password`, `first_name`, `last_name`, `status`, `create_date`, `last_update`, `level`, `api`, `api_key`) VALUES
 (1, 'admin', 'e00cf25ad42683b3df678c61f42c6bda', 'admin', 'sms', 1, 1366262306, 1368691502, 1, 1, 'DHyUisPQk4cfuK3S8gt7bxeNzEhJaMBA'),
 (2, 'galang', '7c84729cf45a522f35c8b43e658b7d5f', 'galang', 'revolusi', 1, 1368691483, 1368691483, 3, 1, 'aqJYjeDFPoIOnpGg7LWctlr29TAHk0Qx'),
-(3, 'momod', 'e10adc3949ba59abbe56e057f20f883e', 'momod', 'imud', 1, 1368691691, 1368691691, 2, 1, 'IQGbHgU4oPJBp8AcjfS2wVW9Des5ZYTq');
+(3, 'momod', 'e00cf25ad42683b3df678c61f42c6bda', 'momod', 'imud', 1, 1368691691, 1368691691, 2, 1, 'IQGbHgU4oPJBp8AcjfS2wVW9Des5ZYTq');
 
 --
 -- Constraints for dumped tables
