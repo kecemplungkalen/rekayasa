@@ -67,14 +67,6 @@ Class message_model extends CI_model{
 
 			if($keyword)
 			{
-				//$key = array(
-				//'inbox.content' => $keyword,
-				//'address_book.first_name' => $keyword,
-				//'address_book.last_name' => $keyword,
-				//'address_book.number' => $keyword,
-				//'address_book.email' => $keyword
-				//);
-				// or like
 				$this->db->or_like($keyword);
 			}
 			$this->db->group_by('thread');

@@ -1,3 +1,4 @@
+<?php $role_id = $this->session->userdata('level');?>
 <script type="text/javascript">
 	
 	$(document).ready(function(){
@@ -240,12 +241,19 @@
 	function edit_address(id_address_book)
 	{
 		$.post('<?php echo base_url();?>address/edit_address/'+id_address_book,function(data){
-			
-			$('#show_modal').html(data);
-			$('#editaddress').modal('show');
+			if(data != '')
+			{
+				$('#show_modal').html(data);
+				$('#editaddress').modal('show');
+			}
+			else
+			{
+				$('#noacc').modal('show');
+			}
 		});
 	}
 </script>
+<?php if($role_id== '1' | $role_id == '2'){?>
 <div id="top_btn" class="btn-group animated hide">
 	<a class="btn" id="set_archive"><i class="icon-hdd" ></i></a>
 	<a id="menu_label" class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-tags"></i> <span class="caret"></span></a>
@@ -275,8 +283,8 @@
 	<a href="#mark_not_spams" data-toggle="modal" data-placement="bottom" rel="tooltip" data-title="Bukan Spam" class="btn btn-info" id="marks" >Bukan Spam</a>
 		<?php } ?>
 	<?php }?>
-	
-</div>
+</div>\
+<?php }?>
 <form class="form-search pull-right" id="search">
   <input type="hidden" name="label" value="<?php if($label){ echo $label; } ?>">
   <input type="text" name="keyword" id="keyword" class="input-medium search-query" autocomplete="off" placeholder="Search keyword ...	" data-provide="typeahead" data-source='["to:","from:","label:","num:"]' minLength='1'  >

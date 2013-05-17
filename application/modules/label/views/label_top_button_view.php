@@ -1,3 +1,4 @@
+<?php $role_id = $this->session->userdata('level');?>
 <script>
 	
 	$(document).ready(function(){
@@ -81,17 +82,25 @@
 	function show_edit(id_labelname)
 	{
 		$.get('<?php echo base_url(); ?>label/edit_additional_label/'+id_labelname,function(data){
-			
-			$('#show_modal').html(data);
-			$('#editlabel').modal('show');
+			if(data != '')
+			{
+				$('#show_modal').html(data);
+				$('#editlabel').modal('show');
+			}
+			else
+			{
+				$('#noacc').modal('show');
+			}
 		});
 	}
 	
 </script>
+<?php if($role_id == '1' || $role_id == '2'){?>
 <div class="btn-group">
 	<a class="btn" id="label_add">+ <i class="icon-tags"></i></a>
 	<a class="btn" id="alert"><i class="icon-trash"></i></a>
 </div>
+<?php }?>
 <form class="form-search pull-right" id="search">
   <input type="text" class="input-medium search-query" autocomplete="off" name="keyword" id="keyword" placeholder="Search label ...	">
   <button type="submit" class="btn">Search</button>

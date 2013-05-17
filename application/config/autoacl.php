@@ -11,33 +11,8 @@ $config['default_role'] = "User";
 
 // Page that need to be controlled
 $config['page_control'] = array(
-    'config/' => array(                       
+    'config/' => array(             //==== config section           
         'allowed'    => array(1, 2),                
-        'error_uri'  => base_url().'dashboard', 
-        'error_msg'  => "config_view_fail",
-    ),
-	'filter/' => array(  
-        'allowed'    => array(1, 2),            
-        'error_uri'  => base_url().'dashboard', 
-        'error_msg'  => "config_view_fail",
-    ),
-	'filter/add_filter_modal/' => array(  
-        'allowed'    => array(1),            
-        'error_uri'  => base_url().'dashboard', 
-        'error_msg'  => "config_view_fail",
-    ),
-	'filter/add_filter/' => array(  
-        'allowed'    => array(1),            
-        'error_uri'  => base_url().'dashboard', 
-        'error_msg'  => "config_view_fail",
-    ),
-	'filter/hapus_filter/' => array(  
-        'allowed'    => array(1),            
-        'error_uri'  => base_url().'dashboard', 
-        'error_msg'  => "config_view_fail",
-    ),
-	'filter/switch_status/' => array(  
-        'allowed'    => array(1),            
         'error_uri'  => base_url().'dashboard', 
         'error_msg'  => "config_view_fail",
     ),
@@ -101,6 +76,118 @@ $config['page_control'] = array(
         'error_uri'  => base_url().'dashboard',  
         'error_msg'  => "config_view_fail",
     ),
+	'filter/' => array(  //==== filter section
+        'allowed'    => array(1, 2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'filter/add_filter_modal/' => array(  
+        'allowed'    => array(1),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'filter/add_filter/' => array(  
+        'allowed'    => array(1),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'filter/hapus_filter/' => array(  
+        'allowed'    => array(1),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'filter/switch_status/' => array(  
+        'allowed'    => array(1),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'label/edit_system_label/' => array( // =========  label section  
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'label/edit_additional_label/' => array(  
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'label/edit_additional_label/' => array(  
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'label/add_additional_label/' => array(  
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'label/add_label/' => array(  
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'label/edit_label/' => array(  
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'label/hapus_label/' => array(  
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'dashboard_data/hapus_label/' => array(  
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'address/tambah_address/' => array( // address section  
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'address/update_address/' => array(   
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'address/hapus_address/' => array(   
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'address/tambah_address/' => array(   
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'address/add_address/' => array(   
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'address/set_blacklist/' => array(   
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'address/un_blacklist/' => array(   
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+
+	'dashboard_data/mark_spam/' => array(   
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+	'dashboard_data/compose_sms/' => array(   
+        'allowed'    => array(1,2),            
+        'error_uri'  => base_url().'dashboard', 
+        'error_msg'  => "config_view_fail",
+    ),
+
 );
 
 // Page that need The Very Private Page (VPP) access control

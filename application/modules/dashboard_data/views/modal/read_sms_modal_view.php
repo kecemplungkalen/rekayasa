@@ -1,7 +1,9 @@
+<?php $role_id = $this->session->userdata('level');?>
 <div id="readsms" class="modal hide fade" data-backdrop="static" >
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="reloadz()" >&times;</button>
 		<h3>SMS Message</h3>
+		<?php if($role_id == '1' || $role_id == '2'){?>
 			<div class="btn-group">
 				<a data-placement="bottom" rel="tooltip" class="show_balas btn" data-toggle="tooltip" data-title="Reply" ><i class="icon-share-alt" ></i></a> 
 				<a class="move_archive btn" data-placement="bottom" rel="tooltip" data-toggle="tooltip" data-thread="<?php echo $data[0]['thread'];?>" data-title="Move To Archive"><i class="icon-hdd" ></i></a>
@@ -44,7 +46,7 @@
 				<?php } ?>
 			</div>
 			
-			
+			<?php } ?>
 		<div class="alert alert-danger hide" id="delete_<?php echo $data[0]['thread']; ?>">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<strong>Warning!</strong><br>
@@ -301,13 +303,14 @@
 					<div id="div_inbox_<?php echo $data[$d]['id_inbox']; ?>"> 
 						<strong> <?php echo 'System';?></strong> 
 						<small> <?php echo date('d F Y - h:i a',$data[$d]['recive_date']);?></small>
+						<?php if($role_id == '1' || $role_id == '2'){?>
 						<?php if($draft){?>
 						<a  class="edit_draft btn btn-mini pull-right" data-placement="bottom" rel="tooltip" data-title="Edit This Message" data-content="<?php echo $data[$d]['content']; ?>" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?>"><i class="icon-edit"></i></a>
 						<?php } else { ?>
 						<a data-placement="left" rel="tooltip" class="pull-right hapus btn btn-mini" data-toggle="tooltip" data-title="Delete" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?>" ><i class="icon-trash"></i></a>
 						<?php }?>
 						<br><br>
-					
+						<?php }?>
 						<div class="<?php echo $class;?>" id="id_inbox_<?php echo $data[$d]['id_inbox']; ?>">
 							<?php echo $data[$d]['content']; ?>
 						</div>
@@ -332,8 +335,10 @@
 									<strong><?php echo $data[$d]['number'];?> </strong> 
 							<?php }?></a>
 						<small> <?php echo date('d F Y - h:i a',$data[$d]['recive_date']);?></small> 
+						<?php if($role_id == '1' || $role_id == '2'){?>
 						<a data-placement="bottom" rel="tooltip" class="pull-right btn hapus btn-mini" data-toggle="tooltip" data-original-title="Delete" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?>" ><i class="icon-trash"></i></a> 
 						<a data-placement="bottom" rel="tooltip" class="pull-right btn forward btn-mini" data-toggle="tooltip" data-original-title="Forward" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?> "data-content="<?php echo $data[$d]['content']; ?>" ><i class="icon-arrow-right" ></i></a> 
+						<?php }?>
 						<br><br>
 						<div class="<?php echo $class;?>" id="id_inbox_<?php echo $data[$d]['id_inbox']; ?>" >
 							<?php echo $data[$d]['content']; ?>				

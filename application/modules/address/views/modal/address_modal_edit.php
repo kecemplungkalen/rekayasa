@@ -1,3 +1,4 @@
+<?php $role_id = $this->session->userdata('level');?>
 <script>
 
 	$(document).ready(function(){
@@ -82,6 +83,8 @@
 	<div class="modal-footer">
 		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
 		<a href="#" class="btn btn-info">WHMCS Sync</a>
+		<?php if($role_id == '1' || $role_id == '2'){?>
 		<a href="#" id="edit" class="btn btn-primary">Save changes</a>
+		<?php }?>
 	</div>
 </div>

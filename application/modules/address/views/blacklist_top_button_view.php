@@ -1,3 +1,4 @@
+<?php $role_id = $this->session->userdata('level');?>
 <script>
 	
 	function add_user()
@@ -152,7 +153,7 @@
 
 	
 </script>
-
+<?php if($role_id == '1' || $role_id == '2'){?>
 <div class="btn-group">
 	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> <span class="caret"></span></a>
 	<ul class="dropdown-menu">
@@ -179,6 +180,7 @@
 	<a class="btn" id="alert" ><i class="icon-trash"></i></a>
 	<a class="btn" id="rem_blacklist" >Move To Whitelist </a>
 </div>
+<?php }?>
 <form class="form-search pull-right" id="search_address" method="post">
   <input name="keyword" id="keyword" type="text" autocomplete="off" data-provide="typeahead" data-source='["name:","num:"]' minLength='1' class="input-medium search-query" placeholder="Search address ...	">
   <button type="submit" class="btn">Search</button>

@@ -2,10 +2,14 @@
 	function edit_label(id_labelname)
 	{
 		$.get('<?php echo base_url();?>label/edit_system_label/'+id_labelname,function(data){
-			if(data)
+			if(data != '')
 			{
 				$('#show_modal').html(data);
 				$('#editsystemlabel').modal('show');
+			}
+			else
+			{
+				$('#noacc').modal('show');
 			}
 		
 		});

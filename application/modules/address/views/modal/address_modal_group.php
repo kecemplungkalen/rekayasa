@@ -1,3 +1,4 @@
+<?php $role_id = $this->session->userdata('level');?>
 <script>
 
 	$(document).ready(function(){
@@ -201,10 +202,12 @@
 		<h3>Group Management</h3>
 	</div>
 	<div class="modal-body">
+		<?php if($role_id == '1'){?>
 		<div class="btn-group">
 			<a class="btn" data-toggle="dropdown" onclick="showadd();"><i class="icon-plus"></i></a>
 			<a class="btn" id="hapus" ><i class="icon-trash"></i></a>
 		</div>
+		<?php } ?>
 		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
