@@ -283,7 +283,7 @@
 	<a href="#mark_not_spams" data-toggle="modal" data-placement="bottom" rel="tooltip" data-title="Bukan Spam" class="btn btn-info" id="marks" >Bukan Spam</a>
 		<?php } ?>
 	<?php }?>
-</div>\
+</div>
 <?php }?>
 <form class="form-search pull-right" id="search">
   <input type="hidden" name="label" value="<?php if($label){ echo $label; } ?>">
