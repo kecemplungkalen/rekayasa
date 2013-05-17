@@ -1,4 +1,4 @@
-
+<?php $role_id = $this->session->userdata('level');?>
 <div class="navbar navbar-inverse">
 	<div class="navbar-inner">
 		<div class="container">
@@ -14,12 +14,16 @@
 					<li>
 						<a href="<?php echo base_url() ?>label">Label</a> 
 					</li>
+				<?php if($role_id == '1' || $role_id == '2'){?>	
 					<li>
 						<a href="<?php echo base_url() ?>filter">Filter</a> 
 					</li>
+				<?php }?>
+				<?php if($role_id == '1' || $role_id == '2'){?>	
 					<li>
 						<a href="<?php echo base_url() ?>config">Configuration</a> 
 					</li>
+				<?php }?>
 				</ul>
 			</div>
 	<div class="btn-group btn-inverse pull-right">

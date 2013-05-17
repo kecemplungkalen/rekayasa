@@ -1,3 +1,4 @@
+<?php $role_id = $this->session->userdata('level');?>
 <script type="text/javascript">
 	
 	$(document).ready(function(){
@@ -48,8 +49,14 @@
 	function edit_user(id_user)
 	{
 		$.post('<?php echo base_url()?>config/user/edit_user_modal',{id_user:id_user},function(data){
-				$('#show_modal').html(data);
-				$('#edituser').modal('show');
+				if(data != '')
+				{
+					$('#show_modal').html(data);
+					$('#edituser').modal('show');
+				}else
+				{
+					$('#noacc').modal('show');
+				}
 		});
 	}
 	
@@ -77,11 +84,12 @@
 
 <div id="user" class="tab-pane">
 	<legend>User</legend>
+	<?php if($role_id == '1'){?>
 	<div class="btn-group">
 		<a class="btn dropdown-toggle" rel="tooltip" data-original-title="Add User" id="add_user">+<i class="icon-user"></i></a>
 		<a class="btn" id="alert_hapus_user" ><i class="icon-trash"></i></a>
 	</div>
-	
+	<?php }?>
 	<table class="table table-striped">
 		<thead>
 			<tr>

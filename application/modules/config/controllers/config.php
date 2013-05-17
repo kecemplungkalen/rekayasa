@@ -28,17 +28,9 @@ Class Config extends MY_Controller{
 		$data['content'] = $this->load->view('config_content_tab_view',$tab,true);
 
 		$this->load->view('header_view');
-		//$this->load->view('config_content_end_tab_view');
 		$this->load->view('body_view',$data);
 		$this->load->view('footer_view');
 	}
-	
-
-	public function edit_config_modem_modal()
-	{
-		$this->load->view('modal/edit_config_modem_modal_view');
-	}
-	
 
 
 	

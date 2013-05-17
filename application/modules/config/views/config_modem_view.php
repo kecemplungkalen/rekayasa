@@ -1,3 +1,4 @@
+<?php $role_id = $this->session->userdata('level');?>
 <script type="text/javascript">
 	function checkall_modem()
 	{		
@@ -50,11 +51,13 @@
 	<legend>
 		Modem List
 	</legend>
+	<?php if($role_id == '1'){?>
 	<div class="btn-group">
 		<a class="btn dropdown-toggle" id="add_config_modem">+ <i class="icon-hdd"></i></a>
 		<a class="btn" id="hapus_modem"><i class="icon-trash"></i></a>
 	</div>
 	<hr>
+	<?php }?>
 	<div id="warn" class="alert alert-error hide">
 	  <strong>Warning!</strong> 
 	</div>

@@ -1,3 +1,4 @@
+<?php $role_id = $this->session->userdata('level');?>
 <script type="text/javascript">
 	
 	$(document).ready(function(){
@@ -99,10 +100,12 @@
 	}
 
 </script>
+<?php if($role_id == '1'){?>
 <div class="btn-group">
 	<a class="btn dropdown-toggle" onclick="add_filter()" >+ <i class="icon-th"></i></a>
 	<a class="btn" id="alert"><i class="icon-trash"></i></a>
 </div>
+<?php } ?>
 <form class="form-search pull-right" id="search">
   <input type="text" name="keyword" autocomplete="off" id="keyword" class="input-medium search-query" placeholder="Search filter ...	">
   <button type="submit" class="btn">Search</button>

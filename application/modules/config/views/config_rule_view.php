@@ -1,3 +1,4 @@
+<?php $role_id = $this->session->userdata('level');?>
 <script type="text/javascript">
 	function checkall()
 	{		
@@ -47,11 +48,14 @@
 
 <div id="rule" class="tab-pane">
 	<legend>Sending Rule</legend>
+	<?php if($role_id == '1'){?>
 	<div class="btn-group">
 		<a class="btn dropdown-toggle" id="add_config_rule">+ <i class="icon-th-list"></i></a>
 		<a class="btn" id="hapus_rule"><i class="icon-trash"></i></a>
 	</div>
 	<hr>
+	<?php }?>
+
 	<div class="span6">
 		<table class="table table-striped table-hover">
 			<thead>

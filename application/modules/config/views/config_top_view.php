@@ -1,3 +1,4 @@
+<?php $role_id = $this->session->userdata('level');?>
 <ul class="breadcrumb">
 	<li>
 		<a href="#">Dashboard</a>
@@ -59,9 +60,15 @@
 	function edit_config_modem(id_config_modem)
 	{
 		$.get('<?php echo base_url();?>config/modem/edit_config_modem_modal',{id_config_modem:id_config_modem},function(data){
-			$('#show_modal').html(data);
-			$('#editmodem').modal('show');
-			
+			if(data != '')
+			{
+				$('#show_modal').html(data);
+				$('#editmodem').modal('show');
+			}
+			else
+			{
+				$('#noacc').modal('show');
+			}
 		});
 	
 	}

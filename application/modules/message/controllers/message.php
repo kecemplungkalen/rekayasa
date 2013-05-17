@@ -285,9 +285,9 @@ Class Message extends MY_Controller{
 						}					
 
 					}
-					$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,false);
-					$jum_peruser = array('inbox.id_user' => $id_user);
-					$allres  = $this->message_model->get_by_thread($thread,0,0,$jum_peruser,false);
+					$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where=false,false);
+					//$jum_peruser = array('inbox.id_user' => $id_user);
+					$allres  = $this->message_model->get_by_thread($thread,0,0,false);
 				}
 				else
 				{
