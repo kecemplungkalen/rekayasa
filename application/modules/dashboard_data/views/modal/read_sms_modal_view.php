@@ -93,23 +93,17 @@
 			<?php } ?>
 			$.post('<?php echo base_url();?>dashboard/insert',$('#reply').serialize(),function(data){
 				console.log(data);
-/*
 				if(data == 'true')
 				{
 					
 					location.reload();
-					// di set untuk interaktif modal 
-					//$.get('<?php echo base_url();?>dashboard_data/modal_body',{thread:thread,label:lbl},function(data){
-					//	$('#modal_body').html(data);
-			
-					//});
+
 				}
 				else
 				{
 					$('#modal_body').append('<div class="alert alert-error"><strong> Warning..!</strong>  Modem Error..! </div>');
 					$('#save').show();
 				}
-*/
 			});		
 		});
 		

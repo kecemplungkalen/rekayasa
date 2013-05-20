@@ -19,7 +19,7 @@ Class Add_process extends MX_Controller{
 		 * ['number']
 		 * ['content']
 		 */
-		
+		$this->load->module('send');
 		$temp = false;
 		$data = $_POST;
 		if(is_array($data))
@@ -37,8 +37,9 @@ Class Add_process extends MX_Controller{
 					if($cekIP)
 					{
 						$temp[] = array('number' => $data['number'],'text' => $data['content'],'id_user' => $get_user->id_user);  
-						$postsend = $this->curl->simple_post(base_url().'send',$temp);
-						if($postsend == 'true')
+						//$postsend = $this->curl->simple_post(base_url().'send',$temp);
+						$postsend = $this->send->local_send($temp);
+						if($postsend)
 						{
 							return true;
 						}

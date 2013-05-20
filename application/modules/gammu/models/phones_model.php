@@ -9,8 +9,8 @@ class Phones_Model extends CI_Model{
 	{
 		$this->gammu = $this->load->database('gammu',true); 
 
-		$date = date("Y-m-d H:i:s");
-		$this->gammu->where('TimeOut >',$date);
+		//$date = date("Y-m-d H:i:s");
+		$this->gammu->where('TimeOut >','NOW()');
 		$phone = $this->gammu->get('phones');
 		if($phone->num_rows() > 0)
 		{

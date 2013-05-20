@@ -9,7 +9,7 @@ Class Dashboard extends MY_Controller{
 		$this->load->model('inbox_model');
 		$this->load->model('label_model');
 		$this->load->model('Address_Book_Model');
-		$this->load->library('curl');
+		//$this->load->library('curl');
 
 	}
 	
@@ -20,6 +20,7 @@ Class Dashboard extends MY_Controller{
 	
 	public function insert()
 	{
+		$this->load->module('send');
 		#+6287838743087
 		$data = $_POST;
 		//var_dump($data);
@@ -53,7 +54,8 @@ Class Dashboard extends MY_Controller{
 				}
 				
 				//var_dump($val);
-				$ret = $this->curl->simple_post(base_url().'send/',$tmp);
+				//$ret = $this->curl->simple_post(base_url().'send/',$tmp);
+				$ret = $this->send->local_send($val);
 				if($ret)
 				{
 					if(isset($data['id_draft']))
@@ -68,7 +70,9 @@ Class Dashboard extends MY_Controller{
 				$temp['text'] = $data['text'];
 				$temp['id_user'] = $data['id_user'];
 				$tmp[]= $temp;
-				$ret = $this->curl->simple_post(base_url().'send/',$tmp);
+				//var_dump($tmp);
+				//$ret = $this->curl->simple_post('send/',$tmp);
+				$ret = $this->send->local_send($tmp);
 				if($ret)
 				{
 					if(isset($data['id_draft']))

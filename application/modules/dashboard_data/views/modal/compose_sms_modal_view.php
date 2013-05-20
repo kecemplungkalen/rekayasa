@@ -54,8 +54,9 @@
 		
 		function send()
 		{
-			alert($('.combobox').val());
+			//alert($('.combobox').val());
 			$.post('<?php echo base_url();?>dashboard/insert',$('#form_send').serialize(),function(data){
+				console.log(data);
 				if(data=='true')
 				{
 					location.reload();

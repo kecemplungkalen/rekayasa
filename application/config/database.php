@@ -49,8 +49,8 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
+$db['default']['username'] = 'gammu';
+$db['default']['password'] = 'gammumysql';
 $db['default']['database'] = 'smsgw';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
@@ -69,8 +69,8 @@ $db['default']['stricton'] = FALSE;
 
 
 $db['gammu']['hostname'] = 'localhost';
-$db['gammu']['username'] = 'root';
-$db['gammu']['password'] = '';
+$db['gammu']['username'] = 'gammu';
+$db['gammu']['password'] = 'gammumysql';
 $db['gammu']['database'] = 'smsgw_gammu';
 $db['gammu']['dbdriver'] = 'mysql';
 $db['gammu']['dbprefix'] = '';

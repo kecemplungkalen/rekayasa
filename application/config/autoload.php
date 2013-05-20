@@ -53,6 +53,7 @@ $autoload['packages'] = array();
 */
 
 $autoload['libraries'] = array('database','session','autoacl');
+//$autoload['libraries'] = array('database','session');
 
 
 /*

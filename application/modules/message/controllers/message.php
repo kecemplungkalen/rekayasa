@@ -317,8 +317,8 @@ Class Message extends MY_Controller{
 					'address_book.email' => $word
 					);	
 					$ambil_isi = $this->message_model->get_by_thread($thread,$jumlah,$mulai,$where,$key);
-					$jum_peruser = array('inbox.id_user' => $id_user);
-					$allres  = $this->message_model->get_by_thread($thread,0,0,$jum_peruser,$key);
+					//$jum_peruser = array('inbox.id_user' => $id_user);
+					$allres  = $this->message_model->get_by_thread($thread,0,0,$where,$key);
 				}
 
 			}
