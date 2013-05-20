@@ -86,6 +86,7 @@ Class Filter extends MY_Controller{
 		 * filter data detail
 		 * 
 		 */
+		$data = false;
 		$this->load->model('Filter_Delimiter_Model');
 		$filter = $this->Filter_Model->get($id_filter);
 		if($filter)
@@ -101,6 +102,17 @@ Class Filter extends MY_Controller{
 		$data['label'] = $this->Labelname_Model->gets();
 		$data['filter_regex'] = $this->Filter_Regex_Model->gets();
 		$data['filter_action_type'] = $this->Filter_Action_Type_Model->gets();
+		/*
+		 * 
+		 * filter action 
+		 * 
+		 * 
+		 */
+		$filte_action = $this->Filter_Action_Model->gets_by_col('id_filter',$id_filter);
+		if($filte_action)
+		{
+			$data['has_filter_action'] = $filte_action;
+		}
 		
 		$this->load->view('modal/filter_modal_edit',$data);
 	}
@@ -276,6 +288,11 @@ Class Filter extends MY_Controller{
 				echo 'true';
 			}
 		}
+		
+	}
+	
+	function update_filter()
+	{
 		
 	} 
 
