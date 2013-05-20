@@ -35,7 +35,8 @@
 			<th><input type="checkbox" onclick="checkall()" id="checkall_filter"></th>
 			<th>Filter Name</th>
 			<th>Status</th>
-			<th></th>
+			<th>Action</th>
+			<th>Manage</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -59,7 +60,12 @@
 					</div>				
 				<?php } ?>
 			</td>
+			<td>
+			<a href="#" class="btn btn-small btn-info" onclick="edit_filter('<?php echo $d->id_filter;?>')">Edit</a>
+			<a href="#" class="btn btn-small btn-danger">Delete</a>
+			</td>
 		</tr>
+
 		<?php }?>
 		<?php }?>
 	</tbody>

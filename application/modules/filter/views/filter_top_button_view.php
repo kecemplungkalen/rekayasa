@@ -48,9 +48,15 @@
 	function add_filter()
 	{
 		$.get('<?php echo base_url();?>filter/add_filter_modal',function(data){
-			
-			$('#show_modal').html(data);
-			$('#addfilter').modal('show');
+			if(data != '')
+			{
+				$('#show_modal').html(data);
+				$('#addfilter').modal('show');
+			}
+			else
+			{
+				$('#noacc').modal('show');
+			}
 		});
 	}
 	
@@ -78,6 +84,23 @@
 		});
 	}
 	
+	function edit_filter(id_filter)
+	{
+		$.get('<?php echo base_url()?>filter/edit_filter_modal/',{id_filter:id_filter},function(data){
+			if(data != '')
+			{
+				$('#show_modal').html(data);
+				$('#editfilter').modal('show');
+			}
+			else
+			{
+				$('#noacc').modal('show');
+			}
+			
+		});
+		
+	}
+	
 	function checkall()
 	{
 		var action = 'cek';
@@ -98,7 +121,7 @@
 			}
 		});
 	}
-
+	
 </script>
 <?php if($role_id == '1'){?>
 <div class="btn-group">

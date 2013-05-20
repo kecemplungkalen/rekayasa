@@ -80,7 +80,29 @@ Class Filter extends MY_Controller{
 	
 	public function edit_filter_modal()
 	{
+		$id_filter = $this->input->get('id_filter');
+		/*
+		 * 
+		 * filter data detail
+		 * 
+		 */
+		$this->load->model('Filter_Delimiter_Model');
+		$filter = $this->Filter_Model->get($id_filter);
+		if($filter)
+		{
+			$data['has_filter'] = $filter;
+			$data['has_delimiter'] = $this->Filter_Delimiter_Model->get($filter->id_delimiter);
+		}
+		$data['has_filter_detail'] = $this->Filter_Detail_Model->gets_by_col('id_filter',$id_filter);
+		/*
+		 * filter data default
+		 */
+		$data['delimiter'] = $this->Filter_Delimiter_Model->gets();
+		$data['label'] = $this->Labelname_Model->gets();
+		$data['filter_regex'] = $this->Filter_Regex_Model->gets();
+		$data['filter_action_type'] = $this->Filter_Action_Type_Model->gets();
 		
+		$this->load->view('modal/filter_modal_edit',$data);
 	}
 	
 	public function add_filter()
