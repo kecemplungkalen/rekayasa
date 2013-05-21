@@ -20,8 +20,11 @@
 						var valid = $('#form_rule').valid();
 						if(valid == true)
 						{	
-							$.post('<?php echo base_url()?>filter/add_filter',$('#form_rule').serialize(),function(data){
-								location.reload();
+							$.post('<?php echo base_url()?>filter/update_filter',$('#form_rule').serialize(),function(data){
+								if(data == 'true')
+								{
+									location.reload();
+								}
 							});
 						}
 						else
@@ -38,7 +41,7 @@
 							required: true,
 							remote:{
 								type:'post',	
-								url:'<?php echo base_url();?>filter/cek_nama_filter'
+								url:'<?php echo base_url();?>filter/cek/<?php if(isset($id_filter)){echo $id_filter;}?>'
 							}
 						  }
 						},
@@ -241,12 +244,12 @@
 
 
 			</script>
-	<?php var_dump($has_filter_action);?>
 	<div class="modal-body">
 		<form id="form_rule">
 			<div class="control-group">
 				<label class="control-label">Filter Name</label>
 				<div class="controls">
+					<input type="hidden" name="id_filter" value="<?php if(isset($id_filter)){echo $id_filter;}?>" > 
 					<?php if(isset($has_filter)){?>
 					<input name="nama_filter" type="text" class="input-large" placeholder="Filter Name" value="<?php echo $has_filter->filter_name; ?>">
 					<?php } ?>
@@ -256,6 +259,7 @@
 			<div class="control-group">
 				<label class="control-label">Delimiter</label>
 				<div class="controls">
+					
 					<select name="delimiter" class="delimiter input-medium" id="delimiter">
 						<?php if(isset($delimiter)){?>
 						<?php $selected = false; ?>
@@ -276,7 +280,7 @@
 			
 					<legend>Rule</legend>
 					<div class="filter_rule" id="filter_rule">
-				<?php if(isset($has_filter_detail)){ ?>
+				<?php if($has_filter_detail){ ?>
 					<?php $paramz=0;?>
 					<?php foreach($has_filter_detail as $hfd){?>
 					<div class="parameter" id="parameter_<?php echo $paramz; ?>">
@@ -305,7 +309,7 @@
 								<option value="type" <?php if($hfd->type_regex == 'type'){ echo 'selected';}?> >Type</option>
 							</select>
 
-							<select name="filter_regex[]" class="cumatype input-medium <?php if($hfd->type_regex == 'type'){ echo 'hide'; }?>" id="cumatype_<?php echo $hfd->id_filter_detail; ?>" >
+							<select name="filter_regex[]" class="cumatype input-medium <?php if($hfd->type_regex != 'type'){ echo 'hide'; }?>" id="cumatype_<?php echo $hfd->id_filter_detail; ?>" >
 								<?php if(isset($filter_regex)){?>
 								<?php foreach($filter_regex as $fr){?>
 									<?php if($fr->id_filter_regex == $hfd->id_filter_regex){ ?>
@@ -317,9 +321,8 @@
 								<?php }?>
 							</select>							
 							
-							<?php if($hfd->regex_data != ''){?>
-							<input name="regex_data[]" id="value_<?php echo $hfd->id_filter_detail; ?>" type="text" class="value input-large" value="<?php echo $hfd->regex_data;?>">
-							<?php } ?>
+							<input name="regex_data[]" id="value_<?php echo $hfd->id_filter_detail; ?>" type="text" class="<?php if($hfd->regex_data == ''){ echo 'hide'; }?> value input-large" value="<?php echo $hfd->regex_data;?>">
+							
 							Additional rule:
 							<select name="add_rule[]" class="join input-medium " id="join_<?php echo $hfd->id_filter_detail; ?>">
 								<option value="none" <?php if($hfd->add_rule == 'none'){ echo 'selected' ;}?>>NONE</option>

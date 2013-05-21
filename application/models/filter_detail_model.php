@@ -6,7 +6,7 @@ if (!defined('BASEPATH'))
 Class Filter_Detail_Model extends CI_model{
 	
 	
-	public function add($data=false)
+	function add($data=false)
 	{
 		if(is_array($data))
 		{
@@ -20,7 +20,7 @@ Class Filter_Detail_Model extends CI_model{
 		return false;
 	}
 	
-	public function gets_by_col($kolom=false,$data=false)
+	function gets_by_col($kolom=false,$data=false)
 	{
 		if($kolom && $data)
 		{
@@ -33,6 +33,20 @@ Class Filter_Detail_Model extends CI_model{
 			}
 		}
 		return false;
+	}
+	
+	function delete($data=FALSE)
+	{
+		if($data)
+		{
+			$this->db->where($data);
+			$delete = $this->db->delete('filter_detail');
+			if($delete)
+			{
+				return TRUE;
+			}
+		}
+		return FALSE;
 	}
 	
 }

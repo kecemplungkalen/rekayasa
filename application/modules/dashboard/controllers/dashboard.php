@@ -18,7 +18,7 @@ Class Dashboard extends MY_Controller{
 		$this->message->index('inbox');		
 	}	
 	
-	public function insert()
+	function insert()
 	{
 		$this->load->module('send');
 		#+6287838743087

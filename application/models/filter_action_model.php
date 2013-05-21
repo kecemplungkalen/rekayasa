@@ -6,7 +6,7 @@ if (!defined('BASEPATH'))
 Class Filter_Action_Model extends CI_model{
 	
 	
-	public function add($data=false)
+	function add($data=false)
 	{
 		if(is_array($data))
 		{
@@ -21,7 +21,7 @@ Class Filter_Action_Model extends CI_model{
 		return false;
 	}
 	
-	public function gets_by_col($kolom=false,$value=false)
+	function gets_by_col($kolom=false,$value=false)
 	{
 		if($kolom && $value)
 		{
@@ -37,7 +37,7 @@ Class Filter_Action_Model extends CI_model{
 		
 	}
 	
-	public function get_advance($id_labelname=false)
+	function get_advance($id_labelname=false)
 	{
 		if($id_labelname)
 		{
@@ -52,5 +52,18 @@ Class Filter_Action_Model extends CI_model{
 		return false;
 	}
 	
+	function delete($data=FALSE)
+	{
+		if($data)
+		{
+			$this->db->where($data);
+			$del = $this->db->delete('filter_action');
+			if($del)
+			{
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
 	
 }

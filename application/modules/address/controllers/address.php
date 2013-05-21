@@ -172,7 +172,7 @@ Class Address extends MY_Controller{
 
 	}
 	
-	public function ambil_list($jumlah=0,$mulai=0,$keyword=false)
+	function ambil_list($jumlah=0,$mulai=0,$keyword=false)
 	{
 		if($jumlah)
 		{
@@ -317,7 +317,7 @@ Class Address extends MY_Controller{
 		return false;
 	}
 	
-	public function get_address_book_detail_php($id_address_book=false)
+	function get_address_book_detail_php($id_address_book=false)
 	{
 		$detail = $this->Address_Book_Model->get($id_address_book);
 		if($detail)
@@ -348,7 +348,7 @@ Class Address extends MY_Controller{
 
 	}
 
-	public function tambah_address()
+	function tambah_address()
 	{
 		$id_user = $this->session->userdata('id_user');
 		$number = $this->input->post('number');
@@ -396,7 +396,7 @@ Class Address extends MY_Controller{
 		
 	}
 	
-	public function update_address()
+	function update_address()
 	{
 		
 		$id_user = 1;
@@ -431,7 +431,7 @@ Class Address extends MY_Controller{
 		//var_dump($_POST);
 	}
 	
-	public function address_search($keyword=false,$perpage=false,$start=false)
+	function address_search($keyword=false,$perpage=false,$start=false)
 	{
 		$search = $this->Address_Book_Model->search($keyword,$perpage,$start);
 		if($search)
@@ -494,7 +494,7 @@ Class Address extends MY_Controller{
 		return false;
 	}
 	
-	public function hapus_address()
+	function hapus_address()
 	{
 		$id_address_book = $this->input->post('id');
 		if($id_address_book)
@@ -506,19 +506,19 @@ Class Address extends MY_Controller{
 		}
 	}
 	
-	public function add_address()
+	function add_address()
 	{
 		$data['group'] = $this->Groupname_Model->gets();
 		$this->load->view('modal/address_modal_add',$data);
 	}
 
-	public function group_manage()
+	function group_manage()
 	{
 		$data['group'] = $this->Group_Model->get_count();
 		$this->load->view('modal/address_modal_group',$data);
 
 	}
-	public function edit_address($id_address_book=false)
+	function edit_address($id_address_book=false)
 	{
 		if($id_address_book)
 		{

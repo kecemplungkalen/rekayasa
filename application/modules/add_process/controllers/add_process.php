@@ -85,7 +85,7 @@ Class Add_process extends MX_Controller{
 				}					
 
 				$addarr = array(
-				'first_name' => $first_name,
+				'first_name' => $number,
 				'number' => $number,
 				'create_date' => time(),
 				'last_update' => time(),

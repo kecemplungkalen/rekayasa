@@ -14,7 +14,7 @@ Class Group extends MX_Controller{
 	}
 	
 	
-	public function get_group()
+	function get_group()
 	{
 		$html = false;
 		$group = $this->Groupname_Model->gets();
@@ -36,7 +36,7 @@ Class Group extends MX_Controller{
 		
 	}
 	
-	public function apply_group()
+	function apply_group()
 	{
 		$id_address_book = $this->input->post('address');
 		$group = $this->input->post('group');
@@ -60,7 +60,7 @@ Class Group extends MX_Controller{
 		return false;
 	}
 	
-	public function get_value_group()
+	function get_value_group()
 	{
 		$address_book = $this->input->get('address');
 		if($address_book)
@@ -84,13 +84,13 @@ Class Group extends MX_Controller{
 		return false;
 	}
 	
-	public function hapus_group()
+	function hapus_group()
 	{
 		$id = $this->input->post('id');
 		var_dump($id);
 	}
 
-	public function ceknumber()
+	function ceknumber()
 	{
 		$number = $this->input->post('number');
 		$cek = $this->Address_Book_Model->get_where('number',$number);
@@ -103,7 +103,7 @@ Class Group extends MX_Controller{
 	}
 	
 	
-	public function show_group()
+	function show_group()
 	{
 		$id_groupname = $this->input->post('id_groupname');
 		if($id_groupname)
@@ -122,7 +122,7 @@ Class Group extends MX_Controller{
 		return false;
 	}
 	
-	public function cekgroup()
+	function cekgroup()
 	{
 		$nama_group = $this->input->post('group_name');
 		if($nama_group)
@@ -139,7 +139,7 @@ Class Group extends MX_Controller{
 		}
 	}
 	
-	public function add_group_name()
+	function add_group_name()
 	{
 		$html = false;
 		$group_name = $this->input->post('group_name');
@@ -158,7 +158,7 @@ Class Group extends MX_Controller{
 		}
 	}
 	
-	public function edit_cekgroup()
+	function edit_cekgroup()
 	{
 		$nama_group = $this->input->post('input_nama_group');
 		$id_groupname = $this->input->post('id_groupname');
@@ -170,7 +170,7 @@ Class Group extends MX_Controller{
 		echo 'true';
 	}
 	
-	public function update_group()
+	function update_group()
 	{
 		$id_groupname = $this->input->post('input_id_groupname');
 		$nama_group = $this->input->post('input_nama_group');

@@ -62,7 +62,7 @@
 			</td>
 			<td>
 			<a href="#" class="btn btn-small btn-info" onclick="edit_filter('<?php echo $d->id_filter;?>')">Edit</a>
-			<a href="#" class="btn btn-small btn-danger">Delete</a>
+			<a href="#" class="btn btn-small btn-danger del_button_filter" data-id_filter="<?php echo $d->id_filter;?>">Delete</a>
 			</td>
 		</tr>
 

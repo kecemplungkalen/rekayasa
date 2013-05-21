@@ -6,7 +6,7 @@ if (!defined('BASEPATH'))
 Class Filter_Model extends CI_model{
 	
 	
-	public function add($nama_filter=false,$id_delimiter=false)
+	function add($nama_filter=false,$id_delimiter=false)
 	{
 		if($nama_filter && $id_delimiter)
 		{
@@ -21,7 +21,7 @@ Class Filter_Model extends CI_model{
 		return false;
 	}
 	
-	public function gets_by($perpage=false,$start=false,$keyword=false)
+	function gets_by($perpage=false,$start=false,$keyword=false)
 	{
 
 		if($keyword)
@@ -47,7 +47,7 @@ Class Filter_Model extends CI_model{
 		
 	}
 	
-	public function gets($status=false)
+	function gets($status=false)
 	{
 		if($status)
 		{
@@ -60,7 +60,7 @@ Class Filter_Model extends CI_model{
 		}
 	}
 	
-	public function update($id_filter=false,$data=false)
+	function update($id_filter=false,$data=false)
 	{
 		if($id_filter && $data)
 		{
@@ -117,6 +117,20 @@ Class Filter_Model extends CI_model{
 			}
 		}
 		return false;
+	}
+	
+	function get_where($where=FALSE)
+	{
+		if($where)
+		{
+			$this->db->where($where);
+			$filter = $this->db->get('filter');
+			if($filter->num_rows() > 0)
+			{
+				return $filter->row();
+			}
+		}
+		return FALSE;
 	}
 
 }

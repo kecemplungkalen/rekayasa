@@ -41,7 +41,12 @@
 			}
 				
 		});
-
+		
+		$('.del_button_filter').click(function(){
+			var chek_value = $(this).data('id_filter');
+			$("#filter"+chek_value).prop('checked', true);
+			$('#konfirm').modal('show');
+		});
 		
 	});
 	
@@ -117,7 +122,7 @@
 			if(action == 'cek'){
 				$("#"+this.id).prop('checked', true);
 			}else{
-				$("#"+this.id).removeAttr("checked");
+				$("#"+this.id).prop('checked', false);
 			}
 		});
 	}

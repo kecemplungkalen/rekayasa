@@ -46,7 +46,6 @@
 			if(action == 'cek'){
 				$("#"+this.id).prop('checked', true);
 			}else{
-				//$("#"+this.id).removeAttr("checked");
 				$("#"+this.id).prop("checked",false);
 			}
 		});
@@ -143,7 +142,7 @@
 			$.post('<?php echo base_url();?>address/set_blacklist',{id_address_book:idpbk},function(data){
 				if(data == 'true')
 				{
-					loction.reload();
+					location.reload();
 				}
 			});
 		});

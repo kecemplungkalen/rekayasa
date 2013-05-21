@@ -68,17 +68,18 @@ Class Filter extends MY_Controller{
 
 	}
 	
-	public function add_filter_modal()
+	
+	function add_filter_modal()
 	{
 		$this->load->model('Filter_Delimiter_Model');
 		$data['delimiter'] = $this->Filter_Delimiter_Model->gets();
 		$data['label'] = $this->Labelname_Model->gets();
 		$data['filter_regex'] = $this->Filter_Regex_Model->gets();
 		$data['filter_action_type'] = $this->Filter_Action_Type_Model->gets();
-		$this->load->view('modal/filter_modal_coba',$data);
+		$this->load->view('modal/filter_modal_add',$data);
 	}	
 	
-	public function edit_filter_modal()
+	function edit_filter_modal()
 	{
 		$id_filter = $this->input->get('id_filter');
 		/*
@@ -113,11 +114,11 @@ Class Filter extends MY_Controller{
 		{
 			$data['has_filter_action'] = $filte_action;
 		}
-		
+		$data['id_filter'] = $id_filter;
 		$this->load->view('modal/filter_modal_edit',$data);
 	}
 	
-	public function add_filter()
+	function add_filter()
 	{
 		$nama_filter = $this->input->post('nama_filter');
 		$id_delimiter = $this->input->post('delimiter');
@@ -213,7 +214,7 @@ Class Filter extends MY_Controller{
 		//var_dump($balik);
 	}
 	
-	public function switch_status()
+	function switch_status()
 	{
 		$status = $this->input->post('status');
 		$id_filter = $this->input->post('id_filter');
@@ -245,11 +246,11 @@ Class Filter extends MY_Controller{
 		}
 	}
 	
-	public function hapus_filter()
+	function hapus_filter()
 	{
 		$id_filter = $this->input->post('id');
 		$true = false;
-		if($id_filter)
+		if(is_array($id_filter))
 		{
 			for($i=0;$i< count($id_filter);$i++)
 			{
@@ -263,6 +264,14 @@ Class Filter extends MY_Controller{
 
 
 		}
+		else
+		{
+			$delete = $this->Filter_Model->delete($id_filter[$i]);	
+			if($delete) 
+			{
+				$true = true;
+			}	
+		}
 		$true = $true && $true;
 		if($true)
 		{
@@ -275,7 +284,7 @@ Class Filter extends MY_Controller{
 		}
 	}
 	
-	public function cek_nama_filter()
+	function cek_nama_filter()
 	{
 		$nama_filter = $this->input->post('nama_filter');
 		if($nama_filter)
@@ -291,9 +300,167 @@ Class Filter extends MY_Controller{
 		
 	}
 	
+	function cek($id_filter=false)
+	{
+		$nama_filter = $this->input->post('nama_filter');
+		if($nama_filter)
+		{
+			$where = array('id_filter !=' => $id_filter,'filter_name' => $nama_filter);
+			$cek = $this->Filter_Model->get_where($where);
+			if($cek)
+			{
+				echo 'false';
+			}
+			else
+			{
+				echo 'true';
+			}
+		}
+	}
+	
 	function update_filter()
 	{
+		//var_dump($_POST);
 		
+		/*
+		 * POST data  
+		 */
+		// section rule // 
+		$type_filter = $this->input->post('type_filter');
+		$word = $this->input->post('word');
+		$type_regex = $this->input->post('type_regex');
+		$filter_regex = $this->input->post('filter_regex');
+		$regex_data = $this->input->post('regex_data');
+		$add_rule = $this->input->post('add_rule');		
+		$id_filter = $this->input->post('id_filter');
+		$filter_name = $this->input->post('nama_filter');
+		$delimiter = $this->input->post('delimiter');
+		
+		// section action //
+		$filter_action_type = $this->input->post('filter_action_type');
+		$label = $this->input->post('label');
+		$api_post = $this->input->post('api_post');
+		$api_error_email = $this->input->post('api_error_email');
+		$delfil = array('id_filter' => $id_filter);
+		
+		/*
+		 * 
+		 *  update filter 
+		 * 
+		 */
+		$balik = false;
+		$filter_data = array('filter_name' => $filter_name,'id_delimiter' => $delimiter);
+		$update = $this->Filter_Model->update($id_filter,$filter_data);
+		$dungs = false;
+		if($update)
+		{
+			$dels = $this->Filter_Detail_Model->delete($delfil);
+		
+			if($dels)
+			{
+				$data = false;
+				$input_type_filter = false;
+				$input_word = false;
+				$input_type_regex = false;
+				$input_regex_data = false;
+				$input_add_rule = false;
+				$input_order = false;
+				$input_filter_regex = false;
+				for($i=0;$i < count($type_filter);$i++)
+				{
+					$input_type_filter = $type_filter[$i];
+					//jik number ignor word	
+					if($type_filter[$i] == 'number')
+					{
+						$input_word = '';
+					}
+					else
+					{
+						$input_word = $word[$i];
+					}
+					
+					//jika type add filter_regex 
+					if($type_regex[$i] == 'type')
+					{
+						
+						$input_filter_regex = $filter_regex[$i];
+					}
+					else
+					{
+						$input_filter_regex = '';
+					}
+					
+					$input_type_regex = $type_regex[$i];
+					//regex_data
+					$input_regex_data = $regex_data[$i];
+					$input_add_rule = $add_rule[$i];
+					$input_order = $i+1;
+					
+					// insert ke database 
+					$data = array(
+					'id_filter' => $id_filter,
+					'type_filter' => $input_type_filter,
+					'word' => $input_word,
+					'type_regex' => $input_type_regex,
+					'id_filter_regex' =>$input_filter_regex,
+					'regex_data' => $input_regex_data,
+					'add_rule' => $input_add_rule,
+					'order' => $input_order
+					);
+					
+					$id_filter_detail = $this->Filter_Detail_Model->add($data);
+					if($id_filter_detail)
+					{
+						$dumi = true;
+					}
+					$insert_id_filter[] = $id_filter_detail;
+				}
+			}
+			
+			$dumi = $dumi && $dumi;
+				
+			if($dumi)
+			{
+				$delact = $this->Filter_Action_Model->delete($delfil);
+				if($delact)
+				{
+					//insert per row pada filter action
+					$action = false;
+					$add = false;
+					$dumi2 = false;
+					for($j=0;$j < count($filter_action_type);$j++)
+					{
+						//
+						$action = array(
+						'id_filter' => $id_filter,
+						'id_filter_action_type' => $filter_action_type[$j],
+						'id_label' => $label[$j],
+						'api_post' => $api_post[$j],
+						'api_error_email' => $api_error_email[$j],
+						'order' => $j+1
+						);
+						
+						$add = $this->Filter_Action_Model->add($action);
+						if($add)
+						{
+							$dumi2 = true;
+						}
+					$insert_add[]=$add;						
+					}
+					$dumi2 = $dumi2 && $dumi2;
+				}
+			}
+
+		}
+		$dungs = $dumi && $dumi2;
+		if($dungs)
+		{
+			echo 'true';
+		}
+		else
+		{
+			echo 'false';
+		}
 	} 
 
 }
