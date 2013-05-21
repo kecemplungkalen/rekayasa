@@ -145,11 +145,20 @@ Class Rule extends MY_Controller{
 			}
 			else
 			{
+				$id_user = $this->session->userdata('id_user');
 				$temp['id_smsc'] = false;
 				$last_name = '';
 				$email = false;
-				$id_user = false;
-				$last_id = $this->Address_Book_Model->add($number,$number,$last_name,$email,$id_user);
+				//$id_user = false;
+				$ins_addr = array(
+				'first_name' => $number,
+				'number' => $number,
+				'email' => '0',
+				'create_date' => time(),
+				'last_update' => time(),
+				'id_user' => $id_user		
+				);
+				$last_id = $this->Address_Book_Model->add($ins_addr);
 				if($last_id)
 				{
 					$temp['id_address_book'] = $last_id;
