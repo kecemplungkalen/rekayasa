@@ -5,7 +5,7 @@ if (!defined('BASEPATH'))
 
 Class Groupname_Model extends CI_model{
 
-	public function get($id_groupname=false)
+	function get($id_groupname=false)
 	{
 		if($id_groupname)
 		{
@@ -19,7 +19,7 @@ Class Groupname_Model extends CI_model{
 		return false;
 	}
 	
-	public function gets()
+	function gets()
 	{
 		$get = $this->db->get('groupname');
 		if($get->num_rows() > 0 )
@@ -30,7 +30,7 @@ Class Groupname_Model extends CI_model{
 		return false;	
 	}
 	
-	public function get_col($kolom=false,$value=false)
+	function get_col($kolom=false,$value=false)
 	{
 		if($kolom && $value)
 		{
@@ -44,7 +44,7 @@ Class Groupname_Model extends CI_model{
 		return false;
 	}
 	
-	public function add($nama_group=false,$color=false)
+	function add($nama_group=false,$color=false)
 	{
 		if($nama_group && $color)
 		{
@@ -62,7 +62,7 @@ Class Groupname_Model extends CI_model{
 		return false;
 	}
 	
-	public function cek_edit($id_groupname=false,$group_name=false)
+	function cek_edit($id_groupname=false,$group_name=false)
 	{
 		if($id_groupname && $group_name)
 		{
@@ -79,7 +79,7 @@ Class Groupname_Model extends CI_model{
 		
 	}
 	
-	public function update($id_groupname=false,$nama_group=false,$color=false)
+	function update($id_groupname=false,$nama_group=false,$color=false)
 	{
 		if($id_groupname && $nama_group && $color)
 		{
@@ -93,5 +93,19 @@ Class Groupname_Model extends CI_model{
 		}
 		return false;
 	}
+	
+	function delete($data=FALSE)
+	{
+		if($data)
+		{
+			$this->db->where($data);
+			$del = $this->db->delete('groupname');
+			if($del)
+			{
+				return TRUE;
+			}
+		}
+		return FALSE;
+	} 
 	
 }

@@ -87,7 +87,49 @@ Class Group extends MX_Controller{
 	function hapus_group()
 	{
 		$id = $this->input->post('id');
-		var_dump($id);
+		$dumy = false;
+		if($id)
+		{
+			if(is_array($id))
+			{
+				$data = false;
+				for($i=0;$i < count($id);$i++)
+				{
+					$data = array('id_groupname' => $id[$i]);
+					$del = $this->Groupname_Model->delete($data);
+					if($del)
+					{
+						$dumy = true;
+					}
+				}
+				$dumy = $dumy && $dumy;
+				if($dumy)
+				{
+					echo 'true';
+					return true;
+				}
+			}
+			else
+			{
+				$data = array('id_groupname' => $id[$i]);
+				$del = $this->Groupname_Model->delete($data);
+				if($del)
+				{
+					$dumy = true;
+				}
+				if($dumy)
+				{
+					echo 'true';
+					return true;
+				}				
+			}
+			
+			
+		}
+		else
+		echo 'false';
+		return false;
+		
 	}
 
 	function ceknumber()

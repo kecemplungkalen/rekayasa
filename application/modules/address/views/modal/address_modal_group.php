@@ -12,9 +12,10 @@
 			  }
 			}).get();
 			$.post('<?php echo base_url();?>address/group/hapus_group',{id:id},function(data){
-				
-				console.log(data);
-				
+				if(data == 'true')
+				{
+					location.reload();
+				}				
 			});
 			
 		});
