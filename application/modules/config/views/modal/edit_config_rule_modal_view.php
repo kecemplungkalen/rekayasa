@@ -36,11 +36,7 @@
 					<select name="id_smsc_name">
 					<?php if(isset($operator)){?>
 					<?php foreach($operator as $gen){?>
-						<?php if($gen->id_smsc_name == $id_smsc_name){ ?>
-						<option value="<?php echo $gen->id_smsc_name;?>" selected><?php echo $gen->operator_name;?></option>
-						<?php }else { ?>
-						<option value="<?php echo $gen->id_smsc_name;?>"><?php echo $gen->operator_name;?></option>						
-						<?php } ?>
+						<option value="<?php echo $gen->id_smsc_name;?>" <?php if($gen->id_smsc_name == $id_smsc_name){ echo 'selected';} ?> ><?php echo $gen->operator_name;?></option>
 					<?php } ?>
 					<?php } ?>
 					</select>
@@ -52,12 +48,8 @@
 				<div class="controls">
 					<select name="id_config_modem">
 					<?php if(isset($modem)){?>
-					<?php foreach($modem as $md){?>
-						<?php if($md->id_config_modem == $id_config_modem){?>
-						<option value="<?php echo $md->id_config_modem;?>"><?php echo $md->nama_modem;?></option>
-						<?php } else { ?>
-						<option value="<?php echo $md->id_config_modem;?>" selected ><?php echo $md->nama_modem;?></option>						
-						<?php } ?>
+					<?php foreach($modem as $md){?>						
+						<option value="<?php echo $md->id_config_modem;?>" <?php if($md->id_config_modem == $id_config_modem){ echo 'selected';} ?> ><?php echo $md->nama_modem;?></option>
 					<?php } ?>
 					<?php } ?>
 					</select>

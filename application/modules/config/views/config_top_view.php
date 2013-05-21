@@ -10,7 +10,9 @@
 	<li class="active"><a href="#modem" data-toggle="tab">Modem</a></li>
 	<li><a href="#rule" data-toggle="tab">Rule</a></li>
 	<li><a href="#user" data-toggle="tab">User</a></li>
+	<?php if($role_id == '1'){?>
 	<li><a href="#smtp" data-toggle="tab">SMTP</a></li>
+	<?php } ?>
 </ul>
 <!-- javascriptnya -->
 <script>
@@ -45,8 +47,15 @@
 	{
 		$.get('<?php echo base_url();?>config/rule/edit_config_rule_modal',{id_config_rule:id_config_rule},function(data){
 			//editrule
-			$('#show_modal').html(data);
-			$('#editrule').modal('show');
+			if(data != '')
+			{
+				$('#show_modal').html(data);
+				$('#editrule').modal('show');
+			}
+			else
+			{
+				$('#noacc').modal('show');
+			}
 		});
 	}
 	// Javascript to enable link to tab
