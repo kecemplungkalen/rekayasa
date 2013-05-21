@@ -14,6 +14,7 @@ Class Modem extends MY_Controller{
 		$view = false;
 		$modem = $this->phones->gets_phone();
 		$temp = false;
+		$view['id_phone'] = false;
 		if($modem)
 		{
 			$data = false;

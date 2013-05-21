@@ -10,13 +10,13 @@ class Phones_Model extends CI_Model{
 		$this->gammu = $this->load->database('gammu',true); 
 
 		//$date = date("Y-m-d H:i:s");
-		$this->gammu->where('TimeOut >','NOW()');
-		$phone = $this->gammu->get('phones');
+		//$this->gammu->where('TimeOut >','NOW()');
+		//$phone = $this->gammu->get('phones');
+		$phone = $this->gammu->query('select * from phones where TimeOut > NOW()');
 		if($phone->num_rows() > 0)
 		{
 			return $phone->result();
 		}
-		else
 		return false;
 	}
 	
