@@ -85,12 +85,8 @@
 				<div class="controls">
 					<select name="phoneID">
 						<?php if($id_phone){?>
-							<?php $ceked = false;?>
 							<?php for($i=0;$i < count($id_phone);$i++){?>
-							<?php if($id_phone[$i]['modem'] == $config->phoneID){?>
-							<?php $ceked=true;?>
-							<?php }?>
-							<option value="<?php echo $id_phone[$i]['modem'];?>" <?php if($ceked){ echo 'selected';}?>><?php echo $id_phone[$i]['modem'];?></option>
+							<option value="<?php echo $id_phone[$i]['modem'];?>" <?php if($id_phone[$i]['modem'] == $config->phoneID){ echo 'selected';}?>><?php echo $id_phone[$i]['modem'];?></option>
 							<?php }?>
 						<?php }?>
 					</select>

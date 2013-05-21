@@ -36,6 +36,7 @@ Class Modem extends MY_Controller{
 		$id_config_modem = $this->input->get('id_config_modem');
 		$detail = $this->Config_Modem_Model->get($id_config_modem);
 		$view = false;
+		$view['id_phone'] = false;
 		if($detail)
 		{
 			$view['config'] = $detail;
