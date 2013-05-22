@@ -44,6 +44,18 @@ Class Send extends MX_Controller{
 				#cek di rule modem ofline atau online 
 				if($phoneID)
 				{
+					/*
+					 * 
+					 * 
+					 *  ambil status modem 
+					 * 	ambil waktu kirim 
+					 * 	ambil jumlah dalam 1 jam ( gammu ) 
+					 * 	kurangi waktu sekarang 
+					 * 	set semuanya 
+					 * 	kirim by set 
+					 * 
+					 * 
+					 */
 					$recive_date = time();
 					$read_status = '1';
 					
@@ -99,8 +111,9 @@ Class Send extends MX_Controller{
 	{
 		$this->load->module('config/rule');
 		//$data = $_POST;
-		log_message('error','error  data : '. print_r($data,true));
+		//log_message('error','error  data : '. print_r($data,true));
 		//var_dump($data);
+		
 		if(is_array($data))
 		{
 			$sta = false;

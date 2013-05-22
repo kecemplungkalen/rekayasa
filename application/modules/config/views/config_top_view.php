@@ -12,6 +12,8 @@
 	<li><a href="#user" data-toggle="tab">User</a></li>
 	<?php if($role_id == '1'){?>
 	<li><a href="#smtp" data-toggle="tab">SMTP</a></li>
+	<li><a href="#sendlimit" data-toggle="tab">Sending Limit</a></li>
+	<li><a href="#atcommands" data-toggle="tab">AT Commands</a></li>
 	<?php } ?>
 </ul>
 <!-- javascriptnya -->
@@ -80,5 +82,22 @@
 			}
 		});
 	
+	}
+	
+	function edit_config_sendlimit(id_config_modem)
+	{
+		$.get('<?php echo base_url();?>config/send_limit/edit_send_limit_modal',{id_config_modem:id_config_modem},function(data){
+			if(data != '')
+			{
+				$('#show_modal').html(data);
+				$('#editsendlimit').modal('show');
+			}
+			else
+			{
+				$('#noacc').modal('show');
+			}			
+			
+		});
+		
 	}
 </script> 

@@ -105,6 +105,20 @@ Class Address_Book_Model extends CI_model{
 		return false;
 	}
 	
+	public function gets_where_in($kolom=false,$data=false)
+	{
+		if($kolom && $data)
+		{
+			$this->db->where_in($kolom,$data);
+			$data = $this->db->get('address_book');
+			if($data->num_rows() > 0)
+			{
+				return $data->result();
+			}
+		}
+		return false;
+	}
+	
 	public function delete($id_address_book=false)
 	{
 		if($id_address_book)
@@ -125,11 +139,11 @@ Class Address_Book_Model extends CI_model{
 		{
 			$data = array(
 				'first_name' => $keyword,
-				'last_name' => $keyword,
-				'number' => $keyword
+				'last_name' => $keyword
 				);
+			$this->db->like(array('number' => $keyword));
 			$this->db->or_like($data);
-			if($keyword && $perpage)
+			if($perpage)
 			{
 				$res = $this->db->get('address_book',$perpage,$start);			
 			}
@@ -138,6 +152,7 @@ Class Address_Book_Model extends CI_model{
 				$res = $this->db->get('address_book');
 			}
 				
+			log_message('error',$this->db->last_query());	
 				if($res->num_rows() > 0)
 				{
 					return $res->result();

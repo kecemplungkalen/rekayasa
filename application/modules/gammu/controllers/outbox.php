@@ -32,7 +32,7 @@ Class Outbox extends MX_Controller{
 					if($i == 1)
 					{
 						//$insert_id = $this->outbox_model->add('DestinationNumber, UDH, TextDecoded, ID, MultiPart, CreatorID, SenderID'); // bikin outbox model
-						$data = array('DestinationNumber' => $number,'UDH' => $udh,'TextDecoded' => $sentText, 'MultiPart' => 'true' , 'CreatorID' => $phoneID ,'SenderID' => $phoneID);
+						$data = array('DestinationNumber' => $number,'UDH' => $udh,'TextDecoded' => $sentText, 'MultiPart' => 'true' , 'CreatorID' => $phoneID ,'SenderID' => $phoneID,'DeliveryReport' => 'yes');
 						$ins = $insert_id = $this->Gammu_Outbox_Model->insert($data);
 						if($ins)
 						{
@@ -61,7 +61,7 @@ Class Outbox extends MX_Controller{
 			else
 			{
 				
-				$data = array('DestinationNumber' => $number,'TextDecoded' => $isi_pesan, 'CreatorID' => $phoneID ,'SenderID' => $phoneID);						
+				$data = array('DestinationNumber' => $number,'TextDecoded' => $isi_pesan, 'CreatorID' => $phoneID ,'SenderID' => $phoneID,'DeliveryReport' => 'yes');						
 				$insert = $this->Gammu_Outbox_Model->insert($data);
 				if($insert)
 				{

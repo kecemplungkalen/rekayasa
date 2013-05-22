@@ -20,6 +20,9 @@ Class Dashboard extends MY_Controller{
 	
 	function insert()
 	{
+		//$this->load->model('Groupname_Model');
+		$this->load->model('Group_Model');
+		
 		$this->load->module('send');
 		#+6287838743087
 		$data = $_POST;
@@ -30,9 +33,30 @@ Class Dashboard extends MY_Controller{
 		if(is_array($data))
 		{
 			$status = false;
-			if(isset($data['checkbox']))
+			if($data['checkbox'] == '1')
 			{
-				$temp['number'] = $data['number_box'];
+				// ambil number di group
+				$get_group = $this->Group_Model->gets_by('id_groupname',$data['number_box']);
+				$tempz = false;
+				if($get_group)
+				{
+					foreach($get_group as $gg)
+					{
+						$tempz[] = $gg->id_address_book;
+					}
+					$numb = false;
+					$data_number = $this->Address_Book_Model->gets_where_in('id_address_book',$tempz);
+					if($data_number)
+					{
+						foreach($data_number as $dn)
+						{
+							$numb[] = $dn->number; 
+						}	
+					}
+					$temp['number'] = $numb;
+				}
+				
+				//$temp['number'] = $data['number_box'];
 			}
 			else
 			{

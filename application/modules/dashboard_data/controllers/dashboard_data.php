@@ -13,7 +13,29 @@ Class Dashboard_data extends MX_Controller{
 		$this->load->model('Blacklist_Model');
 	}
 	
-	
+	function get_addr()
+	{
+		$keyword = $this->input->post('query');
+		$dataresult = $this->Address_Book_Model->search($keyword);
+		$data = false;
+		if($dataresult)
+		{
+			foreach($dataresult as $res)
+			{
+				$data[] = array(
+				'id_address_book' => $res->id_address_book,
+				'first_name' => $res->first_name,
+				'last_name' => $res->last_name,
+				'number' => $res->number
+				);
+				
+			}
+			echo json_encode($data);
+		}
+		else
+		return false;
+		
+	}
 	function remove_from_trash()
 	{
 		$thread = $this->input->post('thread');
@@ -611,7 +633,9 @@ Class Dashboard_data extends MX_Controller{
 	
 	function compose_sms()
 	{
-		$data['data'] = $this->Address_Book_Model->gets();
+		$this->load->model('Groupname_Model');
+		
+		$data['data'] = $this->Groupname_Model->gets();
 		$this->load->view('modal/compose_sms_modal_view',$data);
 	}
 	

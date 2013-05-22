@@ -9,6 +9,52 @@
 		$(document).ready(function(){
 		
 			$('.combobox').combobox();
+			$('#number').typeahead({
+				
+				
+				source: function(query,process){
+					  data = [];
+					  map = {};
+					  var source = [];
+					  // ambil JSON ke server
+						$.post('<?php base_url();?>dashboard_data/get_addr',{query:query},function(result){
+							if(result)
+							{
+									source = result;
+									$.each(source, function (i, dt) {
+										map[dt.first_name+''+dt.last_name] = dt;
+										data.push(dt.first_name+''+dt.last_name);
+									});
+									$.each(source, function (i, dt) {
+										map[dt.number] = dt;
+										data.push(dt.number);
+									});								
+									process(data);
+							}
+							else
+							{
+								var dud = $('#number').val();
+								$('#number').data('number',dud);
+							}
+						},'json');
+				},
+				
+				minLength:3,
+				items : 10,
+				
+				updater: function (item) 
+				{
+					  // lakukan apapun yang ingin dilakukan dengan ID data terpilih
+					selectedItem = map[item].number;
+					$('#number').data('number',selectedItem);
+						
+
+					  // penting! jangan hapus kode di bawah ini (used by typeahead)
+					return item;
+				}
+			
+				
+			});
 			
 			$('#number').click(function(){
 				
@@ -22,6 +68,8 @@
 				$('#checkpbk').prop('checked',true);
 				
 			});
+			
+			
 		});
 		
 		function countChar(val) 
@@ -54,9 +102,31 @@
 		
 		function send()
 		{
-			//alert($('.combobox').val());
-			$.post('<?php echo base_url();?>dashboard/insert',$('#form_send').serialize(),function(data){
-				console.log(data);
+			//console.log($('#form_send').serialize());
+			var number = '';
+			var checkbox = '0';
+			var number_box = '';
+			var addr_num = $('#number').data('number');
+			if(addr_num != undefined)
+			{
+				number = addr_num;
+				
+			}
+			else
+			{
+				number = $('#number').val();
+			}
+			
+			if($('#checkpbk').prop('checked'))
+			{
+				checkbox = '1';
+				number_box = $('#number_box').val();
+			}
+			// sikat  
+			
+			var text = $('#text').val();
+			
+			$.post('<?php echo base_url();?>dashboard/insert',{number:number,checkbox:checkbox,text:text,number_box:number_box},function(data){
 				if(data=='true')
 				{
 					location.reload();
@@ -65,8 +135,9 @@
 				{
 					$('#warning').show();
 				}
-			});
 
+			});
+			
 		}
 		$('#number_box').change(function(){
 			$('#checkpbk').prop('checked',true);
@@ -84,17 +155,18 @@
 				<input type="hidden" name="id_user" value="<?php echo $this->session->userdata('id_user');?>">
 				<label class="control-label">Nomor</label>
 				<div class="controls">
-					<input type="text" id="number" class="input-block-level input-medium" name="number" placeholder="Must start with +62" autocomplete="off">
+					<input type="hidden" name="id_address_book" id="id_address_book">
+					<input type="text" id="number" name="number" class="input-block-level input-medium"  placeholder="Name Address Or Number" autocomplete="off">
 				</div>
 
 				<label class="checkbox">
-				<input type="checkbox" value="true" name="checkbox" id="checkpbk">Pilih Dari Phone Book 
+				<input type="checkbox" value="true" name="checkbox" id="checkpbk">Send To Group 
 				</label>
 				<div class="controls">
 				  <select class="combobox" name="number_box" id="number_box">
 					  <?php if($data){?>
 						<?php foreach($data as $d){?>
-							<option value="<?php echo $d->number?>"><?php echo $d->first_name.' '.$d->last_name ;?></option>
+							<option value="<?php echo $d->id_groupname?>"><?php echo $d->nama_group;?></option>
 						<?php }?>
 					<?php }?>
 				  </select>
