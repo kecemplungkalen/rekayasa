@@ -389,6 +389,11 @@ Class Message extends MY_Controller{
 					
 					$isi['read_status'] = $dtam->read_status;
 					$isi['recive_date'] = $dtam->recive_date;
+					if($dtam->send_status)
+					{
+						$isi['send_status'] = $dtam->send_status;
+					}
+					
 					$remap[] = $isi;
 					$total = false;
 				}

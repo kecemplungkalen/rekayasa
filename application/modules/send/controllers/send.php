@@ -151,19 +151,7 @@ Class Send extends MX_Controller{
 				//log_message('error','error phone ID data : '. print_r($phoneID,true));
 				if($phoneID)
 				{
-					///*
-					 //* 
-					 //* 
-					 //*  	ambil status modem 
-					 //* 	ambil waktu kirim 
-					 //* 	ambil jumlah dalam 1 jam ( gammu ) 
-					 //* 	kurangi waktu sekarang 
-					 //* 	set semuanya 
-					 //* 	kirim by set 
-					 //* 
-					 //* 
-					 //*/
-					
+
 					// masukkan ke database gammu 
 					
 					$limit_time = $phoneID['limit_time'];
@@ -177,40 +165,42 @@ Class Send extends MX_Controller{
 						$push = $this->outbox->push_outbox($data[$i]['number'],$data[$i]['text'],$phoneID['phoneID'],$cek_limit);
 						if($push)
 						{
+							// masuk ke database rekayasa
+							$recive_date = time();
+							$read_status = '1';
+							// data label 
+							if(isset($phoneID['id_address_book']))
+							{
+								$id_address_book = $phoneID['id_address_book'];
+							}
+							
+							$insert = array(
+							'id_user' => $id_user,
+							'id_address_book' => $id_address_book,
+							'number' => $data[$i]['number'],
+							'thread' => $thread,
+							'recive_date' => $recive_date,
+							'content' => $data[$i]['text'],
+							'read_status' => $read_status,
+							'last_update' => $recive_date,
+							'status_archive' => '0',
+							'InsertIntoDB' => $push
+							);
+							$id_inbox = $this->inbox_model->add($insert);
+							
+							if($id_inbox)
+							{
+								// labelin sent atau 2
+								// update labelin 3 ( outbox )
+								$id_labelname = '3';
+								$this->label_model->add($id_inbox,$id_labelname);
+							}
+
 							$sta = true;
+
 						}
 					}
-					
-	
-					
-					// masuk ke database rekayasa
-					$recive_date = time();
-					$read_status = '1';
-					// data label 
-					if(isset($phoneID['id_address_book']))
-					{
-						$id_address_book = $phoneID['id_address_book'];
-					}
-					
-					$insert = array(
-					'id_user' => $id_user,
-					'id_address_book' => $id_address_book,
-					'number' => $data[$i]['number'],
-					'thread' => $thread,
-					'recive_date' => $recive_date,
-					'content' => $data[$i]['text'],
-					'read_status' => $read_status,
-					'last_update' => $recive_date,
-					'status_archive' => '0'
-					);
-					$id_inbox = $this->inbox_model->add($insert);
-					
-					if($id_inbox)
-					{
-						// labelin sent atau 2
-						$id_labelname = '2';
-						$this->label_model->add($id_inbox,$id_labelname);
-					}
+
 				}
 
 			}
@@ -267,7 +257,7 @@ Class Send extends MX_Controller{
 					
 					$antrian_outbox = count($data_outbox);
 					$jumlahAntrian = $antrian_multipart + $antrian_outbox;
-				log_message('error','limit pengiriman ' . $limit_send.'Antrian outbox ='.$antrian_outbox.' Antrian Multipart = '.$antrian_multipart.' Antrian Total = '.$jumlahAntrian);					
+				//log_message('error','limit pengiriman ' . $limit_send.'Antrian outbox ='.$antrian_outbox.' Antrian Multipart = '.$antrian_multipart.' Antrian Total = '.$jumlahAntrian);					
 				}
 
 				// cek jumlah perngiriman dalam limit 
@@ -282,12 +272,12 @@ Class Send extends MX_Controller{
 					$jumlahDikirim = count($jumlah_dalam_limit);
 				}
 				$jumlah_total = $jumlahAntrian + $jumlahDikirim;
-				log_message('error','limit pengiriman ' . $limit_send.'Jumlah Dikirim ='.$jumlahDikirim.' Jumlah Antrian  = '.$jumlahAntrian.' Jumlah Total = '.$jumlah_total);				
+				//log_message('error','limit pengiriman ' . $limit_send.'Jumlah Dikirim ='.$jumlahDikirim.' Jumlah Antrian  = '.$jumlahAntrian.' Jumlah Total = '.$jumlah_total);				
 				$return = false;
 				$updatean = false;
 				if($jumlah_total > $limit_send)
 				{
-					log_message('error',' Jalan Ke 1');				
+					//log_message('error',' Jalan Ke 1');				
 					$where = array('phoneID' => $slotID);
 					$updatean = array('total_unsend' => $jumlahAntrian,'total_send' => $jumlahDikirim,'status_sending' => 'pending');
 					$update = $this->Config_Modem_Model->update_where($where,$updatean);
@@ -298,7 +288,7 @@ Class Send extends MX_Controller{
 				}
 				else
 				{
-					log_message('error',' Jalan Ke 2');
+					//log_message('error',' Jalan Ke 2');
 					$where = array('phoneID' => $slotID);
 					$updatean = array('status_sending' => 'ready');
 					$update = $this->Config_Modem_Model->update_where($where,$updatean);

@@ -98,6 +98,9 @@
 			<th> Date </th>
 			<th> Content </th>
 			<th> Label </th>
+			<?php if($lbl == 'sent'){?>
+			<th> Send Status </th>
+			<?php } ?>
 		</tr>
 	</thead>
     <tbody>
@@ -124,7 +127,6 @@
 				<?php echo $data[$i]['content'] ;?>...
 			</td>
         	<td>
-				
 				<?php $label = $data[$i]['label']; ?>
 				<?php if($label){ ?>
 					<?php for($j=0;$j< count($label);$j++){ ?>
@@ -136,6 +138,11 @@
 					<?php } ?>
 				<?php } ?>
 			</td>
+		<?php if(isset($lbl)){?>			
+			<?php if($lbl == 'sent'){?>
+			<td> <?php if(isset($label[$i]['send_status'])){ echo $label[$i]['send_status'];}?> </td>
+			<?php } ?>
+		<?php } ?>
 		</tr>
 		<?php } ?>
 	<?php } ?>

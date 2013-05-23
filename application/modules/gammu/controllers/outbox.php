@@ -53,7 +53,7 @@ Class Outbox extends MX_Controller{
 				$sum = $sum && $sum;
 				if($sum)
 				{
-					return $sum;
+					return $ins;
 				}
 				
 			}

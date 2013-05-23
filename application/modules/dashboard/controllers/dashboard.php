@@ -36,26 +36,32 @@ Class Dashboard extends MY_Controller{
 			if($data['checkbox'] == '1')
 			{
 				// ambil number di group
-				$get_group = $this->Group_Model->gets_by('id_groupname',$data['number_box']);
-				$tempz = false;
-				if($get_group)
+				$numbox = $data['number_box'];
+				if(is_array($numbox))
 				{
-					foreach($get_group as $gg)
+					for($i=0;$i<count($numbox);$i++)
 					{
-						$tempz[] = $gg->id_address_book;
-					}
-					$numb = false;
-					$data_number = $this->Address_Book_Model->gets_where_in('id_address_book',$tempz);
-					if($data_number)
-					{
-						foreach($data_number as $dn)
+						$get_group = $this->Group_Model->gets_by('id_groupname',$numbox);
+						$tempz = false;
+						if($get_group)
 						{
-							$numb[] = $dn->number; 
-						}	
+							foreach($get_group as $gg)
+							{
+								$tempz[] = $gg->id_address_book;
+							}
+							$numb = false;
+							$data_number = $this->Address_Book_Model->gets_where_in('id_address_book',$tempz);
+							if($data_number)
+							{
+								foreach($data_number as $dn)
+								{
+									$numb[] = $dn->number; 
+								}	
+							}
+							$temp['number'] = $numb;
+						}
 					}
-					$temp['number'] = $numb;
 				}
-				
 				//$temp['number'] = $data['number_box'];
 			}
 			else

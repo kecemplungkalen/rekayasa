@@ -299,7 +299,7 @@
 						<small> <?php echo date('d F Y - h:i a',$data[$d]['recive_date']);?></small>
 						<?php if($role_id == '1' || $role_id == '2'){?>
 						<?php if($draft){?>
-						<a  class="edit_draft btn btn-mini pull-right" data-placement="bottom" rel="tooltip" data-title="Edit This Message" data-content="<?php echo $data[$d]['content']; ?>" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?>"><i class="icon-edit"></i></a>
+						<span class="label label-warning"> Outbox </span>
 						<?php } else { ?>
 						<a data-placement="left" rel="tooltip" class="pull-right hapus btn btn-mini" data-toggle="tooltip" data-title="Delete" data-id_inbox="<?php echo $data[$d]['id_inbox']; ?>" ><i class="icon-trash"></i></a>
 						<?php }?>
