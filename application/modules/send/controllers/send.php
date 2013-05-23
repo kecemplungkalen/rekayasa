@@ -267,8 +267,8 @@ Class Send extends MX_Controller{
 					
 					$antrian_outbox = count($data_outbox);
 					$jumlahAntrian = $antrian_multipart + $antrian_outbox;
+				log_message('error','limit pengiriman ' . $limit_send.'Antrian outbox ='.$antrian_outbox.' Antrian Multipart = '.$antrian_multipart.' Antrian Total = '.$jumlahAntrian);					
 				}
-				log_message('error','limit pengiriman ' . $limit_send.'Antrian outbox ='.$antrian_outbox.' Antrian Multipart = '.$antrian_multipart.' Antrian Total = '.$jumlahAntrian);
 
 				// cek jumlah perngiriman dalam limit 
 				$cekcurrent = array(
