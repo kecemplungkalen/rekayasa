@@ -242,65 +242,72 @@ Class Send extends MX_Controller{
 		$this->load->model('Config_Modem_Model');		
 		if($slotID)
 		{
-			$time_antri = false;
-			$jumlahAntrian = 0;
-			$jumlahDikirim = 0;
-			$jumlah_total = 0;
-			// cek data outbox status jumlah antrian 
-			// cek waktu antrian 
-			$time_antri = date('Y-m-d H:i:s',(time() + $limit_time));
-			$data = array(
-			'SenderID' => $slotID,
-			'SendingDateTime >' => date('Y-m-d H:i:s') 
-			);
-			$data_outbox = $this->gammu_outbox_model->gets($data);
-			if($data_outbox)
+			if($limit_time != '0')
 			{
-				$antrian_multipart = 0;
-				$data_multipart = $this->gammu_outbox_multipart_model->gets_all();
-				if($data_multipart)
+				$time_antri = false;
+				$jumlahAntrian = 0;
+				$jumlahDikirim = 0;
+				$jumlah_total = 0;
+				// cek data outbox status jumlah antrian 
+				// cek waktu antrian 
+				$time_antri = date('Y-m-d H:i:s',(time() + $limit_time));
+				$data = array(
+				'SenderID' => $slotID,
+				'SendingDateTime >' => date('Y-m-d H:i:s') 
+				);
+				$data_outbox = $this->gammu_outbox_model->gets($data);
+				if($data_outbox)
 				{
-					$antrian_multipart = count($data_multipart);
+					$antrian_multipart = 0;
+					$data_multipart = $this->gammu_outbox_multipart_model->gets_all();
+					if($data_multipart)
+					{
+						$antrian_multipart = count($data_multipart);
+					}
+					
+					$antrian_outbox = count($data_outbox);
+					$jumlahAntrian = $antrian_multipart + $antrian_outbox;
 				}
 				
-				$antrian_outbox = count($data_outbox);
-				$jumlahAntrian = $antrian_multipart + $antrian_outbox;
-			}
-			
-			// cek jumlah perngiriman dalam limit 
-			$cekcurrent = array(
-			'SenderID' => $slotID,
-			'SendingDateTime > ' => date('Y-m-d H:i:s',(time() - $limit_time))
-			);
-			
-			$jumlah_dalam_limit = $this->sentitems_model->gets($cekcurrent);
-			if($jumlah_dalam_limit)
-			{
-				$jumlahDikirim = count($jumlah_dalam_limit);
-			}
-			
-			$jumlah_total = $jumlahAntrian + $jumlahDikirim;
-			$return = false;
-			if($jumlah_total >= $limit_send)
-			{
+				// cek jumlah perngiriman dalam limit 
+				$cekcurrent = array(
+				'SenderID' => $slotID,
+				'SendingDateTime > ' => date('Y-m-d H:i:s',(time() - $limit_time))
+				);
 				
-				$where = array('phoneID' => $slotID);
-				$updatean = array('total_unsend' => $jumlahAntrian,'total_send' => $jumlahDikirim,'status_sending' => 'pending');
-				$update = $this->Config_Modem_Model->update_where($where,$updatean);
-				if($update)
+				$jumlah_dalam_limit = $this->sentitems_model->gets($cekcurrent);
+				if($jumlah_dalam_limit)
 				{
-					return date('Y-m-d H:i:s',(time() + $limit_time));
+					$jumlahDikirim = count($jumlah_dalam_limit);
+				}
+				
+				$jumlah_total = $jumlahAntrian + $jumlahDikirim;
+				$return = false;
+				if($jumlah_total >= $limit_send)
+				{
+					
+					$where = array('phoneID' => $slotID);
+					$updatean = array('total_unsend' => $jumlahAntrian,'total_send' => $jumlahDikirim,'status_sending' => 'pending');
+					$update = $this->Config_Modem_Model->update_where($where,$updatean);
+					if($update)
+					{
+						return date('Y-m-d H:i:s',(time() + $limit_time));
+					}
+				}
+				else
+				{
+					$where = array('phoneID' => $slotID);
+					$updatean = array('status_sending' => 'ready');
+					$update = $this->Config_Modem_Model->update_where($where,$updatean);
+					if($update)
+					{
+						return date('Y-m-d H:i:s',time());
+					}
 				}
 			}
 			else
 			{
-				$where = array('phoneID' => $slotID);
-				$updatean = array('status_sending' => 'ready');
-				$update = $this->Config_Modem_Model->update_where($where,$updatean);
-				if($update)
-				{
-					return date('Y-m-d H:i:s',time());
-				}
+				return date('Y-m-d H:i:s',time());
 			}
 		}
 		return FALSE;
