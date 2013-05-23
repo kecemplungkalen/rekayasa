@@ -10,6 +10,10 @@ Class Send_limit extends MX_Controller{
 	
 	function gets()
 	{
+		// load outbox 
+		
+		// load sent item
+		//$this->load->module('send');
 		$data_modem = $this->Config_Modem_Model->gets();
 		if($data_modem)
 		{
@@ -50,8 +54,11 @@ Class Send_limit extends MX_Controller{
 		}
 	}
 	
-	function cek_limit($phoneID=FALSE)
+	function cek_limit($phoneID=FALSE,$time=false)
 	{
+		
+		$this->load->model('gammu/sentitems_model');
+		$this->load->model('gammu/outbox_model');
 		
 		
 	}

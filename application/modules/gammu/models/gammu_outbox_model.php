@@ -7,7 +7,7 @@ Class Gammu_Outbox_Model extends CI_model{
 	
 	// gammu model 
 	
-	public function insert($data=false)
+	function insert($data=false)
 	{
 		$this->gammu = $this->load->database('gammu',true); 
 		if($data)
@@ -17,6 +17,36 @@ Class Gammu_Outbox_Model extends CI_model{
 			if($last_id)
 			{
 				return $last_id;
+			}
+		}
+		return false;
+	}
+	
+	function get($data=false)
+	{
+		$this->gammu = $this->load->database('gammu',true); 
+		if($data)
+		{
+			$this->gammu->where($data);
+			$last_id = $this->gammu->get('outbox');
+			if($last_id->num_rows() > 0)
+			{
+				return $last_id->row();
+			}
+		}
+		return false;
+	}
+	
+	function gets($data=false)
+	{
+		$this->gammu = $this->load->database('gammu',true); 
+		if($data)
+		{
+			$this->gammu->where($data);
+			$last_id = $this->gammu->get('outbox');
+			if($last_id->num_rows() > 0)
+			{
+				return $last_id->result();
 			}
 		}
 		return false;

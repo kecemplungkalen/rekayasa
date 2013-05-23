@@ -128,9 +128,13 @@ Class Rule extends MY_Controller{
 				$getrule = $this->Config_Rule_Model->get_by('id_smsc_name',$get_id_addr->id_smsc);
 				if($getrule)
 				{
+					// dapat limit juga
 					$phone_id = $this->Config_Modem_Model->get($getrule->id_config_modem);
 					if($phone_id)
-					{
+					{						
+						// waktu limit  
+						$temp['limit_time'] = $phone_id->time_sending_limit;
+						$temp['limit_send'] = $phone_id->sending_limit;
 						$temp['phoneID'] = $phone_id->phoneID;
 					}
 				}
@@ -139,6 +143,9 @@ Class Rule extends MY_Controller{
 					$getdefault = $this->Config_Modem_Model->get_by('default','1');
 					if($getdefault)
 					{
+						// dapat limit juga 
+						$temp['limit_time'] = $getdefault->time_sending_limit;
+						$temp['limit_send'] = $getdefault->sending_limit;
 						$temp['phoneID'] = $getdefault->phoneID;
 					}
 				}
@@ -186,6 +193,9 @@ Class Rule extends MY_Controller{
 					$phone_id = $this->Config_Modem_Model->get($getrule->id_config_modem);
 					if($phone_id)
 					{
+						// dapat limit juga
+						$temp['limit_time'] = $phone_id->time_sending_limit;
+						$temp['limit_send'] = $phone_id->sending_limit;						 
 						$temp['phoneID'] = $phone_id->phoneID;
 					}					
 					
@@ -195,6 +205,9 @@ Class Rule extends MY_Controller{
 					$getdefault = $this->Config_Modem_Model->get_by('default','1');
 					if($getdefault)
 					{
+						// dapat limit juga
+						$temp['limit_time'] = $getdefault->time_sending_limit;
+						$temp['limit_send'] = $getdefault->sending_limit;						 
 						$temp['phoneID'] = $getdefault->phoneID;
 					}
 				}

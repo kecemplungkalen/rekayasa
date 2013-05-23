@@ -125,8 +125,8 @@
 			// sikat  
 			
 			var text = $('#text').val();
-			
-			$.post('<?php echo base_url();?>dashboard/insert',{number:number,checkbox:checkbox,text:text,number_box:number_box},function(data){
+			var id_user = $('#id_user').val();
+			$.post('<?php echo base_url();?>dashboard/insert',{number:number,checkbox:checkbox,text:text,number_box:number_box,id_user:id_user},function(data){
 				if(data=='true')
 				{
 					location.reload();
@@ -152,7 +152,7 @@
 	<form id="form_send">  
 		<div class="row-fluid">
 			<div class="span12">
-				<input type="hidden" name="id_user" value="<?php echo $this->session->userdata('id_user');?>">
+				<input type="hidden" name="id_user" id="id_user" value="<?php echo $this->session->userdata('id_user');?>">
 				<label class="control-label">Nomor</label>
 				<div class="controls">
 					<input type="hidden" name="id_address_book" id="id_address_book">

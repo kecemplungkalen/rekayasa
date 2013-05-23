@@ -321,7 +321,7 @@
 								<?php }?>
 							</select>							
 							
-							<input name="regex_data[]" id="value_<?php echo $hfd->id_filter_detail; ?>" type="text" class="<?php if($hfd->regex_data == ''){ echo 'hide'; }?> value input-large" value="<?php echo $hfd->regex_data;?>">
+							<input name="regex_data[]" id="value_<?php echo $hfd->id_filter_detail; ?>" type="text" class="value input-large <?php if($hfd->regex_data === ''){ echo 'hide'; }?>" value="<?php echo $hfd->regex_data;?>">
 							
 							Additional rule:
 							<select name="add_rule[]" class="join input-medium " id="join_<?php echo $hfd->id_filter_detail; ?>">
