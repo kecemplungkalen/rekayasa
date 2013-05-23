@@ -268,7 +268,8 @@ Class Send extends MX_Controller{
 					$antrian_outbox = count($data_outbox);
 					$jumlahAntrian = $antrian_multipart + $antrian_outbox;
 				}
-				
+				log_message('error','limit pengiriman ' . $limit_send.'Antrian outbox ='.$antrian_outbox.' Antrian Multipart = '.$antrian_multipart.' Antrian Total = '.$jumlahAntrian);
+
 				// cek jumlah perngiriman dalam limit 
 				$cekcurrent = array(
 				'SenderID' => $slotID,
@@ -280,12 +281,13 @@ Class Send extends MX_Controller{
 				{
 					$jumlahDikirim = count($jumlah_dalam_limit);
 				}
-				
 				$jumlah_total = $jumlahAntrian + $jumlahDikirim;
+				log_message('error','limit pengiriman ' . $limit_send.'Jumlah Dikirim ='.$jumlahDikirim.' Jumlah Antrian  = '.$jumlahAntrian.' Jumlah Total = '.$jumlah_total);				
 				$return = false;
-				if($jumlah_total >= $limit_send)
+				$updatean = false;
+				if($jumlah_total > $limit_send)
 				{
-					
+					log_message('error',' Jalan Ke 1');				
 					$where = array('phoneID' => $slotID);
 					$updatean = array('total_unsend' => $jumlahAntrian,'total_send' => $jumlahDikirim,'status_sending' => 'pending');
 					$update = $this->Config_Modem_Model->update_where($where,$updatean);
@@ -296,6 +298,7 @@ Class Send extends MX_Controller{
 				}
 				else
 				{
+					log_message('error',' Jalan Ke 2');
 					$where = array('phoneID' => $slotID);
 					$updatean = array('status_sending' => 'ready');
 					$update = $this->Config_Modem_Model->update_where($where,$updatean);
