@@ -17,7 +17,7 @@
 					  map = {};
 					  var source = [];
 					  // ambil JSON ke server
-						$.post('<?php base_url();?>dashboard_data/get_addr',{query:query},function(result){
+						$.post('<?php echo base_url();?>dashboard_data/get_addr',{query:query},function(result){
 							if(result)
 							{
 									source = result;

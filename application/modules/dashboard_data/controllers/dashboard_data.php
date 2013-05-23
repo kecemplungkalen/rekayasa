@@ -1,6 +1,6 @@
 <?php 
 
-Class Dashboard_data extends MX_Controller{
+Class Dashboard_data extends MY_Controller{
 	
 	function __construct()
 	{
