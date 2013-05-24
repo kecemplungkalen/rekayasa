@@ -6,4 +6,7 @@
 	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
 	</div>
 </div>
+<div class="navbar navbar-fixed-bottom"> 
+<p class="text-center" ><strong>Powered by Rumahweb Indonesia ®</strong></p>
+</div>
 </html> 

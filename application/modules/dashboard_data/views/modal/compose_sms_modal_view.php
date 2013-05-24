@@ -47,7 +47,7 @@
 				{
 					  // lakukan apapun yang ingin dilakukan dengan ID data terpilih
 					selectedItem = map[item].number;
-					$('#number').val(selectedItem);
+					 $('#number').data('number',selectedItem)
 						
 
 					  // penting! jangan hapus kode di bawah ini (used by typeahead)
