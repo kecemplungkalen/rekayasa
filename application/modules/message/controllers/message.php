@@ -19,7 +19,11 @@ Class Message extends MY_Controller{
 		$top['label'] = $label;
 		$side['baku'] = $this->sidebar_baku();
 		$side['add'] =  $this->sidebar_adt();
-		$data['navbar'] = $this->load->view('navbar_view','',true);
+		
+		// load notif 
+		$this->load->module('dashboard_data');
+		$dt['modem'] = $this->dashboard_data->cekmodem();
+		$data['navbar'] = $this->load->view('navbar_view',$dt,true);
 		$data['top_button'] = $this->load->view('top_button_view',$top,true);
 		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
 		# define search key value
@@ -76,7 +80,7 @@ Class Message extends MY_Controller{
 	
 	
 	
-	public function tampil_data($label=false,$jumlah=0,$mulai=0,$keyword=false)
+	function tampil_data($label=false,$jumlah=0,$mulai=0,$keyword=false)
 	{
 		// dipakai untuk next level
 		//$id_user = $this->session->userdata('id_user');
@@ -412,7 +416,7 @@ Class Message extends MY_Controller{
 	
 	
 	
-	public function sidebar_adt()
+	function sidebar_adt()
 	{
 		$tem=false;
 		$addt = $this->Labelname_Model->get_add();
@@ -437,7 +441,7 @@ Class Message extends MY_Controller{
 		return $tem;
 	}
 	
-	public function sidebar_baku()
+	function sidebar_baku()
 	{
 		$baku = $this->Labelname_Model->get_baku();
 		if($baku)

@@ -1,14 +1,15 @@
 <div id="compose" class="modal hide fade " data-backdrop="static" >
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="rload()">&times;</button>
 		<h6>Kirim SMS</h6>
 	</div>
 
 	<script type="text/javascript">
 		
 		$(document).ready(function(){
-		
-			$('.combobox').combobox();
+			$('.dropdown-menu a#cebox').click(function(e) {
+			  e.stopPropagation();
+			});		
 			$('#number').typeahead({
 				
 				
@@ -46,7 +47,7 @@
 				{
 					  // lakukan apapun yang ingin dilakukan dengan ID data terpilih
 					selectedItem = map[item].number;
-					$('#number').data('number',selectedItem);
+					$('#number').val(selectedItem);
 						
 
 					  // penting! jangan hapus kode di bawah ini (used by typeahead)
@@ -59,7 +60,7 @@
 			$('#number').click(function(){
 				
 				$('#checkpbk').prop('checked',false);
-				$('.combobox').val('');
+				$('.groups_box:checkbox').prop('checked',false);
 				
 			});
 			
@@ -105,7 +106,6 @@
 			//console.log($('#form_send').serialize());
 			var number = '';
 			var checkbox = '0';
-			var number_box = '';
 			var addr_num = $('#number').data('number');
 			if(addr_num != undefined)
 			{
@@ -120,13 +120,19 @@
 			if($('#checkpbk').prop('checked'))
 			{
 				checkbox = '1';
-				number_box = $('#number_box').val();
+				var number_box =  $('.groups_box:checkbox').map(function() {
+					if(this.checked){
+					   return this.value;
+					  }
+				}).get();				
 			}
 			// sikat  
 			
 			var text = $('#text').val();
 			var id_user = $('#id_user').val();
 			$.post('<?php echo base_url();?>dashboard/insert',{number:number,checkbox:checkbox,text:text,number_box:number_box,id_user:id_user},function(data){
+				console.log(data);
+/*
 				if(data=='true')
 				{
 					location.reload();
@@ -135,6 +141,7 @@
 				{
 					$('#warning').show();
 				}
+*/
 
 			});
 			
@@ -153,27 +160,31 @@
 		<div class="row-fluid">
 			<div class="span12">
 				<input type="hidden" name="id_user" id="id_user" value="<?php echo $this->session->userdata('id_user');?>">
-				<label class="control-label">Nomor</label>
+				<label class="control-label"><strong>Send To Number</strong></label>
 				<div class="controls">
 					<input type="hidden" name="id_address_book" id="id_address_book">
 					<input type="text" id="number" name="number" class="input-block-level input-medium"  placeholder="Name Address Or Number" autocomplete="off">
 				</div>
 
 				<label class="checkbox">
-				<input type="checkbox" value="true" name="checkbox" id="checkpbk">Send To Group 
+				<input type="checkbox" value="true" name="checkbox" id="checkpbk"><strong>Send To Group</strong> 
 				</label>
 				<div class="controls">
-				  <select class="combobox" name="number_box" id="number_box">
-					  <?php if($data){?>
-						<?php foreach($data as $d){?>
-							<option value="<?php echo $d->id_groupname?>"><?php echo $d->nama_group;?></option>
+				<div class="btn-group">
+					<a class="combobox btn dropdown-toggle" data-toggle="dropdown"> Select Group <i class=" icon-th-large"></i> <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<?php if($data){?>
+							<?php foreach($data as $d){?>
+								<li>
+									<a id="cebox"><input type="checkbox" name="number_box" id="number_box" value="<?php echo $d->id_groupname?>" class="groups_box">&nbsp;&nbsp;<span class="label badge-<?php echo $d->color?>">&nbsp;&nbsp;&nbsp;&nbsp;</span> <?php echo $d->nama_group;?></a>
+								</li>															
+							<?php }?>
 						<?php }?>
-					<?php }?>
-				  </select>
-				  <a class="btn">+</a>
+					</ul>
 				</div>
-				
-				<label class="control-label">Text Pesan</label>
+				</div>
+				<br>
+				<label class="control-label"><strong>Text Message</strong></label>
 					<textarea name="text" id="text" rows="3" style="width:97%;" onkeyup="countChar(this)"></textarea>
 					<span class="help-inline" id="charNum"> </span>
 	</form>
@@ -183,8 +194,7 @@
 	</div>
 	
 	<div class="modal-footer">
-		<a class="btn btn-info" onclick="save()">Save</a>
 		<a class="btn btn-success" onclick="send()">Send</a>
-		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true" >Close</a>
+		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true" onclick="rload()">Close</a>
 	</div>
 </div>

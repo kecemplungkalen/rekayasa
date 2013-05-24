@@ -19,7 +19,10 @@ Class Filter extends MY_Controller{
 	{
 		$side['baku'] = $this->message->sidebar_baku();
 		$side['add'] =  $this->message->sidebar_adt();
-		$data['navbar'] = $this->load->view('navbar_view','',true);
+		$this->load->module('dashboard_data');
+		$dt['modem'] = $this->dashboard_data->cekmodem();
+		
+		$data['navbar'] = $this->load->view('navbar_view',$dt,true);
 		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
 		$data['top_button'] = $this->load->view('filter_top_button_view','',true);
 				

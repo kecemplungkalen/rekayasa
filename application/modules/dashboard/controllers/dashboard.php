@@ -18,6 +18,10 @@ Class Dashboard extends MY_Controller{
 		$this->message->index('inbox');		
 	}	
 	
+	function dummy()
+	{
+		var_dump($_POST);
+	}
 	function insert()
 	{
 		//$this->load->model('Groupname_Model');
@@ -36,72 +40,58 @@ Class Dashboard extends MY_Controller{
 			if($data['checkbox'] == '1')
 			{
 				// ambil number di group
-				$numbox = $data['number_box'];
-				if(is_array($numbox))
+				if(isset($data['number_box']))
 				{
-					for($i=0;$i<count($numbox);$i++)
+					$numbox = $data['number_box'];
+					if(is_array($numbox))
 					{
-						$get_group = $this->Group_Model->gets_by('id_groupname',$numbox);
 						$tempz = false;
-						if($get_group)
+						for($i=0;$i<count($numbox);$i++)
 						{
-							foreach($get_group as $gg)
+							$get_group = $this->Group_Model->gets_by('id_groupname',$numbox[$i]);
+							
+							if($get_group)
 							{
-								$tempz[] = $gg->id_address_book;
-							}
-							$numb = false;
-							$data_number = $this->Address_Book_Model->gets_where_in('id_address_book',$tempz);
-							if($data_number)
-							{
-								foreach($data_number as $dn)
+								foreach($get_group as $gg)
 								{
-									$numb[] = $dn->number; 
-								}	
+									$tempz[] = $gg->id_address_book;
+								}
 							}
-							$temp['number'] = $numb;
 						}
+						$result = array_unique($tempz); // array unique 
+						$numb = false;
+						$data_number = $this->Address_Book_Model->gets_where_in('id_address_book',$result);
+						$val = false;
+						if($data_number)
+						{
+							$arr = false; 
+							foreach($data_number as $dn)
+							{
+								$arr['number'] = $dn->number; ;
+								$arr['text'] = $data['text'];
+								$arr['id_user'] = $data['id_user'];
+								$val[]= $arr;								
+							}	
+						}
+						$ret = $this->send->local_send($val);
+						if($ret)
+						{
+							if(isset($data['id_draft']))
+							{
+								$this->inbox_model->delete($data['id_draft']);
+							}
+							$status = true;
+						}																	
 					}
 				}
-				//$temp['number'] = $data['number_box'];
+				
 			}
 			else
 			{
 				$temp['number'] = $data['number'];
-			}
-			// jika number array
-			$val = false;
-			$arr = false; 
-			$number = false;
-			if(is_array($temp['number']))
-			{
-				$number = $temp['number'];
-				for($i=0;$i < count($number);$i++)
-				{
-					$arr['number'] = $number[$i];
-					$arr['text'] = $data['text'];
-					$arr['id_user'] = $data['id_user'];
-					$val[]= $arr;
-				}
-				
-				//var_dump($val);
-				//$ret = $this->curl->simple_post(base_url().'send/',$tmp);
-				$ret = $this->send->local_send($val);
-				if($ret)
-				{
-					if(isset($data['id_draft']))
-					{
-						$this->inbox_model->delete($data['id_draft']);
-					}
-					$status = true;
-				}
-			}
-			else
-			{
 				$temp['text'] = $data['text'];
 				$temp['id_user'] = $data['id_user'];
 				$tmp[]= $temp;
-				//var_dump($tmp);
-				//$ret = $this->curl->simple_post('send/',$tmp);
 				$ret = $this->send->local_send($tmp);
 				if($ret)
 				{
@@ -110,7 +100,7 @@ Class Dashboard extends MY_Controller{
 						$this->inbox_model->delete($data['id_draft']);
 					}
 					$status = true;
-				}								
+				}
 			}
 			$status = $status && $status;
 			if($status)

@@ -67,7 +67,7 @@
 			}).get();
 			
 			$.post('<?php echo base_url();?>dashboard_data/mark_spam',{thread:blist},function(data){
-				console.log(data);
+				//console.log(data);
 				if(data == 'true')
 				{
 					location.reload();
@@ -87,7 +87,7 @@
 			}).get();
 			
 			$.post('<?php echo base_url();?>dashboard_data/remove_blacklist',{thread:blist},function(data){
-				console.log(data);
+				//console.log(data);
 				if(data == 'true')
 				{
 					location.reload();
@@ -238,6 +238,25 @@
 		applyPagination();
 	}
 	
+	function mark_unread()
+	{
+		var uread =  $('.pesan_list:checkbox').map(function() {
+			if(this.checked){
+			   return this.value;
+			  }
+		}).get();
+		
+		$.post('<?php echo base_url();?>dashboard_data/mark_unread',{thread:uread},function(data){
+			//console.log(data);
+			if(data == 'true')
+			{
+				location.reload();
+			}
+			
+			
+		});		
+	}
+	
 	function edit_address(id_address_book)
 	{
 		$.post('<?php echo base_url();?>address/edit_address/'+id_address_book,function(data){
@@ -283,6 +302,7 @@
 	<a href="#mark_not_spams" data-toggle="modal" data-placement="bottom" rel="tooltip" data-title="Bukan Spam" class="btn btn-info" id="marks" >Bukan Spam</a>
 		<?php } ?>
 	<?php }?>
+	<a class="btn" data-placement="bottom" rel="tooltip" data-title="Mark Unread" onclick="mark_unread()" > <i class="icon-ok-circle"></i> </a>
 </div>
 <?php }?>
 <form class="form-search pull-right" id="search">

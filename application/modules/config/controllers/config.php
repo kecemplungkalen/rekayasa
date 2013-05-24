@@ -29,7 +29,9 @@ Class Config extends MY_Controller{
 		$tab['config_smtp'] = $this->load->view('config_smtp_view',$smtp,true);
 		$tab['send_limit'] = $this->load->view('config_sendlimit_view',$limit,true);
 		$tab['config_at'] = $this->load->view('config_atcommands_view','',true);
-		$data['navbar'] = $this->load->view('navbar_view','',true);
+		$this->load->module('dashboard_data');
+		$dt['modem'] = $this->dashboard_data->cekmodem();		
+		$data['navbar'] = $this->load->view('navbar_view',$dt,true);
 		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
 		$data['top_button'] = $this->load->view('config_top_view','',true);
 		$data['content'] = $this->load->view('config_content_tab_view',$tab,true);

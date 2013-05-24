@@ -55,7 +55,9 @@ Class Address extends MY_Controller{
 		$blacklist = false; 
 		$side['baku'] = $this->message->sidebar_baku();
 		$side['add'] =  $this->message->sidebar_adt();
-		$data['navbar'] = $this->load->view('navbar_view','',true);
+		$this->load->module('dashboard_data');
+		$dt['modem'] = $this->dashboard_data->cekmodem();
+		$data['navbar'] = $this->load->view('navbar_view',$dt,true);
 		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
 		$top['data'] = $this->Groupname_Model->gets();
 		$data['top_button'] = $this->load->view('address_top_button_view',$top,true);
@@ -111,7 +113,9 @@ Class Address extends MY_Controller{
 		$blacklist = true; 
 		$side['baku'] = $this->message->sidebar_baku();
 		$side['add'] =  $this->message->sidebar_adt();
-		$data['navbar'] = $this->load->view('navbar_view','',true);
+		$this->load->module('dashboard_data');
+		$dt['modem'] = $this->dashboard_data->cekmodem();		
+		$data['navbar'] = $this->load->view('navbar_view',$dt,true);
 		$data['sidebar'] = $this->load->view('sidebar_view',$side,true);
 		$top['data'] = $this->Groupname_Model->gets();
 		$data['top_button'] = $this->load->view('blacklist_top_button_view',$top,true);

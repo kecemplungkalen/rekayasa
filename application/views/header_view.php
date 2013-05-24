@@ -32,7 +32,10 @@
 			$("[rel=tooltip]").tooltip();
 			}
 		});
-			
+		function rload()
+		{
+			location.reload();
+		}
 	</script>
 	  <style type="text/css">
 		  #prog {
@@ -41,7 +44,7 @@
 			margin-top: 0;
 			top: 50%;
 			overflow: visible;
-			#z-index : 99999;
+			z-index : 99999;
 			}
 	  </style>
   </head>

@@ -1,5 +1,5 @@
 <body>
-<?php if(isset($navbar)){ echo $navbar;}?>		
+<?php if(isset($navbar)){ echo $navbar;}?>
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span3">

@@ -78,7 +78,7 @@ Class Dashboard_data extends MY_Controller{
 		}
 		
 	}
-	public function hapus_message()
+	function hapus_message()
 	{
 		//thread label yg di remove  
 		
@@ -129,7 +129,7 @@ Class Dashboard_data extends MY_Controller{
 		
 	}
 	
-	public function apply_label()
+	function apply_label()
 	{
 		$id_labelname = $this->input->post('id_label');
 		$thread = $this->input->post('thread');
@@ -178,7 +178,7 @@ Class Dashboard_data extends MY_Controller{
 		
 	}
 	
-	public function hapus_label()
+	function hapus_label()
 	{
 		$thread = $this->input->post('thread');
 		$id_labelname = $this->input->post('id_labelname');
@@ -240,7 +240,7 @@ Class Dashboard_data extends MY_Controller{
 		return false;
 	}
 	
-	public function set_archive()
+	function set_archive()
 	{
 		// ganti thread 
 		
@@ -329,7 +329,7 @@ Class Dashboard_data extends MY_Controller{
 	}
 	
 	
-	public function modal_body($thread=false,$label=false)
+	function modal_body($thread=false,$label=false)
 	{
 		$thread = $this->input->get('thread');
 		$label = $this->input->get('label');
@@ -630,6 +630,35 @@ Class Dashboard_data extends MY_Controller{
 		return false;
 		
 	}
+	function mark_unread()
+	{
+		$thread = $this->input->post('thread');
+		$status = false;
+		if($thread)
+		{
+			
+			for($i=0;$i < count($thread);$i++)
+			{
+				$where = array('thread' => $thread[$i]);
+				$data = array('read_status' => '0');
+				$datath = $this->inbox_model->update_where($where,$data);
+				if($datath)
+				{
+					$status = true;
+				}
+				
+			}
+			$status = $status && $status;
+		}
+		if($status)
+		{
+			echo 'true';
+		}
+		else
+		{
+			echo 'false';
+		}
+	}
 	
 	function compose_sms()
 	{
@@ -639,5 +668,22 @@ Class Dashboard_data extends MY_Controller{
 		$this->load->view('modal/compose_sms_modal_view',$data);
 	}
 	
+	function cekmodem()
+	{
+		$this->load->model('gammu/phones_model');
+		$now = date('Y-m-d H:i:s');
+		$where = array('TimeOut < ' => $now);
+		$cekphone = $this->phones_model->where_kols($where);
+		$tmp=false;
+		if($cekphone)
+		{
+			foreach($cekphone as $chk)
+			{
+				$tmp[] =$chk->ID;
+			}
+			return $tmp;	
+		} 
+		return false;		
+	}
 
 }
