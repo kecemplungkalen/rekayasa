@@ -19,8 +19,10 @@
 					  var source = [];
 					  // ambil JSON ke server
 						$.post('<?php echo base_url();?>dashboard_data/get_addr',{query:query},function(result){
+							
 							if(result)
 							{
+								console.log(result);
 									source = result;
 									$.each(source, function (i, dt) {
 										map[dt.first_name+''+dt.last_name] = dt;
