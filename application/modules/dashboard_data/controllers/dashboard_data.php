@@ -27,8 +27,9 @@ Class Dashboard_data extends MY_Controller{
 				$tmp['first_name'] = $res->first_name;
 				$tmp['last_name'] = $res->last_name;
 				$tmp['number'] = $res->number;
-				$data[] = $tmp;
 			}
+			$data[] = $tmp;
+			
 		}
 		echo json_encode($data);
 
