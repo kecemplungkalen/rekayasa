@@ -127,7 +127,7 @@
 			
 			var text = $('#text').val();
 			var id_user = $('#id_user').val();
-			$.post('<?php echo base_url();?>dashboard/dummy',{number:number,checkbox:checkbox,text:text,number_box:number_box,id_user:id_user},function(data){
+			$.post('<?php echo base_url();?>dashboard/insert',{number:number,checkbox:checkbox,text:text,number_box:number_box,id_user:id_user},function(data){
 				if(data=='true')
 				{
 					location.reload();
