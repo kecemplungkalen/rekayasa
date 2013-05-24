@@ -20,15 +20,14 @@ Class Dashboard_data extends MY_Controller{
 		$data = false;
 		if($dataresult)
 		{
+			$tmp = false;
 			foreach($dataresult as $res)
 			{
-				$data[] = array(
-				'id_address_book' => $res->id_address_book,
-				'first_name' => $res->first_name,
-				'last_name' => $res->last_name,
-				'number' => $res->number
-				);
-				
+				$tmp['id_address_book']= $res->id_address_book;
+				$tmp['first_name'] = $res->first_name;
+				$tmp['last_name'] = $res->last_name;
+				$tmp['number'] = $res->number;
+				$data[] = $tmp;
 			}
 			echo json_encode($data);
 		}
