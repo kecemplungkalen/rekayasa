@@ -434,7 +434,10 @@ Class Dashboard_data extends MY_Controller{
 					}
 					
 					$tmp['number'] = $isi->number;
-					
+					if($isi->send_status)
+					{
+						$tmp['send_status'] = $isi->send_status;
+					}
 					$tmp['read_status'] = $isi->read_status;
 					if($isi->read_status != '1')
 					{

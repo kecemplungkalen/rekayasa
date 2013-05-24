@@ -138,9 +138,22 @@
 					<?php } ?>
 				<?php } ?>
 			</td>
-		<?php if(isset($lbl)){?>			
+		<?php if(isset($data[$i]['send_status'])){?>			
 			<?php if($lbl == 'sent'){?>
-			<td> <?php if(isset($label[$i]['send_status'])){ echo $label[$i]['send_status'];}?> </td>
+			<td> 
+			
+			<?php if($data[$i]['send_status'] != ''){ ?> 
+				<?php if($data[$i]['send_status']=='DeliveryOK'){ ?>
+					<span class="label label-success"><?php echo $data[$i]['send_status']; ?></span> 				
+				<?php } elseif( $data[$i]['send_status'] == 'SendingError' || $data[$i]['send_status']  == 'Error') {?>
+					<span class="label label-important"><?php echo $data[$i]['send_status']; ?></span> 				
+				<?php } else { ?>
+					<span class="label label-info"><?php echo $data[$i]['send_status']; ?></span> 				
+				<?php } ?>
+			<?php }?> 
+			
+			
+			</td>
 			<?php } ?>
 		<?php } ?>
 		</tr>

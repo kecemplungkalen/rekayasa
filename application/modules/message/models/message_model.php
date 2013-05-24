@@ -57,7 +57,7 @@ Class message_model extends CI_model{
 	{
 		if($thread)
 		{
-			$this->db->select('max(inbox.id_inbox) as id_inbox,max(recive_date) as recive_date,min(read_status) as read_status,thread,count(id_inbox) as total, inbox.number,first_name,last_name,send_status');
+			$this->db->select('max(inbox.id_inbox) as id_inbox,max(recive_date) as recive_date,min(read_status) as read_status,thread,count(id_inbox) as total, inbox.number,first_name,last_name,max(send_status) as send_status');
 			$this->db->join('address_book','address_book.id_address_book=inbox.id_address_book','left');			
 			$this->db->where_in('thread',$thread);
 			if($where)
