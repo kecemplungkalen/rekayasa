@@ -43,6 +43,7 @@
 				{
 					  // lakukan apapun yang ingin dilakukan dengan ID data terpilih
 					selectedItem = map[item].number;
+					console.log(selectedItem);
 					 $('#num').val(selectedItem);
 						
 
