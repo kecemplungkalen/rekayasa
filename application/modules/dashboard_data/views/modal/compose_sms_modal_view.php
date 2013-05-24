@@ -22,7 +22,6 @@
 							
 							if(result)
 							{
-								console.log(result);
 									source = result;
 									$.each(source, function (i, dt) {
 										map[dt.first_name+''+dt.last_name] = dt;
@@ -45,7 +44,6 @@
 				{
 					  // lakukan apapun yang ingin dilakukan dengan ID data terpilih
 					selectedItem = map[item].number;
-					console.log(map);
 					 $('#num').val(selectedItem);
 						
 
@@ -130,9 +128,6 @@
 			var text = $('#text').val();
 			var id_user = $('#id_user').val();
 			$.post('<?php echo base_url();?>dashboard/dummy',{number:number,checkbox:checkbox,text:text,number_box:number_box,id_user:id_user},function(data){
-				console.log(data);
-
-/*
 				if(data=='true')
 				{
 					location.reload();
@@ -141,7 +136,7 @@
 				{
 					$('#warning').show();
 				}
-*/
+
 
 
 			});
