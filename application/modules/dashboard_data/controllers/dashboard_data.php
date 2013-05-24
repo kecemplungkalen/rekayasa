@@ -29,10 +29,9 @@ Class Dashboard_data extends MY_Controller{
 				$tmp['number'] = $res->number;
 				$data[] = $tmp;
 			}
-			echo json_encode($data);
 		}
-		else
-		return false;
+		echo json_encode($data);
+
 		
 	}
 	function remove_from_trash()
