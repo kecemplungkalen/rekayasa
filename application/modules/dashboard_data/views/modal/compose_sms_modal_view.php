@@ -32,11 +32,7 @@
 									});								
 									process(data);
 							}
-							else
-							{
-								var dud = $('#number').val();
-								$('#number').data('number',dud);
-							}
+
 						},'json');
 				},
 				
@@ -47,7 +43,7 @@
 				{
 					  // lakukan apapun yang ingin dilakukan dengan ID data terpilih
 					selectedItem = map[item].number;
-					 $('#number').data('number',selectedItem)
+					 $('#num').val(selectedItem);
 						
 
 					  // penting! jangan hapus kode di bawah ini (used by typeahead)
@@ -106,7 +102,7 @@
 			//console.log($('#form_send').serialize());
 			var number = '';
 			var checkbox = '0';
-			var addr_num = $('#number').data('number');
+			var addr_num = $('#num').val();
 			if(addr_num != undefined)
 			{
 				number = addr_num;
@@ -165,6 +161,7 @@
 				<label class="control-label"><strong>Send To Number</strong></label>
 				<div class="controls">
 					<input type="hidden" name="id_address_book" id="id_address_book">
+					<input type="hidden" name="num" id="num">
 					<input type="text" id="number" name="number" class="input-block-level input-medium"  placeholder="Name Address Or Number" autocomplete="off">
 				</div>
 
