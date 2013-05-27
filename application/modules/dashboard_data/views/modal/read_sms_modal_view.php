@@ -362,6 +362,7 @@
 				<br>
 				<input type="hidden" name="id_user" value="<?php echo $this->session->userdata('id_user');?>">
 				<input type="hidden" name="thread" value="<?php echo $data[0]['thread'];?>">
+				<input type="hidden" name="checkbox" value="0">
 				<textarea id="text" name="text" rows="3" style="width:97%;" onkeyup="countChar(this)"></textarea>
 				<span class="help-inline" id="charNum"> </span>
 				<button type="submit"  class="btn btn-success pull-right">Send</button>
