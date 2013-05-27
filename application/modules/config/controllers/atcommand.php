@@ -13,13 +13,10 @@ Class Atcommand extends MX_Controller{
 		$data = $_POST;
 		if(is_array($data))
 		{
-			$pulsa = ussd_number($data['param'],$data['port']);
-			if($pulsa)
-			{
-				return $pulsa;
-				
-			}
+			echo ussd_number($data['param'],$data['port']);
+
 		}
+		else
 		return FALSE;
 	}
 	
