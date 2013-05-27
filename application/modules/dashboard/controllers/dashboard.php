@@ -88,18 +88,37 @@ Class Dashboard extends MY_Controller{
 			}
 			else
 			{
-				$temp['number'] = $data['number'];
-				$temp['text'] = $data['text'];
-				$temp['id_user'] = $data['id_user'];
-				$tmp[]= $temp;
-				$ret = $this->send->local_send($tmp);
-				if($ret)
+				if(is_array($data['number']))
 				{
-					if(isset($data['id_draft']))
+					$num = $data['number'];
+					for($i=0;$i< count($num);$i++)
 					{
-						$this->inbox_model->delete($data['id_draft']);
+						$temp['number'] = $num[$i];
+						$temp['text'] = $data['text'];
+						$temp['id_user'] = $data['id_user'];
+						$tmp[]= $temp;
+						$ret = $this->send->local_send($tmp);
+						if($ret)
+						{
+							$status = true;
+						}					
 					}
-					$status = true;
+				}
+				else
+				{
+					$temp['number'] = $data['number'];
+					$temp['text'] = $data['text'];
+					$temp['id_user'] = $data['id_user'];
+					$tmp[]= $temp;
+					$ret = $this->send->local_send($tmp);
+					if($ret)
+					{
+						if(isset($data['id_draft']))
+						{
+							$this->inbox_model->delete($data['id_draft']);
+						}
+						$status = true;
+					}					
 				}
 			}
 			$status = $status && $status;

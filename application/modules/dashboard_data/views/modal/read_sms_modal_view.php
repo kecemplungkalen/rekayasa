@@ -143,9 +143,10 @@
 			$('#act').html('<h5>Forward:</h5>');
 			$('#text').html(content);
 			
-			$('#number_fwd').html('<div class="form-inline"><select class="combobox" name="number_box[]" id="number_box"><?php if($pbk){?><?php foreach($pbk as $pb){?> <option value="<?php echo $pb->number?>"><?php echo $pb->first_name.' '.$pb->last_name ;?></option><?php }?><?php }?></select><a class="btn" rel="tooltip"  data-toggle="tooltip" data-original-title="Add recipient(s)"  onclick="add_penerima()">+</a></div>');
+			//$('#number_fwd').html('<div class="form-inline"><input type="text" id="number[]" name="number" class="input-medium"  placeholder="Name Address Or Number" autocomplete="off"> <a class="btn" rel="tooltip"  data-toggle="tooltip" data-original-title="Add recipient(s)"  onclick="add_penerima()">+</a></div><br>');
+			//$('#number_fwd').append('<input type="hidden" name="num" id="num">');
+			$('#number_fwd').html('<div class="form-inline"><select class="combobox" name="number[]" id="number_box"><?php if($pbk){?><?php foreach($pbk as $pb){?> <option value="<?php echo $pb->number?>"><?php echo $pb->first_name.' '.$pb->last_name ;?></option><?php }?><?php }?></select><a class="btn" rel="tooltip"  data-toggle="tooltip" data-original-title="Add recipient(s)"  onclick="add_penerima()">+</a></div>');
 			$('#number_fwd').append('<input type="hidden" id="checkbox" name="checkbox" value="true" >');
-
 			$('#number_box').combobox();
 			
 
@@ -372,7 +373,6 @@
 	</div>
 	
 	<div class="modal-footer">
-		<a id="save" class="btn btn-info hide" onclick="save()">Save</a>
 		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true" onclick="reloadz()">Close</a>
 	</div>
 </div>

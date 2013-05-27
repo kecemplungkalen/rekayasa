@@ -9,7 +9,6 @@ Class Add_process extends MX_Controller{
 		$this->load->model('Filter_Model');
 		$this->load->model('Filter_Detail_Model');
 		$this->load->model('Filter_Action_model');
-		$this->load->model('Add_Process_Model');
 		$this->load->model('Filter_Delimiter_Model');
 		$this->load->model('Filter_Regex_Model');
 		$this->load->model('inbox_model');
@@ -18,6 +17,7 @@ Class Add_process extends MX_Controller{
 		$this->load->model('Address_Book_Model');
 		$this->load->model('Operator_Number_Model');
 		$this->load->model('Blacklist_Model');
+		$this->load->model('User_Model');
 
 	}
 	
@@ -33,7 +33,20 @@ Class Add_process extends MX_Controller{
 			$recive_date = strtotime($data->ReceivingDateTime);  
 			
 			// cari dimana 
-			$id_user = '1';
+			$id_user = false;
+			$password = false;
+			$apikey = false;
+			$getuser = false;
+			# ambil level 1 dan API 1
+			$ussr = array('status' => '1','level' => '1','api' => '1');
+			$getuser = $this->User_Model->get($ussr);
+			if($getuser)
+			{
+				$id_user = $getuser->id_user;
+				$password = $getuser->password;
+				$apikey = $getuser->api_key;
+				
+			}
 
 			
 			//cek di address 
@@ -46,14 +59,6 @@ Class Add_process extends MX_Controller{
 			else
 			{
 				//tambah ke phone book tambah ke group no group 
-				//$tambah_address_book = $this->Address_Book_Model->add($number,$number,'','',$id_user);
-				//'first_name' => $first_name,
-				//'last_name' => $last_name,
-				//'number' => $number,
-				//'email' => $email,
-				//'create_date' => time(),
-				//'last_update' => time(),
-				//'id_user' => $id_user
 				$data_smsc = false;
 				$id_smsc = $this->Smsc_Model->get_by_col('smsc_number',$smsc);
 				if($id_smsc)
@@ -99,35 +104,6 @@ Class Add_process extends MX_Controller{
 				{
 					$id_address_book = $tambah_address_book;
 				
-					//$id_smsc = $this->Smsc_Model->get_by_col('smsc_number',$smsc);
-					////log_message('error','smsc nya '.print_r($id_smsc));
-					//if($id_smsc)
-					//{
-						//// kolom id_smsc isinya smsc_name.id_smsc_name 
-						//$data = array('id_smsc' => $id_smsc->smsc_name);
-						
-						//$this->Address_Book_Model->update($id_address_book,$data);
-					//}
-					//else // jika tidak ada di database smsc ambil di data operator number
-					//{
-						
-						////$match = preg_match(); 
-						
-						//$data_op = $this->Operator_Number_Model->gets();
-						//if($data_op)
-						//{
-							//foreach($data_op as $dp)
-							//{
-								//if(preg_match('/^\\'.$dp->operator_number.'/',$number))
-								//{
-									//$data = array('id_smsc' => $dp->id_smsc_name);
-									//$this->Address_Book_Model->update($id_address_book,$data);
-								//}
-							//}
-							
-						//}
-						
-					//}					
 				}
 			}
 			
@@ -153,15 +129,15 @@ Class Add_process extends MX_Controller{
 					}
 					$id_inbox_ar = $cil;
 					//ambil id nama label di label (wafer 2);
+					$insert_labelname = false;
 					$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
-					//$insert_labelname = false;
 					if($comot_id_labelname)
 					{
 						$lbl_name = false;
 						foreach($comot_id_labelname as $id_labelname)
 						{
 							// sementara tunggu revisi
-							if($id_labelname->id_labelname != '1' && $id_labelname->id_labelname != '2' && $id_labelname->id_labelname != '3' && $id_labelname->id_labelname != '4' && $id_labelname->id_labelname != '5')
+							if($id_labelname->id_labelname != '1' && $id_labelname->id_labelname != '2' && $id_labelname->id_labelname != '3')
 							{
 								$lbl_name['id_labelname'] = $id_labelname->id_labelname;
 								$insert_labelname[]= $lbl_name; // dapat id_labelname
@@ -253,7 +229,7 @@ Class Add_process extends MX_Controller{
 						$logika = $this->saring($df->id_filter,$number,$isi_sms,$delimiter->value_delimiter);
 						if($logika)
 						{
-							$this->filter_action($df->id_filter,$recive_date,$number,$id_inbox,$id_label_inbox,$isi_sms);
+							$this->filter_action($df->id_filter,$recive_date,$number,$id_inbox,$id_label_inbox,$isi_sms,$getuser);
 						}
 						
 					} // end ambil filter by id and proses 
@@ -268,7 +244,7 @@ Class Add_process extends MX_Controller{
 		//di return langsung  
 	}	
 	
-	function filter_action($id_filter=false,$recive_date=false,$number=false,$id_inbox=false,$id_label_inbox=false,$isi_sms=false)
+	function filter_action($id_filter=false,$recive_date=false,$number=false,$id_inbox=false,$id_label_inbox=false,$isi_sms=false,$getuser=false)
 	{
 		$action = $this->Filter_Action_model->gets_by_col('id_filter',$id_filter);
 		if($action)
@@ -284,7 +260,10 @@ Class Add_process extends MX_Controller{
 					
 					case '2' :
 					//action post api
-					$this->post_data_api($act->api_post,$act->api_error_email,$recive_date,$number,$isi_sms);
+					if($getuser)
+					{
+						$this->post_data_api($act->api_post,$act->api_error_email,$recive_date,$number,$isi_sms,$getuser);
+					}
 					break;
 					
 					case '3' :
@@ -307,6 +286,7 @@ Class Add_process extends MX_Controller{
 
 	}
 	
+	/*
 	function saring($id_filter=false,$number=false,$isi_sms=false,$delimiter=false)
 	{
 		
@@ -335,7 +315,7 @@ Class Add_process extends MX_Controller{
 							case '=' :
 								if(isset($data_isisms[$t->word-1]))
 								{
-									if($t->regex_data == $data_isisms[$t->word-1])
+									if(strtoupper($t->regex_data) == strtoupper($data_isisms[$t->word-1]))
 									{
 										$valid = true;
 									}
@@ -449,16 +429,246 @@ Class Add_process extends MX_Controller{
 		}
 		return false;
 	}
+	*/
+	function saring($id_filter=false,$number=false,$isi_sms=false,$delimiter=false)
+	{
+		
+		$tmp = $this->Filter_Detail_Model->gets_by_col('id_filter',$id_filter);
+		if($tmp)
+		{
+			$temp = false;
+			$valid_array = false;
+			$add_rule = false;
+			$v = false;
+			$word = false;
+			//olah validasi 
+			$data_isisms = false;
+			
+			$data_isisms = explode($delimiter,$isi_sms);
+			$ambil_total = array('id_filter' => $id_filter);
+			$jumlah_filter_word = $this->Filter_Detail_Model->gets($ambil_total ,'word');
+			// totalnya 
+			$jum_word = count($jumlah_filter_word);
+
+			foreach($tmp as $t)
+			{
+				//$value_filter = ;
+				$valid = false;
+				//jika messages
+				if($t->type_filter == 'messages')
+				{
+					if($t->type_regex != 'type')
+					{
+						switch($t->type_regex)
+						{
+							case '=' :
+							
+								if(isset($data_isisms[$t->word-1]))
+								{
+									//set to strtoupper
+									if($jum_word-1 == $t->word-1)
+									{
+										$dumay = false;
+										for($j=$t->word-1; $j < count($data_isisms); $j++){
+											if($dumay){
+												$dumay .= ' '.$data_isisms[$j];
+											}else{
+												$dumay = $data_isisms[$j];
+											}
+										}
+										if(strtoupper($t->regex_data) == strtoupper($dumay))
+										{
+											$valid = true;
+										}											
+									}
+									else
+									{
+										if(strtoupper($t->regex_data) == strtoupper($data_isisms[$t->word-1]))
+										{
+											$valid = true;
+										}
+									}
+								}
+							break;
+							case 'start_with' :
+								if(isset($data_isisms[$t->word-1]))
+								{
+									if($jum_word-1 == $t->word-1)
+									{
+										$dumay = false;
+										for($j=$t->word-1; $j < count($data_isisms); $j++){
+											if($dumay){
+												$dumay .= ' '.$data_isisms[$j];
+											}else{
+												$dumay = $data_isisms[$j];
+											}
+										}
+										if(preg_match('/^'.$t->regex_data.'/',$dumay))
+										{
+											$valid = true;
+										}										
+									}
+									else
+									{
+										if(preg_match('/^'.$t->regex_data.'/',$data_isisms[$t->word-1]))
+										{
+											$valid = true;
+										}
+										
+									}
+								}
+							break;
+							case 'regex' : 
+								if(isset($data_isisms[$t->word -1]))
+								{
+									if($jum_word-1 == $t->word-1)
+									{
+										$dumay = false;
+										for($j=$t->word-1; $j < count($data_isisms); $j++){
+											if($dumay){
+												$dumay .= ' '.$data_isisms[$j];
+											}else{
+												$dumay = $data_isisms[$j];
+											}
+										}
+										if(preg_match('/'.$t->regex_data.'/',$dumay))
+										{
+											$valid = true;
+										}
+									}
+									else
+									{
+										if(preg_match('/'.$t->regex_data.'/',$data_isisms[$t->word -1]))
+										{
+											$valid = true;
+										}															
+									}			
+								}
+							break;
+						}
+						
+					}
+					else
+					{
+						if(isset($data_isisms[$t->word -1]))
+						{
+							
+							if($jum_word-1 == $t->word-1)
+							{
+								$dumay = false;
+								for($j=$t->word-1; $j < count($data_isisms); $j++){
+									if($dumay){
+										$dumay .= ' '.$data_isisms[$j];
+									}else{
+										$dumay = $data_isisms[$j];
+									}
+								}
+								$fr = $this->Filter_Regex_Model->get($t->id_filter_regex);
+								if(preg_match($fr->regex_value,$dumay))
+								{
+									$valid = true;
+								}								
+							}
+							else          
+							{
+								$fr = $this->Filter_Regex_Model->get($t->id_filter_regex);
+								if(preg_match($fr->regex_value,$data_isisms[$t->word -1]))
+								{
+									$valid = true;
+								}								
+							}
+						}
+					}					
+				}else // jika number
+					{
+						if($t->type_regex != 'type')
+						{
+							switch($t->type_regex)
+							{
+								case '=' :
+									if($t->regex_data == $number)
+									{
+										$valid = true;
+									}
+								break;
+								case 'start_with' :
+									if(preg_match('/^'.$t->regex_data.'/',$number))
+									{
+										$valid = true;
+									}
+								break;
+								case 'regex' : 
+									if(preg_match('/'.$t->regex_data.'/',$number))
+									{
+										$valid = true;
+									}
+								break;
+							}
+							
+						}else
+						{
+							//sementara sama dengan regex
+							if(preg_match('/'.$t->regex_data.'/',$data_isisms[$t->word -1]))
+							{
+								$valid = true;
+							}
+						}
+					}
+				$temp['status'] = $valid;
+				$temp['addons'] = $t->add_rule;
+				$v[] = $temp; 
+			}
+			$valid_array = $v;
+			if($valid_array)
+			{
+
+				$logika=null;
+				for($i=0; $i < count($valid_array); $i++)
+				{
+					
+					if($valid_array[$i]['addons'] == 'and')
+					{
+						if(isset($logika))
+						{
+							$logika = $logika && $valid_array[$i]['status'];
+						}
+						else
+						{
+
+							$logika = $valid_array[$i]['status'] && $valid_array[$i+1]['status'];
+						}
+					}
+					elseif($valid_array[$i]['addons'] == 'or')
+					{
+						if(isset($logika))
+						{
+							$logika = $logika || $valid_array[$i]['status'];
+						}
+						else
+						{   
+							$logika = $valid_array[$i]['status'] || $valid_array[$i+1]['status'];
+						}
+					}
+					else{
+						break;
+					}
+				}
+				return $logika;
+			}
+		}
+		return false;
+	}
 	
-	public function post_data_api($url_api=false,$report_email=false,$recive_date=false,$number=false,$data_sms=false)
+	public function post_data_api($url_api=false,$report_email=false,$recive_date=false,$number=false,$data_sms=false,$getuser=false)
 	{
 		if($url_api)
 		{
 			$data_api = array(
 			'message' => $data_sms,
-			'username' => 'admin',
-			'password' => 'admin',
+			'username' => $getuser->username,
+			'password' => $getuser->password,
 			'tanggal' => $recive_date,
+			'key' => $getuser->api_key,
 			'number' => $number
 			
 			);

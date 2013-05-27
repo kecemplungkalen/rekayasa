@@ -49,4 +49,24 @@ Class Filter_Detail_Model extends CI_model{
 		return FALSE;
 	}
 	
+	function gets($where=FALSE,$group=FALSE)
+	{
+		if($where)
+		{
+			$this->db->where($where);
+			if($group)
+			{
+				$this->db->group_by($group);
+			}
+			$data = $this->db->get('filter_detail');
+			if($data->num_rows() > 0)
+			{
+				return $data->result();
+			}
+			
+		}
+		return FALSE;
+	}
+	
+	
 }
