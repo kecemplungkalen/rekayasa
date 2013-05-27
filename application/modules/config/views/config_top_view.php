@@ -13,7 +13,7 @@
 	<?php if($role_id == '1'){?>
 	<li><a href="#smtp" data-toggle="tab">SMTP</a></li>
 	<li><a href="#sendlimit" data-toggle="tab">Sending Limit</a></li>
-	<li><a href="#atcommands" data-toggle="tab">AT Commands</a></li>
+	<li><a href="#atcommands" data-toggle="tab">Commands</a></li>
 	<?php } ?>
 </ul>
 <!-- javascriptnya -->
