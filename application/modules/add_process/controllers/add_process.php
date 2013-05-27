@@ -664,14 +664,14 @@ Class Add_process extends MX_Controller{
 		if($url_api)
 		{
 			$data_api = array(
-			'message' => $data_sms,
-			'username' => $getuser->username,
-			'password' => $getuser->password,
-			'tanggal' => $recive_date,
-			'key' => $getuser->api_key,
-			'number' => $number
-			
+			'message' => $data_sms, // Kontent SMS 
+			'username' => $getuser->username,// usname user level tertinggi 
+			'password' => $getuser->password, // password user level tertinggi 
+			'tanggal' => $recive_date, // tanggal konfirmasi (sms diterima di mesin) 
+			'key' => $getuser->api_key, // Api key user tertinggi 
+			'number' => $number // password user tertinggi 
 			);
+			
 			$respons = $this->curl->simple_post($url_api,$data_api);
 			if($respons)
 			{
