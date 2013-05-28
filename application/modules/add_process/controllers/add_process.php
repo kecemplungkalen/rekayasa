@@ -33,22 +33,7 @@ Class Add_process extends MX_Controller{
 			$smsc = $data->SMSCNumber;
 			$recive_date = strtotime($data->ReceivingDateTime);  
 			
-			// cari dimana 
-			$id_user = false;
-			$password = false;
-			$apikey = false;
-			$getuser = false;
-			# ambil level 1 dan API 1
-			$ussr = array('status' => '1','level' => '1','api' => '1');
-			$getuser = $this->User_Model->get($ussr);
-			log_message('error','Ambil Data User => '.print_r($getuser,true)); 	
-			if($getuser)
-			{
-				$id_user = $getuser->id_user;
-				$password = $getuser->password;
-				$apikey = $getuser->api_key;
-				
-			}
+
 
 			
 			//cek di address 
@@ -91,16 +76,30 @@ Class Add_process extends MX_Controller{
 					}
 					
 				}					
-
+				// cari dimana 
+				$id_user = false;
+				$password = false;
+				$apikey = false;
+				$getuser = false;
+				# ambil level 1 dan API 1
+				$ussr = array('status' => '1','level' => '1','api' => '1');
+				$getuser = $this->User_Model->get($ussr);
+				log_message('error','Ambil Data User => '.print_r($getuser,true)); 	
+				if($getuser)
+				{
+					$id_user = $getuser->id_user;
+				}
+				
 				$addarr = array(
+				
 				'first_name' => $number,
 				'number' => $number,
 				'create_date' => time(),
 				'last_update' => time(),
 				'id_smsc' => $data_smsc,
 				'id_user' => $id_user
-				
 				);
+				
 				$tambah_address_book = $this->Address_Book_Model->add($addarr);
 				log_message('error',' tambah address=> '.print_r($tambah_address_book,true));
 
@@ -114,54 +113,44 @@ Class Add_process extends MX_Controller{
 			
 			//cek tread
 			$thread = mt_rand();;
-			$cari = array('number' => $number,'status_archive' => '0');
+			$cari = array('number' => $number,'status_archive' => '0','is_delete ' => '0');
 			$insert_labelname = false;
 			$cek_thread = $this->inbox_model->arr_wheres($cari);
 			if($cek_thread) // thread sudah pernah dibuat 
 			{
 				$thread = $cek_thread[0]->thread;
 				//ambil label sebelumnya
+
 				//ambil id_inbox berdasarkan thread  (wafer 1)
 				$comot_id_inbox = $this->inbox_model->gets_where('thread',$thread);
 				$cil = false;
 				$col = false;
+				$id_inbox_ar = false; 				
 				if($comot_id_inbox)
 				{
-					$id_inbox_ar = false; 
 					foreach($comot_id_inbox as $comot)
 					{
 						$cil[] = $comot->id_inbox;
 					}
-					$id_inbox_ar = $cil;
+					// dapa id inbox array 
+					
+					
+
 					//log_message('error',' comot id labelname => '.print_r($comot_id_labelname,true));
 					//log_message('error',' comot id labelname => '.print_r($comot_id_labelname,true));
 					//ambil id nama label di label (wafer 2);
-					$insert_labelname = false;
-					$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
-					log_message('error',' comot id labelname => '.print_r($comot_id_labelname,true));
-
-					if($comot_id_labelname)
-					{
-						$lbl_name = false;
-						foreach($comot_id_labelname as $id_labelname)
-						{
-							// sementara tunggu revisi
-							if($id_labelname->id_labelname != '1' && $id_labelname->id_labelname != '2' && $id_labelname->id_labelname != '3')
-							{
-								$lbl_name['id_labelname'] = $id_labelname->id_labelname;
-								$insert_labelname[]= $lbl_name; // dapat id_labelname
-							}
-						}
-						
-					}
+					
+					// cari label dengan id inbox 
 				}
-				
+				$id_inbox_ar = $cil;
 			}
+			
 			log_message('error',' Insert labelname  => '.print_r($insert_labelname,true));
 
 			// cek di blacklist
 			$black = array('blacklist_number' => $number);
 			$cek_spam = $this->Blacklist_Model->get($black);
+			
 			log_message('error',' Cek Spam  => '.print_r($cek_spam,true));
 
 			if($cek_spam)
@@ -194,6 +183,8 @@ Class Add_process extends MX_Controller{
 			else
 			{
 				//insert ke tabel inbox mark unread 
+				
+				/// bukan spam 
 				$id_inbox = false;
 				$input_inbox = array(
 				'id_user' => $id_user,
@@ -215,17 +206,44 @@ Class Add_process extends MX_Controller{
 				
 				// tambah ke label inbox 
 				$id_label_inbox = $this->label_model->add($id_inbox,'1');
-				// tambahkan semua label thread sebelumnya kecuali sent (wafer 3)
-				if($insert_labelname)
+				$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
+					
+				log_message('error',' comot id labelname => '.print_r($comot_id_labelname,true));
+				$insert_labelname = false;
+				
+				if($comot_id_labelname)
 				{
-					for($i=0;$i<count($insert_labelname);$i++)
+					$lbl_name = false;
+					foreach($comot_id_labelname as $id_labelname)
 					{
-						$this->label_model->add($id_inbox,$insert_labelname[$i]['id_labelname']);
+						// sementara tunggu revisi
+						if($id_labelname->id_labelname != '1' && $id_labelname->id_labelname != '2' && $id_labelname->id_labelname != '3' && $id_labelname->id_labelname != '4' && $id_labelname->id_labelname != '5')
+						{
+							$cekd = array('id_inbox' => $id_inbox,'id_labelname' => $id_labelname->id_labelname);
+							$dicek = $this->label_model->getswhere($cekd);
+							if(!$dicek)
+							{
+								$this->label_model->add($id_inbox,$id_labelname->id_labelname);
+							}
+							// langsung di tambah label 
+						}
 					}
+					
 				}
 				
+				// tambahkan semua label thread sebelumnya kecuali sent (wafer 3)
+				//if($insert_labelname)
+				//{
+					
+					//for($i=0;$i<count($insert_labelname);$i++)
+					//{
+						
+						//$this->label_model->add($id_inbox,$insert_labelname[$i]['id_labelname']);
+					//}
+				//}
+				
 				//ambil filter aktif
-				$data_filter = $this->Filter_Model->gets(1);
+				$data_filter = $this->Filter_Model->gets('1');
 				if($data_filter)
 				{
 					//$data_isisms = false;
