@@ -665,6 +665,8 @@ Class Add_process extends MX_Controller{
 		 * 
 		 * <?xml version="1.0" encoding="UTF-8"?><xml><result><resultCode>-1</resultCode><resultMsg>Add confirmation failed</resultMsg></result></xml>
 		 * **/
+		log_message('error',' URL API => '.print_r($url_api,true));
+
 		if($url_api)
 		{
 			$data_api = array(
