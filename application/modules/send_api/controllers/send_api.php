@@ -47,6 +47,7 @@ Class Send_api extends MX_Controller{
 							{
 								$temp[] = array('number' => $data['number'],'text' => $data['content'],'id_user' => $get_user->id_user);  
 								$postsend = $this->send->local_send($temp);
+								log_message('error',' tempo  '.print_r($temp,true));
 								log_message('error',' postsend '.$postsend);
 								if($postsend)
 								{
