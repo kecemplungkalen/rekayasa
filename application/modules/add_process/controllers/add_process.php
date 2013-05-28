@@ -102,6 +102,7 @@ Class Add_process extends MX_Controller{
 				
 				);
 				$tambah_address_book = $this->Address_Book_Model->add($addarr);
+				log_message('error',' tambah address=> '.print_r($tambah_address_book,true));
 
 				if($tambah_address_book)
 				{
@@ -134,6 +135,8 @@ Class Add_process extends MX_Controller{
 					//ambil id nama label di label (wafer 2);
 					$insert_labelname = false;
 					$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
+					log_message('error',' comot id labelname => '.print_r($comot_id_inbox,true));
+
 					if($comot_id_labelname)
 					{
 						$lbl_name = false;
@@ -151,9 +154,13 @@ Class Add_process extends MX_Controller{
 				}
 				
 			}
+			log_message('error',' Insert labelname  => '.print_r($insert_labelname,true));
+
 			// cek di blacklist
 			$black = array('blacklist_number' => $number);
 			$cek_spam = $this->Blacklist_Model->get($black);
+			log_message('error',' Cek Spam  => '.print_r($cek_spam,true));
+
 			if($cek_spam)
 			{
 				$id_inbox = false;
