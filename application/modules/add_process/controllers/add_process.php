@@ -209,27 +209,27 @@ Class Add_process extends MX_Controller{
 				$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
 					
 				log_message('error',' comot id labelname => '.print_r($comot_id_labelname,true));
-				$insert_labelname = false;
+				//$insert_labelname = false;
 				
-				if($comot_id_labelname)
-				{
-					$lbl_name = false;
-					foreach($comot_id_labelname as $id_labelname)
-					{
-						// sementara tunggu revisi
-						if($id_labelname->id_labelname != '1' && $id_labelname->id_labelname != '2' && $id_labelname->id_labelname != '3' && $id_labelname->id_labelname != '4' && $id_labelname->id_labelname != '5')
-						{
-							$cekd = array('id_inbox' => $id_inbox,'id_labelname' => $id_labelname->id_labelname);
-							$dicek = $this->label_model->getswhere($cekd);
-							if(!$dicek)
-							{
-								$this->label_model->add($id_inbox,$id_labelname->id_labelname);
-							}
-							// langsung di tambah label 
-						}
-					}
+				//if($comot_id_labelname)
+				//{
+					//$lbl_name = false;
+					//foreach($comot_id_labelname as $id_labelname)
+					//{
+						//// sementara tunggu revisi
+						//if($id_labelname->id_labelname != '1' && $id_labelname->id_labelname != '2' && $id_labelname->id_labelname != '3' && $id_labelname->id_labelname != '4' && $id_labelname->id_labelname != '5')
+						//{
+							//$cekd = array('id_inbox' => $id_inbox,'id_labelname' => $id_labelname->id_labelname);
+							//$dicek = $this->label_model->getswhere($cekd);
+							//if(!$dicek)
+							//{
+								//$this->label_model->add($id_inbox,$id_labelname->id_labelname);
+							//}
+							//// langsung di tambah label 
+						//}
+					//}
 					
-				}
+				//}
 				
 				// tambahkan semua label thread sebelumnya kecuali sent (wafer 3)
 				//if($insert_labelname)
