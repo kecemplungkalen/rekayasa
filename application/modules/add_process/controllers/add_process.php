@@ -661,6 +661,10 @@ Class Add_process extends MX_Controller{
 	
 	public function post_data_api($url_api=false,$report_email=false,$recive_date=false,$number=false,$data_sms=false,$getuser=false)
 	{
+		/**
+		 * 
+		 * <?xml version="1.0" encoding="UTF-8"?><xml><result><resultCode>-1</resultCode><resultMsg>Add confirmation failed</resultMsg></result></xml>
+		 * **/
 		if($url_api)
 		{
 			$data_api = array(
@@ -675,8 +679,35 @@ Class Add_process extends MX_Controller{
 			$respons = $this->curl->simple_post($url_api,$data_api);
 			if($respons)
 			{
-				
-				return TRUE;
+				$res = simplexml_load_string($respons);
+				$str = $res->result->resultCode;
+				$resultMsg = $res->result->resultMsg;
+				$statusres = sprintf($str);
+				$msg = sprintf($resultMsg);
+				if($statusres == '1')
+				{
+					return TRUE;
+				}
+				else
+				{
+					// send email report ke $report_email
+					$this->load->model('Config_smtp_model');
+					$config = $this->Config_smtp_model->get();
+					if($config)
+					{
+						$parameter_email = new  StdClass();
+						$parameter_email->from = $config->username;
+						$parameter_email->from_name = 'Rumahweb SMS Gateway';
+						$parameter_email->to = $report_email;
+						$parameter_email->message = 'Error = '.$msg.' Failure API Data ='.$number.', Content =>'.$data_sms.', Post To URL API = '.$url_api;
+						$parameter_email->subject = 'Failure API';
+						$send = send_email($config,$parameter_email);
+						if($send == '1')
+						{
+							return TRUE;
+						}
+					}
+				}
 			}
 			else
 			{
@@ -686,12 +717,11 @@ Class Add_process extends MX_Controller{
 				if($config)
 				{
 					$parameter_email = new  StdClass();
-					$parameter_email->from = $number.'@localhost';
+					$parameter_email->from = $config->username;;
 					$parameter_email->from_name = 'Rumahweb SMS Gateway';
 					$parameter_email->to = $report_email;
-					$parameter_email->message = 'Failure API Data ='.$number.', Content =>'.$data_sms.', Post To URL API = '.$url_api;
+					$parameter_email->message = 'Error Failure API DOWN Data ='.$number.', Content =>'.$data_sms.', Post To URL API = '.$url_api.' IS DOWN..';
 					$parameter_email->subject = 'Failure API';
-					
 					$send = send_email($config,$parameter_email);
 					if($send == '1')
 					{
@@ -699,6 +729,7 @@ Class Add_process extends MX_Controller{
 					}
 				}
 			}
+
 		}
 		return FALSE;
 

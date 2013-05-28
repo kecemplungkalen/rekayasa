@@ -560,11 +560,18 @@ Class Dashboard_data extends MY_Controller{
 						$tmp = false;
 						foreach($getspam as $ges)
 						{
+							$cat = false;
+							$rstat =false;
 							// tambah label spam ke label 
 							$this->label_model->add($ges->id_inbox,'5');
+							$cat = array('id_inbox' => $ges->id_inbox);
+							$rstat = array('read_status' => '1');
+							$this->inbox_model->update_where($cat,$rstat);
 						}
+						
 						$colok = array('blacklist_number' => $number);
 						$last_id = $this->Blacklist_Model->add($colok);
+						
 						if($last_id)
 						{
 							//update inbox is delete = 2 

@@ -22,6 +22,7 @@ Class Add_process extends MX_Controller{
 		$this->load->module('send');
 		$temp = false;
 		$data = $_POST;
+		$res = '0';
 		if(is_array($data))
 		{
 			$initIP = $_SERVER['SERVER_ADDR'];
@@ -41,13 +42,14 @@ Class Add_process extends MX_Controller{
 						$postsend = $this->send->local_send($temp);
 						if($postsend)
 						{
-							return true;
+							$res '1';
 						}
 					}
 				}				
 			}
 		}
-		return false;		
+		
+		echo $res;
 	} 
 
 }
