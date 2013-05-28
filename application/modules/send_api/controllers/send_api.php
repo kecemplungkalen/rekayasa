@@ -1,6 +1,6 @@
 <?php 
 
-Class Add_process extends MX_Controller{
+Class Send_api extends MX_Controller{
 	
 	function __construct()
 	{
@@ -42,7 +42,7 @@ Class Add_process extends MX_Controller{
 						$postsend = $this->send->local_send($temp);
 						if($postsend)
 						{
-							$res '1';
+							$res = '1';
 						}
 					}
 				}				
