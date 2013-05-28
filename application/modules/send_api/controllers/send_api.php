@@ -23,6 +23,8 @@ Class Send_api extends MX_Controller{
 		$temp = false;
 		$data = $_POST;
 		$res = '-1';
+		log_message('error',' response '.print_r($data,true));
+
 		if(is_array($data))
 		{
 			$initIP = $_SERVER['SERVER_ADDR'];

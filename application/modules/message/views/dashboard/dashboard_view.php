@@ -127,6 +127,7 @@
 				<?php echo $data[$i]['content'] ;?>...
 			</td>
         	<td>
+				<!-- data label -->
 				<?php $label = $data[$i]['label']; ?>
 				<?php if($label){ ?>
 					<?php for($j=0;$j< count($label);$j++){ ?>

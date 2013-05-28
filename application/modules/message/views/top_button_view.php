@@ -294,6 +294,8 @@
 		<a data-placement="bottom" rel="tooltip" data-title="Move to Trash"  class="btn" id="alert" ><i class="icon-trash"></i></a>
 		<?php }else{ ?>
 		<a href="#" data-placement="bottom" rel="tooltip" data-title="Move From Trash"   class="btn" id="pindah_dari_trash" ><i class="icon-share"></i></a>
+		<a href="#" data-placement="bottom" rel="tooltip" data-title="Delete Permanent"   class="btn" id="hapus_permanen" ><i class="icon-trash"></i></a>
+		
 		<?php } ?>
 	<?php }?>
 	<?php if(isset($label)){ if($label != 'spam'){ ?>
