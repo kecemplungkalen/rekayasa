@@ -27,7 +27,7 @@ Class Send_api extends MX_Controller{
 
 		if(is_array($data))
 		{
-			$initIP = $_SERVER['SERVER_ADDR'];
+			$initIP = $_SERVER['REMOTE_ADDR'];
 			## cek usrname 
 			if(isset($data['user']))
 			{
