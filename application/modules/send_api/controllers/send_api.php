@@ -42,7 +42,7 @@ Class Send_api extends MX_Controller{
 						{
 							$dataip = array('id_user' => $get_user->id_user,'ip_restriction' => $initIP);
 							$cekIP = $this->Ip_Restriction_Model->get($dataip);
-							log_message('error','REMOTE_ADDR  '.print_r($initIP,true));
+							log_message('error','REMOTE_ADDR  '.print_r($initIP));
 							log_message('error',' cek Ip  '.print_r($cekIP,true));
 							if($cekIP->ip_restriction == $initIP)
 							{

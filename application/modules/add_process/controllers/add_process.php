@@ -677,7 +677,7 @@ Class Add_process extends MX_Controller{
 			);
 			
 			$respons = $this->curl->simple_post($url_api,$data_api);
-			log_message('error',' response '.print_r($respons,true));
+			log_message('error',' response dari curl => '.print_r($respons,true));
 			if($respons)
 			{
 				$res = simplexml_load_string($respons);
