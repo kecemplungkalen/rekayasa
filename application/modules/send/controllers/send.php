@@ -112,7 +112,7 @@ Class Send extends MX_Controller{
 	{
 		$this->load->module('config/rule');
 		//$data = $_POST;
-		//log_message('error','error  data : '. print_r($data,true));
+		log_message('error','error  data yang akan dikirim : '. print_r($data,true));
 		//var_dump($data);
 		//return false;
 		////[0][number] = 'nomor'
@@ -159,6 +159,8 @@ Class Send extends MX_Controller{
 					$slotID = $phoneID['phoneID'];
 					// ambil waktu antrian 
 					$cek_limit = $this->cek_data($slotID,$limit_time,$limit_send);
+					log_message('error','error  dwaktu kirim '.$cek_limit);
+
 					if($cek_limit)
 					{
 						// dapat waktu antrian 
@@ -204,7 +206,11 @@ Class Send extends MX_Controller{
 				}
 
 			}
+			
+			//log_message('error','error  return  dikirim : '.$sta);
+
 			$sta = $sta && $sta;
+			log_message('error','error  return  dikirim : '.$sta);
 			if($sta)
 			{
 				//echo 'true';
