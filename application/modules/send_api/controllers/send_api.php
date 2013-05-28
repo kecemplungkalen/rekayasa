@@ -22,7 +22,7 @@ Class Send_api extends MX_Controller{
 		$this->load->module('send');
 		$temp = false;
 		$data = $_POST;
-		$res = '0';
+		$res = '-1';
 		if(is_array($data))
 		{
 			$initIP = $_SERVER['SERVER_ADDR'];
