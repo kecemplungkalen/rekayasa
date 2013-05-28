@@ -49,7 +49,9 @@ Class Send_api extends MX_Controller{
 								log_message('error',' Masuk Ma berow ');
 
 								$temp[] = array('number' => $data['number'],'text' => $data['content'],'id_user' => $get_user->id_user);  
+								$this->session->set_userdata('bypass',true);
 								$postsend = $this->send->local_send($temp);
+								$this->session->unset_userdata('bypass');
 								log_message('error',' tempo  '.print_r($temp,true));
 								log_message('error',' postsend '.$postsend);
 								if($postsend)
