@@ -23,7 +23,8 @@ Class Add_process extends MX_Controller{
 	
 	function index($data=false)
 	{
-		/// data dari sms gateway 	
+		/// data dari sms gateway
+		log_message('error','data dari sms gateway'.print_r($data,true)); 	
 		if($data)
 		{
 			$count = 0;
