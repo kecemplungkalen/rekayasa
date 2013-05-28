@@ -27,25 +27,30 @@ Class Send_api extends MX_Controller{
 		{
 			$initIP = $_SERVER['SERVER_ADDR'];
 			## cek usrname 
-			$val = array('username' => $data['user'],'status' => '1');
-			$get_user = $this->User_Model->get($val);
-			if($get_user)
+			if(isset($data['user']))
 			{
-				if($data['key'] == $get_user->api_key)
+				$val = array('username' => $data['user'],'status' => '1');
+				$get_user = $this->User_Model->get($val);
+				if($get_user)
 				{
-					$dataip = array('id_user' => $get_user->id_user,'ip_restriction' => $initIP);
-					$cekIP = $this->Ip_Restriction_Model->get($dataip);
-					if($cekIP)
+					if(isset($data['key']))
 					{
-						$temp[] = array('number' => $data['number'],'text' => $data['content'],'id_user' => $get_user->id_user);  
-						//$postsend = $this->curl->simple_post(base_url().'send',$temp);
-						$postsend = $this->send->local_send($temp);
-						if($postsend)
+						if($data['key'] == $get_user->api_key)
 						{
-							$res = '1';
+							$dataip = array('id_user' => $get_user->id_user,'ip_restriction' => $initIP);
+							$cekIP = $this->Ip_Restriction_Model->get($dataip);
+							if($cekIP)
+							{
+								$temp[] = array('number' => $data['number'],'text' => $data['content'],'id_user' => $get_user->id_user);  
+								$postsend = $this->send->local_send($temp);
+								if($postsend)
+								{
+									$res = '1';
+								}
+							}
 						}
-					}
-				}				
+					}				
+				}
 			}
 		}
 		
