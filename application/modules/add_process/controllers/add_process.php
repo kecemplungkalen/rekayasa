@@ -116,6 +116,8 @@ Class Add_process extends MX_Controller{
 			$cari = array('number' => $number,'status_archive' => '0','is_delete ' => '0');
 			$insert_labelname = false;
 			$cek_thread = $this->inbox_model->arr_wheres($cari);
+			$id_inbox_ar = false; 				
+			
 			if($cek_thread) // thread sudah pernah dibuat 
 			{
 				$thread = $cek_thread[0]->thread;
@@ -125,7 +127,6 @@ Class Add_process extends MX_Controller{
 				$comot_id_inbox = $this->inbox_model->gets_where('thread',$thread);
 				$cil = false;
 				$col = false;
-				$id_inbox_ar = false; 				
 				if($comot_id_inbox)
 				{
 					foreach($comot_id_inbox as $comot)
@@ -206,7 +207,7 @@ Class Add_process extends MX_Controller{
 				
 				// tambah ke label inbox 
 				$id_label_inbox = $this->label_model->add($id_inbox,'1');
-				$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
+				//$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
 				log_message('error',' comot id labelname => '.print_r($comot_id_labelname,true));
 				//$insert_labelname = false;
 				
