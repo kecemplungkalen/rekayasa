@@ -249,7 +249,7 @@ Class Add_process extends MX_Controller{
 	
 	function filter_action($id_filter=false,$recive_date=false,$number=false,$id_inbox=false,$id_label_inbox=false,$isi_sms=false,$getuser=false)
 	{
-		log_message('error','action mode => '.print_r($getuser,true))
+		log_message('error','action mode => '.print_r($getuser,true));
 		$action = $this->Filter_Action_model->gets_by_col('id_filter',$id_filter);
 		
 		if($action)
