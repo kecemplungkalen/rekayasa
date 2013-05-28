@@ -23,7 +23,7 @@ Class Send_api extends MX_Controller{
 		$temp = false;
 		$data = $_POST;
 		$res = '-1';
-		log_message('error',' response '.print_r($data,true));
+		log_message('error',' response kiriman'.print_r($data,true));
 
 		if(is_array($data))
 		{
@@ -42,9 +42,12 @@ Class Send_api extends MX_Controller{
 						{
 							$dataip = array('id_user' => $get_user->id_user,'ip_restriction' => $initIP);
 							$cekIP = $this->Ip_Restriction_Model->get($dataip);
+							log_message('error','REMOTE_ADDR  '.print_r($initIP,true));
 							log_message('error',' cek Ip  '.print_r($cekIP,true));
-							if($cekIP)
+							if($cekIP->ip_restriction == $initIP)
 							{
+								log_message('error',' Masuk Ma berow ');
+
 								$temp[] = array('number' => $data['number'],'text' => $data['content'],'id_user' => $get_user->id_user);  
 								$postsend = $this->send->local_send($temp);
 								log_message('error',' tempo  '.print_r($temp,true));
