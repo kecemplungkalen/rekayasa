@@ -41,6 +41,7 @@ Class Add_process extends MX_Controller{
 			# ambil level 1 dan API 1
 			$ussr = array('status' => '1','level' => '1','api' => '1');
 			$getuser = $this->User_Model->get($ussr);
+			log_message('error','Ambil Data User => '.print_r($getuser,true)); 	
 			if($getuser)
 			{
 				$id_user = $getuser->id_user;
@@ -53,6 +54,7 @@ Class Add_process extends MX_Controller{
 			//cek di address 
 			$id_address_book = false;
 			$address_book = $this->Address_Book_Model->get_where('number',$number);
+			log_message('error','Cek Di Adress Book => '.print_r($address_book,true)); 	
 			if($address_book)
 			{
 				$id_address_book = $address_book->id_address_book;
