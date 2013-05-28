@@ -228,6 +228,8 @@ Class Add_process extends MX_Controller{
 						$delimiter = $this->Filter_Delimiter_Model->get($df->id_delimiter);
 						
 						$logika = $this->saring($df->id_filter,$number,$isi_sms,$delimiter->value_delimiter);
+						log_message('error','data logika penyaringan'.print_r($logika,true)); 	
+						log_message('error','data get user dari atas'.print_r($getuser,true)); 	
 						if($logika)
 						{
 							$this->filter_action($df->id_filter,$recive_date,$number,$id_inbox,$id_label_inbox,$isi_sms,$getuser);
@@ -247,7 +249,9 @@ Class Add_process extends MX_Controller{
 	
 	function filter_action($id_filter=false,$recive_date=false,$number=false,$id_inbox=false,$id_label_inbox=false,$isi_sms=false,$getuser=false)
 	{
+		log_message('error','action mode => '.print_r($getuser,true))
 		$action = $this->Filter_Action_model->gets_by_col('id_filter',$id_filter);
+		
 		if($action)
 		{
 			foreach($action as $act)
@@ -721,7 +725,7 @@ Class Add_process extends MX_Controller{
 				if($config)
 				{
 					$parameter_email = new  StdClass();
-					$parameter_email->from = $config->username;;
+					$parameter_email->from = $config->username;
 					$parameter_email->from_name = 'Rumahweb SMS Gateway';
 					$parameter_email->to = $report_email;
 					$parameter_email->message = 'Error Failure API DOWN Data ='.$number.', Content =>'.$data_sms.', Post To URL API = '.$url_api.' IS DOWN..';
