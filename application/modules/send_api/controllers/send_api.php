@@ -33,6 +33,7 @@ Class Send_api extends MX_Controller{
 			{
 				$val = array('username' => $data['user'],'status' => '1');
 				$get_user = $this->User_Model->get($val);
+				log_message('error',' getuser '.print_r($get_user,true));
 				if($get_user)
 				{
 					if(isset($data['key']))
@@ -41,10 +42,12 @@ Class Send_api extends MX_Controller{
 						{
 							$dataip = array('id_user' => $get_user->id_user,'ip_restriction' => $initIP);
 							$cekIP = $this->Ip_Restriction_Model->get($dataip);
+							log_message('error',' cek Ip  '.print_r($dataip,true));
 							if($cekIP)
 							{
 								$temp[] = array('number' => $data['number'],'text' => $data['content'],'id_user' => $get_user->id_user);  
 								$postsend = $this->send->local_send($temp);
+								log_message('error',' postsend '.$postsend);
 								if($postsend)
 								{
 									$res = '1';
