@@ -33,7 +33,19 @@ Class Add_process extends MX_Controller{
 			$smsc = $data->SMSCNumber;
 			$recive_date = strtotime($data->ReceivingDateTime);  
 			
-
+			// cari dimana 
+			$id_user = false;
+			$password = false;
+			$apikey = false;
+			$getuser = false;
+			# ambil level 1 dan API 1
+			$ussr = array('status' => '1','level' => '1','api' => '1');
+			$getuser = $this->User_Model->get($ussr);
+			log_message('error','Ambil Data User => '.print_r($getuser,true)); 	
+			if($getuser)
+			{
+				$id_user = $getuser->id_user;
+			}
 
 			
 			//cek di address 
@@ -76,19 +88,7 @@ Class Add_process extends MX_Controller{
 					}
 					
 				}					
-				// cari dimana 
-				$id_user = false;
-				$password = false;
-				$apikey = false;
-				$getuser = false;
-				# ambil level 1 dan API 1
-				$ussr = array('status' => '1','level' => '1','api' => '1');
-				$getuser = $this->User_Model->get($ussr);
-				log_message('error','Ambil Data User => '.print_r($getuser,true)); 	
-				if($getuser)
-				{
-					$id_user = $getuser->id_user;
-				}
+
 				
 				$addarr = array(
 				
