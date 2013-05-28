@@ -16,6 +16,7 @@ Class label_model extends CI_model{
 		{
 			$this->db->where_in($kolom,$data);
 			$data = $this->db->get('label');
+			log_message('error',$this->db->last_query());
 			if($data->num_rows() > 0)	
 			{
 				return $data->result();

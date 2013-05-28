@@ -111,6 +111,7 @@ Class Add_process extends MX_Controller{
 				}
 			}
 			
+			
 			//cek tread
 			$thread = mt_rand();;
 			$cari = array('number' => $number,'status_archive' => '0');
@@ -132,10 +133,12 @@ Class Add_process extends MX_Controller{
 						$cil[] = $comot->id_inbox;
 					}
 					$id_inbox_ar = $cil;
+					//log_message('error',' comot id labelname => '.print_r($comot_id_labelname,true));
+					//log_message('error',' comot id labelname => '.print_r($comot_id_labelname,true));
 					//ambil id nama label di label (wafer 2);
 					$insert_labelname = false;
 					$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
-					log_message('error',' comot id labelname => '.print_r($comot_id_inbox,true));
+					log_message('error',' comot id labelname => '.print_r($comot_id_labelname,true));
 
 					if($comot_id_labelname)
 					{
