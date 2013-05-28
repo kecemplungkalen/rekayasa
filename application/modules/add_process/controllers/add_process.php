@@ -207,7 +207,6 @@ Class Add_process extends MX_Controller{
 				// tambah ke label inbox 
 				$id_label_inbox = $this->label_model->add($id_inbox,'1');
 				$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
-					
 				log_message('error',' comot id labelname => '.print_r($comot_id_labelname,true));
 				//$insert_labelname = false;
 				
