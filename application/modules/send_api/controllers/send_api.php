@@ -53,7 +53,7 @@ Class Send_api extends MX_Controller{
 								$postsend = $this->send->local_send($temp);
 								$this->session->unset_userdata('bypass');
 								log_message('error',' tempo  '.print_r($temp,true));
-								log_message('error',' postsend '.$postsend);
+								log_message('error',' postsend '.print_r($postsend,true));
 								if($postsend)
 								{
 									$res = '1';
