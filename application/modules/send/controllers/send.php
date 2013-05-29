@@ -201,10 +201,8 @@ Class Send extends MX_Controller{
 								// update labelin 3 ( outbox )
 								$id_labelname = '3';
 								$this->label_model->add($id_inbox,$id_labelname);
+								$sta = true;
 							}
-
-							$sta = true;
-
 						}
 					}
 
@@ -297,7 +295,7 @@ Class Send extends MX_Controller{
 				}
 				else
 				{
-					return date('Y-m-d H:i:s',time());
+					return date('Y-m-d H:i:s',(time() + 2));
 				}
 			}
 			else
