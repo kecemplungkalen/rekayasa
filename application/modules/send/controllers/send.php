@@ -295,6 +295,10 @@ Class Send extends MX_Controller{
 				{
 						return date('Y-m-d H:i:s',(time() + $limit_time));
 				}
+				else
+				{
+					return date('Y-m-d H:i:s',time());
+				}
 			}
 			else
 			{
