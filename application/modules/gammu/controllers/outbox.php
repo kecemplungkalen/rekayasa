@@ -60,7 +60,7 @@ Class Outbox extends MX_Controller{
 			else
 			{
 				
-				$data = array('DestinationNumber' => $number,'TextDecoded' => $isi_pesan, 'CreatorID' => $phoneID ,'SenderID' => $phoneID,'DeliveryReport' => 'yes');						
+				$data = array('DestinationNumber' => $number,'TextDecoded' => $isi_pesan, 'CreatorID' => $phoneID ,'SenderID' => $phoneID,'DeliveryReport' => 'yes','SendingDateTime'=> $SendingDateTime);						
 				$insert = $this->Gammu_Outbox_Model->insert($data);
 				if($insert)
 				{
