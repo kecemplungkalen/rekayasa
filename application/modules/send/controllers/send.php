@@ -162,12 +162,14 @@ Class Send extends MX_Controller{
 					$slotID = $phoneID['phoneID'];
 					// ambil waktu antrian 
 					$cek_limit = $this->cek_data($slotID,$limit_time,$limit_send);
-					log_message('error','error  dwaktu kirim '.$cek_limit);
+					log_message('error','error  dwaktu kirim '.print_r($cek_limit,true));
 
 					if($cek_limit)
 					{
 						// dapat waktu antrian 
 						$push = $this->outbox->push_outbox($data[$i]['number'],$data[$i]['text'],$phoneID['phoneID'],$cek_limit);
+						log_message('error','Hasil Push '.print_r($cek_limit,true));
+
 						if($push)
 						{
 							// masuk ke database rekayasa
@@ -213,7 +215,7 @@ Class Send extends MX_Controller{
 			//log_message('error','error  return  dikirim : '.$sta);
 
 			$sta = $sta && $sta;
-			log_message('error','error  return  dikirim : '.$sta);
+			log_message('error','error  return  dikirim : '.print_r($sta,true));
 			if($sta)
 			{
 				//echo 'true';
