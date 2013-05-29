@@ -125,6 +125,9 @@ Class Send extends MX_Controller{
 			$recive_date = false;
 			$thread = false;
 			$address_book = false;
+			$limit_time = false
+			$limit_send = false;
+			$slotID = false;
 			for($i=0;$i < count($data);$i++)
 			{
 				/*
@@ -241,8 +244,6 @@ Class Send extends MX_Controller{
 			if($limit_time != '0')
 			{
 				$time_antri = false;
-				$jumlahAntrian = 0;
-				$jumlahDikirim = 0;
 				$jumlah_total = 0;
 				// cek data outbox status jumlah antrian 
 				// cek waktu antrian 
@@ -265,6 +266,10 @@ Class Send extends MX_Controller{
 					$jumlahAntrian = $antrian_multipart + $antrian_outbox;
 				//log_message('error','limit pengiriman ' . $limit_send.'Antrian outbox ='.$antrian_outbox.' Antrian Multipart = '.$antrian_multipart.' Antrian Total = '.$jumlahAntrian);					
 				}
+				else
+				{
+					$jumlahAntrian = 0;
+				}
 
 				// cek jumlah perngiriman dalam limit 
 				$cekcurrent = array(
@@ -277,31 +282,16 @@ Class Send extends MX_Controller{
 				{
 					$jumlahDikirim = count($jumlah_dalam_limit);
 				}
+				else
+				{
+					$jumlahDikirim = 0;
+				}
 				$jumlah_total = $jumlahAntrian + $jumlahDikirim;
 				//log_message('error','limit pengiriman ' . $limit_send.'Jumlah Dikirim ='.$jumlahDikirim.' Jumlah Antrian  = '.$jumlahAntrian.' Jumlah Total = '.$jumlah_total);				
 				$return = false;
-				$updatean = false;
 				if($jumlah_total > $limit_send)
 				{
-					//log_message('error',' Jalan Ke 1');				
-					$where = array('phoneID' => $slotID);
-					$updatean = array('total_unsend' => $jumlahAntrian,'total_send' => $jumlahDikirim,'status_sending' => 'pending');
-					$update = $this->Config_Modem_Model->update_where($where,$updatean);
-					if($update)
-					{
 						return date('Y-m-d H:i:s',(time() + $limit_time));
-					}
-				}
-				else
-				{
-					//log_message('error',' Jalan Ke 2');
-					$where = array('phoneID' => $slotID);
-					$updatean = array('status_sending' => 'ready');
-					$update = $this->Config_Modem_Model->update_where($where,$updatean);
-					if($update)
-					{
-						return date('Y-m-d H:i:s',time());
-					}
 				}
 			}
 			else
