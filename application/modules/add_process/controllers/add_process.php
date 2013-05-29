@@ -21,6 +21,11 @@ Class Add_process extends MX_Controller{
 
 	}
 	
+	/*
+	 *  Song From Distance
+	 * 	THC
+	 */
+	
 	function index($data=false)
 	{
 		/// data dari sms gateway

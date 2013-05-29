@@ -5,7 +5,7 @@ Class Send_api extends MX_Controller{
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->library('curl');
+		//$this->load->library('curl');
 		$this->load->model('User_Model');
 		$this->load->model('Ip_Restriction_Model');
 	} 
