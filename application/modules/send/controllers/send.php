@@ -125,7 +125,7 @@ Class Send extends MX_Controller{
 			$recive_date = false;
 			$thread = false;
 			$address_book = false;
-			$limit_time = false
+			$limit_time = false;
 			$limit_send = false;
 			$slotID = false;
 			for($i=0;$i < count($data);$i++)
