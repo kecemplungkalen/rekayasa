@@ -114,7 +114,7 @@ Class Add_process extends MX_Controller{
 			//cek tread
 			$thread = mt_rand();;
 			$cari = array('number' => $number,'status_archive' => '0','is_delete ' => '0');
-			$insert_labelname = false;
+			//$insert_labelname = false;
 			$cek_thread = $this->inbox_model->arr_wheres($cari);
 			$id_inbox_ar = false; 				
 			
@@ -146,7 +146,7 @@ Class Add_process extends MX_Controller{
 				$id_inbox_ar = $cil;
 			}
 			
-			log_message('error',' Insert labelname  => '.print_r($insert_labelname,true));
+			//log_message('error',' Insert labelname  => '.print_r($insert_labelname,true));
 
 			// cek di blacklist
 			$black = array('blacklist_number' => $number);
@@ -465,6 +465,7 @@ Class Add_process extends MX_Controller{
 		return false;
 	}
 	*/
+
 	function saring($id_filter=false,$number=false,$isi_sms=false,$delimiter=false)
 	{
 		
@@ -693,7 +694,7 @@ Class Add_process extends MX_Controller{
 		}
 		return false;
 	}
-	
+
 	public function post_data_api($url_api=false,$report_email=false,$recive_date=false,$number=false,$data_sms=false,$getuser=false)
 	{
 		/**
@@ -738,7 +739,7 @@ Class Add_process extends MX_Controller{
 						$parameter_email->from_name = 'Rumahweb SMS Gateway';
 						$parameter_email->to = $report_email;
 						$parameter_email->message = 'Error = '.$msg.' Failure API Data ='.$number.', Content =>'.$data_sms.', Post To URL API = '.$url_api;
-						$parameter_email->subject = 'Failure API';
+						$parameter_email->subject = 'Failure => From API';
 						$send = send_email($config,$parameter_email);
 						if($send == '1')
 						{
@@ -759,7 +760,7 @@ Class Add_process extends MX_Controller{
 					$parameter_email->from_name = 'Rumahweb SMS Gateway';
 					$parameter_email->to = $report_email;
 					$parameter_email->message = 'Error Failure API DOWN Data ='.$number.', Content =>'.$data_sms.', Post To URL API = '.$url_api.' IS DOWN..';
-					$parameter_email->subject = 'Failure API';
+					$parameter_email->subject = 'Failure => API Is Down';
 					$send = send_email($config,$parameter_email);
 					if($send == '1')
 					{
@@ -772,5 +773,5 @@ Class Add_process extends MX_Controller{
 		return FALSE;
 
 	}
-		
+	
 }

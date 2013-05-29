@@ -337,25 +337,15 @@ Class Message extends MY_Controller{
 			{
 				foreach($ambil_isi as $dtam)
 				{
-					$isi['first_name'] = $dtam->first_name;	
-					$isi['last_name'] = $dtam->last_name;	
-					$gt_content = $this->inbox_model->get($dtam->id_inbox);
-					if($gt_content)
-					{
-						$isi['content'] = substr($gt_content->content,0,20);
-						
-					}
-					
-					$isi['number'] = $dtam->number;
-					$isi['total'] = $dtam->total;
-					$isi['thread'] = $dtam->thread;
+
 					// ambil label total 
-					$arr  = array('thread' => $isi['thread']);
+					$arr  = array('thread' => $dtam->thread);
 					$ambil_label = $this->inbox_model->arr_wheres($arr);
 					$id_inb= false;
 					$datanya = false;
 					//var_dump($ambil_label);
-					
+					$sub_data = false;
+
 					if($ambil_label)
 					{
 						foreach($ambil_label as $alb)
@@ -374,23 +364,39 @@ Class Message extends MY_Controller{
 							}
 						}
 						$iki_data_labelname = $this->message_model->labelname_data($iki_id_labelname);
-						$sub_data = false;
 						if($iki_data_labelname)
 						{
 							$sub = false;
 							foreach($iki_data_labelname as $idln)
 							{
-								$sub['id_labelname'] = $idln->id_labelname;
-								$sub['name'] = $idln->name;
-								$sub['color'] = $idln->color;
-								$sub_data[] = $sub; 
+								if($get_label_id->id_labelname != $idln)
+								{
+									$sub['id_labelname'] = $idln->id_labelname;
+									$sub['name'] = $idln->name;
+									$sub['color'] = $idln->color;
+									$sub_data[] = $sub; 
+								}
 							}
 						}
-						$isi['label'] = $sub_data;
 						
-						//$datanya = $this->label_model->search_in('id_inbox',$id_inb);
+						//$datanya = $this->label_model->search_in('id_inbox',$id_inb);						
+					}
+					if($sub_data)
+					{
+						$isi['label'] = $sub_data;
 					}
 					
+					$gt_content = $this->inbox_model->get($dtam->id_inbox);
+					if($gt_content)
+					{
+						$isi['content'] = substr($gt_content->content,0,20);
+						
+					}
+					$isi['first_name'] = $dtam->first_name;	
+					$isi['last_name'] = $dtam->last_name;						
+					$isi['number'] = $dtam->number;
+					$isi['total'] = $dtam->total;
+					$isi['thread'] = $dtam->thread;					
 					$isi['read_status'] = $dtam->read_status;
 					$isi['recive_date'] = $dtam->recive_date;
 					$isi['send_status'] = false;
@@ -411,8 +417,6 @@ Class Message extends MY_Controller{
 		}
 		return false;
 	}
-	
-	
 	
 	
 	
