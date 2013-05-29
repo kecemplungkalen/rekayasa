@@ -298,7 +298,7 @@
 					<div id="div_inbox_<?php echo $data[$d]['id_inbox']; ?>"> 
 						<strong> <?php echo 'System';?></strong> 
 						<small> <?php echo date('d F Y - h:i a',$data[$d]['recive_date']);?></small>
-						<?php if($data[$d]['send_status'] != NULL ){ ?><span class="label label-success"> <?php echo $data[$d]['send_status']; ?></span> <?php }?>
+						<?php if($data[$d]['send_status'] != NULL){ ?><span class="label label-success"> <?php echo $data[$d]['send_status']; ?></span> <?php }?>
 						<?php if($role_id == '1' || $role_id == '2'){?>
 						<?php if($draft){?>
 						<span class="label label-warning"> Outbox </span>
