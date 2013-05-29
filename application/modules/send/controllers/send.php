@@ -151,7 +151,7 @@ Class Send extends MX_Controller{
 				// cari rule
 				#cek di rule modem ofline atau online 				
 				$phoneID = $this->rule->sending_rule($data[$i]['number']);
-				//log_message('error','error phone ID data : '. print_r($phoneID,true));
+				log_message('error','error phone ID data : '. print_r($phoneID,true));
 				if($phoneID)
 				{
 
