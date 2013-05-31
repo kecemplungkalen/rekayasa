@@ -485,7 +485,11 @@ Class Add_process extends MX_Controller{
 			//olah validasi 
 			$data_isisms = false;
 			
-			$data_isisms = explode($delimiter,$isi_sms);
+			
+			$data_isisms = explode($delimiter,preg_replace('/['.$delimiter.']+/',$delimiter,$isi_sms));
+			
+			log_message('error','Add_process/saring sms mentah : '.print_r(preg_replace('/['.$delimiter.']+/',$delimiter,$isi_sms),true));
+			log_message('error','Add_process/saring : '.print_r($data_isisms,true));
 			$ambil_total = array('id_filter' => $id_filter);
 			$jumlah_filter_word = $this->Filter_Detail_Model->gets($ambil_total ,'word');
 			// totalnya 
