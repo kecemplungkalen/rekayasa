@@ -14,6 +14,7 @@
 	<li><a href="#smtp" data-toggle="tab">SMTP</a></li>
 	<li><a href="#sendlimit" data-toggle="tab">Sending Limit</a></li>
 	<li><a href="#atcommands" data-toggle="tab">Commands</a></li>
+	<li><a href="#emailConf" data-toggle="tab">Mail Confirmation</a></li>
 	<?php } ?>
 </ul>
 <!-- javascriptnya -->

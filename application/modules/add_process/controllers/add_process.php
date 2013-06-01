@@ -191,6 +191,7 @@ Class Add_process extends MX_Controller{
 				//insert ke tabel inbox mark unread 
 				
 				/// bukan spam 
+
 				$id_inbox = false;
 				$input_inbox = array(
 				'id_user' => $id_user,
@@ -203,15 +204,27 @@ Class Add_process extends MX_Controller{
 				'read_status' => '0', // unread
 				'status_archive' => '0'
 				);
+				
+				// push inbox //
 				$data_id_inbox = $this->inbox_model->add($input_inbox); // kita dapat id_inbox
+				
 				if($data_id_inbox)
 				{
 					$id_inbox = $data_id_inbox;
 				
 				}
 				
+				/*
+				 * /sendmail /
+				 * 
+				 */
+				$this->load->module('config/email_konf');
+				$this->email_konf->mail_konf($input_inbox);
+				
+				
 				// tambah ke label inbox 
 				$id_label_inbox = $this->label_model->add($id_inbox,'1');
+				
 				//$comot_id_labelname = $this->label_model->search_in('id_inbox',$id_inbox_ar);
 				//log_message('error',' comot id labelname => '.print_r($comot_id_labelname,true));
 				//$insert_labelname = false;

@@ -7,5 +7,6 @@
 	<?php if($config_smtp){ echo $config_smtp; } ?>
 	<?php if($send_limit){ echo $send_limit; } ?>
 	<?php if($config_at){ echo $config_at; } ?>
+	<?php if($config_mail){ echo $config_mail; } ?>
 	<?php } ?>
 </div>
