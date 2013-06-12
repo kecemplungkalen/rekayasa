@@ -172,6 +172,7 @@ Class Send extends MX_Controller{
 
 						if($push)
 						{
+							
 							// masuk ke database rekayasa
 							$recive_date = time();
 							$read_status = '1';
@@ -191,7 +192,7 @@ Class Send extends MX_Controller{
 							'read_status' => $read_status,
 							'last_update' => $recive_date,
 							'status_archive' => '0',
-							'InsertIntoDB' => $push
+							'InsertIntoDB' => $push['InsertIntoDB']
 							);
 							$id_inbox = $this->inbox_model->add($insert);
 							

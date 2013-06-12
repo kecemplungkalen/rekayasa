@@ -16,17 +16,18 @@ Class Gammu_Outbox_Model extends CI_model{
 			$last_id = $this->gammu->insert_id();
 			if($last_id)
 			{
-				return $last_id;
+				//return $last_id;
 				
 				/*
-				 * saya lupa return date buat apa 
+				 * return array for cron and multipart 
 				 */
-				//$ambil = array('ID' => $last_id);
-				//$ambilbalik = $this->get($ambil);
-				//if($ambilbalik)
-				//{
-					//return $ambilbalik->InsertIntoDB;
-				//}
+				$ambil = array('ID' => $last_id);
+				$ambilbalik = $this->get($ambil);
+				if($ambilbalik)
+				{
+					$sendBack = array('ID' => $last_id,'InsertIntoDB' => $ambilbalik->InsertIntoDB);
+					return $sendBack;
+				}
 			}
 		}
 		return false;

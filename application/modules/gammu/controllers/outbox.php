@@ -44,7 +44,7 @@ Class Outbox extends MX_Controller{
 					{
 						
 						//$this->outbox_multipart_model->add('UDH, TextDecoded, ID, SequencePosition');
-						$data = array('UDH' => $udh, 'TextDecoded' => $sentText,'ID' => $ins ,'SequencePosition' => $i);
+						$data = array('UDH' => $udh, 'TextDecoded' => $sentText,'ID' => $ins['ID'] ,'SequencePosition' => $i);
 						$mp = $this->Gammu_Outbox_Multipart_Model->add($data); // bikin outbox_multipart_model
 						log_message('error','Variable Yang Masuk Inbox multipart '.print_r($data,true));
 
