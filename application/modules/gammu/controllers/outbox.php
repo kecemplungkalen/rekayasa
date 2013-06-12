@@ -32,9 +32,11 @@ Class Outbox extends MX_Controller{
 					{
 						//$insert_id = $this->outbox_model->add('DestinationNumber, UDH, TextDecoded, ID, MultiPart, CreatorID, SenderID'); // bikin outbox model
 						$data = array('DestinationNumber' => $number,'UDH' => $udh,'TextDecoded' => $sentText, 'MultiPart' => 'true' , 'CreatorID' => $phoneID ,'SenderID' => $phoneID,'DeliveryReport' => 'yes','SendingDateTime'=> $SendingDateTime);
-						$ins = $insert_id = $this->Gammu_Outbox_Model->insert($data);
+						$ins = $this->Gammu_Outbox_Model->insert($data);
 						if($ins)
 						{
+							log_message('error','Variable Yang Masuk Inbox'.print_r($data,true));
+							log_message('error','id Inbox '.print_r($ins,true));
 							$sum = true;
 						} 
 					
@@ -42,10 +44,14 @@ Class Outbox extends MX_Controller{
 					{
 						
 						//$this->outbox_multipart_model->add('UDH, TextDecoded, ID, SequencePosition');
-						$data = array('UDH' => $udh, 'TextDecoded' => $sentText,'ID' => $insert_id ,'SequencePosition' => $i);
+						$data = array('UDH' => $udh, 'TextDecoded' => $sentText,'ID' => $ins ,'SequencePosition' => $i);
 						$mp = $this->Gammu_Outbox_Multipart_Model->add($data); // bikin outbox_multipart_model
+						log_message('error','Variable Yang Masuk Inbox multipart '.print_r($data,true));
+
 						if($mp)
 						{
+							log_message('error','id Inbox '.print_r($ins,true));
+							log_message('error','id multipart '.print_r($ins,true));
 							$sum = true;
 						}
 					}

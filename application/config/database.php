@@ -48,6 +48,7 @@
 $active_group = 'default';
 $active_record = TRUE;
 
+//---------Database Aplikasi-----------//
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'db_smsgwrwt';
 $db['default']['password'] = 'smsgwrwt420420';
@@ -65,9 +66,8 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-//-----------------------------------//
 
-
+//-----------Database Gammu------------//
 $db['gammu']['hostname'] = 'localhost';
 $db['gammu']['username'] = 'db_smsgwrwt';
 $db['gammu']['password'] = 'smsgwrwt420420';
