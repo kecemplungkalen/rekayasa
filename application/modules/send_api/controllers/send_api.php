@@ -44,19 +44,22 @@ Class Send_api extends MX_Controller{
 							$cekIP = $this->Ip_Restriction_Model->get($dataip);
 							log_message('error','REMOTE_ADDR  '.print_r($initIP,true));
 							log_message('error',' cek Ip  '.print_r($cekIP,true));
-							if($cekIP->ip_restriction == $initIP)
+							if($cekIP)
 							{
-								log_message('error',' Masuk Ma berow ');
-
-								$temp[] = array('number' => $data['number'],'text' => $data['content'],'id_user' => $get_user->id_user);  
-								$this->session->set_userdata('bypass',true);
-								$postsend = $this->send->local_send($temp);
-								$this->session->unset_userdata('bypass');
-								log_message('error',' tempo  '.print_r($temp,true));
-								log_message('error',' postsend '.print_r($postsend,true));
-								if($postsend)
+								if($cekIP->ip_restriction == $initIP)
 								{
-									$res = '1';
+									log_message('error',' Masuk Ma berow ');
+
+									$temp[] = array('number' => $data['number'],'text' => $data['content'],'id_user' => $get_user->id_user);  
+									$this->session->set_userdata('bypass',true);
+									$postsend = $this->send->local_send($temp);
+									$this->session->unset_userdata('bypass');
+									log_message('error',' tempo  '.print_r($temp,true));
+									log_message('error',' postsend '.print_r($postsend,true));
+									if($postsend)
+									{
+										$res = '1';
+									}
 								}
 							}
 						}
