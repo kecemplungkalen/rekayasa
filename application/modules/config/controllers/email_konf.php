@@ -49,14 +49,20 @@ Class Email_konf extends MX_Controller{
 						$parameter_email = new  StdClass();
 						$parameter_email->from = $smtp_conf->username;
 						$parameter_email->from_name = $data['number'];
+						
 						if(isset($data['gagal']))
 						{
+
 							$parameter_email->to = $data['report_email'];
+							$parameter_email->bcc = $config_mail['mailaddr'];
 							$parameter_email->message = $data['content'];
 							$parameter_email->subject = 'SMS Failure Input Data From '.$data['number'];
 						}
 						else
 						{
+// 							$parameter_email = new  StdClass();
+// 							$parameter_email->from = $smtp_conf->username;
+// 							$parameter_email->from_name = $data['number'];
 							$parameter_email->to = $config_mail['mailaddr'];
 							$parameter_email->message = '<h2>SMS Management System </h2> <br> Isi SMS : <br> <strong>' .$data['content']. '</strong> <br>Waktu Diterima = <strong>'. date('Y-m-d H:i:s',$data['recive_date']) .'</strong>' ;
 							$parameter_email->subject = 'SMS From '.$data['number'];
