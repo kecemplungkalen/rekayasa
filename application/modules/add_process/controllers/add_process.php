@@ -765,6 +765,11 @@ Class Add_process extends MX_Controller{
 						$send = send_email($config,$parameter_email);
 						if($send == '1')
 						{
+							if($id_inbox)
+							{
+								$this->load->model('label_model');
+								$this->label_model->add($id_inbox,'14');
+							}
 							$statusgagal = 'Respon Satatus API : '.$statusres. '<br /> Pesan Error : '.$resultMsg.' <br /> Content : '.$data_sms.'<br /> Post To URL API : '.$url_api;
 							$parem = array('gagal' => true,'number' => $number,'content' => $statusgagal,'report_email' => $report_email);
 							$this->load->module('config/email_konf');
