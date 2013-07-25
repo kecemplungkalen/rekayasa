@@ -108,7 +108,7 @@
 		<?php for($i=0;$i< count($data);$i++) { ?>
 		<tr>
 			<td>
-				<input class="pesan_list" data-read="<?php echo $data[$i]['read_status'];?>"type="checkbox" id="<?php echo $data[$i]['thread']; ?>" value="<?php echo $data[$i]['thread']; ?>"> 
+				<input class="pesan_list" data-read="<?php echo $data[$i]['read_status'];?>" type="checkbox" id="<?php echo $data[$i]['thread']; ?>" value="<?php echo $data[$i]['thread']; ?>"> 
 			</td>
 			<td>
 				<a href="#" onclick="read_sms('<?php echo $data[$i]['thread']; ?>')">
@@ -128,6 +128,7 @@
 			</td>
         	<td>
 				<!-- data label -->
+			<?php if(isset($data[$i]['label'])){ ?>	
 				<?php $label = $data[$i]['label']; ?>
 				<?php if($label){ ?>
 					<?php for($j=0;$j< count($label);$j++){ ?>
@@ -138,7 +139,8 @@
 						<?php } ?>
 					<?php } ?>
 				<?php } ?>
-			</td>
+			<?php } ?>
+		</td>
 		<?php if(isset($data[$i]['send_status'])){?>			
 			<?php if($lbl == 'sent'){?>
 			<td> 

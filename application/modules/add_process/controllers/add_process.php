@@ -274,7 +274,6 @@ Class Add_process extends MX_Controller{
 					{
 						//var_dump($count++);
 						$delimiter = $this->Filter_Delimiter_Model->get($df->id_delimiter);
-						
 						$logika = $this->saring($df->id_filter,$number,$isi_sms,$delimiter->value_delimiter);
 						log_message('error','data logika penyaringan'.print_r($logika,true)); 	
 						log_message('error','data get user dari atas'.print_r($getuser,true)); 	
@@ -285,7 +284,6 @@ Class Add_process extends MX_Controller{
 						
 					} // end ambil filter by id and proses 
 				} // end ambil data filter
-				
 				// balikin ke gammu biar ndak berat
 				return true;
 			}
@@ -315,7 +313,7 @@ Class Add_process extends MX_Controller{
 					//action post api
 					if($getuser)
 					{
-						$this->post_data_api($act->api_post,$act->api_error_email,$recive_date,$number,$isi_sms,$getuser);
+						$this->post_data_api($act->api_post,$act->api_error_email,$recive_date,$number,$isi_sms,$getuser,$id_inbox);
 					}
 					break;
 					
@@ -717,11 +715,12 @@ Class Add_process extends MX_Controller{
 		return false;
 	}
 
-	public function post_data_api($url_api=false,$report_email=false,$recive_date=false,$number=false,$data_sms=false,$getuser=false)
+	public function post_data_api($url_api=false,$report_email=false,$recive_date=false,$number=false,$data_sms=false,$getuser=false,$id_inbox=false)
 	{
 		/**
 		 * 
-		 * <?xml version="1.0" encoding="UTF-8"?><xml><result><resultCode>-1</resultCode><resultMsg>Add confirmation failed</resultMsg></result></xml>
+		 * <?xml version="1.0" encoding="UTF-8"?>
+		 *<xml><result><resultCode>-1</resultCode><resultMsg>Add confirmation failed</resultMsg></result></xml>
 		 * **/
 		log_message('error',' URL API => '.print_r($url_api,true));
 
@@ -756,16 +755,23 @@ Class Add_process extends MX_Controller{
 					$config = $this->Config_smtp_model->get();
 					if($config)
 					{
+						
 						$parameter_email = new  StdClass();
 						$parameter_email->from = $config->username;
 						$parameter_email->from_name = 'Rumahweb SMS Gateway';
 						$parameter_email->to = $report_email;
-						$parameter_email->message = 'Error = '.$msg.' Failure API Data ='.$number.', Content =>'.$data_sms.', Post To URL API = '.$url_api;
+						$parameter_email->message = 'Data XML '.$res.' <br /> Error = '.$msg.' Failure API Data ='.$number.', Content =>'.$data_sms.', Post To URL API = '.$url_api;
 						$parameter_email->subject = 'Failure => From API';
 						$send = send_email($config,$parameter_email);
 						if($send == '1')
 						{
-							return TRUE;
+							$statusgagal = 'Respon Satatus API : '.$statusres. '<br /> Pesan Error : '.$resultMsg.' <br /> Content : '.$data_sms.'<br /> Post To URL API : '.$url_api;
+							$parem = array('gagal' => true,'number' => $number,'content' => $statusgagal,'report_email' => $report_email);
+							$this->load->module('config/email_konf');
+							if($this->email_konf->mail_konf($parem))
+							{
+							    return TRUE;
+							}
 						}
 					}
 				}
