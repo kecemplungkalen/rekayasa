@@ -755,28 +755,30 @@ Class Add_process extends MX_Controller{
 					$config = $this->Config_smtp_model->get();
 					if($config)
 					{
-						
+						if($id_inbox)
+						{
+							$this->load->model('label_model');
+							$this->label_model->add($id_inbox,'14');
+						}
 						$parameter_email = new  StdClass();
 						$parameter_email->from = $config->username;
 						$parameter_email->from_name = 'Rumahweb SMS Gateway';
 						$parameter_email->to = $report_email;
-						$parameter_email->message = 'Data XML '.$res.' <br /> Error = '.$msg.' Failure API Data ='.$number.', Content =>'.$data_sms.', Post To URL API = '.$url_api;
-						$parameter_email->subject = 'Failure => From API';
+						$parameter_email->message = 'Respon Satatus API : '.$statusres. '<br /> Pesan Error : '.$resultMsg.' <br /> Content : '.$data_sms.'<br /> Post To URL API : '.$url_api;
+						$parameter_email->subject = 'SMS Failure Input Data From '.$number;
 						$send = send_email($config,$parameter_email);
 						if($send == '1')
 						{
-							if($id_inbox)
-							{
-								$this->load->model('label_model');
-								$this->label_model->add($id_inbox,'14');
-							}
-							$statusgagal = 'Respon Satatus API : '.$statusres. '<br /> Pesan Error : '.$resultMsg.' <br /> Content : '.$data_sms.'<br /> Post To URL API : '.$url_api;
-							$parem = array('gagal' => true,'number' => $number,'content' => $statusgagal,'report_email' => $report_email);
-							$this->load->module('config/email_konf');
-							if($this->email_konf->mail_konf($parem))
-							{
+
+							
+							// send status jika aktif 
+// 							$statusgagal = 'Respon Satatus API : '.$statusres. '<br /> Pesan Error : '.$resultMsg.' <br /> Content : '.$data_sms.'<br /> Post To URL API : '.$url_api;
+// 							$parem = array('gagal' => true,'number' => $number,'content' => $statusgagal,'report_email' => $report_email);
+// 							$this->load->module('config/email_konf');
+// 							if($this->email_konf->mail_konf($parem))
+// 							{
 							    return TRUE;
-							}
+// 							}
 						}
 					}
 				}
@@ -792,8 +794,8 @@ Class Add_process extends MX_Controller{
 					$parameter_email->from = $config->username;
 					$parameter_email->from_name = 'Rumahweb SMS Gateway';
 					$parameter_email->to = $report_email;
-					$parameter_email->message = 'Error Failure API DOWN Data ='.$number.', Content =>'.$data_sms.', Post To URL API = '.$url_api.' IS DOWN..';
-					$parameter_email->subject = 'Failure => API Is Down';
+					$parameter_email->message = 'Error Failure API DOWN Data :'.$number.',<br /> Content =>'.$data_sms.', <br />Post To URL API = '.$url_api.' <br />API IS DOWN..';
+					$parameter_email->subject = 'Failure => API Is Down Number ' .$number;
 					$send = send_email($config,$parameter_email);
 					if($send == '1')
 					{
