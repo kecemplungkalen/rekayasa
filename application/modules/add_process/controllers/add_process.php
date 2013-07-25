@@ -764,7 +764,7 @@ Class Add_process extends MX_Controller{
 						$parameter_email->from = $config->username;
 						$parameter_email->from_name = 'Rumahweb SMS Gateway';
 						$parameter_email->to = $report_email;
-						$parameter_email->message = 'Respon Satatus API : '.$statusres. '<br /> Pesan Error : '.$resultMsg.' <br /> Content : '.$data_sms.'<br /> Post To URL API : '.$url_api;
+						$parameter_email->message = 'Respon Satatus API : '.$statusres. '<br /> Pesan Error : '.$resultMsg.' <br /> Content : '.$data_sms.'<br /> Post To URL API : '.$url_api .' <br> Harap Input Manual';
 						$parameter_email->subject = 'SMS Failure Input Data From '.$number;
 						$send = send_email($config,$parameter_email);
 						if($send == '1')
@@ -794,8 +794,8 @@ Class Add_process extends MX_Controller{
 					$parameter_email->from = $config->username;
 					$parameter_email->from_name = 'Rumahweb SMS Gateway';
 					$parameter_email->to = $report_email;
-					$parameter_email->message = 'Error Failure API DOWN Data :'.$number.',<br /> Content =>'.$data_sms.', <br />Post To URL API = '.$url_api.' <br />API IS DOWN..';
-					$parameter_email->subject = 'Failure => API Is Down Number ' .$number;
+					$parameter_email->message = 'Error Failure API DOWN Data :'.$number.',<br /> Content : '.$data_sms.', <br />Post To URL API : '.$url_api.' <br />API IS DOWN.. <br >Harap Input Manual';
+					$parameter_email->subject = 'API Is Down Number ' .$number;
 					$send = send_email($config,$parameter_email);
 					if($send == '1')
 					{
